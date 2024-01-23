@@ -1,12 +1,3 @@
----
-name: bug
-about: bug template
-title: "\U0001F41B "
-labels: ''
-assignees: ''
-
----
-
 name: "🐛 Bug Report"
 description: '버그 템플릿'
 title: "🐛 title"
