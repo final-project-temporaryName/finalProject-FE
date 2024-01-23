@@ -1,12 +1,8 @@
----
 name: feature
 about: Feature template
 title: "\U0001F4A1 "
 labels: ''
 assignees: ''
-
----
-
 name: '💡 Feature'
 description: 새로운 기능 추가 템플릿
 title: '💡 '
