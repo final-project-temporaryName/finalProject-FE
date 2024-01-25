@@ -13,18 +13,6 @@ const PX_ENTRIES_10 = createPxEntries(10);
 const PX_ENTRIES_100 = createPxEntries(100);
 const PX_ENTRIES_1000 = createPxEntries(1000);
 
-/* type AccType = Record<string, string>;
-
-const range = (start: number, end: number): number[] => {
-  let array = [];
-  for (let i = start; i <= end; ++i) {
-    array.push(i);
-  }
-  return array;
-};
-
-const pxToRem = (px: number, base = 16) => `${px / base}rem`; */
-
 const config: Config = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -37,23 +25,31 @@ const config: Config = {
     // spacing values are inherited by the 'padding', 'margin', 'height', 'maxHeight', 'flex-basis', 'gap', 'inset', 'space', 'translate', 'scrollMargin', 'scrollPadding', and 'textIndent'.
     spacing: PX_ENTRIES_1000,
     fontWeight: {
-      light: '400',
-      normal: '500',
+      light: '300',
+      DEFAULT: '400',
+      medium: '500',
       bold: '700',
     },
     borderRadius: {
-      sm: '0.25rem',
-      md: '0.375rem',
-      lg: '0.5rem',
+      sm: '0.5rem', // 추후 수정 가능
+      md: '1.5rem', // 추후 수정 가능
+      lg: '2rem', // 추후 수정 가능
       full: '9999px',
     },
     colors: {
       transparent: 'transparent',
       primary: {
-        DEFAULT: 'rgb(var(--primary) / <alpha-value>)',
-        light: 'rgb(var(--primary-light) / <alpha-value>)',
+        DEFAULT: 'var(--primary-400)',
+        1: 'var(--primary-50)',
+        2: 'var(--primary-100)',
+        3: 'var(--primary-200)',
+        4: 'var(--primary-300)',
+        5: 'var(--primary-500)',
+        6: 'var(--primary-600)',
+        7: 'var(--primary-700)',
+        8: 'var(--primary-800)',
+        9: 'var(--primary-900)',
       },
-      red: 'rgb(var(--red) / <alpha-value>)',
       green: {
         DEFAULT: 'rgb(var(--green) / <alpha-value>)',
         light: 'rgb(var(--green-light) / <alpha-value>)',
@@ -71,21 +67,18 @@ const config: Config = {
         light: 'rgb(var(--blue-light) / <alpha-value>)',
         hoverLight: 'rgb(var(--blue-hover-light) / <alpha-value>)',
       },
-      pink: {
-        DEFAULT: 'rgb(var(--pink) / <alpha-value>)',
-        light: 'rgb(var(--pink-light) / <alpha-value>)',
-      },
-      black: 'rgb(var(--black) / <alpha-value>)',
-      white: 'rgb(var(--white) / <alpha-value>)',
-      WHITE: 'rgb(var(--WHITE) / <alpha-value>)',
+      black: 'var(--black)',
+      white: 'var(--white)',
       gray: {
-        1: 'rgb(var(--gray-1) / <alpha-value>)',
-        2: 'rgb(var(--gray-2) / <alpha-value>)',
-        3: 'rgb(var(--gray-3) / <alpha-value>)',
-        4: 'rgb(var(--gray-4) / <alpha-value>)',
-        5: 'rgb(var(--gray-5) / <alpha-value>)',
-        6: 'rgb(var(--gray-6) / <alpha-value>)',
-        7: 'rgb(var(--gray-7) / <alpha-value>)',
+        1: 'var(--gray-50)',
+        2: 'var(--gray-100)',
+        3: 'var(--gray-200)',
+        4: 'var(--gray-300)',
+        5: 'var(--gray-400)',
+        6: 'var(--gray-500)',
+        7: 'var(--gray-600)',
+        8: 'var(--gray-700)',
+        9: 'var(--gray-800)',
       },
     },
     screens: {
