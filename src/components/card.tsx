@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import OnSaleImage from '../../public/assets/images/OnSaleImage.png';
 import KebabButton from './kebabButton';
 
@@ -11,6 +12,8 @@ interface CardProps {
   commentCount: number;
   profileImageUrl: string;
   authorName: string;
+  workUrl: string;
+  authorUrl: string;
 }
 
 function Card({
@@ -22,10 +25,12 @@ function Card({
   commentCount,
   profileImageUrl,
   authorName,
+  workUrl,
+  authorUrl,
 }: CardProps) {
   return (
     <div className="flex flex-col w-280 h-328">
-      <div className="relative">
+      <Link href={workUrl} className="relative">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black rounded-md"></div>
         {onSale && (
           <div className="absolute right-22">
@@ -37,10 +42,12 @@ function Card({
           <p className="text-base font-normal font-semibold leading-normal text-white">{workTitle}</p>
           <div>좋아요 컴포넌트</div>
         </div>
-      </div>
-      <div className="relative flex items-center w-280 h-48 gap-10 pt-10">
-        <Image className="rounded-full w-40 h-40" src={profileImageUrl} alt="프로필 이미지" width={40} height={40} />
-        <p className="text-base font-normal font-bold leading-normal">{authorName}</p>
+      </Link>
+      <div className="relative flex items-center w-280 h-48 pt-10">
+        <Link href={authorUrl} className="flex items-center gap-10">
+          <Image className="rounded-full w-40 h-40" src={profileImageUrl} alt="프로필 이미지" width={40} height={40} />
+          <p className="text-base font-normal font-bold leading-normal">{authorName}</p>
+        </Link>
         <div className="absolute right-11">
           <KebabButton />
         </div>
