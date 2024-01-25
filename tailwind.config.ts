@@ -35,6 +35,7 @@ const config: Config = {
       sm: '0.5rem', // 추후 수정 가능
       md: '1.5rem', // 추후 수정 가능
       lg: '2rem', // 추후 수정 가능
+      xl: '12.5rem',
       full: '9999px',
     },
     colors: {

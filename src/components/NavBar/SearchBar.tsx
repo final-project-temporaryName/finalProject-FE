@@ -1,8 +1,8 @@
 'use client';
 
+import { useStore } from '@/store';
 import { useForm } from 'react-hook-form';
 import SearchIcon from '../../../public/assets/icons/search.svg';
-import { useStore } from '@/store';
 
 interface IForm {
   query?: string;

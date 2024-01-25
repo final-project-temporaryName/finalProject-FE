@@ -1,0 +1,10 @@
+<svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="forum" clip-path="url(#clip0_963_247)">
+<path id="Vector" d="M20 6.73474H19V14.7347C19 15.2847 18.55 15.7347 18 15.7347H6V16.7347C6 17.8347 6.9 18.7347 8 18.7347H18L22 22.7347V8.73474C22 7.63474 21.1 6.73474 20 6.73474ZM17 11.7347V4.73474C17 3.63474 16.1 2.73474 15 2.73474H4C2.9 2.73474 2 3.63474 2 4.73474V17.7347L6 13.7347H15C16.1 13.7347 17 12.8347 17 11.7347Z" fill="#282828"/>
+</g>
+<defs>
+<clipPath id="clip0_963_247">
+<rect width="24" height="24" fill="white" transform="translate(0 0.734741)"/>
+</clipPath>
+</defs>
+</svg>
