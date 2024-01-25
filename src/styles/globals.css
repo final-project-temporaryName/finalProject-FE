@@ -18,8 +18,8 @@
     --blue-hover-light: 26 140 216;
     --pink: 232 118 234;
     --pink-light: 247 219 240;
-    --black: 23 23 23;
-    --white: 255 255 255;
+    --black: #040404;
+    --white: #fff;
     --gray-1: 250 250 250;
     --gray-2: 238 238 238;
     --gray-3: 217 217 217;
@@ -30,7 +30,7 @@
     --WHITE: 255 255 255;
   }
 
-  :root[data-theme="dark"] {
+  :root[data-theme='dark'] {
     --primary: 85 52 218;
     --primary-light: 241 239 253;
     --red: 214 23 58;
@@ -55,85 +55,80 @@
     --gray-7: 250 250 250;
     --WHITE: 255 255 255;
   }
-}
 
-* {
-  box-sizing: border-box;
-  font-family: "Pretendard";
-}
-
-html {
-  font-size: 62.5%;
-}
-
-html,
-body {
-  background-color: white;
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-  ::-webkit-scrollbar-thumb {
-    height: 30%;
-    border-radius: 10px;
-    background-color: #d9d9d9;
+  * {
+    box-sizing: border-box;
   }
 
-  @media (max-width: 375px) {
-    padding-right: 7px;
-    &::-webkit-scrollbar {
-      width: 4px;
+  html,
+  body {
+    background-color: white;
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-thumb {
+      height: 30%;
+      border-radius: 10px;
+      background-color: #d9d9d9;
+    }
+
+    @media (max-width: 375px) {
+      padding-right: 7px;
+      &::-webkit-scrollbar {
+        width: 4px;
+      }
     }
   }
-}
 
-html,
-body,
-div,
-span,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-a,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-form,
-label,
-table,
-button {
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
+  html,
+  body,
+  div,
+  span,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  a,
+  dl,
+  dt,
+  dd,
+  ol,
+  ul,
+  li,
+  form,
+  label,
+  table,
+  button {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
 
-a {
-  text-decoration: none !important;
-  cursor: pointer;
-}
+  a {
+    text-decoration: none !important;
+    cursor: pointer;
+  }
 
-ol,
-ul {
-  list-style: none;
-}
+  ol,
+  ul {
+    list-style: none;
+  }
 
-button {
-  cursor: pointer;
-}
+  button {
+    cursor: pointer;
+  }
 
-input {
-  border: none;
-  padding: none;
-}
+  input {
+    border: none;
+    padding: none;
+  }
 
-input:focus {
-  outline: none;
+  input:focus {
+    outline: none;
+  }
 }
 
 @layer utilities {
@@ -143,85 +138,4 @@ input:focus {
   .flex-col-center {
     @apply flex flex-col justify-center items-center;
   }
-}
-
-@font-face {
-  font-family: "Pretendard";
-  font-weight: 900;
-  font-display: swap;
-  src: local("Pretendard Black"),
-    url("/fonts/Pretendard-Black.subset.woff2") format("woff2"),
-    url("/fonts/Pretendard-Black.subset.woff") format("woff");
-}
-
-@font-face {
-  font-family: "Pretendard";
-  font-weight: 800;
-  font-display: swap;
-  src: local("Pretendard ExtraBold"),
-    url("/fonts/Pretendard-ExtraBold.subset.woff2") format("woff2"),
-    url("/fonts/Pretendard-ExtraBold.subset.woff") format("woff");
-}
-
-@font-face {
-  font-family: "Pretendard";
-  font-weight: 700;
-  font-display: swap;
-  src: local("Pretendard Bold"),
-    url("/fonts/Pretendard-Bold.subset.woff2") format("woff2"),
-    url("/fonts/Pretendard-Bold.subset.woff") format("woff");
-}
-
-@font-face {
-  font-family: "Pretendard";
-  font-weight: 600;
-  font-display: swap;
-  src: local("Pretendard SemiBold"),
-    url("/fonts/Pretendard-SemiBold.subset.woff2") format("woff2"),
-    url("/fonts/Pretendard-SemiBold.subset.woff") format("woff");
-}
-
-@font-face {
-  font-family: "Pretendard";
-  font-weight: 500;
-  font-display: swap;
-  src: local("Pretendard Medium"),
-    url("/fonts/Pretendard-Medium.subset.woff2") format("woff2"),
-    url("/fonts/Pretendard-Medium.subset.woff") format("woff");
-}
-
-@font-face {
-  font-family: "Pretendard";
-  font-weight: 400;
-  font-display: swap;
-  src: local("Pretendard Regular"),
-    url("/fonts/Pretendard-Regular.subset.woff2") format("woff2"),
-    url("/fonts/Pretendard-Regular.subset.woff") format("woff");
-}
-
-@font-face {
-  font-family: "Pretendard";
-  font-weight: 300;
-  font-display: swap;
-  src: local("Pretendard Light"),
-    url("/fonts/Pretendard-Light.subset.woff2") format("woff2"),
-    url("/fonts/Pretendard-Light.subset.woff") format("woff");
-}
-
-@font-face {
-  font-family: "Pretendard";
-  font-weight: 200;
-  font-display: swap;
-  src: local("Pretendard ExtraLight"),
-    url("/fonts/Pretendard-ExtraLight.subset.woff2") format("woff2"),
-    url("/fonts/Pretendard-ExtraLight.subset.woff") format("woff");
-}
-
-@font-face {
-  font-family: "Pretendard";
-  font-weight: 100;
-  font-display: swap;
-  src: local("Pretendard Thin"),
-    url("/fonts/Pretendard-Thin.subset.woff2") format("woff2"),
-    url("/fonts/Pretendard-Thin.subset.woff") format("woff");
 }
