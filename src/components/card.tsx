@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import OnSaleImage from '../../public/assets/images/OnSaleImage.png';
+import KebabButton from './kebabButton';
 
 interface CardProps {
   onSale: boolean;
@@ -37,9 +38,12 @@ function Card({
           <div>좋아요 컴포넌트</div>
         </div>
       </div>
-      <div className="flex items-center bg-primary-1 w-280 h-48 gap-10 pt-5">
+      <div className="relative flex items-center w-280 h-48 gap-10 pt-5">
         <Image className="rounded-full w-40 h-40" src={profileImageUrl} alt="프로필 이미지" width={40} height={40} />
         <p className="text-base font-normal font-bold leading-normal">{authorName}</p>
+        <div className="absolute right-13">
+          <KebabButton />
+        </div>
       </div>
     </div>
   );
