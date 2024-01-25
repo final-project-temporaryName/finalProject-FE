@@ -2,6 +2,17 @@ import Image from 'next/image';
 import OnSaleImage from '../../public/assets/images/OnSaleImage.png';
 import SampleImage from '../../public/assets/images/CardSampleImage.png';
 
+interface CardProps {
+  onSale: boolean;
+  workImageUrl: string;
+  workTitle: string;
+  likeCount: number;
+  viewCount: number;
+  commentCount: number;
+  profileImageUrl: string;
+  authorName: string;
+}
+
 function Card() {
   return (
     <div className="flex flex-col w-280 h-328">
