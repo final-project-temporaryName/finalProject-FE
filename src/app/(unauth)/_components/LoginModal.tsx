@@ -21,8 +21,11 @@ export default function LoginModal() {
   const onChangePassword = () => {};
 
   return (
-    <div className="modalBackground">
-      <div className="max-w-4/5vw relative top-[5%] flex h-450 min-w-600 flex-col rounded-[1rem] bg-white">
+    <div className="modalBackground" onClick={onClickClose}>
+      <div
+        className="max-w-4/5vw relative top-[5%] flex h-450 min-w-600 flex-col rounded-[1rem] bg-white"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="modalHeader">
           <button className="modalCloseButton" onClick={onClickClose} title="Close">
             <svg
