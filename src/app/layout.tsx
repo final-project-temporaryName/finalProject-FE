@@ -3,6 +3,7 @@ import { Noto_Sans_KR } from 'next/font/google';
 import '../styles/globals.css';
 import ReactQueryProviders from '@/utils/react-query-provider';
 
+// Noto sans 폰트 적용
 const notoSansKr = Noto_Sans_KR({
   preload: false,
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
