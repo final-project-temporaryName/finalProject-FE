@@ -9,7 +9,7 @@ interface CategoryButtonProps {
 }
 
 // TODO: 사용할 때 props에 적절한 내용과 온클릭 함수 수정해서 넣어주세요.
-const CategoryButton = ({ labelText, isActive, onClick }: CategoryButtonProps) => {
+function CategoryButton({ labelText, isActive, onClick }: CategoryButtonProps) {
   const labelClass = isActive ? 'category-button-focus' : 'category-button';
 
   return (
@@ -17,6 +17,6 @@ const CategoryButton = ({ labelText, isActive, onClick }: CategoryButtonProps) =
       {labelText}
     </button>
   );
-};
+}
 
 export default CategoryButton;
