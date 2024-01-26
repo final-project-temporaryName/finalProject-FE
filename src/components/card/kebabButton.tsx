@@ -2,7 +2,7 @@
 
 import { MouseEvent } from 'react';
 import Image from 'next/image';
-import KebabImage from '../../public/assets/images/KebabImage.png';
+import KebabImage from '../../../public/assets/images/KebabImage.png';
 
 function KebabButton() {
   const handleKebabClick = (e: MouseEvent<HTMLButtonElement>) => {

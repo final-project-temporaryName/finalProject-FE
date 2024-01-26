@@ -1,7 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import OnSaleImage from '../../public/assets/images/OnSaleImage.png';
+import OnSaleImage from '../../../public/assets/images/OnSaleImage.png';
+import LikeImage from '../../../public/assets/images/LikeImage.png';
+import ViewImage from '../../../public/assets/images/ViewImage.png';
+import CommentImage from '../../../public/assets/images/CommentImage.png';
 import KebabButton from './kebabButton';
+import Count from './count';
 
 interface CardProps {
   onSale: boolean;
@@ -38,9 +42,13 @@ function Card({
           </div>
         )}
         <Image className="w-280 h-280 rounded-md" src={workImageUrl} alt="카드 이미지" width={280} height={280} />
-        <div className="flex justify-between w-280 h-10 px-15 absolute bottom-31">
-          <p className="text-base font-normal font-semibold leading-normal text-white">{workTitle}</p>
-          <div>좋아요 컴포넌트</div>
+        <div className="flex justify-between items-center w-280 h-10 px-15 absolute bottom-22">
+          <p className="text-14 font-normal font-semibold leading-normal text-white">{workTitle}</p>
+          <div className="flex items-center gap-12">
+            <Count imageSource={LikeImage} imageSourceString="like" count={likeCount} />
+            <Count imageSource={ViewImage} imageSourceString="view" count={viewCount} />
+            <Count imageSource={CommentImage} imageSourceString="comment" count={commentCount} />
+          </div>
         </div>
       </Link>
       <div className="relative flex items-center w-280 h-48 pt-10">
