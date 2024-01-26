@@ -1,5 +1,10 @@
 /* tailwind 설정 */
 
+/* SideBar component */
+.count {
+  @apply flex items-center justify-center text-center text-10;
+}
+
 /* Feed grid layout */
 .card-grid {
   @apply grid grid-cols-3 gap-x-40 gap-y-48;
