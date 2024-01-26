@@ -1,1 +1,6 @@
 /* tailwind 설정 */
+
+/* SideBar component */
+.count {
+  @apply flex items-center justify-center text-center text-10;
+}

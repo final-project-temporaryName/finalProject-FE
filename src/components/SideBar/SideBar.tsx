@@ -2,6 +2,7 @@ import Link from 'next/link';
 import LinkIcon from './LinkIcon';
 import ProfileIcon from './ProfileIcon';
 import EditIcon from './EditIcon';
+import '@/styles/tailwind.css';
 
 interface Props {
   name: string;
@@ -39,10 +40,10 @@ const SideBar: React.FC<Props> = ({ name, role, description, likes, followers, i
             <p className="text-12 text-gray-9">{description}</p>
           </div>
           <div className="flex items-center justify-between gap-40">
-            <span className="flex items-center justify-center text-center text-10">
+            <span className="count">
               좋아요&nbsp;&nbsp;<span className="text-14 font-bold">{likes}</span>&nbsp;개
             </span>
-            <span className="flex items-center justify-center text-center text-10">
+            <span className="count">
               팔로워&nbsp;&nbsp;<span className="text-14 font-bold">{followers}</span>&nbsp;명
             </span>
           </div>
