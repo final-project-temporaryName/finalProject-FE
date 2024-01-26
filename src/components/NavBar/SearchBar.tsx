@@ -24,7 +24,7 @@ export default function SearchBar() {
     <form className="navSearchBar" onSubmit={handleSubmit(onValid)}>
       <input
         type="text"
-        className="flex-1 text-14 text-gray-5"
+        className="w-full flex-shrink text-14 text-gray-5"
         placeholder="#감성도자기  #수상작"
         {...register('query')}
       />

@@ -2,15 +2,15 @@
 
 /* Navbar component */
 .navBar {
-  @apply fixed left-0 top-0 flex h-80 w-full items-center justify-between gap-40 bg-gray-1 px-44 py-20;
+  @apply fixed left-0 top-0 flex h-80 w-full items-center justify-between gap-40 bg-gray-1 px-44 py-20 backdrop-blur-md;
 }
 
 .navSearchBar {
-  @apply flex h-40 flex-grow items-center gap-10 rounded-lg bg-white px-32 py-8 backdrop-blur-md;
+  @apply flex h-40 flex-shrink flex-grow items-center gap-10 rounded-lg bg-white px-32 py-8;
 }
 
 .navigatorBoxBtn {
-  @apply rounded-xl flex h-40 w-109 items-center justify-center;
+  @apply flex h-40 w-109 items-center justify-center rounded-xl;
 }
 
 /* LoginModal */
