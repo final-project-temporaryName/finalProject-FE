@@ -39,11 +39,11 @@ const SideBar: React.FC<Props> = ({ name, role, description, likes, followers, i
             <p className="text-12 text-gray-9">{description}</p>
           </div>
           <div className="flex items-center justify-between gap-40">
-            <span className="text-center text-10">
-              좋아요 <span className="text-14 font-bold">{likes}</span> 개
+            <span className="flex items-center justify-center text-center text-10">
+              좋아요&nbsp;&nbsp;<span className="text-14 font-bold">{likes}</span>&nbsp;개
             </span>
-            <span className="text-center text-10">
-              팔로워 <span className="text-14 font-bold">{followers}</span> 명
+            <span className="flex items-center justify-center text-center text-10">
+              팔로워&nbsp;&nbsp;<span className="text-14 font-bold">{followers}</span>&nbsp;명
             </span>
           </div>
           <Link href="/내정보수정" className="mt-30 flex w-116 items-center gap-4 text-12 text-gray-9">
