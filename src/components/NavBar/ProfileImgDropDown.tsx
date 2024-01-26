@@ -6,6 +6,7 @@ import Image, { StaticImageData } from 'next/image';
 import { useRef } from 'react';
 import ProfileDropDownImg from '../../../public/assets/images/profileDropDown.svg';
 import Link from 'next/link';
+import { Button } from '../button';
 
 interface Props {
   userName: string;
@@ -53,11 +54,9 @@ export default function ProfileImgDropDown({ userName, profileImg, major }: Prop
                 </div>
               </div>
               {/* 추후 Link 변경 예정 */}
-              <Link href={'/'}>
-                <button className="flex-center h-40 w-full rounded-xl border-1 border-solid border-primary bg-white text-black hover:bg-primary-1">
-                  마이페이지
-                </button>
-              </Link>
+              <Button destination="/" style="primary-button dropdown-mypage-button">
+                마이페이지
+              </Button>
             </div>
             <div className="flex h-100 w-full flex-col border-y-1 border-solid border-y-gray-4">
               {/* 추후 Link 변경 예정 */}

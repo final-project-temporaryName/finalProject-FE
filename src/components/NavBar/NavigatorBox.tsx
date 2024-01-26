@@ -5,6 +5,7 @@ import Link from 'next/link';
 import MessageIcon from '../../../public/assets/icons/message.svg';
 import profileImage from '../../../public/assets/images/하니.jpg';
 import ProfileImgDropDown from './ProfileImgDropDown';
+import { Button } from '../button';
 
 export default function NavigatorBox() {
   const auth = {
@@ -22,15 +23,13 @@ export default function NavigatorBox() {
       {auth.isLogin && <ProfileImgDropDown userName={auth.userName} profileImg={auth.image} major={auth.major} />}
       {auth.isLogin ? (
         // 추후 작품 업로드 Link 수정 예정
-        <Link href={'/'}>
-          <button className="navigatorBoxBtn border-1 border-solid border-primary bg-white text-black hover:bg-primary-1">
-            작품 업로드
-          </button>
-        </Link>
+        <Button destination="/" style="primary-button nav-upload-button">
+          작품 업로드
+        </Button>
       ) : (
-        <Link href={'/login'}>
-          <button className="navigatorBoxBtn bg-primary text-white hover:bg-primary-7">로그인</button>
-        </Link>
+        <Button destination="/login" style="primary-button nav-login-button">
+          로그인
+        </Button>
       )}
     </div>
   );

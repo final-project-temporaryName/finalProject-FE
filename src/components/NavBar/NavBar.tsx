@@ -1,7 +1,7 @@
 import '@/styles/tailwind.css';
 import Link from 'next/link';
-import SearchBar from './SearchBar';
 import NavigatorBox from './NavigatorBox';
+import SearchBar from './SearchBar';
 
 export default function NavBar() {
   return (

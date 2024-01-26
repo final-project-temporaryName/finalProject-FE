@@ -9,10 +9,6 @@
   @apply flex h-40 flex-shrink flex-grow items-center gap-10 rounded-lg bg-white px-32 py-8;
 }
 
-.navigatorBoxBtn {
-  @apply flex h-40 w-109 items-center justify-center rounded-xl;
-}
-
 /* LoginModal */
 /* SignupModal */
 
@@ -67,17 +63,31 @@
   @apply flex gap-40 align-middle;
 }
 
-/* category button */
+/* button */
+.primary-button {
+  @apply inline-block shrink-0 items-center justify-center rounded-xl border-1 border-solid;
+}
+
+.upload-button {
+  @apply h-50 w-196 border-black text-black hover:border-primary hover:bg-primary hover:text-white active:bg-primary active:text-white;
+}
+
+.nav-upload-button {
+  @apply h-40 w-109 border-primary bg-white text-black hover:border-primary hover:bg-primary hover:text-white active:bg-primary active:text-white;
+}
+
+.nav-login-button {
+  @apply h-40 w-109 border-primary bg-white text-white hover:border-primary-8 hover:bg-primary-8 active:bg-primary-8;
+}
+
+.dropdown-mypage-button {
+  @apply h-40 w-full border-primary bg-white text-black hover:border-primary hover:bg-primary hover:text-white active:bg-primary active:text-white;
+}
+
 .category-button {
   @apply flex justify-center gap-10 rounded-md border-2 border-solid border-white bg-white px-23 py-5 text-center align-middle text-18 text-gray-4 focus:border-2 focus:border-solid focus:border-gray-4 focus:text-black;
 }
 
 .category-button-focus {
   @apply flex justify-center gap-10 rounded-md  border-2 border-solid border-gray-4 bg-white px-23 py-5 text-center align-middle text-18 text-black;
-}
-
-/* primary button */
-/* 높이 추가 입력해야 함*/
-.primary-button {
-  @apply inline-block shrink-0 justify-center gap-10 rounded-md border-1 border-solid px-54 py-12 align-middle hover:border-primary-4 hover:bg-primary-4 hover:text-white active:bg-primary-4 active:text-white;
 }
