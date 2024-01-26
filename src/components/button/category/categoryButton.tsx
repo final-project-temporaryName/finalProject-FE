@@ -2,11 +2,11 @@
 
 import '@/styles/tailwind.css';
 import cn from 'classnames';
-import { useEffect, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 
 interface CategoryButtonProps {
   content: string;
-  onClick?: (e) => void;
+  onClick?: (e: any) => void;
 }
 
 // TODO: 사용할 때 props에 적절한 내용과 온클릭 함수 넣어주세요.
@@ -15,7 +15,7 @@ const CategoryButton = ({ content, onClick }: CategoryButtonProps) => {
 
   const labelClass = cn('category-button', { 'category-button:focus': isActive });
 
-  const handleActive = (e): void => {
+  const handleActive = (e: any): void => {
     setIsActive(e.target.value === content);
   };
 
