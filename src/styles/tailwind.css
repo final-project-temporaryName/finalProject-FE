@@ -77,7 +77,7 @@
 }
 
 .nav-login-button {
-  @apply h-40 w-109 border-primary bg-white text-white hover:border-primary-8 hover:bg-primary-8 active:bg-primary-8;
+  @apply h-40 w-109 border-primary bg-primary text-white hover:border-primary-8 hover:bg-primary-8 active:bg-primary-8;
 }
 
 .dropdown-mypage-button {

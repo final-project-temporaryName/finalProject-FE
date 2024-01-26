@@ -12,7 +12,7 @@ interface Props {
 // style: tailwindCSS를 넣어주세요.
 export default function PrimaryButton({ destination, style, children }: Props) {
   return (
-    <Link href={`/${destination}`}>
+    <Link href={`${destination}`}>
       <button className={`${style}`}>{children}</button>
     </Link>
   );
