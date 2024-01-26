@@ -33,7 +33,7 @@ function Card({
   authorUrl,
 }: CardProps) {
   return (
-    <div className="flex flex-col w-280 h-328">
+    <div className="flex flex-col w-280 h-328 hover:transform hover:scale-110 transition-transform duration-300">
       <Link href={workUrl} className="relative">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black rounded-md"></div>
         {onSale && (
