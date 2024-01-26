@@ -9,18 +9,23 @@ interface Props {
   description: string;
   likes: number;
   followers: number;
+  image?: string;
 }
 
-const SideBar: React.FC<Props> = ({ name, role, description, likes, followers }) => {
+const SideBar: React.FC<Props> = ({ name, role, description, likes, followers, image }) => {
   return (
     <div className="relative m-36 h-648 w-260 rounded-[12px]">
       <div className="absolute -top-10 left-1/2 z-10 h-120 w-120 -translate-x-1/2 transform rounded-full">
-        <div className="flex h-full w-full items-center justify-center rounded-full border-1 border-solid border-gray-4 bg-white">
-          <ProfileIcon />
+        <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-full border-2 border-solid border-gray-4 bg-white">
+          {image ? (
+            <img src={image} alt="Profile" className="h-full w-full rounded-full object-cover" />
+          ) : (
+            <ProfileIcon />
+          )}
         </div>
       </div>
       <Link href="/내정보수정" className="absolute right-13 top-60 z-10 h-32 w-32 rounded-full">
-        <div className="flex h-full w-full items-center justify-center rounded-full border-1 border-solid border-gray-4 bg-white">
+        <div className="flex h-full w-full items-center justify-center rounded-full border-2 border-solid border-gray-4 bg-white">
           <EditIcon />
         </div>
       </Link>
