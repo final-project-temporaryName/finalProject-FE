@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import OnSaleImage from '../../../public/assets/images/OnSaleImage.png';
-import LikeImage from '../../../public/assets/images/LikeImage.png';
-import ViewImage from '../../../public/assets/images/ViewImage.png';
 import CommentImage from '../../../public/assets/images/CommentImage.png';
-import KebabButton from './kebabButton';
+import LikeImage from '../../../public/assets/images/LikeImage.png';
+import OnSaleImage from '../../../public/assets/images/OnSaleImage.png';
+import ViewImage from '../../../public/assets/images/ViewImage.png';
+import { Button } from '../button';
 import Count from './count';
 
 interface CardProps {
@@ -33,17 +33,17 @@ function Card({
   authorUrl,
 }: CardProps) {
   return (
-    <div className="flex flex-col w-280 h-328 hover:transform hover:scale-110 transition-transform duration-300">
+    <div className="flex h-328 w-280 flex-col transition-transform duration-300 hover:scale-110 hover:transform">
       <Link href={workUrl} className="relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black rounded-md"></div>
+        <div className="absolute inset-0 rounded-md bg-gradient-to-b from-transparent via-transparent to-black"></div>
         {onSale && (
           <div className="absolute right-22">
             <Image src={OnSaleImage} alt="판매중 이미지" width={29} height={56} />
           </div>
         )}
-        <Image className="w-280 h-280 rounded-md" src={workImageUrl} alt="카드 이미지" width={280} height={280} />
-        <div className="flex justify-between items-center w-280 h-10 px-15 absolute bottom-22">
-          <p className="text-14 font-normal font-semibold leading-normal text-white">{workTitle}</p>
+        <Image className="h-280 w-280 rounded-md" src={workImageUrl} alt="카드 이미지" width={280} height={280} />
+        <div className="absolute bottom-22 flex h-10 w-280 items-center justify-between px-15">
+          <p className="font-normal font-semibold text-14 leading-normal text-white">{workTitle}</p>
           <div className="flex items-center gap-12">
             <Count imageSource={LikeImage} imageSourceString="like" count={likeCount} />
             <Count imageSource={ViewImage} imageSourceString="view" count={viewCount} />
@@ -51,13 +51,13 @@ function Card({
           </div>
         </div>
       </Link>
-      <div className="relative flex items-center w-280 h-48 pt-10">
+      <div className="relative flex h-48 w-280 items-center pt-10">
         <Link href={authorUrl} className="flex items-center gap-10">
-          <Image className="rounded-full w-40 h-40" src={profileImageUrl} alt="프로필 이미지" width={40} height={40} />
+          <Image className="h-40 w-40 rounded-full" src={profileImageUrl} alt="프로필 이미지" width={40} height={40} />
           <p className="text-base font-normal font-bold leading-normal">{authorName}</p>
         </Link>
         <div className="absolute right-11">
-          <KebabButton />
+          <Button.Kebab />
         </div>
       </div>
     </div>

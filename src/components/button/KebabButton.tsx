@@ -1,7 +1,7 @@
 'use client';
 
-import { MouseEvent } from 'react';
 import Image from 'next/image';
+import { MouseEvent } from 'react';
 import KebabImage from '../../../public/assets/images/KebabImage.png';
 
 function KebabButton() {
@@ -11,7 +11,7 @@ function KebabButton() {
   };
 
   return (
-    <button onClick={(e) => handleKebabClick(e)}>
+    <button onClick={(e) => handleKebabClick(e)} title="Kebab">
       <Image src={KebabImage} alt="케밥버튼 이미지" width={2} height={12} />
     </button>
   );

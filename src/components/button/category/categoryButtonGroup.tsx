@@ -1,8 +1,8 @@
 'use client';
 
-import CategoryButton from '@/components/button/category/categoryButton';
 import '@/styles/tailwind.css';
 import { useState } from 'react';
+import { Button } from '..';
 
 function CategoryButtonGroup() {
   const [content, setContent] = useState('');
@@ -15,7 +15,7 @@ function CategoryButtonGroup() {
   return (
     <div className="flex gap-40 align-middle">
       {labelTexts.map((labelText, idx) => (
-        <CategoryButton
+        <Button.Category
           key={idx}
           labelText={labelText}
           onClick={handleActive}
