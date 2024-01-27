@@ -5,9 +5,9 @@ import Link from 'next/link';
 import MessageIcon from '../../../public/assets/icons/message.svg';
 import profileImage from '../../../public/assets/images/하니.jpg';
 import ProfileImgDropDown from './ProfileImgDropDown';
-import { Button } from '../button';
+import { Button } from '../Button';
 
-export default function NavigatorBox() {
+function NavigatorBox() {
   const auth = {
     userName: '하니',
     image: profileImage,
@@ -34,3 +34,5 @@ export default function NavigatorBox() {
     </div>
   );
 }
+
+export default NavigatorBox;

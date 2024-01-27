@@ -3,10 +3,10 @@
 import useDropDown from '@/hooks/useDropDown';
 import useOnClickOutside from '@/hooks/useOnClickOutside';
 import Image, { StaticImageData } from 'next/image';
+import Link from 'next/link';
 import { useRef } from 'react';
 import ProfileDropDownImg from '../../../public/assets/images/profileDropDown.svg';
-import Link from 'next/link';
-import { Button } from '../button';
+import { Button } from '../Button';
 
 interface Props {
   userName: string;
@@ -14,7 +14,7 @@ interface Props {
   major: string;
 }
 
-export default function ProfileImgDropDown({ userName, profileImg, major }: Props) {
+function ProfileImgDropDown({ userName, profileImg, major }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { isOpen: isDropDownOpen, handleDropDownOpen, handleDropDownClose } = useDropDown();
 
@@ -49,7 +49,7 @@ export default function ProfileImgDropDown({ userName, profileImg, major }: Prop
                   style={{ borderRadius: '50%', cursor: 'pointer' }}
                 />
                 <div>
-                  <p className="font-semibold text-18">{userName}</p>
+                  <p className="text-18 font-semibold">{userName}</p>
                   <p className="text-12 text-gray-5">{major}</p>
                 </div>
               </div>
@@ -80,3 +80,5 @@ export default function ProfileImgDropDown({ userName, profileImg, major }: Prop
     </div>
   );
 }
+
+export default ProfileImgDropDown;

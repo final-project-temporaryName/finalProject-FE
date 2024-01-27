@@ -1,6 +1,6 @@
 import NavBar from '@/components/NavBar/NavBar';
-import { Button } from '@/components/button';
-import CategoryButtonGroup from '@/components/button/category/categoryButtonGroup';
+import { Button } from '@/components/Button';
+import CategoryButtonGroup from '@/components/Button/Category/CategoryButtonGroup';
 
 export default function Home() {
   return (

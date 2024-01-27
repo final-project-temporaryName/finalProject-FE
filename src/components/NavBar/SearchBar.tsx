@@ -8,7 +8,7 @@ interface IForm {
   query?: string;
 }
 
-export default function SearchBar() {
+function SearchBar() {
   const { register, handleSubmit } = useForm();
   const { clearSearchWord, setSearchWord } = useStore((state) => ({
     setSearchWord: state.setSearchWord,
@@ -34,3 +34,5 @@ export default function SearchBar() {
     </form>
   );
 }
+
+export default SearchBar;
