@@ -12,7 +12,7 @@ function NavigatorBox() {
     userName: '하니',
     image: profileImage,
     major: '제품디자인 학부생/3D Modeling',
-    isLogin: false,
+    isLogin: true,
   };
 
   return (
@@ -23,7 +23,7 @@ function NavigatorBox() {
       {auth.isLogin && <ProfileImgDropDown userName={auth.userName} profileImg={auth.image} major={auth.major} />}
       {auth.isLogin ? (
         // 추후 작품 업로드 Link 수정 예정
-        <Button destination="/" style="primary-button nav-upload-button">
+        <Button destination="/upload" style="primary-button nav-upload-button">
           작품 업로드
         </Button>
       ) : (

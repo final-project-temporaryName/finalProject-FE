@@ -1,6 +1,6 @@
 'use client';
 
-import Edit from '../../../public/Icons/edit.svg';
+import Edit from '../../../public/assets/icons/edit.svg';
 
 function EditIcon() {
   return (

@@ -1,6 +1,6 @@
 'use client';
 
-import DefaultProfile from '../../../public/Icons/default_profile.svg';
+import DefaultProfile from '../../../public/assets/icons/default_profile.svg';
 
 function ProfileIcon() {
   return (
