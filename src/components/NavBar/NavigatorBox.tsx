@@ -12,7 +12,7 @@ function NavigatorBox() {
     userName: '하니',
     image: profileImage,
     major: '제품디자인 학부생/3D Modeling',
-    isLogin: true,
+    isLogin: false,
   };
 
   return (

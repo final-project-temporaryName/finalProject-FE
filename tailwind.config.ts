@@ -33,7 +33,8 @@ const config: Config = {
     },
     borderRadius: {
       sm: '0.75rem',
-      md: '1.5rem', // 추후 수정 가능
+      md: '1rem',
+      ml: '1.5rem',
       lg: '2rem', // 추후 수정 가능
       xl: '12.5rem',
       full: '9999px',
