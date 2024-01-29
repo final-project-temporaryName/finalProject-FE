@@ -2,7 +2,7 @@
 
 import { MouseEvent } from 'react';
 
-function GoogleLogin() {
+function GoogleLoginButton() {
   const handleGoogleLoginClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
   };
@@ -19,4 +19,4 @@ function GoogleLogin() {
   );
 }
 
-export default GoogleLogin;
+export default GoogleLoginButton;
