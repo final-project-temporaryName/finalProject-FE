@@ -69,5 +69,9 @@
 }
 
 .modal-action-button {
-  @apply rounded-ml h-50 w-full cursor-pointer border-none bg-[#0f1419] text-17 text-white hover:bg-[#272c30] disabled:opacity-50;
+  @apply h-50 w-full cursor-pointer rounded-ml border-none bg-[#0f1419] text-17 text-white hover:bg-[#272c30] disabled:opacity-50;
+}
+
+.storage-button {
+  @apply h-40 w-99 border-primary bg-primary;
 }
