@@ -14,9 +14,11 @@ function KakaoLoginButton() {
     if (session) {
       await signOut();
     } else {
-      await signIn();
+      await signIn('kakao', { redirect: true, callbackUrl: '/' });
     }
   };
+
+  console.log(session);
 
   return (
     <button
