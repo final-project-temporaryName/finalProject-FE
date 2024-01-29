@@ -3,7 +3,7 @@ import Link from 'next/link';
 import NavigatorBox from './NavigatorBox';
 import SearchBar from './SearchBar';
 
-export default function NavBar() {
+function NavBar() {
   return (
     <nav className="navBar">
       <Link href={'/'}>
@@ -14,3 +14,5 @@ export default function NavBar() {
     </nav>
   );
 }
+
+export default NavBar;

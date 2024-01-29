@@ -1,11 +1,5 @@
-import Home from '@/app/(unauth)/page';
-import RedirectToLogin from './_components/RedirectToLogin';
+import LoginPage from '../_components/LoginPage';
 
 export default async function Login() {
-  return (
-    <>
-      <RedirectToLogin />
-      <Home />
-    </>
-  );
+  return <LoginPage />;
 }

@@ -13,6 +13,12 @@
     "es6": true
   },
   "ignorePatterns": ["node_modules/"], // eslint 미적용될 폴더나 파일 명시
+  "prettier/prettier": [
+    "error",
+    {
+      "endOfLine": "auto" // build시 delete `CR` 에러에 따른 구문 추가
+    }
+  ],
   "extends": [
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended", // ts 권장
