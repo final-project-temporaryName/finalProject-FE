@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
 import '../styles/globals.css';
 import ReactQueryProviders from '@/utils/react-query-provider';
-import GoogleAuthContext from '@/contexts/AuthContext';
+import { AuthSession } from '@/contexts/AuthSessionProvider';
 
 // Noto sans 폰트 적용
 const notoSansKr = Noto_Sans_KR({
@@ -23,9 +23,9 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={notoSansKr.className}>
-        <GoogleAuthContext>
+        <AuthSession>
           <ReactQueryProviders>{children}</ReactQueryProviders>
-        </GoogleAuthContext>
+        </AuthSession>
       </body>
     </html>
   );

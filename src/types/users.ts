@@ -3,7 +3,7 @@ export interface UserType {
   nickname: string;
   major: string;
   description: string;
-  links: UserLinks[]; // Maximum Length 정해야할 듯
+  links: GetUserLinks[]; // Maximum Length 정해야할 듯 (3~5개?)
   profileImageUrl: string;
   totalLikeCount: number;
   followerCount: number;
@@ -11,34 +11,36 @@ export interface UserType {
 
 // 팔로잉, 찜
 
-export interface UserLinks {
+export interface GetUserLinks {
   id: number;
   title: string;
   address: string;
 }
 
+export interface PostUserLinks {
+  title: string;
+  address: string;
+}
+
 export interface PostSignUpRequestType {
-  email: string; // 가능?
+  userEmail: string;
   nickname: string; // Required 값
   major: string;
   description: string;
-  links: UserLinks[];
+  links: PostUserLinks[];
   profileImageUrl: string;
 }
 
 export interface PostSignUpResPonseType extends UserType {}
 
 export interface PutUserInfoRequestType {
-  userId: number;
   nickname: string; // 변경 가능?
   major: string;
   description: string;
-  links: UserLinks[];
+  links: PostUserLinks[];
   profileImageUrl: string;
 }
 
 export interface PutUserInfoResponseType extends UserType {}
 
-export interface DeleteUserInfoRequestType {
-  userId: number;
-}
+export interface DeleteUserInfoRequestType {}
