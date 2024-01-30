@@ -42,6 +42,8 @@ const handler: MyNextAuthOptions = NextAuth({
   callbacks: {
     async jwt(params) {
       // console.log(params?.token?.sub);
+      // 이 라인에 백엔드 서버에 POST 요청을 보낼 함수를 작성하면 됩니다.
+      // params?.token?.sub이 unique key 값입니다.
       return params.token;
     },
     async session(params) {
