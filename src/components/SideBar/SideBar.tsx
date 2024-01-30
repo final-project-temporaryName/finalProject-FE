@@ -17,7 +17,7 @@ interface SideBarProps {
 function SideBar({ name, role, description, likes, followers, image }: SideBarProps) {
   return (
     <div className="fixed left-36 top-110 h-648 w-260 rounded-sm">
-      <div className="absolute -top-10 left-1/2 z-10 h-120 w-120 -translate-x-1/2 transform rounded-full">
+      <div className="z-first absolute -top-10 left-1/2 h-120 w-120 -translate-x-1/2 transform rounded-full">
         <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-full border-2 border-solid border-gray-4 bg-white hover:border-primary-3">
           {image ? (
             <Image src={image} alt="Profile" className="h-full w-full rounded-full object-cover" />
@@ -26,7 +26,7 @@ function SideBar({ name, role, description, likes, followers, image }: SideBarPr
           )}
         </div>
       </div>
-      <Link href="/내정보수정" className="absolute right-13 top-60 z-10 h-32 w-32 rounded-full">
+      <Link href="/내정보수정" className="z-10 absolute right-13 top-60 h-32 w-32 rounded-full">
         <div className="flex h-full w-full items-center justify-center rounded-full border-2 border-solid border-gray-4 bg-white">
           <EditIcon />
         </div>
