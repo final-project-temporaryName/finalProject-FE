@@ -1,6 +1,6 @@
-import { SearchState } from '@/types/zustand';
 import { create } from 'zustand';
 import { createSearchSlice } from './searchSlice';
+import { SearchState } from './zustand';
 
 type SliceType = SearchState;
 

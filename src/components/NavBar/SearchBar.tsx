@@ -3,10 +3,7 @@
 import { useStore } from '@/store';
 import { useForm } from 'react-hook-form';
 import SearchIcon from '../../../public/assets/icons/search.svg';
-
-interface IForm {
-  query?: string;
-}
+import { IForm } from './NavBar.types';
 
 function SearchBar() {
   const { register, handleSubmit } = useForm();

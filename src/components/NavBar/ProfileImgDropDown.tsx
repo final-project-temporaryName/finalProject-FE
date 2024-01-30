@@ -2,19 +2,14 @@
 
 import useDropDown from '@/hooks/useDropDown';
 import useOnClickOutside from '@/hooks/useOnClickOutside';
-import Image, { StaticImageData } from 'next/image';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRef } from 'react';
 import ProfileDropDownImg from '../../../public/assets/images/profileDropDown.svg';
 import { Button } from '../Button';
+import { ProfileImgDropDownProps } from './NavBar.types';
 
-interface Props {
-  userName: string;
-  profileImg: string | StaticImageData; // StaticImageData 타입은 추후 서버 연결되면 삭제 예정
-  major: string;
-}
-
-function ProfileImgDropDown({ userName, profileImg, major }: Props) {
+function ProfileImgDropDown({ userName, profileImg, major }: ProfileImgDropDownProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { isOpen: isDropDownOpen, handleDropDownOpen, handleDropDownClose } = useDropDown();
 
