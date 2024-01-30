@@ -3,7 +3,12 @@
 import '@/styles/tailwind.css';
 import { useState } from 'react';
 import { Button } from '..';
-import { ButtonCategoryText } from './CategoryButton.types';
+
+enum ButtonCategoryText {
+  'ALL' = '전체',
+  'TRADING' = '판매중',
+  'COLLECTION' = '컬렉션',
+}
 
 function CategoryButtonGroup() {
   const [content, setContent] = useState('');

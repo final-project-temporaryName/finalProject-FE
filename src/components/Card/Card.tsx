@@ -5,8 +5,20 @@ import LikeImage from '../../../public/assets/images/LikeImage.png';
 import OnSaleImage from '../../../public/assets/images/OnSaleImage.png';
 import ViewImage from '../../../public/assets/images/ViewImage.png';
 import { Button } from '../Button';
-import { CardProps } from './Card.types';
 import Count from './Count';
+
+interface CardProps {
+  onSale: boolean;
+  workImageUrl: string;
+  workTitle: string;
+  likeCount: number;
+  viewCount: number;
+  commentCount: number;
+  profileImageUrl: string;
+  authorName: string;
+  workUrl: string;
+  authorUrl: string;
+}
 
 function Card({
   onSale,

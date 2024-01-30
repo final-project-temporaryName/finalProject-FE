@@ -1,10 +1,18 @@
 import '@/styles/tailwind.css';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import EditIcon from './EditIcon';
 import LinkIcon from './LinkIcon';
 import ProfileIcon from './ProfileIcon';
-import { SideBarProps } from './SideBar.types';
+
+interface SideBarProps {
+  name: string;
+  role: string;
+  description: string;
+  likes: number;
+  followers: number;
+  image?: string | StaticImageData;
+}
 
 function SideBar({ name, role, description, likes, followers, image }: SideBarProps) {
   return (
