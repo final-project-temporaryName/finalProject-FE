@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { createSearchSlice } from './searchSlice';
-import { SearchState } from './zustand';
+import { SearchState } from './zustand.types';
 
 type SliceType = SearchState;
 
