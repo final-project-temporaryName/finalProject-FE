@@ -12,10 +12,10 @@ export default function LoginModal() {
   };
 
   return (
-    <Modal.Container onClickClose={onClickClose} style="loginModalContainer">
+    <Modal.Container onClickClose={onClickClose} classname="loginModalContainer">
       <Modal.Header onClickClose={onClickClose} title="로그인하세요." />
       <Modal.Body>
-        <Modal.Form.Login style="flex flex-1 flex-col" />
+        <Modal.Form.Login classname="flex flex-1 flex-col" />
       </Modal.Body>
     </Modal.Container>
   );

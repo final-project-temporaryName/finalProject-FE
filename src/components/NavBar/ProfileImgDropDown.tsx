@@ -54,7 +54,7 @@ function ProfileImgDropDown({ userName, profileImg, major }: Props) {
                 </div>
               </div>
               {/* 추후 Link 변경 예정 */}
-              <Button destination="/" style="primary-button dropdown-mypage-button">
+              <Button destination="/" classname="primary-button dropdown-mypage-button">
                 마이페이지
               </Button>
             </div>

@@ -1,11 +1,11 @@
 import { PropsWithChildren } from 'react';
 
 interface Props {
-  style?: string;
+  classname?: string;
 }
 
-function ModalBody({ style, children }: PropsWithChildren<Props>) {
-  return <div className={`${style}`}>{children}</div>;
+function ModalBody({ classname, children }: PropsWithChildren<Props>) {
+  return <div className={`${classname}`}>{children}</div>;
 }
 
 export default ModalBody;
