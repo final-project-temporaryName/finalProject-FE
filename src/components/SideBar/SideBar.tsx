@@ -5,7 +5,7 @@ import EditIcon from './EditIcon';
 import LinkIcon from './LinkIcon';
 import ProfileIcon from './ProfileIcon';
 
-interface Props {
+interface SideBarProps {
   name: string;
   role: string;
   description: string;
@@ -14,7 +14,7 @@ interface Props {
   image?: string | StaticImageData;
 }
 
-function SideBar({ name, role, description, likes, followers, image }: Props) {
+function SideBar({ name, role, description, likes, followers, image }: SideBarProps) {
   return (
     <div className="fixed left-36 top-110 h-648 w-260 rounded-sm">
       <div className="absolute -top-10 left-1/2 z-10 h-120 w-120 -translate-x-1/2 transform rounded-full">

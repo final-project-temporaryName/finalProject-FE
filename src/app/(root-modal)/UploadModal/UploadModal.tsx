@@ -12,7 +12,7 @@ export default function UploadModal() {
   };
 
   return (
-    <Modal.Container onClickClose={onClickClose} style="loginModalContainer">
+    <Modal.Container onClickClose={onClickClose} classname="loginModalContainer">
       <Modal.Header onClickClose={onClickClose} title="작품을 업로드 하세요." />
       <Modal.Body></Modal.Body>
     </Modal.Container>

@@ -8,13 +8,13 @@ import { useRef } from 'react';
 import ProfileDropDownImg from '../../../public/assets/images/profileDropDown.svg';
 import { Button } from '../Button';
 
-interface Props {
+interface ProfileImgDropDownProps {
   userName: string;
   profileImg: string | StaticImageData; // StaticImageData 타입은 추후 서버 연결되면 삭제 예정
   major: string;
 }
 
-function ProfileImgDropDown({ userName, profileImg, major }: Props) {
+function ProfileImgDropDown({ userName, profileImg, major }: ProfileImgDropDownProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { isOpen: isDropDownOpen, handleDropDownOpen, handleDropDownClose } = useDropDown();
 
@@ -54,7 +54,7 @@ function ProfileImgDropDown({ userName, profileImg, major }: Props) {
                 </div>
               </div>
               {/* 추후 Link 변경 예정 */}
-              <Button destination="/" style="primary-button dropdown-mypage-button">
+              <Button destination="/" classname="primary-button dropdown-mypage-button">
                 마이페이지
               </Button>
             </div>

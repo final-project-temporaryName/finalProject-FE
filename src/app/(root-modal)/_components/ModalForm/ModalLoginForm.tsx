@@ -7,10 +7,10 @@ import { Button } from '@/components/Button';
 import Modal from '..';
 
 interface Props {
-  style: string;
+  classname: string;
 }
 
-export default function ModalLoginForm({ style }: Props) {
+export default function ModalLoginForm({ classname }: Props) {
   const [id, setId] = useState();
   const [password, setPassword] = useState();
   const [message, setMessage] = useState();
@@ -20,7 +20,7 @@ export default function ModalLoginForm({ style }: Props) {
   const onValid = () => {};
 
   return (
-    <form className={`${style}`} onSubmit={handleSubmit(onValid)}>
+    <form className={`${classname}`} onSubmit={handleSubmit(onValid)}>
       <div className="flex-1 px-80">
         <Modal.Input.Login htmlFor="id" value={id} placeholder={''} label="아이디" register={register('id')} />
         <Modal.Input.Login

@@ -1,5 +1,5 @@
 import { StateCreator } from 'zustand';
-import { SearchState } from '@/types/zustand';
+import { SearchState } from './zustand.types';
 
 export const createSearchSlice: StateCreator<SearchState> = (set) => ({
   searchWord: '',

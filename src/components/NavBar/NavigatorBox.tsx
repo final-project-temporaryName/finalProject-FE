@@ -23,11 +23,11 @@ function NavigatorBox() {
       {auth.isLogin && <ProfileImgDropDown userName={auth.userName} profileImg={auth.image} major={auth.major} />}
       {auth.isLogin ? (
         // 추후 작품 업로드 Link 수정 예정
-        <Button destination="/upload" style="primary-button nav-upload-button">
+        <Button destination="/upload" classname="primary-button nav-upload-button">
           작품 업로드
         </Button>
       ) : (
-        <Button destination="/login" style="primary-button nav-login-button">
+        <Button destination="/login" classname="primary-button nav-login-button">
           로그인
         </Button>
       )}
