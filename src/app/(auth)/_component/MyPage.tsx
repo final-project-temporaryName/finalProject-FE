@@ -25,7 +25,7 @@ function MyPage() {
         followers={MY_PROFILE.followers}
         image={MY_PROFILE.image}
       />
-      <main className="absolute left-330 top-157">
+      <main className="ml-330 mt-157">
         <CategoryButtonGroup />
         <Card
           saleStatus={'isFree'}

@@ -14,7 +14,7 @@ function KakaoLoginButton() {
     if (session) {
       await signOut();
     } else {
-      await signIn('kakao', { redirect: true, callbackUrl: '/' });
+      await signIn('kakao', { redirect: true, callbackUrl: '/login/postFlow' });
     }
   };
 
