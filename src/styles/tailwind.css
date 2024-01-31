@@ -75,3 +75,12 @@
 .storage-button {
   @apply h-40 w-99 border-primary bg-primary;
 }
+
+/* Input */
+.primary-input {
+  @apply border-none bg-gray-1 px-15 py-11 text-14 focus:outline-none;
+}
+
+.error-class {
+  @apply text-18;
+}

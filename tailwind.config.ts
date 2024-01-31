@@ -32,6 +32,7 @@ const config: Config = {
       bold: '700',
     },
     borderRadius: {
+      xs: '0.5rem',
       sm: '0.75rem',
       md: '1rem',
       ml: '1.5rem',
