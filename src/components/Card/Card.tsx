@@ -36,12 +36,16 @@ function Card({
   displayStatus,
 }: CardProps) {
   return (
-    <div className={`flex h-${displayStatus === 'myWork' ? '280' : '328'} w-280 flex-col`}>
+    <div
+      className={`flex h-${displayStatus === 'myWork' ? '280' : '328'} w-280 flex-col transition-transform duration-300 hover:scale-110 hover:transform`}
+    >
       <Link href={workUrl} className="relative">
         <div className="absolute inset-0 rounded-md bg-gradient-to-b from-transparent via-transparent to-black"></div>
-        <div className="absolute left-18 top-11">
-          <Button.Kebab />
-        </div>
+        {displayStatus === 'myWork' ? (
+          <div className="absolute left-18 top-11">
+            <Button.Kebab />
+          </div>
+        ) : null}
         {saleStatus === 'forSale' ? (
           <div className="absolute right-18">
             <Image src={OnSaleImage} alt="판매중 이미지" width={29} height={56} />
@@ -51,9 +55,9 @@ function Card({
             <Image src={FreeImage} alt="무료나눔 이미지" width={29} height={56} />
           </div>
         ) : null}
-        <div className="overflow-hidden transition-transform duration-300 hover:scale-150 hover:transform">
-          <Image className="h-280 w-280 rounded-md" src={workImageUrl} alt="카드 이미지" width={280} height={280} />
-        </div>
+
+        <Image className="h-280 w-280 rounded-md" src={workImageUrl} alt="카드 이미지" width={280} height={280} />
+
         <div className="items-left absolute bottom-50 flex h-10 w-280 flex-col gap-7 px-15">
           <p className="font-normal text-14 font-semibold leading-normal text-white">{workTitle}</p>
           <div className="flex items-center gap-12">

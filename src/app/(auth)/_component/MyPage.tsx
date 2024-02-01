@@ -38,7 +38,7 @@ function MyPage() {
           authorName="작가이름"
           workUrl="/"
           authorUrl="/"
-          displayStatus="notMyWork"
+          displayStatus="myWork"
         />
       </main>
     </>
