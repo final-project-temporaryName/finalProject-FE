@@ -71,11 +71,5 @@ const handler: NextApiHandler<MyNextAuthOptions | ErrorResponse> = async (
   }
 };
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 export const GET = handler;
 export const POST = handler;
