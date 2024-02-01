@@ -25,7 +25,7 @@ function SearchBar() {
       <input
         type="text"
         className="w-full flex-shrink text-14 text-gray-5"
-        placeholder="#감성도자기  #수상작"
+        placeholder="‘감성도자기’ ‘수상작’ 을 검색해 보세요!"
         {...register('query')}
       />
       <button title="Submit" type="submit">
