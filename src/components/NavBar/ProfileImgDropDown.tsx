@@ -6,6 +6,7 @@ import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { useRef } from 'react';
 import ProfileDropDownImg from '../../../public/assets/images/profileDropDown.svg';
+import defaultProfileImg from '../../../public/assets/images/youthLogo.png';
 import { Button } from '../Button';
 
 interface ProfileImgDropDownProps {
@@ -27,9 +28,8 @@ function ProfileImgDropDown({ userName, profileImg, major }: ProfileImgDropDownP
 
   return (
     <div className="relative flex-shrink-0" ref={containerRef} onClick={handleContainerClick}>
-      {/* 추후 프로필 이미지 없을 시, 띄울 이미지 생기면 이미지 추가하기 */}
       <Image
-        src={profileImg}
+        src={profileImg ? profileImg : defaultProfileImg}
         alt="프로필 이미지"
         width={32}
         height={32}
