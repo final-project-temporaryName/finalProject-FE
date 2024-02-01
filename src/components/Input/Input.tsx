@@ -1,6 +1,7 @@
 'use client';
 
 import UpLoadIcon from '@/components/SvgComponents/UpLoadIcon/UpLoadIcon';
+import PlusButtonIcon from '@/components/SvgComponents/PlusButtonIcon/PlusButtonIcon';
 import { nicknameRules } from '@/constants/InputErrorRules';
 import '@/styles/tailwind.css';
 import { ChangeEvent, useEffect, useState } from 'react';
@@ -85,6 +86,9 @@ function Input({ label, id, type = 'text', placeholder, error, style }: Props) {
                     <UpLoadIcon />
                     <div className="mt-2 text-7">사진 가져오기</div>
                   </div>
+                  <button className="absolute right-0 top-0" onClick={handleImgDelete}>
+                    <PlusButtonIcon className="rotate-45" />
+                  </button>
                 </label>
               </div>
             </>
