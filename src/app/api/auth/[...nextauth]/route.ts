@@ -4,6 +4,7 @@ import { JWT } from 'next-auth/jwt';
 import { AdapterUser } from 'next-auth/adapters';
 import GoogleProvider from 'next-auth/providers/google';
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest } from 'next/server';
 
 interface User {
   id: string;
@@ -37,10 +38,7 @@ interface MyNextAuthOptions {
   };
 }
 
-const handler: NextApiHandler<MyNextAuthOptions | ErrorResponse> = async (
-  req: NextApiRequest,
-  res: NextApiResponse<MyNextAuthOptions | ErrorResponse>,
-) => {
+const handler: any = async (req: NextRequest | Request, res: NextApiResponse<MyNextAuthOptions | ErrorResponse>) => {
   try {
     const result = await NextAuth(req as any, res as any, {
       providers: [
