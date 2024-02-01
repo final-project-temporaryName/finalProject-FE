@@ -19,6 +19,16 @@ function KebabButton() {
     else handleDropDownOpen();
   };
 
+  const handleModifyClick = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    console.log('수정 버튼 클릭!');
+  };
+
+  const handleDeleteClick = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    console.log('삭제 버튼 클릭!');
+  };
+
   return (
     <button className="relative" onClick={(e) => handleKebabClick(e)} title="Kebab">
       <Image src={KebabImage} alt="케밥버튼 이미지" width={30} height={30} />
@@ -26,8 +36,15 @@ function KebabButton() {
         <div className="absolute right-[-26.2px] top-33">
           <ProfileDropDownImage />
           <div className="absolute left-2 top-5 flex h-103 w-60 flex-col rounded-sm">
-            <button className="h-51 rounded-tl-sm rounded-tr-sm">수정</button>
-            <button className="h-52 rounded-bl-sm rounded-br-sm border-t-1 border-solid border-t-gray-4">삭제</button>
+            <button className="h-51 rounded-tl-sm rounded-tr-sm" onClick={(e) => handleModifyClick(e)}>
+              수정
+            </button>
+            <button
+              className="h-52 rounded-bl-sm rounded-br-sm border-t-1 border-solid border-t-gray-4"
+              onClick={(e) => handleDeleteClick(e)}
+            >
+              삭제
+            </button>
           </div>
         </div>
       )}
