@@ -12,7 +12,7 @@ function KebabButton() {
 
   return (
     <button onClick={(e) => handleKebabClick(e)} title="Kebab">
-      <Image src={KebabImage} alt="케밥버튼 이미지" width={2} height={12} />
+      <Image src={KebabImage} alt="케밥버튼 이미지" width={30} height={30} />
     </button>
   );
 }

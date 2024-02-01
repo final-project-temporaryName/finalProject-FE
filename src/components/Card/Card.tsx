@@ -36,8 +36,11 @@ function Card({
     <div className="flex h-328 w-280 flex-col transition-transform duration-300 hover:scale-110 hover:transform">
       <Link href={workUrl} className="relative">
         <div className="absolute inset-0 rounded-md bg-gradient-to-b from-transparent via-transparent to-black"></div>
+        <div className="absolute left-18 top-11">
+          <Button.Kebab />
+        </div>
         {onSale && (
-          <div className="absolute right-22">
+          <div className="absolute right-18">
             <Image src={OnSaleImage} alt="판매중 이미지" width={29} height={56} />
           </div>
         )}
@@ -56,9 +59,6 @@ function Card({
           <Image className="h-40 w-40 rounded-full" src={profileImageUrl} alt="프로필 이미지" width={40} height={40} />
           <p className="text-base font-normal font-bold leading-normal">{authorName}</p>
         </Link>
-        <div className="absolute right-11">
-          <Button.Kebab />
-        </div>
       </div>
     </div>
   );
