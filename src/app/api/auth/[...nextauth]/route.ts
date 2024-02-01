@@ -42,7 +42,7 @@ const handler: NextApiHandler<MyNextAuthOptions | ErrorResponse> = async (
   res: NextApiResponse<MyNextAuthOptions | ErrorResponse>,
 ) => {
   try {
-    const result = await NextAuth(req, res, {
+    const result = await NextAuth(req as any, res as any, {
       providers: [
         GoogleProvider({
           clientId: process.env.GOOGLE_CLIENT_ID || '',
