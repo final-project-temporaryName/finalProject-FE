@@ -6,11 +6,11 @@ function EditProfilePage() {
   return (
     <>
       <NavBar />
-      <form className="mt-160 flex-col">
+      <form className="relative mt-160 flex-col">
         <div className="flex-center">
           <Profile />
         </div>
-        <div className="mt-60 flex h-40 w-full justify-end px-200">
+        <div className="absolute right-200 mt-100">
           <Button style="primary-button storage-button">저장하기</Button>
         </div>
       </form>

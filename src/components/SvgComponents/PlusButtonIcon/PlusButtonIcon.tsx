@@ -1,4 +1,4 @@
-function ButtonIcon() {
+function PlusButtonIcon() {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
       <g clipPath="url(#clip0_1348_1340)">
@@ -16,4 +16,4 @@ function ButtonIcon() {
   );
 }
 
-export default ButtonIcon;
+export default PlusButtonIcon;

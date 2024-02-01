@@ -1,8 +1,9 @@
 'use client';
 
+import UpLoadIcon from '@/components/SvgComponents/UpLoadIcon/UpLoadIcon';
 import { nicknameRules } from '@/constants/InputErrorRules';
 import '@/styles/tailwind.css';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 interface Props {
@@ -14,8 +15,6 @@ interface Props {
   register?: any;
   style?: string;
   accept?: string;
-  //onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-  //imageURL?: string;
 }
 
 function Input({ label, id, type = 'text', placeholder, error, style }: Props) {
@@ -71,7 +70,24 @@ function Input({ label, id, type = 'text', placeholder, error, style }: Props) {
       {type === 'file' ? (
         <div className="file-input-wrapper relative">
           {imageUrl ? (
-            <img src={imageUrl} alt="Uploaded" className="h-95 w-95 rounded-full object-cover" />
+            <>
+              <img src={imageUrl} alt="Uploaded" className="h-95 w-95 rounded-full object-cover" />
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-500 ease-in-out hover:opacity-70">
+                <input
+                  type={type}
+                  id={id}
+                  placeholder={placeholder}
+                  className="primary-input hidden-file-input"
+                  onChange={handleFileChange}
+                />
+                <label htmlFor={id} className="file-input-label">
+                  <div className="absolute right-25 top-20">
+                    <UpLoadIcon />
+                    <div className="mt-2 text-7">사진 가져오기</div>
+                  </div>
+                </label>
+              </div>
+            </>
           ) : (
             <>
               <input
@@ -81,8 +97,11 @@ function Input({ label, id, type = 'text', placeholder, error, style }: Props) {
                 className="primary-input hidden-file-input"
                 onChange={handleFileChange}
               />
-              <label htmlFor={id} className="file-input file-input-label">
-                파일 선택
+              <label htmlFor={id} className="file-input-label">
+                <div className="absolute right-25 top-20">
+                  <UpLoadIcon />
+                  <div className="mt-2 text-7">사진 가져오기</div>
+                </div>
               </label>
             </>
           )}

@@ -73,7 +73,7 @@
 }
 
 .storage-button {
-  @apply h-40 w-99 border-primary bg-primary text-white;
+  @apply h-40 w-123 border-primary bg-primary text-white;
 }
 
 .duplication-button {
@@ -82,7 +82,7 @@
 
 /* Input */
 .primary-input {
-  @apply h-40 w-auto border-none bg-gray-1 px-15 py-11 text-14 focus:outline-none;
+  @apply h-40 w-auto border-1 border-[#000] bg-gray-1 px-15 py-11 text-14 focus:outline-none;
 }
 
 .xs-input {
@@ -101,10 +101,6 @@
   @apply w-268;
 }
 
-.file-input {
-  @apply h-95 w-95 rounded-full border-1 border-blue;
-}
-
 .error-class {
   @apply text-18;
 }
@@ -114,7 +110,7 @@
 }
 
 .file-input-label {
-  @apply flex-center inline-block cursor-pointer border-1 border-blue bg-gray-2 px-2 py-1 text-black;
+  @apply inline-block h-95 w-95 cursor-pointer flex-col items-center justify-center rounded-full border-1 border-blue bg-gray-2 text-black;
 }
 
 .hidden-file-input {
