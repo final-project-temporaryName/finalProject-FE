@@ -3,12 +3,13 @@ import Link from 'next/link';
 import CommentImage from '../../../public/assets/images/CommentImage.png';
 import LikeImage from '../../../public/assets/images/LikeImage.png';
 import OnSaleImage from '../../../public/assets/images/OnSaleImage.png';
+import FreeImage from '../../../public/assets/images/FreeImage.png';
 import ViewImage from '../../../public/assets/images/ViewImage.png';
 import { Button } from '../Button';
 import Count from './Count';
 
 interface CardProps {
-  onSale: boolean;
+  status: 'forSale' | 'notForSale' | 'isFree';
   workImageUrl: string;
   workTitle: string;
   likeCount: number;
@@ -21,7 +22,7 @@ interface CardProps {
 }
 
 function Card({
-  onSale,
+  status,
   workImageUrl,
   workTitle,
   likeCount,
@@ -39,11 +40,15 @@ function Card({
         <div className="absolute left-18 top-11">
           <Button.Kebab />
         </div>
-        {onSale && (
+        {status === 'forSale' ? (
           <div className="absolute right-18">
             <Image src={OnSaleImage} alt="판매중 이미지" width={29} height={56} />
           </div>
-        )}
+        ) : status === 'isFree' ? (
+          <div className="absolute right-18">
+            <Image src={FreeImage} alt="무료나눔 이미지" width={29} height={56} />
+          </div>
+        ) : null}
         <Image className="h-280 w-280 rounded-md" src={workImageUrl} alt="카드 이미지" width={280} height={280} />
         <div className="absolute bottom-22 flex h-10 w-280 items-center justify-between px-15">
           <p className="font-normal text-14 font-semibold leading-normal text-white">{workTitle}</p>
