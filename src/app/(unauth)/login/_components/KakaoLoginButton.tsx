@@ -1,9 +1,9 @@
 'use client';
 
+import { signIn, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { MouseEvent } from 'react';
 import kakaoLogoImg from '../../../../../public/assets/images/kakaoLogo.png';
-import { signIn, signOut, useSession } from 'next-auth/react';
 
 function KakaoLoginButton() {
   const { data: session } = useSession();
@@ -11,11 +11,7 @@ function KakaoLoginButton() {
   const handleKakaoLoginClick = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    if (session) {
-      await signOut();
-    } else {
-      await signIn('kakao', { redirect: true, callbackUrl: '/login/postFlow' });
-    }
+    await signIn('kakao', { redirect: true, callbackUrl: '/login/postFlow' });
   };
 
   console.log(session);
@@ -26,7 +22,7 @@ function KakaoLoginButton() {
       onClick={handleKakaoLoginClick}
     >
       <Image src={kakaoLogoImg} alt="카카오 로고" width={24} height={24} />
-      {session ? `${session.user?.email} 로그아웃` : '카카오 아이디로 로그인 하기'}
+      카카오로 3초만에 입장하기
     </button>
   );
 }

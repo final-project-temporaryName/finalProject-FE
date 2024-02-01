@@ -1,8 +1,8 @@
+import { AuthSession } from '@/contexts/AuthSessionProvider';
+import ReactQueryProviders from '@/utils/react-query-provider';
 import type { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
 import '../styles/globals.css';
-import ReactQueryProviders from '@/utils/react-query-provider';
-import { AuthSession } from '@/contexts/AuthSessionProvider';
 
 // Noto sans 폰트 적용
 const notoSansKr = Noto_Sans_KR({
