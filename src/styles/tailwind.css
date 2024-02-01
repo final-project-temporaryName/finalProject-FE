@@ -6,7 +6,7 @@
 }
 
 .navSearchBar {
-  @apply flex h-40 flex-shrink flex-grow items-center gap-10 rounded-lg bg-white px-32 py-8;
+  @apply flex h-40 w-600 flex-shrink items-center gap-10 rounded-lg bg-white px-32 py-8;
 }
 
 /* LoginModal */
@@ -69,5 +69,5 @@
 }
 
 .modal-action-button {
-  @apply rounded-ml h-50 w-full cursor-pointer border-none bg-[#0f1419] text-17 text-white hover:bg-[#272c30] disabled:opacity-50;
+  @apply h-50 w-full cursor-pointer rounded-ml border-none bg-[#0f1419] text-17 text-white hover:bg-[#272c30] disabled:opacity-50;
 }

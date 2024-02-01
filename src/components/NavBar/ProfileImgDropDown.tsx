@@ -41,14 +41,19 @@ function ProfileImgDropDown({ userName, profileImg, major }: ProfileImgDropDownP
           <div className="absolute top-14 flex h-310 w-268 flex-col rounded-sm">
             <div className="flex w-full flex-1 flex-col items-stretch justify-between gap-13 px-17 py-23">
               <div className="flex items-center justify-between">
-                <Image src={profileImg} alt="프로필 이미지" width={60} height={60} style={{ borderRadius: '50%' }} />
+                <Image
+                  src={profileImg ? profileImg : defaultProfileImg}
+                  alt="프로필 이미지"
+                  width={60}
+                  height={60}
+                  style={{ borderRadius: '50%' }}
+                />
                 <div>
                   <p className="text-18 font-semibold">{userName}</p>
                   <p className="text-12 text-gray-5">{major}</p>
                 </div>
               </div>
-              {/* 추후 Link 변경 예정 */}
-              <Button destination="/" classname="primary-button dropdown-mypage-button">
+              <Button destination="/mypage" classname="primary-button dropdown-mypage-button">
                 마이페이지
               </Button>
             </div>
