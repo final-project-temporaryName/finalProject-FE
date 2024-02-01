@@ -9,7 +9,7 @@ import { Button } from '../Button';
 import Count from './Count';
 
 interface CardProps {
-  status: 'forSale' | 'notForSale' | 'isFree';
+  saleStatus: 'forSale' | 'notForSale' | 'isFree';
   workImageUrl: string;
   workTitle: string;
   likeCount: number;
@@ -19,10 +19,11 @@ interface CardProps {
   authorName: string;
   workUrl: string;
   authorUrl: string;
+  displayStatus: 'myWork' | 'notMyWork';
 }
 
 function Card({
-  status,
+  saleStatus,
   workImageUrl,
   workTitle,
   likeCount,
@@ -32,25 +33,28 @@ function Card({
   authorName,
   workUrl,
   authorUrl,
+  displayStatus,
 }: CardProps) {
   return (
-    <div className="flex h-328 w-280 flex-col transition-transform duration-300 hover:scale-110 hover:transform">
+    <div className={`flex h-${displayStatus === 'myWork' ? '280' : '328'} w-280 flex-col`}>
       <Link href={workUrl} className="relative">
         <div className="absolute inset-0 rounded-md bg-gradient-to-b from-transparent via-transparent to-black"></div>
         <div className="absolute left-18 top-11">
           <Button.Kebab />
         </div>
-        {status === 'forSale' ? (
+        {saleStatus === 'forSale' ? (
           <div className="absolute right-18">
             <Image src={OnSaleImage} alt="판매중 이미지" width={29} height={56} />
           </div>
-        ) : status === 'isFree' ? (
+        ) : saleStatus === 'isFree' ? (
           <div className="absolute right-18">
             <Image src={FreeImage} alt="무료나눔 이미지" width={29} height={56} />
           </div>
         ) : null}
-        <Image className="h-280 w-280 rounded-md" src={workImageUrl} alt="카드 이미지" width={280} height={280} />
-        <div className="absolute bottom-22 flex h-10 w-280 items-center justify-between px-15">
+        <div className="overflow-hidden transition-transform duration-300 hover:scale-150 hover:transform">
+          <Image className="h-280 w-280 rounded-md" src={workImageUrl} alt="카드 이미지" width={280} height={280} />
+        </div>
+        <div className="items-left absolute bottom-50 flex h-10 w-280 flex-col gap-7 px-15">
           <p className="font-normal text-14 font-semibold leading-normal text-white">{workTitle}</p>
           <div className="flex items-center gap-12">
             <Count imageSource={LikeImage} imageSourceString="like" count={likeCount} />
@@ -59,12 +63,20 @@ function Card({
           </div>
         </div>
       </Link>
-      <div className="relative flex h-48 w-280 items-center pt-10">
-        <Link href={authorUrl} className="flex items-center gap-10">
-          <Image className="h-40 w-40 rounded-full" src={profileImageUrl} alt="프로필 이미지" width={40} height={40} />
-          <p className="text-base font-normal font-bold leading-normal">{authorName}</p>
-        </Link>
-      </div>
+      {displayStatus === 'notMyWork' ? (
+        <div className="relative flex h-48 w-280 items-center pt-10">
+          <Link href={authorUrl} className="flex items-center gap-10">
+            <Image
+              className="h-40 w-40 rounded-full"
+              src={profileImageUrl}
+              alt="프로필 이미지"
+              width={40}
+              height={40}
+            />
+            <p className="text-base font-normal font-bold leading-normal">{authorName}</p>
+          </Link>
+        </div>
+      ) : null}
     </div>
   );
 }
