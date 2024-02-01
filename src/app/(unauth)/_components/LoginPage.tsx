@@ -1,16 +1,17 @@
 import Image from 'next/image';
-import loginBgImg from '../../../../public/assets/images/LoginImage.png';
+import loginBgImg from '../../../../public/assets/images/loginBg.png';
+import NaverLoginButton from '../login/_components/NaverLoginButton';
 import KakaoLoginButton from '../login/_components/KakaoLoginButton';
-
-import GoogleLoginButton from './GoogleLoginButton';
 
 function LoginPage() {
   return (
     <>
       <div className="w-dvh flex h-dvh flex-col justify-start">
-        <div className="w-dvh relative h-[65%]">
+        <div className="w-dvh relative h-[40%]">
           <Image src={loginBgImg} alt="로그인 페이지 사진" fill priority />
-          <div className="absolute bottom-30 w-full flex-col items-center gap-4">
+        </div>
+        <div className="flex-col-center gap-16 pt-25">
+          <div className="mb-20 flex-col items-center gap-4">
             <h1 className="text-center text-32 font-bold">반가워요✨</h1>
             <br />
             <p className="text-center text-16">
@@ -19,8 +20,7 @@ function LoginPage() {
               작품거래 및 공유로 트렌드를 만들어 보세요!
             </p>
           </div>
-        </div>
-        <div className="flex justify-center pt-30">
+          <NaverLoginButton />
           <KakaoLoginButton />
         </div>
       </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { postKakaoUserId } from '@/api/auth/postKakaoUserId';
+import { postUserId } from '@/api/auth/postUserId';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
@@ -9,12 +9,12 @@ export default function RedirectToHome() {
   const router = useRouter();
   const { data: session } = useSession();
 
-  const handleKakaoUserId = async () => {
-    await postKakaoUserId(session?.user.id);
+  const handleUserId = async () => {
+    await postUserId(session?.user.id);
   };
 
   useEffect(() => {
-    // handleKakaoUserId();
+    // handleUserId();
 
     router.replace('/');
 
