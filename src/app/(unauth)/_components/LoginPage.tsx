@@ -1,7 +1,9 @@
+import GoogleLoginButton from './GoogleLoginButton';
+
 function LoginPage() {
   return (
     <>
-      <div></div>
+      <GoogleLoginButton />
     </>
   );
 }
