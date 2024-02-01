@@ -1,17 +1,19 @@
-import { Button } from '@/components/Button';
-import Input from '@/components/Input/Input';
+import Profile from '@/components/Profile/Profile';
 import NavBar from '@/components/NavBar/NavBar';
+import { Button } from '@/components/Button';
 
 function EditProfilePage() {
   return (
     <>
       <NavBar />
-      <main className="absolute top-150">
-        <form className="h-40 w-280">
-          <Input label="닉네임" id="name" placeholder="홍길동" />
-          <Button style="primary-button storage-button">저장</Button>
-        </form>
-      </main>
+      <form className="mt-160 flex-col">
+        <div className="flex-center">
+          <Profile />
+        </div>
+        <div className="mt-60 flex h-40 w-full justify-end px-200">
+          <Button style="primary-button storage-button">저장하기</Button>
+        </div>
+      </form>
     </>
   );
 }

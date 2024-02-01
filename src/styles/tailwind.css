@@ -73,14 +73,50 @@
 }
 
 .storage-button {
-  @apply h-40 w-99 border-primary bg-primary;
+  @apply h-40 w-99 border-primary bg-primary text-white;
+}
+
+.duplication-button {
+  @apply h-30 w-77 border-primary bg-white text-black hover:border-primary hover:bg-primary hover:text-white active:bg-primary active:text-white;
 }
 
 /* Input */
 .primary-input {
-  @apply border-none bg-gray-1 px-15 py-11 text-14 focus:outline-none;
+  @apply h-40 w-auto border-none bg-gray-1 px-15 py-11 text-14 focus:outline-none;
+}
+
+.xs-input {
+  @apply w-134;
+}
+
+.sm-input {
+  @apply w-172;
+}
+
+.md-input {
+  @apply w-200;
+}
+
+.lg-input {
+  @apply w-268;
+}
+
+.file-input {
+  @apply h-95 w-95 rounded-full border-1 border-blue;
 }
 
 .error-class {
   @apply text-18;
+}
+
+.file-input-wrapper {
+  @apply relative inline-block;
+}
+
+.file-input-label {
+  @apply flex-center inline-block cursor-pointer border-1 border-blue bg-gray-2 px-2 py-1 text-black;
+}
+
+.hidden-file-input {
+  @apply absolute left-0 top-0 h-95 w-95 opacity-0;
 }
