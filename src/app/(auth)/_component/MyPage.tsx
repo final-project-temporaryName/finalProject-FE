@@ -27,7 +27,7 @@ function MyPage() {
         displayStatus="notMyWork"
         links={['https://www.youtube.com/', 'url2', 'url3', 'url4', 'url5']}
       />
-      <main className="absolute left-330 top-157">
+      <main className="ml-330 mt-157">
         <CategoryButtonGroup />
         <Card
           saleStatus={'isFree'}

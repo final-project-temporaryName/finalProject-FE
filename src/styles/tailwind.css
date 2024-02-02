@@ -6,7 +6,7 @@
 }
 
 .navSearchBar {
-  @apply flex h-40 flex-shrink flex-grow items-center gap-10 rounded-lg bg-white px-32 py-8;
+  @apply flex h-40 w-600 flex-shrink items-center gap-10 rounded-lg bg-white px-32 py-8;
 }
 
 /* LoginModal */
