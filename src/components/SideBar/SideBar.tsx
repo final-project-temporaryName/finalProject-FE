@@ -2,9 +2,10 @@ import '@/styles/tailwind.css';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import EditIcon from './EditIcon';
-import LinkIcon from './LinkIcon';
+import AddLinkIcon from './AddLinkIcon';
 import ProfileIcon from './ProfileIcon';
 import { Button } from '@/components/Button';
+import LinkIcon from './LinkIcon';
 
 interface SideBarProps {
   name: string;
@@ -34,14 +35,10 @@ function SideBar({ name, role, description, likes, followers, image, displayStat
           <EditIcon />
         </div>
       </Link>
-      <div className="absolute top-48 flex h-600 w-260 flex-col items-center rounded-[12px] bg-gray-1">
-        <div className="mb-276 mt-89 flex h-235 w-192 flex-col items-center justify-center">
+      <div className="absolute top-48 flex h-650 w-260 flex-col items-center rounded-[12px] bg-gray-1">
+        <div className="mb-276 mt-89 flex h-650 w-192 flex-col items-center justify-center">
           <div className="flex-grow">
-            <div
-              className={`mt-${links.length === 0 ? 0 : links.length * 40} items-center text-center text-18 font-semibold`}
-            >
-              {name}
-            </div>
+            <div className="items-center text-center text-18 font-semibold">{name}</div>
             <p className="text-12 text-gray-9">{role}</p>
           </div>
           <div className="mb-16 mt-16 rounded-sm bg-white p-16">
@@ -56,23 +53,31 @@ function SideBar({ name, role, description, likes, followers, image, displayStat
               팔로워 &nbsp;&nbsp;<span className="text-14 font-bold">{followers}</span>&nbsp;명
             </span>
           </div>
+
+          <div className="mb-20 flex flex-col items-start gap-20">
+            {links &&
+              links.map((link) => (
+                <Link
+                  className=" flex gap-2 text-14 font-semibold"
+                  href={link}
+                  key={link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <LinkIcon />
+                  {link.length > 21 ? link.slice(0, 21) + '...' : link}
+                </Link>
+              ))}
+          </div>
+          <Link href="/editProfile" className="flex w-116 items-center gap-4 text-12 text-gray-9">
+            <AddLinkIcon />
+            {links.length < 5 ? '링크 추가하기' : '링크 수정하기'}
+          </Link>
           {displayStatus === 'notMyWork' ? (
             <Button destination="/chat" classname="primary-button nav-chat-button">
               1:1 대화걸기
             </Button>
           ) : null}
-          <div className="mb-20 flex flex-col gap-20">
-            {links &&
-              links.map((link) => (
-                <Link className="" href={link} key={link}>
-                  {link}
-                </Link>
-              ))}
-          </div>
-          <Link href="/editProfile" className="flex w-116 items-center gap-4 text-12 text-gray-9">
-            <LinkIcon />
-            링크 추가하기
-          </Link>
         </div>
       </div>
     </div>

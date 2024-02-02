@@ -57,7 +57,7 @@
 }
 
 .nav-chat-button {
-  @apply mb-20 h-40 w-200 hover:border-primary hover:bg-primary hover:text-white active:bg-primary;
+  @apply mt-20 h-40 w-200 hover:border-primary hover:bg-primary hover:text-white active:bg-primary;
 }
 
 .dropdown-mypage-button {
