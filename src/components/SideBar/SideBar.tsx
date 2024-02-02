@@ -7,6 +7,11 @@ import defaultProfileImg from '../../../public/assets/images/youthLogo.png';
 import { Button } from '@/components/Button';
 import LinkIcon from './LinkIcon';
 
+interface Links {
+  title: string;
+  url: string;
+}
+
 interface SideBarProps {
   name: string;
   role: string;
@@ -14,7 +19,7 @@ interface SideBarProps {
   likes: number;
   followers: number;
   image?: string | StaticImageData;
-  links: string[];
+  links: Links[];
   displayStatus: 'myWork' | 'notMyWork';
 }
 
@@ -61,13 +66,15 @@ function SideBar({ name, role, description, likes, followers, image, displayStat
               links.map((link) => (
                 <Link
                   className=" flex gap-2 text-14 font-semibold"
-                  href={link}
-                  key={link}
+                  href={link.url}
+                  key={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <LinkIcon />
-                  {link.length > 21 ? link.slice(0, 21) + '...' : link}
+                  {link.url.length > 21
+                    ? link.title + ' ' + link.url.slice(0, 21) + '...'
+                    : link.title + ' ' + link.url}
                 </Link>
               ))}
           </div>

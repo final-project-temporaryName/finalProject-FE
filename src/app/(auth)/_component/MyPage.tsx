@@ -25,7 +25,13 @@ function MyPage() {
         followers={MY_PROFILE.followers}
         image={MY_PROFILE.image}
         displayStatus="notMyWork"
-        links={['https://www.youtube.com/', 'url2', 'url3', 'url4', 'url5']}
+        links={[
+          { title: '유튜브', url: 'https://www.youtube.com/' },
+          { title: '인스타', url: 'https://www.instagram.com/' },
+          { title: '제목3', url: '링크 주소' },
+          { title: '제목4', url: '링크 주소' },
+          { title: '제목5', url: '링크 주소' },
+        ]}
       />
       <main className="ml-330 mt-157">
         <CategoryButtonGroup />
