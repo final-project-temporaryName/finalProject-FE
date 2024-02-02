@@ -12,7 +12,7 @@ export default function UploadModal() {
   };
 
   return (
-    <Modal.Container onClickClose={onClickClose} classname="loginModalContainer">
+    <Modal.Container onClickClose={onClickClose} classname="modalContainer">
       <Modal.Header onClickClose={onClickClose} />
       <Modal.Body></Modal.Body>
     </Modal.Container>
