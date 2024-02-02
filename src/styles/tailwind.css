@@ -13,7 +13,7 @@
 /* SignupModal */
 
 .modalContainer {
-  @apply relative top-[5%] flex h-560 w-900 flex-col rounded-md bg-white;
+  @apply relative top-[10%] flex h-560 w-900 flex-col rounded-md bg-white;
 }
 
 .modalInput {
