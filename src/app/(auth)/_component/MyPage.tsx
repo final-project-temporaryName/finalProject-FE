@@ -25,6 +25,7 @@ function MyPage() {
         followers={MY_PROFILE.followers}
         image={MY_PROFILE.image}
         displayStatus="notMyWork"
+        links={['url1', 'url2', 'url3', 'url4', 'url5']}
       />
       <main className="absolute left-330 top-157">
         <CategoryButtonGroup />

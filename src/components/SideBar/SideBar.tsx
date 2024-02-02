@@ -13,10 +13,11 @@ interface SideBarProps {
   likes: number;
   followers: number;
   image?: string | StaticImageData;
+  links: string[];
   displayStatus: 'myWork' | 'notMyWork';
 }
 
-function SideBar({ name, role, description, likes, followers, image, displayStatus }: SideBarProps) {
+function SideBar({ name, role, description, likes, followers, image, displayStatus, links }: SideBarProps) {
   return (
     <div className="fixed left-36 top-110 h-648 w-260 rounded-sm">
       <div className="absolute -top-10 left-1/2 z-10 h-120 w-120 -translate-x-1/2 transform rounded-full">
@@ -36,13 +37,17 @@ function SideBar({ name, role, description, likes, followers, image, displayStat
       <div className="absolute top-48 flex h-600 w-260 flex-col items-center rounded-[12px] bg-gray-1">
         <div className="mb-276 mt-89 flex h-235 w-192 flex-col items-center justify-center">
           <div className="flex-grow">
-            <div className="items-center text-center text-18 font-semibold">{name}</div>
+            <div
+              className={`mt-${links.length === 0 ? 0 : links.length * 40} items-center text-center text-18 font-semibold`}
+            >
+              {name}
+            </div>
             <p className="text-12 text-gray-9">{role}</p>
           </div>
           <div className="mb-16 mt-16 rounded-sm bg-white p-16">
             <p className="text-12 text-gray-9">{description}</p>
           </div>
-          <div className="flex items-center justify-between gap-20">
+          <div className="mb-20 flex items-center justify-between gap-20">
             <span className="count">
               좋아요&nbsp;&nbsp;<span className="text-14 font-bold">{likes}</span>&nbsp;개
             </span>
@@ -56,7 +61,15 @@ function SideBar({ name, role, description, likes, followers, image, displayStat
               1:1 대화걸기
             </Button>
           ) : null}
-          <Link href="/editProfile" className="mt-30 flex w-116 items-center gap-4 text-12 text-gray-9">
+          <div className="mb-20 flex flex-col gap-20">
+            {links &&
+              links.map((link) => (
+                <Link className="" href={link} key={link}>
+                  {link}
+                </Link>
+              ))}
+          </div>
+          <Link href="/editProfile" className="flex w-116 items-center gap-4 text-12 text-gray-9">
             <LinkIcon />
             링크 추가하기
           </Link>
