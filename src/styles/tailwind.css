@@ -13,7 +13,7 @@
 /* SignupModal */
 
 .loginModalContainer {
-  @apply relative top-[5%] flex h-450 w-600 flex-col rounded-md bg-white;
+  @apply relative top-[5%] flex h-560 w-900 flex-col rounded-md bg-white;
 }
 
 .modalInput {
@@ -69,5 +69,5 @@
 }
 
 .modal-action-button {
-  @apply rounded-ml h-50 w-full cursor-pointer border-none bg-[#0f1419] text-17 text-white hover:bg-[#272c30] disabled:opacity-50;
+  @apply h-50 w-full cursor-pointer rounded-ml border-none bg-[#0f1419] text-17 text-white hover:bg-[#272c30] disabled:opacity-50;
 }
