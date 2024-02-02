@@ -1,5 +1,5 @@
 import { AuthSession } from '@/contexts/AuthSessionProvider';
-import ReactQueryProviders from '@/utils/react-query-provider';
+import ReactQueryProviders from '@/utils/ReactQueryProvider';
 import type { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
 import '../styles/globals.css';
