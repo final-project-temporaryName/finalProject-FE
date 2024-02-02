@@ -4,6 +4,7 @@ import Link from 'next/link';
 import EditIcon from './EditIcon';
 import LinkIcon from './LinkIcon';
 import ProfileIcon from './ProfileIcon';
+import { Button } from '@/components/Button';
 
 interface SideBarProps {
   name: string;
@@ -12,9 +13,10 @@ interface SideBarProps {
   likes: number;
   followers: number;
   image?: string | StaticImageData;
+  displayStatus: 'myWork' | 'notMyWork';
 }
 
-function SideBar({ name, role, description, likes, followers, image }: SideBarProps) {
+function SideBar({ name, role, description, likes, followers, image, displayStatus }: SideBarProps) {
   return (
     <div className="fixed left-36 top-110 h-648 w-260 rounded-sm">
       <div className="absolute -top-10 left-1/2 z-10 h-120 w-120 -translate-x-1/2 transform rounded-full">
@@ -26,7 +28,7 @@ function SideBar({ name, role, description, likes, followers, image }: SideBarPr
           )}
         </div>
       </div>
-      <Link href="/내정보수정" className="absolute right-13 top-60 z-10 h-32 w-32 rounded-full">
+      <Link href="/editProfile" className="absolute right-13 top-60 z-10 h-32 w-32 rounded-full">
         <div className="flex h-full w-full items-center justify-center rounded-full border-2 border-solid border-gray-4 bg-white">
           <EditIcon />
         </div>
@@ -48,9 +50,14 @@ function SideBar({ name, role, description, likes, followers, image }: SideBarPr
               팔로워 &nbsp;&nbsp;<span className="text-14 font-bold">{followers}</span>&nbsp;명
             </span>
           </div>
+          {displayStatus === 'notMyWork' ? (
+            <Button destination="/chat" classname="primary-button nav-chat-button">
+              1:1 대화걸기
+            </Button>
+          ) : null}
           <Link href="/editProfile" className="mt-30 flex w-116 items-center gap-4 text-12 text-gray-9">
             <LinkIcon />
-            외부링크연결
+            링크 추가하기
           </Link>
         </div>
       </div>

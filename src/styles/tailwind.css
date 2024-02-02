@@ -56,6 +56,10 @@
   @apply h-40 w-109 border-primary bg-primary text-white hover:border-primary-8 hover:bg-primary-8 active:bg-primary-8;
 }
 
+.nav-chat-button {
+  @apply mt-15 h-40 w-200 hover:border-primary hover:bg-primary hover:text-white active:bg-primary;
+}
+
 .dropdown-mypage-button {
   @apply h-40 w-full border-primary bg-white text-black hover:border-primary hover:bg-primary hover:text-white active:bg-primary active:text-white;
 }
@@ -69,5 +73,5 @@
 }
 
 .modal-action-button {
-  @apply rounded-ml h-50 w-full cursor-pointer border-none bg-[#0f1419] text-17 text-white hover:bg-[#272c30] disabled:opacity-50;
+  @apply h-50 w-full cursor-pointer rounded-ml border-none bg-[#0f1419] text-17 text-white hover:bg-[#272c30] disabled:opacity-50;
 }

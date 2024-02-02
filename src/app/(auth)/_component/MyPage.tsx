@@ -24,6 +24,7 @@ function MyPage() {
         likes={MY_PROFILE.likes}
         followers={MY_PROFILE.followers}
         image={MY_PROFILE.image}
+        displayStatus="notMyWork"
       />
       <main className="absolute left-330 top-157">
         <CategoryButtonGroup />
