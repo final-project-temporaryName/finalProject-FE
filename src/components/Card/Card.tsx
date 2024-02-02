@@ -36,9 +36,7 @@ function Card({
   displayStatus,
 }: CardProps) {
   return (
-    <div
-      className={`flex h-${displayStatus === 'myWork' ? '280' : '328'} w-280 flex-col transition-transform duration-300 hover:scale-110 hover:transform`}
-    >
+    <div className={`flex h-${displayStatus === 'myWork' ? '280' : '328'} w-280 flex-col`}>
       <Link href={workUrl} className="relative">
         <div className="absolute inset-0 rounded-md bg-gradient-to-b from-transparent via-transparent to-black"></div>
         {displayStatus === 'myWork' ? (
