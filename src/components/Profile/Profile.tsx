@@ -5,27 +5,34 @@ import Input from '@/components/Input/Input';
 import BinIcon from '@/components/SvgComponents/BinIcon/BinIcon';
 import PlusButtonIcon from '@/components/SvgComponents/PlusButtonIcon/PlusButtonIcon';
 import CheckIcon from '@/components/SvgComponents/CheckIcon/CheckIcon';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import LinkInput from './LinkInput';
 
 function Profile() {
-  const [links, setLinks] = useState([{}]);
+  const [links, setLinks] = useState<{ id: number }[]>([]);
+
+  const idCount = useRef(0); // useRef를 사용하여 idCount를 관리
 
   const addLink = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (links.length < 5) {
-      setLinks([...links, {}]);
+      const newLink = {
+        id: idCount.current++, // current 속성을 사용하여 idCount 값을 가져옴
+      };
+      setLinks([...links, newLink]);
     }
   };
 
-  const removeLink = (index: number) => {
-    setLinks(links.filter((_, i) => i !== index));
+  const removeLink = (id: number) => {
+    setLinks(links.filter((link) => link.id !== id));
   };
 
   return (
     <div className="h-475 w-571">
-      <div className="ml-75 flex items-center gap-10">
+      <div className="relative ml-75 flex items-center gap-10">
         <Input type="file" id="image_file" accept="image/*" />
-        <Input type="nickname" label="닉네임" id="name" placeholder="작가명을 써주세요" style="md-input" />
+        <Input type="nickname" label="닉네임" id="name" placeholder="작가명을 써주세요" style="md-input relative" />
+        <div className="absolute left-100 text-[#C90000]">*</div>
         <Button style="primary-button duplication-button justify-center">중복확인</Button>
       </div>
       <div className="mt-30 flex gap-33">
@@ -41,20 +48,17 @@ function Profile() {
         ></textarea>
       </div>
       <div>
-        <div className="mb-10 flex items-center justify-center gap-24">
+        <div className="flex-center mb-10 gap-24">
           <Input label="외부링크" id="link" placeholder="Behance" style="xs-input" />
           <Input id="link" placeholder="http://behance.com" style="lg-input" />
           <BinIcon />
         </div>
 
         <div>
-          {links.map((link, index) => (
-            <div key={index} className="mb-10 flex items-center justify-center gap-24">
-              <Input label=" " id={`link${index}`} placeholder="링크제목" style="xs-input" />
-              <Input id={`link${index}`} placeholder="링크 붙여넣기" style="lg-input" />
-              <CheckIcon />
-            </div>
+          {links.map((link) => (
+            <LinkInput key={link.id} link={link} removeLink={removeLink} />
           ))}
+
           {links.length < 4 ? (
             <button className="ml-90" onClick={addLink}>
               <PlusButtonIcon />
