@@ -31,6 +31,12 @@ const config: Config = {
       semibold: '600',
       bold: '700',
     },
+    zIndex: {
+      zero: '0',
+      first: '10',
+      second: '20',
+      third: '30',
+    },
     borderRadius: {
       sm: '0.75rem',
       md: '1rem',
