@@ -25,7 +25,7 @@ function Profile() {
     <div className="h-475 w-571">
       <div className="ml-75 flex items-center gap-10">
         <Input type="file" id="image_file" accept="image/*" />
-        <Input type="nickname" label="닉네임" id="name" placeholder="홍길동" style="md-input" />
+        <Input type="nickname" label="닉네임" id="name" placeholder="작가명을 써주세요" style="md-input" />
         <Button style="primary-button duplication-button justify-center">중복확인</Button>
       </div>
       <div className="mt-30 flex gap-33">
@@ -36,7 +36,7 @@ function Profile() {
         <div className="flex h-40 w-90 items-center justify-start gap-20 whitespace-nowrap p-10 text-18">소개글</div>
         <textarea
           name="content"
-          className="min-h-92 w-465 resize-none rounded-xs bg-gray-1 p-15 text-14 focus:outline-none"
+          className="min-h-92 w-465 resize-none rounded-xs bg-gray-1 p-15 text-14 focus:outline-none "
           placeholder="사람들에게 나를 알릴 수 있는 글을 자유롭게 적어보세요."
         ></textarea>
       </div>
@@ -49,7 +49,7 @@ function Profile() {
 
         <div>
           {links.map((link, index) => (
-            <div key={index} className="mb-17 flex items-center justify-center gap-24">
+            <div key={index} className="mb-10 flex items-center justify-center gap-24">
               <Input label=" " id={`link${index}`} placeholder="링크제목" style="xs-input" />
               <Input id={`link${index}`} placeholder="링크 붙여넣기" style="lg-input" />
               <CheckIcon />

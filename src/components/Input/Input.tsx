@@ -44,7 +44,8 @@ function Input({ label, id, type = 'text', placeholder, error, style }: Props) {
     }
   };
 
-  const handleImgDelete = () => {
+  const handleImgDelete = (event: React.MouseEvent) => {
+    event.preventDefault();
     setImageUrl(null);
   };
 
@@ -62,7 +63,7 @@ function Input({ label, id, type = 'text', placeholder, error, style }: Props) {
   }, []);
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex-center">
       {label && (
         <label htmlFor={id} className="flex h-40 w-90 items-center justify-start gap-20 whitespace-nowrap p-10 text-18">
           {label}
@@ -71,44 +72,32 @@ function Input({ label, id, type = 'text', placeholder, error, style }: Props) {
       {type === 'file' ? (
         <div className="file-input-wrapper relative">
           {imageUrl ? (
-            <>
-              <img src={imageUrl} alt="Uploaded" className="h-95 w-95 rounded-full object-cover" />
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-500 ease-in-out hover:opacity-70">
-                <input
-                  type={type}
-                  id={id}
-                  placeholder={placeholder}
-                  className="primary-input hidden-file-input"
-                  onChange={handleFileChange}
-                />
-                <label htmlFor={id} className="file-input-label">
-                  <div className="absolute right-25 top-20">
-                    <UpLoadIcon />
-                    <div className="mt-2 text-7">사진 가져오기</div>
-                  </div>
-                  <button className="absolute right-0 top-0" onClick={handleImgDelete}>
-                    <PlusButtonIcon className="rotate-45" />
-                  </button>
-                </label>
-              </div>
-            </>
+            <img src={imageUrl} alt="Uploaded" className="h-95 w-95 rounded-full object-cover" />
           ) : (
-            <>
-              <input
-                type={type}
-                id={id}
-                placeholder={placeholder}
-                className="primary-input hidden-file-input"
-                onChange={handleFileChange}
-              />
-              <label htmlFor={id} className="file-input-label">
-                <div className="absolute right-25 top-20">
-                  <UpLoadIcon />
-                  <div className="mt-2 text-7">사진 가져오기</div>
-                </div>
-              </label>
-            </>
+            <div className="h-95 w-95"></div>
           )}
+          <div
+            className={`absolute inset-0 flex items-center justify-center ${imageUrl ? 'opacity-0 transition-opacity duration-500 ease-in-out hover:opacity-70' : 'opacity-100'}`}
+          >
+            <input
+              type={type}
+              id={id}
+              placeholder={placeholder}
+              className="primary-input hidden-file-input"
+              onChange={handleFileChange}
+            />
+            <label htmlFor={id} className="file-input-label">
+              <div className="absolute right-25 top-20">
+                <UpLoadIcon />
+                <div className="mt-2 text-7">사진 가져오기</div>
+              </div>
+              {imageUrl && (
+                <button className="absolute right-0 top-0" onClick={handleImgDelete}>
+                  <PlusButtonIcon className="rotate-45" />
+                </button>
+              )}
+            </label>
+          </div>
         </div>
       ) : (
         <input
