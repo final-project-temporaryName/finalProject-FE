@@ -9,9 +9,9 @@ import { useRef, useState } from 'react';
 import LinkInput from './LinkInput';
 
 function Profile() {
-  const [links, setLinks] = useState<{ id: number }[]>([]);
+  const [links, setLinks] = useState<{ id: number }[]>([{ id: 0 }]);
 
-  const idCount = useRef(0); // useRef를 사용하여 idCount를 관리
+  const idCount = useRef(1); // useRef를 사용하여 idCount를 관리
 
   const addLink = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -24,7 +24,14 @@ function Profile() {
   };
 
   const removeLink = (id: number) => {
-    setLinks(links.filter((link) => link.id !== id));
+    if (links.length === 1) {
+      const newLink = {
+        id: idCount.current++,
+      };
+      setLinks([newLink]);
+    } else {
+      setLinks(links.filter((link) => link.id !== id));
+    }
   };
 
   return (
@@ -32,8 +39,8 @@ function Profile() {
       <div className="relative ml-75 flex items-center gap-10">
         <Input type="file" id="image_file" accept="image/*" />
         <Input type="nickname" label="닉네임" id="name" placeholder="작가명을 써주세요" style="md-input relative" />
-        <div className="absolute left-100 text-[#C90000]">*</div>
-        <Button style="primary-button duplication-button justify-center">중복확인</Button>
+        <div className="absolute left-170 top-27 text-[#C90000]">*</div>
+        <button className="primary-button duplication-button justify-center">중복확인</button>
       </div>
       <div className="mt-30 flex gap-33">
         <Input label="활동지역" id="zone" placeholder="이태원" style="sm-input" />
@@ -48,23 +55,15 @@ function Profile() {
         ></textarea>
       </div>
       <div>
-        <div className="flex-center mb-10 gap-24">
-          <Input label="외부링크" id="link" placeholder="Behance" style="xs-input" />
-          <Input id="link" placeholder="http://behance.com" style="lg-input" />
-          <BinIcon />
-        </div>
+        {links.map((link, index) => (
+          <LinkInput key={link.id} link={link} removeLink={removeLink} index={index} />
+        ))}
 
-        <div>
-          {links.map((link) => (
-            <LinkInput key={link.id} link={link} removeLink={removeLink} />
-          ))}
-
-          {links.length < 4 ? (
-            <button className="ml-90" onClick={addLink}>
-              <PlusButtonIcon />
-            </button>
-          ) : null}
-        </div>
+        {links.length < 5 ? (
+          <button className="ml-90" onClick={addLink}>
+            <PlusButtonIcon />
+          </button>
+        ) : null}
       </div>
     </div>
   );

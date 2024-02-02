@@ -12,9 +12,10 @@ interface LinkType {
 interface LinkInputProps {
   link: LinkType;
   removeLink: (id: number) => void;
+  index: number;
 }
 
-function LinkInput({ link, removeLink }: LinkInputProps) {
+function LinkInput({ link, removeLink, index }: LinkInputProps) {
   const [isCheckIconVisible, setIsCheckIconVisible] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -37,8 +38,17 @@ function LinkInput({ link, removeLink }: LinkInputProps) {
 
   return (
     <div className="mb-10 flex items-center justify-center gap-24">
-      <Input label=" " id={`link${link.id}`} placeholder="링크제목" style="xs-input" />
-      <Input id={`link${link.id}`} placeholder="링크 붙여넣기" style="lg-input" />
+      <Input
+        label={index === 0 ? '외부링크' : ' '}
+        id={`link${link.id}`}
+        placeholder={index === 0 ? 'Behance' : '링크제목'}
+        style="xs-input"
+      />
+      <Input
+        id={`link${link.id}`}
+        placeholder={index === 0 ? 'http://behance.com' : '링크 붙여넣기'}
+        style="lg-input"
+      />
       {isCheckIconVisible ? <CheckIcon onClick={handleIconClick} /> : <BinIcon onClick={handleIconClick} />}
     </div>
   );
