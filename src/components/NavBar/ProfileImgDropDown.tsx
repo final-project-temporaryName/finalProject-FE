@@ -19,7 +19,6 @@ interface ProfileImgDropDownProps {
 function ProfileImgDropDown({ userName, profileImg, major }: ProfileImgDropDownProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { isOpen: isDropDownOpen, handleDropDownOpen, handleDropDownClose } = useDropDown();
-  const { data: session } = useSession();
 
   useOnClickOutside(containerRef, handleDropDownClose);
 
@@ -29,9 +28,7 @@ function ProfileImgDropDown({ userName, profileImg, major }: ProfileImgDropDownP
   };
 
   const handleLogoutClick = async () => {
-    if (session) {
-      await signOut();
-    }
+    await signOut();
   };
 
   return (

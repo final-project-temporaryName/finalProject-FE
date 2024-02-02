@@ -1,7 +1,6 @@
 import CategoryButtonGroup from '@/components/Button/Category/CategoryButtonGroup';
 import NavBar from '@/components/NavBar/NavBar';
 import SideBar from '@/components/SideBar/SideBar';
-import RedirectForLogout from '@/utils/RedirectForLogout';
 import profileImg from '../../../../public/assets/images/하니.jpg';
 import Card from '@/components/Card/Card';
 
@@ -17,7 +16,6 @@ function MyPage() {
 
   return (
     <>
-      <RedirectForLogout />
       <NavBar />
       <SideBar
         name={MY_PROFILE.name}

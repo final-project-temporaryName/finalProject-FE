@@ -6,15 +6,11 @@ import { MouseEvent } from 'react';
 import kakaoLogoImg from '../../../../../public/assets/images/kakaoLogo.png';
 
 function KakaoLoginButton() {
-  const { data: session } = useSession();
-
   const handleKakaoLoginClick = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     await signIn('kakao', { redirect: true, callbackUrl: '/login/postFlow' });
   };
-
-  console.log(session);
 
   return (
     <button
