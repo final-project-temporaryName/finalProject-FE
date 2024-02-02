@@ -39,13 +39,14 @@ function SideBar({ name, role, description, likes, followers, image, displayStat
             <div className="items-center text-center text-18 font-semibold">{name}</div>
             <p className="text-12 text-gray-9">{role}</p>
           </div>
-          <div className="mb-16 mt-16 bg-white p-16">
+          <div className="mb-16 mt-16 rounded-sm bg-white p-16">
             <p className="text-12 text-gray-9">{description}</p>
           </div>
-          <div className="flex items-center justify-between gap-40">
+          <div className="flex items-center justify-between gap-20">
             <span className="count">
               좋아요&nbsp;&nbsp;<span className="text-14 font-bold">{likes}</span>&nbsp;개
             </span>
+            <div className="h-25 w-2 bg-white"></div>
             <span className="count">
               팔로워 &nbsp;&nbsp;<span className="text-14 font-bold">{followers}</span>&nbsp;명
             </span>
