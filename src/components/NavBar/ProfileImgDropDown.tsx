@@ -8,6 +8,7 @@ import { useRef } from 'react';
 import ProfileDropDownImg from '../../../public/assets/images/profileDropDown.svg';
 import defaultProfileImg from '../../../public/assets/images/youthLogo.png';
 import { Button } from '../Button';
+import { signOut, useSession } from 'next-auth/react';
 
 interface ProfileImgDropDownProps {
   userName: string;
@@ -18,12 +19,19 @@ interface ProfileImgDropDownProps {
 function ProfileImgDropDown({ userName, profileImg, major }: ProfileImgDropDownProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { isOpen: isDropDownOpen, handleDropDownOpen, handleDropDownClose } = useDropDown();
+  const { data: session } = useSession();
 
   useOnClickOutside(containerRef, handleDropDownClose);
 
   const handleContainerClick = () => {
     if (isDropDownOpen) handleDropDownClose();
     else handleDropDownOpen();
+  };
+
+  const handleLogoutClick = async () => {
+    if (session) {
+      await signOut();
+    }
   };
 
   return (
@@ -67,11 +75,10 @@ function ProfileImgDropDown({ userName, profileImg, major }: ProfileImgDropDownP
                 <div className="flex h-50 items-center px-18">문의하기</div>
               </Link>
             </div>
-            <div className="h-50 w-full">
-              {/* 추후 Link 변경 예정 */}
-              <Link href={'/'}>
-                <div className="flex h-50 w-full items-center px-18">로그아웃</div>
-              </Link>
+            <div className="h-50 w-full cursor-pointer">
+              <div onClick={handleLogoutClick} className="flex h-50 w-full items-center px-18">
+                로그아웃
+              </div>
             </div>
           </div>
         </div>
