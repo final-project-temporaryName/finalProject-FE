@@ -24,7 +24,7 @@ function MyPage() {
         likes={MY_PROFILE.likes}
         followers={MY_PROFILE.followers}
         image={MY_PROFILE.image}
-        displayStatus="notMyWork"
+        displayStatus="myWork"
         links={[
           { title: '유튜브', url: 'https://www.youtube.com/' },
           { title: '인스타', url: 'https://www.instagram.com/' },
