@@ -6,7 +6,6 @@ import AddLinkIcon from './AddLinkIcon';
 import defaultProfileImg from '../../../public/assets/images/youthLogo.png';
 import { Button } from '@/components/Button';
 import LinkIcon from './LinkIcon';
-import ProfileIcon from './ProfileIcon';
 
 interface SideBarProps {
   name: string;
@@ -31,13 +30,15 @@ function SideBar({ name, role, description, likes, followers, image, displayStat
           />
         </div>
       </div>
-      <Link href="/editProfile" className="z-10 absolute right-13 top-60 h-32 w-32 rounded-full">
-        <div className="flex h-full w-full items-center justify-center rounded-full border-2 border-solid border-gray-4 bg-white">
-          <EditIcon />
-        </div>
-      </Link>
       <div className="absolute top-48 flex h-650 w-260 flex-col items-center rounded-[12px] bg-gray-1">
         <div className="mb-276 mt-89 flex h-650 w-192 flex-col items-center justify-center">
+          {displayStatus === 'myWork' ? (
+            <Link href="/editProfile" className="z-10 absolute right-13 top-15 h-32 w-32 rounded-full">
+              <div className="flex h-full w-full items-center justify-center rounded-full border-2 border-solid border-gray-4 bg-white">
+                <EditIcon />
+              </div>
+            </Link>
+          ) : null}
           <div className="flex-grow">
             <div className="items-center text-center text-18 font-semibold">{name}</div>
             <p className="text-12 text-gray-9">{role}</p>
@@ -70,10 +71,12 @@ function SideBar({ name, role, description, likes, followers, image, displayStat
                 </Link>
               ))}
           </div>
-          <Link href="/editProfile" className="flex w-116 items-center gap-4 text-12 text-gray-9">
-            <AddLinkIcon />
-            {links.length < 5 ? '링크 추가하기' : '링크 수정하기'}
-          </Link>
+          {displayStatus === 'myWork' ? (
+            <Link href="/editProfile" className="flex w-116 items-center gap-4 text-12 text-gray-9">
+              <AddLinkIcon />
+              {links.length < 5 ? '링크 추가하기' : '링크 수정하기'}
+            </Link>
+          ) : null}
           {displayStatus === 'notMyWork' ? (
             <Button destination="/chat" classname="primary-button nav-chat-button">
               1:1 대화걸기
