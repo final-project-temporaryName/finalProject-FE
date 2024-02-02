@@ -1,3 +1,5 @@
+'use client';
+
 import Input from '@/components/Input/Input';
 import BinIcon from '@/components/SvgComponents/BinIcon/BinIcon';
 import CheckIcon from '@/components/SvgComponents/CheckIcon/CheckIcon';

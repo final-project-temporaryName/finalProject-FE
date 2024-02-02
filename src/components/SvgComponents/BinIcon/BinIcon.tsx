@@ -1,8 +1,4 @@
-interface Props {
-  onClick?: any;
-}
-
-function BinIcon({ onClick }: Props) {
+function BinIcon({ onClick }: { onClick?: () => void; }) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none" onClick={onClick}>
       <g clipPath="url(#clip0_1348_1343)">

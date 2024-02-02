@@ -1,11 +1,11 @@
 'use client';
 
-import UpLoadIcon from '@/components/SvgComponents/UpLoadIcon/UpLoadIcon';
 import PlusButtonIcon from '@/components/SvgComponents/PlusButtonIcon/PlusButtonIcon';
+import UpLoadIcon from '@/components/SvgComponents/UpLoadIcon/UpLoadIcon';
 import { nicknameRules } from '@/constants/InputErrorRules';
 import '@/styles/tailwind.css';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { UseFormRegisterReturn, useForm } from 'react-hook-form';
 
 interface Props {
   label?: string;
@@ -13,7 +13,7 @@ interface Props {
   type?: 'text' | 'nickname' | 'file';
   placeholder?: string;
   error?: string;
-  register?: any;
+  register?: UseFormRegisterReturn;
   style?: string;
   accept?: string;
 }
