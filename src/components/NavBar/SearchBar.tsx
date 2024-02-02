@@ -1,7 +1,7 @@
 'use client';
 
 import { useStore } from '@/store';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import SearchIcon from '../../../public/assets/icons/search.svg';
 import CancelIcon from '../../../public/assets/icons/CancelIcon.svg';
 import { MouseEvent, useState } from 'react';
@@ -11,12 +11,18 @@ interface IForm {
 }
 
 function SearchBar() {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, control } = useForm();
   const [isSearchClicked, setIsSearchClicked] = useState(false);
   const { clearSearchWord, setSearchWord } = useStore((state) => ({
     setSearchWord: state.setSearchWord,
     clearSearchWord: state.clearSearchWord,
   }));
+
+  const watchedValue = useWatch({
+    control,
+    name: 'query',
+    defaultValue: '',
+  });
 
   const onValid = (data: IForm) => {
     if (!data.query) clearSearchWord();
@@ -41,7 +47,7 @@ function SearchBar() {
         placeholder="#감성도자기  #수상작"
         {...register('query')}
       />
-      {isSearchClicked && (
+      {isSearchClicked && watchedValue && (
         <button type="button" onClick={(e) => handleClearClick(e)}>
           <CancelIcon />
         </button>
