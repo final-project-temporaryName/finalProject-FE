@@ -1,44 +1,63 @@
 'use client';
 
-import { Button } from '@/components/Button';
 import Input from '@/components/Input/Input';
-import BinIcon from '@/components/SvgComponents/BinIcon/BinIcon';
 import PlusButtonIcon from '@/components/SvgComponents/PlusButtonIcon/PlusButtonIcon';
-import CheckIcon from '@/components/SvgComponents/CheckIcon/CheckIcon';
+import { nicknameRules } from '@/constants/InputErrorRules';
 import { useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import LinkInput from './LinkInput';
 
 function Profile() {
   const [links, setLinks] = useState<{ id: number }[]>([{ id: 0 }]);
-
   const idCount = useRef(1); // useRef를 사용하여 idCount를 관리
+
+  const {
+    register,
+    watch,
+    formState: { errors },
+  } = useForm({
+    mode: 'onBlur',
+    defaultValues: {
+      name: '',
+    },
+  });
 
   const addLink = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (links.length < 5) {
-      const newLink = {
-        id: idCount.current++, // current 속성을 사용하여 idCount 값을 가져옴
-      };
-      setLinks([...links, newLink]);
+      setLinks((prevLinks) => [...prevLinks, { id: idCount.current++ }]);
     }
   };
 
   const removeLink = (id: number) => {
-    if (links.length === 1) {
-      const newLink = {
-        id: idCount.current++,
-      };
-      setLinks([newLink]);
-    } else {
-      setLinks(links.filter((link) => link.id !== id));
-    }
+    setLinks((prevLinks) =>
+      prevLinks.length === 1 ? [{ id: idCount.current++ }] : prevLinks.filter((link) => link.id !== id),
+    );
   };
+
+  const renderLinks = () =>
+    links.map((link, index) => <LinkInput key={link.id} link={link} removeLink={removeLink} index={index} />);
+
+  const renderAddButton = () =>
+    links.length < 5 && (
+      <button className="ml-90" onClick={addLink}>
+        <PlusButtonIcon />
+      </button>
+    );
 
   return (
     <div className="h-475 w-571">
       <div className="relative ml-75 flex items-center gap-10">
         <Input type="file" id="image_file" accept="image/*" />
-        <Input type="nickname" label="닉네임" id="name" placeholder="작가명을 써주세요" style="md-input relative" />
+        <Input
+          type="nickname"
+          label="닉네임"
+          id="name"
+          placeholder="작가명을 써주세요"
+          style="md-input relative"
+          register={register('name', nicknameRules)}
+          error={errors.name?.message}
+        />
         <div className="absolute left-170 top-27 text-[#C90000]">*</div>
         <button className="primary-button duplication-button justify-center">중복확인</button>
       </div>
@@ -55,15 +74,8 @@ function Profile() {
         ></textarea>
       </div>
       <div>
-        {links.map((link, index) => (
-          <LinkInput key={link.id} link={link} removeLink={removeLink} index={index} />
-        ))}
-
-        {links.length < 5 ? (
-          <button className="ml-90" onClick={addLink}>
-            <PlusButtonIcon />
-          </button>
-        ) : null}
+        {renderLinks()}
+        {renderAddButton()}
       </div>
     </div>
   );
