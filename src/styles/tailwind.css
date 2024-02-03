@@ -56,6 +56,10 @@
   @apply h-40 w-109 border-primary bg-primary text-white hover:border-primary-8 hover:bg-primary-8 active:bg-primary-8;
 }
 
+.nav-chat-button {
+  @apply mt-20 h-40 w-200 hover:border-primary hover:bg-primary hover:text-white active:bg-primary;
+}
+
 .dropdown-mypage-button {
   @apply h-40 w-full border-primary bg-white text-black hover:border-primary hover:bg-primary hover:text-white active:bg-primary active:text-white;
 }

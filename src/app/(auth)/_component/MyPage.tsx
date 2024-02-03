@@ -24,6 +24,14 @@ function MyPage() {
         likes={MY_PROFILE.likes}
         followers={MY_PROFILE.followers}
         image={MY_PROFILE.image}
+        displayStatus="myWork"
+        links={[
+          { title: '유튜브', url: 'https://www.youtube.com/' },
+          { title: '인스타', url: 'https://www.instagram.com/' },
+          { title: '제목3', url: '링크 주소' },
+          { title: '제목4', url: '링크 주소' },
+          { title: '제목5', url: '링크 주소' },
+        ]}
       />
       <main className="ml-330 mt-157">
         <CategoryButtonGroup />

@@ -1,6 +1,6 @@
 'use client';
 
-import Link from '../../../public/assets/icons/link_icon.svg';
+import Link from '../../../public/assets/icons/LinkIcon.svg';
 
 function LinkIcon() {
   return (
