@@ -17,7 +17,7 @@ interface Props {
 }
 
 function Input({ label, id, type = 'text', placeholder, error, register, style }: Props) {
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [profileImage, setProfileImage] = useState<string | null>(null);
 
   const inputClasses = `${style} primary-input rounded-xs ${error ? 'error-class' : ''}`;
   const fileInputClasses = type === 'file' ? inputClasses : `${inputClasses} file-input-wrapper relative`;
@@ -26,15 +26,17 @@ function Input({ label, id, type = 'text', placeholder, error, register, style }
     if (!e.target.files) return;
     const imgFile = e.target.files[0];
     if (imgFile && imgFile.type.startsWith('image')) {
-      setImageUrl(
-        'https://images.unsplash.com/photo-1706603314698-be679b945f9b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyNHx8fGVufDB8fHx8fA%3D%3D',
-      );
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileImage(reader.result as string);
+      };
+      reader.readAsDataURL(imgFile);
     }
   };
 
   const handleImgDelete = (event: React.MouseEvent) => {
     event.preventDefault();
-    setImageUrl(null);
+    setProfileImage(null);
   };
 
   const renderLabel = () =>
@@ -46,13 +48,13 @@ function Input({ label, id, type = 'text', placeholder, error, register, style }
 
   const renderFileInput = () => (
     <div className="file-input-wrapper relative">
-      {imageUrl ? (
-        <img src={imageUrl} alt="Uploaded" className="h-95 w-95 rounded-full object-cover" />
+      {profileImage ? (
+        <img src={profileImage} alt="Uploaded" className="h-95 w-95 rounded-full object-cover" />
       ) : (
         <div className="h-95 w-95"></div>
       )}
       <div
-        className={`absolute inset-0 flex items-center justify-center ${imageUrl ? 'opacity-0 transition-opacity duration-500 ease-in-out hover:opacity-70' : 'opacity-100'}`}
+        className={`absolute inset-0 flex items-center justify-center ${profileImage ? 'opacity-0 transition-opacity duration-500 ease-in-out hover:opacity-70' : 'opacity-100'}`}
       >
         <input
           type={type}
@@ -66,7 +68,7 @@ function Input({ label, id, type = 'text', placeholder, error, register, style }
             <UpLoadIcon />
             <div className="mt-2 text-7">사진 가져오기</div>
           </div>
-          {imageUrl && (
+          {profileImage && (
             <button className="absolute right-0 top-0" onClick={handleImgDelete}>
               <PlusButtonIcon className="rotate-45" />
             </button>

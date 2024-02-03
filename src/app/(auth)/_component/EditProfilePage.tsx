@@ -1,6 +1,6 @@
-import Profile from '@/components/Profile/Profile';
-import NavBar from '@/components/NavBar/NavBar';
 import { Button } from '@/components/Button';
+import NavBar from '@/components/NavBar/NavBar';
+import Profile from '@/components/Profile/Profile';
 
 function EditProfilePage() {
   return (
@@ -11,7 +11,7 @@ function EditProfilePage() {
           <Profile />
         </div>
         <div className="absolute right-200 mt-100">
-          <Button style="primary-button storage-button">저장하기</Button>
+          <Button classname="primary-button storage-button">저장하기</Button>
         </div>
       </form>
     </>
