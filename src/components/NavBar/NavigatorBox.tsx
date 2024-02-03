@@ -1,18 +1,20 @@
 'use client';
 
 import '@/styles/tailwind.css';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import MessageIcon from '../../../public/assets/icons/message.svg';
 import profileImage from '../../../public/assets/images/하니.jpg';
-import ProfileImgDropDown from './ProfileImgDropDown';
 import { Button } from '../Button';
+import ProfileImgDropDown from './ProfileImgDropDown';
 
 function NavigatorBox() {
+  const { data: session } = useSession();
+
   const auth = {
     userName: '하니',
     image: profileImage,
     major: '제품디자인 학부생/3D Modeling',
-    isLogin: true,
   };
 
   return (
@@ -20,14 +22,14 @@ function NavigatorBox() {
       <Link href={'/chatroom'}>
         <MessageIcon />
       </Link>
-      {auth.isLogin && <ProfileImgDropDown userName={auth.userName} profileImg={auth.image} major={auth.major} />}
-      {auth.isLogin ? (
+      {session && <ProfileImgDropDown userName={auth.userName} profileImg={auth.image} major={auth.major} />}
+      {session ? (
         // 추후 작품 업로드 Link 수정 예정
-        <Button destination="/upload" style="primary-button nav-upload-button">
+        <Button destination="/upload" classname="primary-button nav-upload-button">
           작품 업로드
         </Button>
       ) : (
-        <Button destination="/login" style="primary-button nav-login-button">
+        <Button destination="/login" classname="primary-button nav-login-button">
           로그인
         </Button>
       )}

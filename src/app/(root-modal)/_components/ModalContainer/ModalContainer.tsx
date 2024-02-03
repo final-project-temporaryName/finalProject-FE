@@ -4,17 +4,17 @@ import '@/styles/tailwind.css';
 import { PropsWithChildren } from 'react';
 
 interface Props {
-  style: string;
+  classname: string;
   onClickClose: () => void;
 }
 
-export default function ModalContainer({ onClickClose, style, children }: PropsWithChildren<Props>) {
+export default function ModalContainer({ onClickClose, classname, children }: PropsWithChildren<Props>) {
   return (
     <div
       className="absolute bottom-0 left-0 right-0 top-0 flex h-full w-screen justify-center bg-[#00000066]"
       onClick={onClickClose}
     >
-      <div className={`${style}`} onClick={(e) => e.stopPropagation()}>
+      <div className={`${classname}`} onClick={(e) => e.stopPropagation()}>
         {children}
       </div>
     </div>

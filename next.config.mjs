@@ -27,6 +27,15 @@ const nextConfig = {
       },
     ],
   },
+  // 프록시 설정 (next-auth로 인해 설정 못함)
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: '/:path*',
+  //       destination: `${process.env.NEXT_PUBLIC_BASE_URL}/:path*`,
+  //     },
+  //   ];
+  // },
 };
 
 export default nextConfig;

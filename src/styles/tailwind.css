@@ -6,7 +6,7 @@
 }
 
 .navSearchBar {
-  @apply flex h-40 flex-shrink flex-grow items-center gap-10 rounded-lg bg-white px-32 py-8;
+  @apply flex h-40 w-600 flex-shrink items-center gap-10 rounded-lg bg-white px-32 py-8;
 }
 
 /* LoginModal */
@@ -54,6 +54,10 @@
 
 .nav-login-button {
   @apply h-40 w-109 border-primary bg-primary text-white hover:border-primary-8 hover:bg-primary-8 active:bg-primary-8;
+}
+
+.nav-chat-button {
+  @apply mt-20 h-40 w-200 hover:border-primary hover:bg-primary hover:text-white active:bg-primary;
 }
 
 .dropdown-mypage-button {

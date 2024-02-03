@@ -4,9 +4,19 @@ import '@/styles/tailwind.css';
 import { useState } from 'react';
 import { Button } from '..';
 
+enum ButtonCategoryText {
+  'ALL' = '전체',
+  'TRADING' = '판매중',
+  'COLLECTION' = '컬렉션',
+}
+
 function CategoryButtonGroup() {
   const [content, setContent] = useState('');
-  const labelTexts = ['전체', '판매중', '컬렉션'];
+  const labelTexts: ButtonCategoryText[] = [
+    ButtonCategoryText.ALL, // 전체
+    ButtonCategoryText.TRADING, // 판매중
+    ButtonCategoryText.COLLECTION, // 컬렉션
+  ];
 
   const handleActive = (buttonLabel: string) => {
     setContent(buttonLabel);
