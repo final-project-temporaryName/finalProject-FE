@@ -1,3 +1,5 @@
+'use client';
+
 import '@/styles/tailwind.css';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
@@ -6,32 +8,49 @@ import AddLinkIcon from './AddLinkIcon';
 import defaultProfileImg from '../../../public/assets/images/youthLogo.png';
 import { Button } from '@/components/Button';
 import LinkIcon from './LinkIcon';
+import { useQuery } from '@tanstack/react-query';
+import QUERY_KEYS from '@/api/queryKeys';
+import { getUser } from '@/api/users/getUser';
 
 interface Links {
   title: string;
-  url: string;
+  address: string;
+  linkId: number;
+}
+
+interface UserData {
+  nickname: string;
+  activityArea: string;
+  activityField: string;
+  userId: number;
+  description: string;
+  totalLikeCount: number;
+  followerCount: number;
+  profileImageUrl?: string;
+  links: Links[];
 }
 
 interface SideBarProps {
-  name: string;
-  role: string;
-  description: string;
-  likes: number;
-  followers: number;
-  image?: string | StaticImageData;
-  links: Links[];
+  id: number;
   displayStatus: 'myWork' | 'notMyWork';
 }
 
-function SideBar({ name, role, description, likes, followers, image, displayStatus, links }: SideBarProps) {
+function SideBar({ id, displayStatus }: SideBarProps) {
+  const { data } = useQuery<UserData>({
+    queryKey: [QUERY_KEYS.userInfo, id],
+    queryFn: () => getUser(id),
+  });
+
   return (
     <div className="fixed left-36 top-110 h-648 w-260 rounded-sm">
       <div className="absolute -top-10 left-1/2 z-first h-120 w-120 -translate-x-1/2 transform rounded-full">
         <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-full border-2 border-solid border-gray-4 bg-white hover:border-primary-3">
           <Image
-            src={image ? image : defaultProfileImg}
+            src={data?.profileImageUrl ? data.profileImageUrl : defaultProfileImg}
             alt="프로필 이미지"
             className="h-full w-full rounded-full object-cover"
+            objectFit="cover"
+            fill
           />
         </div>
       </div>
@@ -45,43 +64,43 @@ function SideBar({ name, role, description, likes, followers, image, displayStat
             </Link>
           ) : null}
           <div className="flex-grow">
-            <div className="items-center text-center text-18 font-semibold">{name}</div>
-            <p className="text-12 text-gray-9">{role}</p>
+            <div className="items-center text-center text-18 font-semibold">{data?.nickname}</div>
+            <p className="text-12 text-gray-9">{data?.activityArea + ' / ' + data?.activityField}</p>
           </div>
           <div className="mb-16 mt-16 rounded-sm bg-white p-16">
-            <p className="text-12 text-gray-9">{description}</p>
+            <p className="text-12 text-gray-9">{data?.description}</p>
           </div>
           <div className="mb-20 flex items-center justify-between gap-20">
             <span className="count">
-              좋아요&nbsp;&nbsp;<span className="text-14 font-bold">{likes}</span>&nbsp;개
+              좋아요&nbsp;&nbsp;<span className="text-14 font-bold">{data?.totalLikeCount}</span>&nbsp;개
             </span>
             <div className="h-25 w-2 bg-white"></div>
             <span className="count">
-              팔로워 &nbsp;&nbsp;<span className="text-14 font-bold">{followers}</span>&nbsp;명
+              팔로워 &nbsp;&nbsp;<span className="text-14 font-bold">{data?.followerCount}</span>&nbsp;명
             </span>
           </div>
 
           <div className="mb-20 flex flex-col items-start gap-20">
-            {links &&
-              links.map((link) => (
+            {data?.links &&
+              data.links.map((link) => (
                 <Link
                   className=" flex gap-2 text-14 font-semibold"
-                  href={link.url}
-                  key={link.url}
+                  href={link.address}
+                  key={link.linkId}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <LinkIcon />
-                  {link.url.length > 21
-                    ? link.title + ' ' + link.url.slice(0, 21) + '...'
-                    : link.title + ' ' + link.url}
+                  {link.address.length > 21
+                    ? link.title + ' ' + link.address.slice(0, 21) + '...'
+                    : link.title + ' ' + link.address}
                 </Link>
               ))}
           </div>
           {displayStatus === 'myWork' ? (
             <Link href="/editProfile" className="flex w-116 items-center gap-4 text-12 text-gray-9">
               <AddLinkIcon />
-              {links.length < 5 ? '링크 추가하기' : '링크 수정하기'}
+              {data?.links && data.links.length === 5 ? '링크 수정하기' : '링크 추가하기'}
             </Link>
           ) : null}
           {displayStatus === 'notMyWork' ? (

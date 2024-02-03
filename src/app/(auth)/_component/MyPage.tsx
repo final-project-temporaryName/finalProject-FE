@@ -1,38 +1,13 @@
 import CategoryButtonGroup from '@/components/Button/Category/CategoryButtonGroup';
 import NavBar from '@/components/NavBar/NavBar';
 import SideBar from '@/components/SideBar/SideBar';
-import profileImg from '../../../../public/assets/images/하니.jpg';
 import Card from '@/components/Card/Card';
 
 function MyPage() {
-  const MY_PROFILE = {
-    name: '하니',
-    role: '제품디자인 학부생/ 3D Modeling',
-    description: '캐릭터 드로잉 및 3D 목업 제품 작업합니다. (졸작 판매 중)',
-    likes: 230,
-    followers: 20,
-    image: profileImg,
-  };
-
   return (
     <>
       <NavBar />
-      <SideBar
-        name={MY_PROFILE.name}
-        role={MY_PROFILE.role}
-        description={MY_PROFILE.description}
-        likes={MY_PROFILE.likes}
-        followers={MY_PROFILE.followers}
-        image={MY_PROFILE.image}
-        displayStatus="myWork"
-        links={[
-          { title: '유튜브', url: 'https://www.youtube.com/' },
-          { title: '인스타', url: 'https://www.instagram.com/' },
-          { title: '제목3', url: '링크 주소3' },
-          { title: '제목4', url: '링크 주소4' },
-          { title: '제목5', url: '링크 주소5' },
-        ]}
-      />
+      <SideBar id={2} displayStatus="myWork" />
       <main className="ml-330 mt-157">
         <CategoryButtonGroup />
         <Card
