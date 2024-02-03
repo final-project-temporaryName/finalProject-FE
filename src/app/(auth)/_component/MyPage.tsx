@@ -28,9 +28,9 @@ function MyPage() {
         links={[
           { title: '유튜브', url: 'https://www.youtube.com/' },
           { title: '인스타', url: 'https://www.instagram.com/' },
-          { title: '제목3', url: '링크 주소' },
-          { title: '제목4', url: '링크 주소' },
-          { title: '제목5', url: '링크 주소' },
+          { title: '제목3', url: '링크 주소3' },
+          { title: '제목4', url: '링크 주소4' },
+          { title: '제목5', url: '링크 주소5' },
         ]}
       />
       <main className="ml-330 mt-157">
