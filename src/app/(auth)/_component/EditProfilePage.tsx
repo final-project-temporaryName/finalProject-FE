@@ -19,6 +19,12 @@ interface FormData {
 }
 
 function EditProfilePage() {
+  const [uploadedImageUrl, setUploadedImageUrl] = useState('');
+
+  const handleImageUpload = (url: string) => {
+    setUploadedImageUrl(url);
+  };
+
   const {
     handleSubmit,
     register,
@@ -30,10 +36,12 @@ function EditProfilePage() {
 
   const onSubmit = async (data: FormData) => {
     try {
+      data.profileImageUrl = uploadedImageUrl;
+
       // PUT
       const response = await axios.put('/users/4', data);
       console.log(response.data);
-      console.log(1111);
+      console.log(111111);
     } catch (err) {
       console.error(err);
     }
@@ -77,6 +85,7 @@ function EditProfilePage() {
                 accept="image/*"
                 register={register('profileImageUrl')}
                 error={errors.profileImageUrl?.message}
+                onImageUpload={handleImageUpload}
               />
               <Input
                 type="nickname"

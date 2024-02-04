@@ -17,9 +17,21 @@ interface Props {
   accept?: string;
   readOnly?: boolean;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  onImageUpload?: (url: string) => void;
 }
 
-function Input({ label, id, type = 'text', placeholder, error, register, style, readOnly, onChange }: Props) {
+function Input({
+  label,
+  id,
+  type = 'text',
+  placeholder,
+  error,
+  register,
+  style,
+  readOnly,
+  onChange,
+  onImageUpload,
+}: Props) {
   const [profileImage, setProfileImage] = useState<string | null>(null);
 
   const inputClasses = `${style} primary-input rounded-xs ${error ? 'error-class' : ''} ${readOnly ? 'bg-gray-4' : ''}`;
@@ -45,6 +57,11 @@ function Input({ label, id, type = 'text', placeholder, error, register, style, 
           });
           console.log(response.data);
           console.log(1111);
+
+          // 콜백 함수가 있으면 호출하고 업로드된 이미지의 URL을 전달
+          if (onImageUpload) {
+            onImageUpload(response.data.imageUrl);
+          }
         } catch (err) {
           console.error(err);
         }
