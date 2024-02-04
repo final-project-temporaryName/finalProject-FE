@@ -4,11 +4,11 @@ import PrimaryButton from '@/components/Button/PrimaryButton';
 import '@/styles/tailwind.css';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import Modal from '../_components';
 import Image from 'next/image';
-import saleLable from '../../../../public/assets/images/OnSaleImage.png';
+import saleLabel from '../../../../public/assets/images/OnSaleImage.png';
 import BeforeUploadImage from './_components/BeforeUploadImage';
 
 // document가 정의되기 전에 react-quill이 로드 되고, 정의되지 않은 document를 조작하려고 해서 에러가 발생
@@ -18,9 +18,14 @@ const QuillNoSSRWrapper = dynamic(import('react-quill'), {
   loading: () => <p>Loading ...</p>,
 });
 
-// TODO: 이미지에 따른 조건부 렌더링, API 함수 붙이기
+// TODO: API 함수 붙이기
+// TODO: 리액트 훅폼 데이터 붙이기
 export default function UploadModal() {
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState<string>('');
+  const [uploadImageSrc, setUploadImageSrc] = useState<string>();
+
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
   const router = useRouter();
 
   const modules = useMemo(
@@ -42,12 +47,22 @@ export default function UploadModal() {
     router.back();
   };
 
-  const onClickImageUpload = () => {
-    console.log('사진 업로드 API 함수 호출');
-  };
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setDescription(e.target.value);
+  };
+
+  // 타입 수정하기
+  const onUploadImage = (e: any) => {
+    const [file] = e.target.files;
+    const imageUrl = URL.createObjectURL(file);
+    setUploadImageSrc(imageUrl);
+  };
+
+  const handleUploadImage = () => {
+    if (!inputRef.current) {
+      return;
+    }
+    inputRef.current.click();
   };
 
   return (
@@ -55,8 +70,13 @@ export default function UploadModal() {
       <Modal.Header onClickClose={onClickClose} />
       <Modal.Body classname="grid grid-cols-2 h-full">
         <div className="flex h-full w-full items-center justify-center border-r-1 border-solid border-black">
-          {/* 이미지가 있을 시 디폴트 태그들 없애기 - 조건부 렌더링 */}
-          <BeforeUploadImage onClick={onClickImageUpload} />
+          {uploadImageSrc ? (
+            <Image className="h-490 w-490" src={uploadImageSrc} alt="업로드한 이미지" width={490} height={490} />
+          ) : (
+            <BeforeUploadImage onClick={handleUploadImage} />
+          )}
+          {/* 업로드하는 인풋 */}
+          <input className="hidden" type="file" accept="image/*" ref={inputRef} onChange={onUploadImage} />
         </div>
         <div className="relative flex h-full w-full flex-col gap-18 p-20">
           <input
@@ -67,7 +87,7 @@ export default function UploadModal() {
           />
           <div className="absolute right-5 top-0 gap-13">
             <div className="flex items-center justify-center">
-              <Image src={saleLable} alt="세일 라벨" width={30} height={56} />
+              <Image src={saleLabel} alt="세일 라벨" width={30} height={56} />
             </div>
             <div>
               <div className="status-label">게시용</div>
@@ -76,7 +96,7 @@ export default function UploadModal() {
             </div>
           </div>
           <div className="h-333 w-355 p-10">
-            {/* value, onChange, ref 추가 */}
+            {/* ref 추가 */}
             <QuillNoSSRWrapper
               theme="snow"
               id={'description'}
