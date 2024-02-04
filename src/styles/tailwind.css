@@ -86,7 +86,7 @@
 
 /* Input */
 .primary-input {
-  @apply h-40 w-auto border-1 border-[#000] bg-gray-1 px-15 py-11 text-14 focus:outline-none;
+  @apply h-40 w-auto bg-gray-1 px-15 py-11 text-14 focus:outline-none;
 }
 
 .xs-input {
@@ -114,9 +114,13 @@
 }
 
 .file-input-label {
-  @apply inline-block h-95 w-95 cursor-pointer flex-col items-center justify-center rounded-full border-1 border-blue bg-gray-2 text-black;
+  @apply inline-block h-95 w-95 cursor-pointer flex-col items-center justify-center rounded-full bg-white text-black;
 }
 
 .hidden-file-input {
   @apply absolute left-0 top-0 h-95 w-95 opacity-0;
+}
+
+.bg-gray-500 {
+  @apply bg-gray-6;
 }

@@ -14,13 +14,14 @@ interface Props {
   register?: UseFormRegisterReturn;
   style?: string;
   accept?: string;
+  readOnly?: boolean;
 }
 
-function Input({ label, id, type = 'text', placeholder, error, register, style }: Props) {
+function Input({ label, id, type = 'text', placeholder, error, register, style, readOnly }: Props) {
   const [profileImage, setProfileImage] = useState<string | null>(null);
 
-  const inputClasses = `${style} primary-input rounded-xs ${error ? 'error-class' : ''}`;
-  const fileInputClasses = type === 'file' ? inputClasses : `${inputClasses} file-input-wrapper relative`;
+  const inputClasses = `${style} primary-input rounded-xs ${error ? 'error-class' : ''} ${readOnly ? 'bg-gray-4' : ''}`;
+  // const fileInputClasses = type === 'file' ? inputClasses : `${inputClasses} file-input-wrapper relative`;
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -63,7 +64,7 @@ function Input({ label, id, type = 'text', placeholder, error, register, style }
           className="primary-input hidden-file-input"
           onChange={handleFileChange}
         />
-        <label htmlFor={id} className="file-input-label">
+        <label htmlFor={id} className="file-input-label border-1 border-solid border-gray-4">
           <div className="absolute right-25 top-20">
             <UpLoadIcon />
             <div className="mt-2 text-7">사진 가져오기</div>
@@ -79,7 +80,7 @@ function Input({ label, id, type = 'text', placeholder, error, register, style }
   );
 
   const renderInput = () => (
-    <input type={type} id={id} placeholder={placeholder} className={inputClasses} {...register} />
+    <input type={type} id={id} placeholder={placeholder} className={inputClasses} {...register} readOnly={readOnly} />
   );
 
   const renderError = () => error && <p className="text-red">{error}</p>;
@@ -94,3 +95,4 @@ function Input({ label, id, type = 'text', placeholder, error, register, style }
 }
 
 export default Input;
+

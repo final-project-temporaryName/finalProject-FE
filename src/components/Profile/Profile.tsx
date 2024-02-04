@@ -5,7 +5,7 @@ import PlusButtonIcon from '@/components/SvgComponents/PlusButtonIcon/PlusButton
 import { nicknameRules } from '@/constants/InputErrorRules';
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import LinkInput from './LinkInput';
+import LinkInput from '@/components/Input/LinkInput';
 
 function Profile() {
   const [links, setLinks] = useState<{ id: number }[]>([{ id: 0 }]);

@@ -85,7 +85,7 @@ function SideBar({ name, role, description, likes, followers, image, displayStat
             </Link>
           ) : null}
           {displayStatus === 'notMyWork' ? (
-            <Button destination="/chat" style="primary-button nav-chat-button">
+            <Button destination="/chat" classname="primary-button nav-chat-button">
               1:1 대화걸기
             </Button>
           ) : null}

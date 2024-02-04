@@ -20,6 +20,7 @@ function LinkInput({ link, removeLink, index }: LinkInputProps) {
   const [isCheckIconVisible, setIsCheckIconVisible] = useState(true);
   const [isEditIconVisible, setIsEditIconVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [checkIconClicked, setCheckIconClicked] = useState(false);
 
   const handleIconClick = () => {
     setIsLoading(true);
@@ -27,9 +28,11 @@ function LinkInput({ link, removeLink, index }: LinkInputProps) {
     if (isCheckIconVisible) {
       setIsCheckIconVisible(false);
       setIsEditIconVisible(true);
+      setCheckIconClicked(true);
     } else {
       removeLink(link.id);
       setIsCheckIconVisible(true);
+      setCheckIconClicked(false);
     }
 
     setIsLoading(false);
@@ -38,6 +41,7 @@ function LinkInput({ link, removeLink, index }: LinkInputProps) {
   const handleEditIconClick = () => {
     setIsEditIconVisible(false);
     setIsCheckIconVisible(true);
+    setCheckIconClicked(false);
   };
 
   if (isLoading) {
@@ -50,12 +54,14 @@ function LinkInput({ link, removeLink, index }: LinkInputProps) {
         label={index === 0 ? '외부링크' : ' '}
         id={`link${link.id}`}
         placeholder={index === 0 ? 'Behance' : '링크제목'}
-        style="xs-input mr-20"
+        style={checkIconClicked ? 'xs-input mr-20 bg-gray-500' : 'xs-input mr-20'}
+        readOnly={checkIconClicked}
       />
       <Input
         id={`link${link.id}`}
         placeholder={index === 0 ? 'http://behance.com' : '링크 붙여넣기'}
-        style="lg-input mr-10"
+        style={checkIconClicked ? 'lg-input mr-10 bg-gray-500' : 'lg-input mr-10'}
+        readOnly={checkIconClicked}
       />
       <div className="flex-center w-60">
         {isCheckIconVisible ? (
