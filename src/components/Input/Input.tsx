@@ -2,6 +2,7 @@
 
 import PlusButtonIcon from '@/components/SvgComponents/PlusButtonIcon';
 import UpLoadIcon from '@/components/SvgComponents/UpLoadIcon';
+import axios from '@/lib/axios';
 import { ChangeEvent, useState } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
@@ -28,8 +29,25 @@ function Input({ label, id, type = 'text', placeholder, error, register, style, 
     const imgFile = e.target.files[0];
     if (imgFile && imgFile.type.startsWith('image')) {
       const reader = new FileReader();
-      reader.onloadend = () => {
+      reader.onloadend = async () => {
         setProfileImage(reader.result as string);
+
+        // FormData 객체를 생성하고, 파일을 추가합니다.
+        const formData = new FormData();
+        formData.append('file', imgFile);
+
+        try {
+          // POST
+          const response = await axios.post('/images/profile', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+          console.log(response.data);
+          console.log(1111);
+        } catch (err) {
+          console.error(err);
+        }
       };
       reader.readAsDataURL(imgFile);
     }
