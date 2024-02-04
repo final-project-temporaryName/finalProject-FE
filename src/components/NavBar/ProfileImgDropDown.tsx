@@ -6,7 +6,9 @@ import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { useRef } from 'react';
 import ProfileDropDownImg from '../../../public/assets/images/profileDropDown.svg';
+import defaultProfileImg from '../../../public/assets/images/youthLogo.png';
 import { Button } from '../Button';
+import { signOut, useSession } from 'next-auth/react';
 
 interface ProfileImgDropDownProps {
   userName: string;
@@ -25,11 +27,14 @@ function ProfileImgDropDown({ userName, profileImg, major }: ProfileImgDropDownP
     else handleDropDownOpen();
   };
 
+  const handleLogoutClick = async () => {
+    await signOut();
+  };
+
   return (
     <div className="relative flex-shrink-0" ref={containerRef} onClick={handleContainerClick}>
-      {/* 추후 프로필 이미지 없을 시, 띄울 이미지 생기면 이미지 추가하기 */}
       <Image
-        src={profileImg}
+        src={profileImg ? profileImg : defaultProfileImg}
         alt="프로필 이미지"
         width={32}
         height={32}
@@ -42,19 +47,18 @@ function ProfileImgDropDown({ userName, profileImg, major }: ProfileImgDropDownP
             <div className="flex w-full flex-1 flex-col items-stretch justify-between gap-13 px-17 py-23">
               <div className="flex items-center justify-between">
                 <Image
-                  src={profileImg}
+                  src={profileImg ? profileImg : defaultProfileImg}
                   alt="프로필 이미지"
                   width={60}
                   height={60}
-                  style={{ borderRadius: '50%', cursor: 'pointer' }}
+                  style={{ borderRadius: '50%' }}
                 />
                 <div>
                   <p className="text-18 font-semibold">{userName}</p>
                   <p className="text-12 text-gray-5">{major}</p>
                 </div>
               </div>
-              {/* 추후 Link 변경 예정 */}
-              <Button destination="/" classname="primary-button dropdown-mypage-button">
+              <Button destination="/mypage" classname="primary-button dropdown-mypage-button">
                 마이페이지
               </Button>
             </div>
@@ -68,11 +72,10 @@ function ProfileImgDropDown({ userName, profileImg, major }: ProfileImgDropDownP
                 <div className="flex h-50 items-center px-18">문의하기</div>
               </Link>
             </div>
-            <div className="h-50 w-full">
-              {/* 추후 Link 변경 예정 */}
-              <Link href={'/'}>
-                <div className="flex h-50 w-full items-center px-18">로그아웃</div>
-              </Link>
+            <div className="h-50 w-full cursor-pointer">
+              <div onClick={handleLogoutClick} className="flex h-50 w-full items-center px-18">
+                로그아웃
+              </div>
             </div>
           </div>
         </div>
