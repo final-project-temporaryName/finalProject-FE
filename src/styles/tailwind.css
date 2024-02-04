@@ -48,6 +48,10 @@
   @apply h-50 w-196 border-black text-black hover:border-primary hover:bg-primary hover:text-white active:bg-primary active:text-white;
 }
 
+.save-button {
+  @apply flex h-40 w-113 items-center justify-center rounded-[200px] border-1 border-solid border-black px-25 py-10 hover:border-primary hover:bg-primary hover:text-white;
+}
+
 .nav-upload-button {
   @apply h-40 w-109 border-primary bg-white text-black hover:border-primary hover:bg-primary hover:text-white active:bg-primary active:text-white;
 }
@@ -70,4 +74,9 @@
 
 .modal-action-button {
   @apply h-50 w-full cursor-pointer rounded-ml border-none bg-[#0f1419] text-17 text-white hover:bg-[#272c30] disabled:opacity-50;
+}
+
+/* upload label  */
+.status-label {
+  @apply flex h-40 w-74 items-center justify-center text-12 hover:font-bold hover:text-primary focus:font-bold focus:text-primary;
 }
