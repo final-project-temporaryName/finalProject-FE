@@ -1,38 +1,53 @@
 'use client';
 
 import Input from '@/components/Input/Input';
-import BinIcon from '@/components/SvgComponents/BinIcon/BinIcon';
-import CheckIcon from '@/components/SvgComponents/CheckIcon/CheckIcon';
-import EditIcon from '@/components/SvgComponents/EditIcon/EditIcon';
+import BinIcon from '@/components/SvgComponents/BinIcon';
+import CheckIcon from '@/components/SvgComponents/CheckIcon';
+import EditIcon from '@/components/SvgComponents/EditIcon';
+import axios from '@/lib/axios';
 import { useState } from 'react';
 
-interface LinkType {
-  id: number;
-}
-
-interface LinkInputProps {
-  link: LinkType;
+interface Props {
+  link: { id: number };
   removeLink: (id: number) => void;
   index: number;
 }
 
-function LinkInput({ link, removeLink, index }: LinkInputProps) {
-  const [isCheckIconVisible, setIsCheckIconVisible] = useState(true);
+function LinkInput({ link, removeLink, index }: Props) {
   const [isEditIconVisible, setIsEditIconVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [checkIconClicked, setCheckIconClicked] = useState(false);
+  const [title, setTitle] = useState('');
+  const [url, setUrl] = useState('');
+  const [linkId, setLinkId] = useState(null);
 
-  const handleIconClick = () => {
+  const handleCheckIconClick = async () => {
     setIsLoading(true);
+    setCheckIconClicked(true);
+    setIsEditIconVisible(true);
 
-    if (isCheckIconVisible) {
-      setIsCheckIconVisible(false);
-      setIsEditIconVisible(true);
-      setCheckIconClicked(true);
-    } else {
-      removeLink(link.id);
-      setIsCheckIconVisible(true);
-      setCheckIconClicked(false);
+    try {
+      const response = await axios.post('/users/4/links', { title, url });
+      setLinkId(response.data.id);
+    } catch (error) {
+      console.error(error);
+    }
+
+    setIsLoading(false);
+  };
+
+  const handleBinIconClick = async () => {
+    setIsLoading(true);
+    removeLink(link.id);
+    setCheckIconClicked(false);
+
+    if (linkId) {
+      try {
+        await axios.delete(`/users/4/links/${linkId}`);
+        setIsEditIconVisible(false);
+      } catch (error) {
+        console.error(error);
+      }
     }
 
     setIsLoading(false);
@@ -40,13 +55,13 @@ function LinkInput({ link, removeLink, index }: LinkInputProps) {
 
   const handleEditIconClick = () => {
     setIsEditIconVisible(false);
-    setIsCheckIconVisible(true);
+    //setIsCheckIconVisible(true);
     setCheckIconClicked(false);
+
+    // 추후에 PUT 요청 로직 추가
   };
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <div className="flex-start mb-10 flex">
@@ -56,21 +71,23 @@ function LinkInput({ link, removeLink, index }: LinkInputProps) {
         placeholder={index === 0 ? 'Behance' : '링크제목'}
         style={checkIconClicked ? 'xs-input mr-20 bg-gray-500' : 'xs-input mr-20'}
         readOnly={checkIconClicked}
+        onChange={(event) => setTitle(event.target.value)}
       />
       <Input
         id={`link${link.id}`}
         placeholder={index === 0 ? 'http://behance.com' : '링크 붙여넣기'}
         style={checkIconClicked ? 'lg-input mr-10 bg-gray-500' : 'lg-input mr-10'}
         readOnly={checkIconClicked}
+        onChange={(event) => setUrl(event.target.value)}
       />
       <div className="flex-center w-60">
-        {isCheckIconVisible ? (
-          <CheckIcon onClick={handleIconClick} />
-        ) : (
+        {checkIconClicked ? (
           <div className="flex gap-10">
-            <BinIcon onClick={handleIconClick} />
+            <BinIcon onClick={handleBinIconClick} />
             {isEditIconVisible && <EditIcon onClick={handleEditIconClick} />}
           </div>
+        ) : (
+          <CheckIcon onClick={handleCheckIconClick} />
         )}
       </div>
     </div>

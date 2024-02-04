@@ -1,7 +1,7 @@
 'use client';
 
-import PlusButtonIcon from '@/components/SvgComponents/PlusButtonIcon/PlusButtonIcon';
-import UpLoadIcon from '@/components/SvgComponents/UpLoadIcon/UpLoadIcon';
+import PlusButtonIcon from '@/components/SvgComponents/PlusButtonIcon';
+import UpLoadIcon from '@/components/SvgComponents/UpLoadIcon';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import { ChangeEvent, useState } from 'react';
 
@@ -15,9 +15,10 @@ interface Props {
   style?: string;
   accept?: string;
   readOnly?: boolean;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-function Input({ label, id, type = 'text', placeholder, error, register, style, readOnly }: Props) {
+function Input({ label, id, type = 'text', placeholder, error, register, style, readOnly, onChange }: Props) {
   const [profileImage, setProfileImage] = useState<string | null>(null);
 
   const inputClasses = `${style} primary-input rounded-xs ${error ? 'error-class' : ''} ${readOnly ? 'bg-gray-4' : ''}`;
@@ -80,7 +81,15 @@ function Input({ label, id, type = 'text', placeholder, error, register, style, 
   );
 
   const renderInput = () => (
-    <input type={type} id={id} placeholder={placeholder} className={inputClasses} {...register} readOnly={readOnly} />
+    <input
+      type={type}
+      id={id}
+      placeholder={placeholder}
+      className={inputClasses}
+      {...register}
+      readOnly={readOnly}
+      onChange={onChange}
+    />
   );
 
   const renderError = () => error && <p className="text-red">{error}</p>;
@@ -95,4 +104,3 @@ function Input({ label, id, type = 'text', placeholder, error, register, style, 
 }
 
 export default Input;
-

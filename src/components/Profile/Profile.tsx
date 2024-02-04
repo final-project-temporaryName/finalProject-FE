@@ -1,7 +1,7 @@
 'use client';
 
 import Input from '@/components/Input/Input';
-import PlusButtonIcon from '@/components/SvgComponents/PlusButtonIcon/PlusButtonIcon';
+import PlusButtonIcon from '@/components/SvgComponents/PlusButtonIcon';
 import { nicknameRules } from '@/constants/InputErrorRules';
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
