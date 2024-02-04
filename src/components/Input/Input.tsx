@@ -2,8 +2,8 @@
 
 import PlusButtonIcon from '@/components/SvgComponents/PlusButtonIcon';
 import UpLoadIcon from '@/components/SvgComponents/UpLoadIcon';
-import { UseFormRegisterReturn } from 'react-hook-form';
 import { ChangeEvent, useState } from 'react';
+import { UseFormRegisterReturn } from 'react-hook-form';
 
 interface Props {
   label?: string;
@@ -22,7 +22,6 @@ function Input({ label, id, type = 'text', placeholder, error, register, style, 
   const [profileImage, setProfileImage] = useState<string | null>(null);
 
   const inputClasses = `${style} primary-input rounded-xs ${error ? 'error-class' : ''} ${readOnly ? 'bg-gray-4' : ''}`;
-  // const fileInputClasses = type === 'file' ? inputClasses : `${inputClasses} file-input-wrapper relative`;
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -92,7 +91,7 @@ function Input({ label, id, type = 'text', placeholder, error, register, style, 
     />
   );
 
-  const renderError = () => error && <p className="text-red">{error}</p>;
+  const renderError = () => error && <p className="text-red text-10">{error}</p>;
 
   return (
     <div className="flex-center">

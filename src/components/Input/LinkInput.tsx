@@ -6,11 +6,14 @@ import CheckIcon from '@/components/SvgComponents/CheckIcon';
 import EditIcon from '@/components/SvgComponents/EditIcon';
 import axios from '@/lib/axios';
 import { useState } from 'react';
+import { UseFormRegister, UseFormWatch } from 'react-hook-form';
 
 interface Props {
   link: { id: number };
   removeLink: (id: number) => void;
   index: number;
+  register: UseFormRegister<any>;
+  watch: UseFormWatch<any>;
 }
 
 function LinkInput({ link, removeLink, index }: Props) {
@@ -55,7 +58,6 @@ function LinkInput({ link, removeLink, index }: Props) {
 
   const handleEditIconClick = () => {
     setIsEditIconVisible(false);
-    //setIsCheckIconVisible(true);
     setCheckIconClicked(false);
 
     // 추후에 PUT 요청 로직 추가
