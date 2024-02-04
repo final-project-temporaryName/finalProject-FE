@@ -7,6 +7,27 @@ import MessageIcon from '../../../public/assets/icons/message.svg';
 import profileImage from '../../../public/assets/images/하니.jpg';
 import { Button } from '../Button';
 import ProfileImgDropDown from './ProfileImgDropDown';
+import { getUser } from '@/api/users/getUser';
+import { useQuery } from '@tanstack/react-query';
+import QUERY_KEYS from '@/api/queryKeys';
+
+interface Links {
+  title: string;
+  address: string;
+  linkId: number;
+}
+
+interface UserData {
+  nickname: string;
+  activityArea: string;
+  activityField: string;
+  userId: number;
+  description: string;
+  totalLikeCount: number;
+  followerCount: number;
+  profileImageUrl?: string;
+  links: Links[];
+}
 
 function NavigatorBox() {
   const { data: session } = useSession();
@@ -17,12 +38,20 @@ function NavigatorBox() {
     major: '제품디자인 학부생/3D Modeling',
   };
 
+  const id = 2;
+  const { data } = useQuery<UserData>({
+    queryKey: [QUERY_KEYS.userInfo, id],
+    queryFn: () => getUser(id),
+  });
+
   return (
     <div className="flex h-40 min-w-170 flex-shrink-0 items-center justify-between gap-40">
       <Link href={'/chatroom'}>
         <MessageIcon />
       </Link>
-      {session && <ProfileImgDropDown userName={auth.userName} profileImg={auth.image} major={auth.major} />}
+      {session && data && (
+        <ProfileImgDropDown userName={data.nickname} profileImg={data.profileImageUrl} major={data.activityField} />
+      )}
       {session ? (
         // 추후 작품 업로드 Link 수정 예정
         <Button destination="/upload" classname="primary-button nav-upload-button">
