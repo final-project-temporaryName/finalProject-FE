@@ -23,7 +23,7 @@ function CategoryButtonGroup() {
   };
 
   return (
-    <div className="fixed flex gap-40 align-middle">
+    <div className="flex gap-40 align-middle">
       {labelTexts.map((labelText, idx) => (
         <Button.Category
           key={idx}
