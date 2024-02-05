@@ -14,6 +14,7 @@ export default function RedirectToHome() {
     const { accessToken, refreshToken, userRole } = response;
     window.localStorage.setItem('youth-accessToken', accessToken);
     window.localStorage.setItem('youth-refreshToken', refreshToken);
+    // userRole zustand 저장
   };
 
   useEffect(() => {
