@@ -7,7 +7,7 @@ interface Props {
 
 export default function Layout({ children, modal }: Props) {
   return (
-    <div className="h-dvh w-dvw bg-white">
+    <div className="h-vh w-vw bg-white">
       {children}
       {modal}
     </div>

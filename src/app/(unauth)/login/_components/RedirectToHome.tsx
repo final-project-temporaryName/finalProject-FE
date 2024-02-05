@@ -10,7 +10,10 @@ export default function RedirectToHome() {
   const { data: session } = useSession();
 
   const handleUserId = async () => {
-    await postUserId(session?.user.id);
+    const response = await postUserId(session?.user.id);
+    const { accessToken, refreshToken, userRole } = response;
+    window.localStorage.setItem('youth-accessToken', accessToken);
+    window.localStorage.setItem('youth-refreshToken', refreshToken);
   };
 
   useEffect(() => {

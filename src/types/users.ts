@@ -27,7 +27,6 @@ export interface PostSignUpRequestType {
   nickname: string; // Required 값
   major: string;
   description: string;
-  links: PostUserLinks[];
   profileImageUrl: string;
 }
 
