@@ -1,4 +1,5 @@
 import Card from './Card';
+import NoContent from './NoContent';
 
 interface CardData {
   saleStatus: 'isFree' | 'forSale' | 'notForSale';
@@ -272,10 +273,13 @@ function CardContainer() {
       displayStatus: 'myWork',
     },
   ];
-
+  console.log(data.length);
   return (
-    <div className="mt-25 flex h-auto w-auto flex-wrap gap-33">
-      {data &&
+    <div
+      style={{ height: data && data.length > 0 ? 'auto' : '50vh' }}
+      className={`${data && data.length > 0 ? 'mt-25 flex h-auto w-auto flex-wrap gap-33' : 'mt-25 flex w-full items-center justify-center'}`}
+    >
+      {data && data.length > 0 ? (
         data.map((card) => (
           <Card
             saleStatus={card.saleStatus}
@@ -290,7 +294,10 @@ function CardContainer() {
             authorUrl={card.authorUrl}
             displayStatus={card.displayStatus}
           />
-        ))}
+        ))
+      ) : (
+        <NoContent />
+      )}
     </div>
   );
 }
