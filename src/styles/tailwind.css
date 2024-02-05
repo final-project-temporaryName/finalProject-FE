@@ -82,5 +82,5 @@
 
 /* upload label  */
 .status-label {
-  @apply flex h-40 w-74 items-center justify-center text-12 hover:font-bold hover:text-primary focus:font-bold focus:text-primary;
+  @apply flex h-40 w-74 items-center justify-center text-12 hover:font-bold hover:text-primary;
 }

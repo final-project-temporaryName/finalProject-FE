@@ -1,4 +1,3 @@
-import React from 'react';
 import UploadImage from '../../../../..//public/assets/icons/cloud_upload.svg';
 
 interface BeforeUploadImageProps {

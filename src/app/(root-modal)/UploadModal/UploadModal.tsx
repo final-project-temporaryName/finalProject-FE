@@ -3,13 +3,15 @@
 import PrimaryButton from '@/components/Button/PrimaryButton';
 import '@/styles/tailwind.css';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useMemo, useRef, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
-import Modal from '../_components';
-import Image from 'next/image';
 import saleLabel from '../../../../public/assets/images/OnSaleImage.png';
+import freeLabel from '../../../../public/assets/images/FreeImage.png';
+import Modal from '../_components';
 import BeforeUploadImage from './_components/BeforeUploadImage';
+import StatusLabels from './_components/StatusLabels';
 
 // document가 정의되기 전에 react-quill이 로드 되고, 정의되지 않은 document를 조작하려고 해서 에러가 발생
 // 그래서 lazy-load하기 위해 dynamic import 사용
@@ -22,7 +24,10 @@ const QuillNoSSRWrapper = dynamic(import('react-quill'), {
 // TODO: 리액트 훅폼 데이터 붙이기
 export default function UploadModal() {
   const [description, setDescription] = useState<string>('');
-  const [uploadImageSrc, setUploadImageSrc] = useState<string>();
+  const [uploadImageSources, setUploadImageSources] = useState<string[]>([]);
+  const [isPost, setIsPost] = useState(false);
+  const [isSale, setIsSale] = useState(false);
+  const [isFree, setIsFree] = useState(false);
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -41,42 +46,79 @@ export default function UploadModal() {
     [],
   );
 
-  const formats = ['font', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'list', 'bullet'];
+  const formats = useMemo(() => ['font', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'list', 'bullet'], []);
 
   const onClickClose = () => {
     router.back();
   };
 
+  // 에디터 관련 함수
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setDescription(e.target.value);
   };
 
-  // 타입 수정하기
-  const onUploadImage = (e: any) => {
-    const [file] = e.target.files;
-    const imageUrl = URL.createObjectURL(file);
-    setUploadImageSrc(imageUrl);
+  // 이미지 업로드 관련 함수
+  const handleUploadImage = (e: any) => {
+    const fileList = e.target.files;
+    let imageUrlList = [...uploadImageSources];
+
+    // 조건문이 0
+    for (let i = 0; i <= imageUrlList.length; i++) {
+      console.log(fileList[i]);
+      const currentImageUrl = URL.createObjectURL(fileList[i]);
+      imageUrlList.push(currentImageUrl);
+    }
+
+    if (imageUrlList.length > 10) {
+      imageUrlList = imageUrlList.slice(0, 10);
+    }
+    setUploadImageSources(imageUrlList);
   };
 
-  const handleUploadImage = () => {
+  const handleUploadImageButton = () => {
     if (!inputRef.current) {
       return;
     }
-    inputRef.current.click();
+    inputRef.current?.click();
+  };
+
+  const handleDeleteImage = (id: number) => {
+    setUploadImageSources(uploadImageSources.filter((_, index) => index !== id));
   };
 
   return (
     <Modal.Container onClickClose={onClickClose} classname="modalContainer">
       <Modal.Header onClickClose={onClickClose} />
       <Modal.Body classname="grid grid-cols-2 h-full">
-        <div className="flex h-full w-full items-center justify-center border-r-1 border-solid border-black">
-          {uploadImageSrc ? (
-            <Image className="h-490 w-490" src={uploadImageSrc} alt="업로드한 이미지" width={490} height={490} />
+        <div className="relative flex h-full w-full items-center justify-center border-r-1 border-solid border-black">
+          {uploadImageSources.length ? (
+            <>
+              {uploadImageSources.map((uploadImageSource) => {
+                <Image
+                  className="object-contain"
+                  src={uploadImageSource}
+                  alt="업로드한 이미지"
+                  width={490}
+                  height={490}
+                />;
+              })}
+              <button className="absolute right-5 top-5" onClick={() => handleDeleteImage}>
+                <svg
+                  width={24}
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  className="r-18jsvk2 r-4qtqp9 r-yyyyoo r-z80fyv r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-19wmn03"
+                >
+                  <g>
+                    <path d="M10.59 12L4.54 5.96l1.42-1.42L12 10.59l6.04-6.05 1.42 1.42L13.41 12l6.05 6.04-1.42 1.42L12 13.41l-6.04 6.05-1.42-1.42L10.59 12z"></path>
+                  </g>
+                </svg>
+              </button>
+            </>
           ) : (
-            <BeforeUploadImage onClick={handleUploadImage} />
+            <BeforeUploadImage onClick={handleUploadImageButton} />
           )}
-          {/* 업로드하는 인풋 */}
-          <input className="hidden" type="file" accept="image/*" ref={inputRef} onChange={onUploadImage} />
+          <input className="hidden" type="file" accept="image/*" multiple ref={inputRef} onChange={handleUploadImage} />
         </div>
         <div className="relative flex h-full w-full flex-col gap-18 p-20">
           <input
@@ -87,13 +129,18 @@ export default function UploadModal() {
           />
           <div className="absolute right-5 top-0 gap-13">
             <div className="flex items-center justify-center">
-              <Image src={saleLabel} alt="세일 라벨" width={30} height={56} />
+              {isFree || isSale || <div className="h-57 w-30"></div>}
+              {isSale && <Image src={saleLabel} alt="판매용 라벨 이미지" width={30} height={56} />}
+              {isFree && <Image src={freeLabel} alt="나눔용 라벨 이미지" width={30} height={56} />}
             </div>
-            <div>
-              <div className="status-label">게시용</div>
-              <div className="status-label">판매용</div>
-              <div className="status-label">나눔용</div>
-            </div>
+            <StatusLabels
+              isPost={isPost}
+              isSale={isSale}
+              isFree={isFree}
+              setIsPost={setIsPost}
+              setIsSale={setIsSale}
+              setIsFree={setIsFree}
+            />
           </div>
           <div className="h-333 w-355 p-10">
             {/* ref 추가 */}
