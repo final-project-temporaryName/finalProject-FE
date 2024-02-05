@@ -19,6 +19,8 @@ function NaverLoginButton() {
     }
   };
 
+  console.log(session);
+
   return (
     <button
       className="flex-center h-42 w-369 gap-16 rounded-sm border-1 border-solid border-gray-3 bg-[#04cf5c] hover:bg-[#2fad66]"
