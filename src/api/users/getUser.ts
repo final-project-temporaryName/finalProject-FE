@@ -18,9 +18,9 @@ interface UserData {
   links: Links[];
 }
 
-export default async function getUser(id: number): Promise<UserData> {
+export default async function getUser(id: number) {
   const url = `users/${id}`;
-  const response = await request({ url });
+  const response = await request<UserData>({ url });
 
-  return response as UserData;
+  return response;
 }
