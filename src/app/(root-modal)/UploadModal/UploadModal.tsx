@@ -106,8 +106,8 @@ export default function UploadModal() {
   return (
     <Modal.Container onClickClose={onClickClose} classname="modalContainer">
       <Modal.Header onClickClose={onClickClose} />
-      <Modal.Body classname="grid grid-cols-2 h-full">
-        <form onSubmit={handleClickSave}>
+      <form onSubmit={handleClickSave}>
+        <Modal.Body classname="grid grid-cols-2 h-full">
           <div className="relative flex h-full w-full items-center justify-center border-r-1 border-solid border-black">
             {uploadImageSources.length ? (
               <>
@@ -192,8 +192,8 @@ export default function UploadModal() {
               </PrimaryButton>
             </div>
           </div>
-        </form>
-      </Modal.Body>
+        </Modal.Body>
+      </form>
     </Modal.Container>
   );
 }
