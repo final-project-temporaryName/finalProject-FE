@@ -1,31 +1,37 @@
 export interface UserType {
   userId: number;
   nickname: string;
-  major: string;
+  activityField: string;
+  activityArea: string;
   description: string;
-  links: GetUserLinks[]; // Maximum Length 정해야할 듯 (3~5개?)
   profileImageUrl: string;
   totalLikeCount: number;
   followerCount: number;
+  links: GetUserLinks[];
 }
 
-// 팔로잉, 찜
+export interface GetMyInfo {
+  userId: number;
+  userRole: 'associate' | 'regular';
+}
 
 export interface GetUserLinks {
-  id: number;
+  linkId: number;
   title: string;
   address: string;
 }
 
 export interface PostUserLinks {
   title: string;
-  address: string;
+  url: string;
 }
 
+// userLink 삭제는 userId, linkId 를 query로 요청
+
 export interface PostSignUpRequestType {
-  userEmail: string;
-  nickname: string; // Required 값
-  major: string;
+  nickname: string;
+  activityField: string;
+  activityArea: string;
   description: string;
   profileImageUrl: string;
 }
@@ -33,10 +39,10 @@ export interface PostSignUpRequestType {
 export interface PostSignUpResPonseType extends UserType {}
 
 export interface PutUserInfoRequestType {
-  nickname: string; // 변경 가능?
-  major: string;
+  nickname: string;
+  activityField: string;
+  activityArea: string;
   description: string;
-  links: PostUserLinks[];
   profileImageUrl: string;
 }
 
