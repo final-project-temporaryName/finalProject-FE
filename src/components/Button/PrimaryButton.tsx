@@ -6,7 +6,7 @@ interface Props {
   destination: string;
   classname: string;
   children: ReactNode;
-  type: 'button' | 'reset' | 'submit' | undefined;
+  type?: 'button' | 'reset' | 'submit' | undefined;
 }
 
 // destination: 사용할 때 props에 이동할 Route를 string 형태로 넣어주세요.
