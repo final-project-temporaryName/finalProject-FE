@@ -11,13 +11,16 @@ interface Props {
   id: string;
   type?: 'text' | 'nickname' | 'file';
   placeholder?: string;
-  error?: string;
+  error?: any;
   register?: UseFormRegisterReturn;
   style?: string;
   accept?: string;
   readOnly?: boolean;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   onImageUpload?: (url: string) => void;
+  nicknameError?: string | null;
+  value?: string;
+  onBlur?: any;
 }
 
 function Input({
@@ -31,10 +34,13 @@ function Input({
   readOnly,
   onChange,
   onImageUpload,
+  nicknameError,
+  value,
+  onBlur,
 }: Props) {
   const [profileImage, setProfileImage] = useState<string | null>(null);
 
-  const inputClasses = `${style} primary-input rounded-xs ${error ? 'error-class' : ''} ${readOnly ? 'bg-gray-4' : ''}`;
+  const inputClasses = `${style} primary-input rounded-xs ${error ? 'text-red text-10' : ''} ${readOnly ? 'bg-gray-4' : ''}`;
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -58,7 +64,6 @@ function Input({
           console.log(response.data);
           console.log(1111);
 
-          // 콜백 함수가 있으면 호출하고 업로드된 이미지의 URL을 전달
           if (onImageUpload) {
             onImageUpload(response.data.imageUrl);
           }
@@ -115,24 +120,28 @@ function Input({
   );
 
   const renderInput = () => (
-    <input
-      type={type}
-      id={id}
-      placeholder={placeholder}
-      className={inputClasses}
-      {...register}
-      readOnly={readOnly}
-      onChange={onChange}
-    />
+    <div className="flex-row">
+      <input
+        type={type}
+        id={id}
+        placeholder={placeholder}
+        className={inputClasses}
+        {...register}
+        readOnly={readOnly}
+        onChange={onChange}
+        value={value}
+        onBlur={onBlur}
+      />
+      {type === 'nickname' && (
+        <p className={error || nicknameError ? 'text-red text-10' : 'text-10 text-blue'}>{error || nicknameError}</p>
+      )}
+    </div>
   );
-
-  const renderError = () => error && <p className="text-red text-10">{error}</p>;
 
   return (
     <div className="flex-center">
       {renderLabel()}
       {type === 'file' ? renderFileInput() : renderInput()}
-      {renderError()}
     </div>
   );
 }

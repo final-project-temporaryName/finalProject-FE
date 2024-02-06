@@ -20,6 +20,8 @@ interface FormData {
 
 function EditProfilePage() {
   const [uploadedImageUrl, setUploadedImageUrl] = useState('');
+  const [nicknameError, setNicknameError] = useState<string | null>(null);
+  const [hasLinkError, setHasLinkError] = useState(false);
 
   const handleImageUpload = (url: string) => {
     setUploadedImageUrl(url);
@@ -30,7 +32,9 @@ function EditProfilePage() {
     register,
     watch,
     formState: { errors },
-  } = useForm<FormData>();
+    setError,
+    // trigger,
+  } = useForm<FormData>({ mode: 'all' });
   const [links, setLinks] = useState<{ id: number }[]>([{ id: 0 }]);
   const idCount = useRef(1); // useRef를 사용하여 idCount를 관리
 
@@ -62,7 +66,15 @@ function EditProfilePage() {
 
   const renderLinks = () =>
     links.map((link, index) => (
-      <LinkInput key={link.id} link={link} removeLink={removeLink} index={index} register={register} watch={watch} />
+      <LinkInput
+        key={link.id}
+        link={link}
+        removeLink={removeLink}
+        index={index}
+        register={register}
+        watch={watch}
+        handleLinkErrorUpdate={handleLinkErrorUpdate}
+      />
     ));
 
   const renderAddButton = () =>
@@ -71,6 +83,54 @@ function EditProfilePage() {
         <PlusButtonIcon />
       </button>
     );
+
+  // const checkNickname = async () => {
+  //   const nickname = watch('nickname');
+
+  //   try {
+  //     const response = await axios.get(`/users/check?nickname=${nickname}`);
+
+  //     if (response.data.message) {
+  //       // 에러 상태 저장
+  //       setNicknameError(response.data.message);
+  //     } else {
+  //       // 에러 없을 경우, 에러 상태 초기화
+  //       setNicknameError(null);
+  //     }
+  //   } catch (error: any) {
+  //     console.error('Nickname check failed:', error.response?.data, error.message);
+  //   }
+  // };
+  const checkNickname = async () => {
+    const nickname = watch('nickname');
+
+    try {
+      const response = await axios.get(`/users/check?nickname=${nickname}`);
+
+      if (response.data.message) {
+        // 에러 상태 저장
+        setNicknameError(response.data.message);
+
+        // nickname 필드의 에러 설정
+        setError('nickname', {
+          type: 'manual',
+          message: response.data.message,
+        });
+
+        // nickname 필드의 유효성 검사 트리거
+        // await trigger('nickname');
+      } else {
+        // 에러 없을 경우, 에러 상태 초기화
+        setNicknameError(null);
+      }
+    } catch (error: any) {
+      console.error('Nickname check failed:', error.response?.data, error.message);
+    }
+  };
+
+  const handleLinkErrorUpdate = (hasError: boolean) => {
+    setHasLinkError(hasError);
+  };
 
   return (
     <>
@@ -84,20 +144,26 @@ function EditProfilePage() {
                 id="image_file"
                 accept="image/*"
                 register={register('profileImageUrl')}
-                error={errors.profileImageUrl?.message}
                 onImageUpload={handleImageUpload}
               />
               <Input
                 type="nickname"
                 label="닉네임"
-                id="name"
+                id="nickname"
                 placeholder="작가명을 써주세요"
                 style="md-input relative"
                 register={register('nickname', nicknameRules)}
-                error={errors.nickname?.message}
+                error={errors.nickname?.message || nicknameError}
+                nicknameError={nicknameError}
               />
               <div className="absolute left-170 top-27 text-[#C90000]">*</div>
-              <button className="primary-button duplication-button justify-center">중복확인</button>
+              <button
+                type="button"
+                className="primary-button duplication-button justify-center"
+                onClick={checkNickname}
+              >
+                중복확인
+              </button>
             </div>
             <div className="mt-30 flex gap-33">
               <Input
@@ -106,7 +172,6 @@ function EditProfilePage() {
                 placeholder="이태원"
                 style="sm-input"
                 register={register('activityArea')}
-                error={errors.activityArea?.message}
               />
               <Input
                 label="활동분야"
@@ -114,7 +179,6 @@ function EditProfilePage() {
                 placeholder="3D Art"
                 style="sm-input"
                 register={register('activityField')}
-                error={errors.activityField?.message}
               />
             </div>
             <div className="my-40 flex">
@@ -134,7 +198,11 @@ function EditProfilePage() {
           </div>
         </div>
         <div className="absolute right-200 mt-100">
-          <button type="submit" className="primary-button storage-button">
+          <button
+            type="submit"
+            className={`primary-button storage-button ${hasLinkError ? 'disabled' : ''}`}
+            disabled={hasLinkError}
+          >
             저장하기
           </button>
         </div>
