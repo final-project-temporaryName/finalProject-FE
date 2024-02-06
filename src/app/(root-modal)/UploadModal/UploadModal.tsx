@@ -10,7 +10,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Quill from 'react-quill';
 import 'react-quill/dist/quill.bubble.css';
-import freeLabel from '../../../../public/assets/images/FreeImage.png';
+import freeLabel from '../../../../public/assets/images/freeFlag.png';
 import saleLabel from '../../../../public/assets/images/OnSaleImage.png';
 import Modal from '../_components';
 import BeforeUploadImage from './_components/BeforeUploadImage';
