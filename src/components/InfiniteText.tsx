@@ -24,6 +24,18 @@ function InfiniteText({ text }: Props) {
           <div id="flow-wrap" className="animate-textLoop group-hover:animate-pause pr-[1.488vw]">
             {text}
           </div>
+          <div id="flow-wrap" className="animate-textLoop group-hover:animate-pause pr-[1.488vw]">
+            {text}
+          </div>
+          <div id="flow-wrap" className="animate-textLoop group-hover:animate-pause pr-[1.488vw]">
+            {text}
+          </div>
+          <div id="flow-wrap" className="animate-textLoop group-hover:animate-pause pr-[1.488vw]">
+            {text}
+          </div>
+          <div id="flow-wrap" className="animate-textLoop group-hover:animate-pause pr-[1.488vw]">
+            {text}
+          </div>
         </div>
       </div>
     </Link>
