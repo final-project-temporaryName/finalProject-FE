@@ -12,7 +12,7 @@ import { signOut } from 'next-auth/react';
 
 interface ProfileImgDropDownProps {
   userName: string;
-  profileImg: string | StaticImageData; // StaticImageData 타입은 추후 서버 연결되면 삭제 예정
+  profileImg: string | undefined;
   major: string;
 }
 
