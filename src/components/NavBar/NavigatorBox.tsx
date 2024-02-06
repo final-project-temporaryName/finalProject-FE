@@ -1,34 +1,16 @@
-'use client';
-
 import '@/styles/tailwind.css';
 import Link from 'next/link';
-import MessageIcon from '../../../public/assets/icons/message.svg';
 import profileImage from '../../../public/assets/images/하니.jpg';
 import { Button } from '../Button';
 import ProfileImgDropDown from './ProfileImgDropDown';
-import { getUser } from '@/api/users/getUser';
-import { useQuery } from '@tanstack/react-query';
-import QUERY_KEYS from '@/api/queryKeys';
+import getUser from '@/api/users/getUser';
+import MessageIcon from './MessageIcon';
 
-interface Links {
-  title: string;
-  address: string;
-  linkId: number;
+interface NavigatorBoxProps {
+  id: number;
 }
 
-interface UserData {
-  nickname: string;
-  activityArea: string;
-  activityField: string;
-  userId: number;
-  description: string;
-  totalLikeCount: number;
-  followerCount: number;
-  profileImageUrl?: string;
-  links: Links[];
-}
-
-function NavigatorBox() {
+async function NavigatorBox({ id }: NavigatorBoxProps) {
   const auth = {
     userName: '하니',
     image: profileImage,
@@ -36,11 +18,7 @@ function NavigatorBox() {
     isLogin: true,
   };
 
-  const id = 2;
-  const { data } = useQuery<UserData>({
-    queryKey: [QUERY_KEYS.userInfo, id],
-    queryFn: () => getUser(id),
-  });
+  const data = await getUser(id);
 
   return (
     <div className="flex h-40 min-w-170 flex-shrink-0 items-center justify-between gap-40">
