@@ -6,18 +6,14 @@ import ProfileImgDropDown from './ProfileImgDropDown';
 import getUser from '@/api/users/getUser';
 import MessageIcon from './MessageIcon';
 
-interface NavigatorBoxProps {
-  id: number;
-}
-
-async function NavigatorBox({ id }: NavigatorBoxProps) {
+async function NavigatorBox() {
   const auth = {
     userName: '하니',
     image: profileImage,
     major: '제품디자인 학부생/3D Modeling',
     isLogin: true,
   };
-
+  const id = 2;
   const data = await getUser(id);
 
   return (

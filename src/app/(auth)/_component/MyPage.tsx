@@ -6,7 +6,7 @@ import CardContainer from '@/components/Card/CardContainer';
 function MyPage() {
   return (
     <>
-      <NavBar id={2} />
+      <NavBar />
       <SideBar id={2} displayStatus="myWork" />
       <main className="ml-330 mt-157">
         <CategoryButtonGroup />
