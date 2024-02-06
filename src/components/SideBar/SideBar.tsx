@@ -1,45 +1,22 @@
 'use client';
 
 import '@/styles/tailwind.css';
-import Image, { StaticImageData } from 'next/image';
+import Image from 'next/image';
 import Link from 'next/link';
 import EditIcon from './EditIcon';
 import AddLinkIcon from './AddLinkIcon';
 import defaultProfileImg from '../../../public/assets/images/youthLogo.png';
 import { Button } from '@/components/Button';
 import LinkIcon from './LinkIcon';
-import { useQuery } from '@tanstack/react-query';
-import QUERY_KEYS from '@/api/queryKeys';
-import { getUser } from '@/api/users/getUser';
-
-interface Links {
-  title: string;
-  address: string;
-  linkId: number;
-}
-
-interface UserData {
-  nickname: string;
-  activityArea: string;
-  activityField: string;
-  userId: number;
-  description: string;
-  totalLikeCount: number;
-  followerCount: number;
-  profileImageUrl?: string;
-  links: Links[];
-}
+import getUser from '@/api/users/getUser';
 
 interface SideBarProps {
   id: number;
   displayStatus: 'myWork' | 'notMyWork';
 }
 
-function SideBar({ id, displayStatus }: SideBarProps) {
-  const { data } = useQuery<UserData>({
-    queryKey: [QUERY_KEYS.userInfo, id],
-    queryFn: () => getUser(id),
-  });
+async function SideBar({ id, displayStatus }: SideBarProps) {
+  const data = await getUser(id);
 
   return (
     <div className="fixed left-36 top-110 h-648 w-260 rounded-sm">

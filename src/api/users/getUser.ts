@@ -1,11 +1,26 @@
-import instance from '@/lib/axios';
-import { BASE_URL } from '@/api/baseUrl';
+import { request } from '@/api/fetchRequestHandler';
 
-export const getUser = async (id: number) => {
-  try {
-    const response = await instance.get(`${BASE_URL}users/${id}`);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-  }
-};
+interface Links {
+  title: string;
+  address: string;
+  linkId: number;
+}
+
+interface UserData {
+  nickname: string;
+  activityArea: string;
+  activityField: string;
+  userId: number;
+  description: string;
+  totalLikeCount: number;
+  followerCount: number;
+  profileImageUrl?: string;
+  links: Links[];
+}
+
+export default async function getUser(id: number): Promise<UserData> {
+  const url = `users/${id}`;
+  const response = await request({ url });
+
+  return response as UserData;
+}
