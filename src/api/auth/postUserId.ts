@@ -1,4 +1,5 @@
 import instance from '@/lib/axios';
+import { AxiosError, isAxiosError } from 'axios';
 
 export const postUserId = async (id: string | undefined) => {
   try {
@@ -6,7 +7,9 @@ export const postUserId = async (id: string | undefined) => {
       id: id,
     });
     return response.data;
-  } catch (error: any) {
-    return error.response;
+  } catch (error) {
+    if (isAxiosError<AxiosError>(error)) {
+      return error.response?.data.message;
+    }
   }
 };

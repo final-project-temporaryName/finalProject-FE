@@ -8,7 +8,7 @@ import { useRef } from 'react';
 import ProfileDropDownImg from '../../../public/assets/images/profileDropDown.svg';
 import defaultProfileImg from '../../../public/assets/images/youthLogo.png';
 import { Button } from '../Button';
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 
 interface ProfileImgDropDownProps {
   userName: string;
