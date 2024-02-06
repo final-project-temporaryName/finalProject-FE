@@ -6,7 +6,7 @@ import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { useRef } from 'react';
 import ProfileDropDownImg from '../../../public/assets/images/profileDropDown.svg';
-import defaultProfileImg from '../../../public/assets/images/youthLogo.png';
+import defaultProfileImg from '../../../public/assets/images/logo.png';
 import { Button } from '../Button';
 import { signOut } from 'next-auth/react';
 
