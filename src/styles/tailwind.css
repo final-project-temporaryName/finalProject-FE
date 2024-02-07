@@ -49,7 +49,7 @@
 }
 
 .save-button {
-  @apply flex h-40 w-113 items-center justify-center rounded-[200px] border-1 border-solid border-black px-25 py-10 hover:border-primary hover:bg-primary hover:text-white;
+  @apply flex h-40 w-113 items-center justify-center rounded-[200px] border-1 border-solid border-black px-25 py-10 hover:border-primary hover:bg-primary hover:text-white disabled:bg-gray-1;
 }
 
 .nav-upload-button {
