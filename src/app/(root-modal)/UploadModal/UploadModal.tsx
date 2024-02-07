@@ -37,13 +37,14 @@ export default function UploadModal() {
   };
 
   const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
     const files = e.target.files;
     let imageUrlList = [...uploadImageSources];
-    if (!files) return;
     const fileList = Array.from(files);
 
     fileList.forEach((file) => {
       const currentImageUrl = URL.createObjectURL(file);
+      // TODO: api image 1개 api 추가 (currentImageUrl를 담아서 사용, mutate)
       imageUrlList.push(currentImageUrl);
     });
 
@@ -53,6 +54,7 @@ export default function UploadModal() {
     setUploadImageSources(imageUrlList);
   };
 
+  // TODO: api image delete 로직 추가
   const handleDeleteImage = (index: number) => {
     setUploadImageSources(uploadImageSources.filter((_, i) => i !== index));
   };
@@ -73,16 +75,15 @@ export default function UploadModal() {
             <>
               {uploadImageSources.map((uploadImageSource, index) => {
                 return (
-                  <>
+                  <div key={index} className="relative">
                     <Image
-                      id={uploadImageSource}
                       className="object-contain"
                       src={uploadImageSource}
                       alt="업로드한 이미지"
                       width={490}
                       height={490}
                     />
-                    <button className="absolute right-5 top-5" onClick={() => handleDeleteImage}>
+                    <button className="absolute right-5 top-5" onClick={() => handleDeleteImage(index)}>
                       <svg
                         width={24}
                         viewBox="0 0 24 24"
@@ -94,7 +95,7 @@ export default function UploadModal() {
                         </g>
                       </svg>
                     </button>
-                  </>
+                  </div>
                 );
               })}
             </>
