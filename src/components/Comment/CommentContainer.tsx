@@ -9,6 +9,7 @@ import RedLike from './RedLike';
 import WhiteLike from './WhiteLike';
 import CommentSend from './CommentSend';
 import { useForm } from 'react-hook-form';
+import Comment from './Comment';
 
 interface CommentContainerProps {
   likeCount: number;
@@ -71,6 +72,12 @@ function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentCon
       </div>
       <div className="absolute right-20" style={{ top: '-10px' }}>
         {artworkStatus === 'SELLING' ? <Selling /> : artworkStatus === 'FREE' ? <Free /> : null}
+      </div>
+      <div className="flex flex-col p-20 pb-7">
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
       </div>
 
       <form className="flex items-center gap-13 p-20 pb-36" onSubmit={handleSubmit(onValid)}>
