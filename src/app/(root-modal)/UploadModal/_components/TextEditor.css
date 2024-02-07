@@ -1,0 +1,14 @@
+.ql-container {
+  max-height: 333px;
+}
+
+.ql-editor {
+  padding: 10px 10px;
+  max-height: 300px;
+  overflow-y: scroll;
+}
+
+.ql-editor.ql-blank::before {
+  font-style: unset;
+  padding-left: -20px;
+}

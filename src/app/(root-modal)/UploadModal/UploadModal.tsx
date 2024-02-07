@@ -1,38 +1,26 @@
 'use client';
 
-import PrimaryButton from '@/components/Button/PrimaryButton';
+import { Button } from '@/components/Button';
 import '@/styles/tailwind.css';
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useMemo, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import 'react-quill/dist/quill.bubble.css';
+import SellingLabelImg from '../../../../public/assets/icons/saleFlag.svg';
+import ShareLabelImg from '../../../../public/assets/icons/shareFlag.svg';
 import Modal from '../_components';
 import BeforeUploadImage from './_components/BeforeUploadImage';
+import StatusLabelsGroup from './_components/StatusLabelsGroup';
 import TextEditor from './_components/TextEditor';
-import { Button } from '@/components/Button';
-
-const QuillNoSSRWrapper = dynamic(() => import('react-quill'), {
-  ssr: false,
-  loading: () => <p>Loading ...</p>,
-});
 
 // TODO: API 함수 붙이기
 export default function UploadModal() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [uploadImageSources, setUploadImageSources] = useState<string[]>([]);
-  const [label, setLabel] = useState<{
-    value: 'post' | 'sale' | 'free';
-  }>({
-    value: 'post',
-  });
-  // const [isPost, setIsPost] = useState(false);
-  // const [isSale, setIsSale] = useState(false);
-  // const [isFree, setIsFree] = useState(false);
+  const [label, setLabel] = useState<'PUBLIC' | 'SELLING' | 'FREE'>('PUBLIC');
 
   const inputRef = useRef<HTMLInputElement | null>(null);
-  // const editorRef = useRef<Quill & { editor: QuillEditor }>(null);
 
   const router = useRouter();
 
@@ -45,7 +33,7 @@ export default function UploadModal() {
   };
 
   const handleSaveClick = () => {
-    console.log(title, description);
+    console.log(title, description, label);
   };
 
   const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,11 +63,6 @@ export default function UploadModal() {
     }
     inputRef.current?.click();
   };
-
-  // // 리액트 퀼 맞춤법 검사 기능 해제
-  // useEffect(() => {
-  //   editorRef.current?.editor.root.setAttribute('spellcheck', 'false');
-  // }, []);
 
   return (
     <Modal.Container onClickClose={onClickClose} classname="modalContainer">
@@ -141,13 +124,21 @@ export default function UploadModal() {
           <TextEditor value={description} setValue={setDescription} />
           <div className="flex justify-end">
             <Button.Modal.Action
-              disabled={!title && (!description || description === '<p><br></p>')}
+              disabled={!title || !description || description === '<p><br></p>'}
               wrapperStyle=""
               buttonStyle="save-button"
               onClick={handleSaveClick}
             >
               저장하기
             </Button.Modal.Action>
+          </div>
+          <div className="flex-col-center absolute right-20 top-0 gap-25">
+            <div>
+              {label === 'PUBLIC' && <div className="h-57"></div>}
+              {label === 'SELLING' && <SellingLabelImg />}
+              {label === 'FREE' && <ShareLabelImg />}
+            </div>
+            <StatusLabelsGroup setValue={setLabel} />
           </div>
         </div>
       </Modal.Body>

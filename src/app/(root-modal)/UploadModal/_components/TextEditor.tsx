@@ -1,7 +1,8 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
+import { Dispatch, SetStateAction, useMemo } from 'react';
+import './TextEditor.css';
 
 const QuillNoSSRWrapper = dynamic(() => import('react-quill'), {
   ssr: false,
