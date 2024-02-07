@@ -110,6 +110,9 @@ const config: Config = {
       animation: {
         textLoop: 'textLoop 10s linear infinite',
       },
+      boxShadow: {
+        top: '0 -4px 6px -1px rgba(0, 0, 0, 0.18)',
+      },
     },
   },
   plugins: [],
