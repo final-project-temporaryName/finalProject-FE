@@ -21,6 +21,37 @@ interface InputForm {
   comment?: string;
 }
 
+interface CommentData {
+  imageUrl: string;
+  nickName: string;
+  createdAt: string;
+  description: string;
+}
+
+const data: CommentData[] = [
+  {
+    imageUrl:
+      'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    nickName: 'Elon Musk',
+    createdAt: '2024년 2월 7일',
+    description: '내가 본 것 중에서 단연 최고였다. 와우~',
+  },
+  {
+    imageUrl:
+      'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    nickName: 'Elon Musk',
+    createdAt: '2024년 2월 7일',
+    description: 'Awesome !!!!!',
+  },
+  {
+    imageUrl:
+      'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    nickName: 'Elon Musk',
+    createdAt: '2024년 2월 7일',
+    description: 'Slay',
+  },
+];
+
 function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentContainerProps) {
   const [isLikeClicked, setIsLikeClicked] = useState(false);
   const [isCommentClicked, setIsCommentClicked] = useState(false);
@@ -74,10 +105,16 @@ function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentCon
         {artworkStatus === 'SELLING' ? <Selling /> : artworkStatus === 'FREE' ? <Free /> : null}
       </div>
       <div className="flex flex-col p-20 pb-7">
-        <Comment />
-        <Comment />
-        <Comment />
-        <Comment />
+        {data &&
+          data.length > 0 &&
+          data.map((comment) => (
+            <Comment
+              imageUrl={comment.imageUrl}
+              nickName={comment.nickName}
+              createdAt={comment.createdAt}
+              description={comment.description}
+            />
+          ))}
       </div>
 
       <form className="flex items-center gap-13 p-20 pb-36" onSubmit={handleSubmit(onValid)}>
