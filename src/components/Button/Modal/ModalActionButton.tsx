@@ -4,7 +4,7 @@ interface Props {
   disabled: boolean;
   wrapperStyle: string;
   buttonStyle: string;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 function ModalActionButton({ disabled, wrapperStyle, buttonStyle, onClick, children }: PropsWithChildren<Props>) {
