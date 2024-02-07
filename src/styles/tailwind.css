@@ -12,8 +12,8 @@
 /* LoginModal */
 /* SignupModal */
 
-.loginModalContainer {
-  @apply relative top-[5%] flex h-450 w-600 flex-col rounded-md bg-white;
+.modalContainer {
+  @apply relative top-[10%] flex h-560 w-900 flex-col rounded-md bg-white;
 }
 
 .modalInput {
@@ -48,6 +48,10 @@
   @apply h-50 w-196 border-black text-black hover:border-primary hover:bg-primary hover:text-white active:bg-primary active:text-white;
 }
 
+.save-button {
+  @apply flex h-40 w-113 items-center justify-center rounded-[200px] border-1 border-solid border-black px-25 py-10 hover:border-primary hover:bg-primary hover:text-white disabled:border-gray-1 disabled:bg-gray-1 disabled:text-gray-3;
+}
+
 .nav-upload-button {
   @apply h-40 w-109 border-primary bg-white text-black hover:border-primary hover:bg-primary hover:text-white active:bg-primary active:text-white;
 }
@@ -72,6 +76,19 @@
   @apply flex justify-center gap-10 rounded-md  border-2 border-solid border-gray-4 bg-white px-23 py-5 text-center align-middle text-18 text-black;
 }
 
+.label-button {
+  @apply flex justify-center gap-10 rounded-md border-[1.55px] border-solid border-white bg-white px-12 py-4 text-center align-middle text-12 text-black focus:border-[1.55px] focus:border-solid focus:border-primary focus:text-primary;
+}
+
+.label-button-focus {
+  @apply flex justify-center gap-10 rounded-md  border-[1.55px] border-solid border-primary bg-white px-12 py-4 text-center align-middle text-12 text-primary;
+}
+
 .modal-action-button {
   @apply h-50 w-full cursor-pointer rounded-ml border-none bg-[#0f1419] text-17 text-white hover:bg-[#272c30] disabled:opacity-50;
+}
+
+/* upload label  */
+.status-label {
+  @apply flex h-40 w-74 items-center justify-center text-12 hover:font-bold hover:text-primary;
 }
