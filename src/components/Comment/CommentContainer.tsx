@@ -7,16 +7,23 @@ import WhiteComment from './WhiteComment';
 import BlackComment from './BlackComment';
 import RedLike from './RedLike';
 import WhiteLike from './WhiteLike';
+import CommentSend from './CommentSend';
+import { useForm } from 'react-hook-form';
 
-interface CommentProps {
+interface CommentContainerProps {
   likeCount: number;
   commentCount: number;
   artworkStatus: 'PUBLIC' | 'SELLING' | 'FREE';
 }
 
-function Comment({ likeCount, commentCount, artworkStatus }: CommentProps) {
+interface InputForm {
+  comment?: string;
+}
+
+function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentContainerProps) {
   const [isLikeClicked, setIsLikeClicked] = useState(false);
   const [isCommentClicked, setIsCommentClicked] = useState(false);
+  const { register, handleSubmit } = useForm();
 
   const handleLikeClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -28,12 +35,16 @@ function Comment({ likeCount, commentCount, artworkStatus }: CommentProps) {
     setIsCommentClicked((prev) => !prev);
   };
 
+  const onValid = (data: InputForm) => {
+    console.log('제출 버튼 클릭됨!');
+  };
+
   return (
     <div
       className={
         isCommentClicked
-          ? 'shadow-top relative h-500 w-full min-w-400 rounded-t-sm bg-primary-1'
-          : 'shadow-top relative h-55 w-full min-w-400 rounded-t-sm bg-primary-1'
+          ? 'shadow-top relative h-auto w-full min-w-400 rounded-t-sm bg-primary-1'
+          : 'shadow-top relative h-55 w-full min-w-400 overflow-y-hidden rounded-t-sm bg-primary-1'
       }
     >
       <div className="ml-20 flex gap-5">
@@ -61,8 +72,20 @@ function Comment({ likeCount, commentCount, artworkStatus }: CommentProps) {
       <div className="absolute right-20" style={{ top: '-10px' }}>
         {artworkStatus === 'SELLING' ? <Selling /> : artworkStatus === 'FREE' ? <Free /> : null}
       </div>
+
+      <form className="flex items-center gap-13 p-20 pb-36" onSubmit={handleSubmit(onValid)}>
+        <input
+          type="text"
+          className="w-full rounded-sm bg-white px-20 py-10 text-15"
+          placeholder="작가에게 한마디 남겨보세요!"
+          {...register('comment')}
+        />
+        <button title="submit" type="submit">
+          <CommentSend />
+        </button>
+      </form>
     </div>
   );
 }
 
-export default Comment;
+export default CommentContainer;
