@@ -7,7 +7,7 @@ interface CategoryButtonProps {
   type: 'Category' | 'Label';
   labelText: string;
   isActive: boolean;
-  setValue: Dispatch<SetStateAction<'PUBLIC' | 'SELLING' | 'FREE'>>;
+  setValue?: Dispatch<SetStateAction<'PUBLIC' | 'SELLING' | 'FREE'>>;
   onClick?: (buttonLabel: string) => void;
 }
 
@@ -21,7 +21,7 @@ function CategoryButton({ type, labelText, isActive, setValue, onClick }: Catego
   }
 
   const handleButtonClick = () => {
-    if (onClick) {
+    if (onClick && setValue) {
       onClick(labelText);
       if (labelText === '게시용') {
         setValue('PUBLIC');
