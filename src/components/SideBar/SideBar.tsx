@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import EditIcon from './EditIcon';
 import AddLinkIcon from './AddLinkIcon';
-import defaultProfileImg from '../../../public/assets/images/youthLogo.png';
+import defaultProfileImg from '../../../public/assets/images/logo.png';
 import { Button } from '@/components/Button';
 import LinkIcon from './LinkIcon';
 import getUser from '@/api/users/getUser';
