@@ -2,7 +2,7 @@
 
 /* Navbar component */
 .navBar {
-  @apply fixed left-0 top-0 z-first flex h-80 w-full items-center justify-between gap-40 bg-gray-1 px-44 py-20 backdrop-blur-md;
+  @apply left-0 top-0 z-first flex h-80 w-full items-center justify-between gap-40 bg-gray-1 px-44 py-20 backdrop-blur-md;
 }
 
 .navSearchBar {

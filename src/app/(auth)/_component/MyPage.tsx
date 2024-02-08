@@ -8,7 +8,7 @@ function MyPage() {
     <>
       <NavBar />
       <SideBar id={2} displayStatus="myWork" />
-      <main className="ml-330 mt-157">
+      <main className="ml-330 mt-77">
         <CategoryButtonGroup />
         <CardContainer />
       </main>
