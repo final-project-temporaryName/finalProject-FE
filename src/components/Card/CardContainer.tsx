@@ -2,6 +2,7 @@ import Card from './Card';
 import NoContent from './NoContent';
 
 interface CardData {
+  id: number;
   saleStatus: 'isFree' | 'forSale' | 'notForSale';
   workImageUrl: string;
   workTitle: string;
@@ -18,6 +19,7 @@ interface CardData {
 function CardContainer() {
   const data: CardData[] = [
     {
+      id: 1,
       saleStatus: 'isFree',
       workImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -33,6 +35,7 @@ function CardContainer() {
       displayStatus: 'myWork',
     },
     {
+      id: 2,
       saleStatus: 'isFree',
       workImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -48,6 +51,7 @@ function CardContainer() {
       displayStatus: 'myWork',
     },
     {
+      id: 3,
       saleStatus: 'isFree',
       workImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -63,6 +67,7 @@ function CardContainer() {
       displayStatus: 'myWork',
     },
     {
+      id: 4,
       saleStatus: 'isFree',
       workImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -78,6 +83,7 @@ function CardContainer() {
       displayStatus: 'myWork',
     },
     {
+      id: 5,
       saleStatus: 'isFree',
       workImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -93,6 +99,7 @@ function CardContainer() {
       displayStatus: 'myWork',
     },
     {
+      id: 6,
       saleStatus: 'isFree',
       workImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -108,6 +115,7 @@ function CardContainer() {
       displayStatus: 'myWork',
     },
     {
+      id: 7,
       saleStatus: 'isFree',
       workImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -123,6 +131,7 @@ function CardContainer() {
       displayStatus: 'myWork',
     },
     {
+      id: 8,
       saleStatus: 'isFree',
       workImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -138,6 +147,7 @@ function CardContainer() {
       displayStatus: 'myWork',
     },
     {
+      id: 9,
       saleStatus: 'isFree',
       workImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -153,6 +163,7 @@ function CardContainer() {
       displayStatus: 'myWork',
     },
     {
+      id: 10,
       saleStatus: 'isFree',
       workImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -168,6 +179,7 @@ function CardContainer() {
       displayStatus: 'myWork',
     },
     {
+      id: 11,
       saleStatus: 'isFree',
       workImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -183,6 +195,7 @@ function CardContainer() {
       displayStatus: 'myWork',
     },
     {
+      id: 12,
       saleStatus: 'isFree',
       workImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -198,6 +211,7 @@ function CardContainer() {
       displayStatus: 'myWork',
     },
     {
+      id: 13,
       saleStatus: 'isFree',
       workImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -213,6 +227,7 @@ function CardContainer() {
       displayStatus: 'myWork',
     },
     {
+      id: 14,
       saleStatus: 'isFree',
       workImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -228,6 +243,7 @@ function CardContainer() {
       displayStatus: 'myWork',
     },
     {
+      id: 15,
       saleStatus: 'isFree',
       workImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -243,6 +259,7 @@ function CardContainer() {
       displayStatus: 'myWork',
     },
     {
+      id: 16,
       saleStatus: 'isFree',
       workImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -258,6 +275,7 @@ function CardContainer() {
       displayStatus: 'myWork',
     },
     {
+      id: 17,
       saleStatus: 'isFree',
       workImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -282,6 +300,7 @@ function CardContainer() {
       {data && data.length > 0 ? (
         data.map((card) => (
           <Card
+            key={card.id}
             saleStatus={card.saleStatus}
             workImageUrl={card.workImageUrl}
             workTitle={card.workTitle}

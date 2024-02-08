@@ -40,9 +40,10 @@ function Card({
       <Link href={workUrl}>
         <div id="cardImgBox" className="group relative h-280 w-280 overflow-hidden">
           <Image
-            className="rounded-md object-cover transition-all duration-200 ease-linear group-hover:scale-[1.2]"
+            className="rounded-md transition-all duration-200 ease-linear group-hover:scale-[1.2]"
             src={workImageUrl}
             alt="카드 이미지"
+            style={{ objectFit: 'cover' }}
             priority
             fill
           />
