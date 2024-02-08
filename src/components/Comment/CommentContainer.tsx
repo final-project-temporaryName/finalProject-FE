@@ -72,62 +72,67 @@ function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentCon
   };
 
   return (
-    <div
-      className={
-        isCommentClicked
-          ? 'shadow-top relative h-auto w-full min-w-400 rounded-t-sm bg-primary-1'
-          : 'shadow-top relative h-55 w-full min-w-400 overflow-y-hidden rounded-t-sm bg-primary-1'
-      }
-    >
-      <div className="ml-20 flex gap-5">
-        <button
-          className="mt-7 flex items-center"
-          onClick={(e) => {
-            handleLikeClick(e);
-          }}
-        >
-          {isLikeClicked ? <RedLike /> : <WhiteLike />}
-          <p className="mb-3 text-12">{likeCount < 1000 ? likeCount : (likeCount / 1000).toFixed(1) + 'k'}</p>
-        </button>
-        <button
-          className="mt-7 flex items-center"
-          onClick={(e) => {
-            handleCommentClick(e);
-          }}
-        >
-          {isCommentClicked ? <WhiteComment /> : <BlackComment />}
-          <p className="mb-3 text-12">
-            댓글 {commentCount < 1000 ? commentCount : (commentCount / 1000).toFixed(1) + 'k'}
-          </p>
-        </button>
-      </div>
-      <div className="absolute right-20" style={{ top: '-10px' }}>
+    <div className="relative w-full">
+      <div className="absolute right-20" style={{ top: '-10px', zIndex: '2' }}>
         {artworkStatus === 'SELLING' ? <Selling /> : artworkStatus === 'FREE' ? <Free /> : null}
       </div>
-      <div className="flex flex-col p-20 pb-7">
-        {data &&
-          data.length > 0 &&
-          data.map((comment) => (
-            <Comment
-              imageUrl={comment.imageUrl}
-              nickName={comment.nickName}
-              createdAt={comment.createdAt}
-              description={comment.description}
-            />
-          ))}
-      </div>
+      <div
+        className={
+          isCommentClicked
+            ? 'h-auto w-full min-w-360 rounded-t-sm bg-primary-1 shadow-top'
+            : 'h-55 w-full min-w-360 overflow-y-hidden rounded-t-sm bg-primary-1 shadow-top'
+        }
+      >
+        <div className="ml-20 flex gap-5">
+          <button
+            className="mt-7 flex items-center"
+            onClick={(e) => {
+              handleLikeClick(e);
+            }}
+          >
+            {isLikeClicked ? <RedLike /> : <WhiteLike />}
+            <p className="mb-3 text-12">{likeCount < 1000 ? likeCount : (likeCount / 1000).toFixed(1) + 'k'}</p>
+          </button>
+          <button
+            className="mt-7 flex items-center"
+            onClick={(e) => {
+              handleCommentClick(e);
+            }}
+          >
+            {isCommentClicked ? <WhiteComment /> : <BlackComment />}
+            <p className="mb-3 text-12">
+              댓글 {commentCount < 1000 ? commentCount : (commentCount / 1000).toFixed(1) + 'k'}
+            </p>
+          </button>
+        </div>
+        {/* <div className="absolute right-20" style={{ top: '-10px' }}>
+        {artworkStatus === 'SELLING' ? <Selling /> : artworkStatus === 'FREE' ? <Free /> : null}
+      </div> */}
+        <div className="flex flex-col p-20 pb-7">
+          {data &&
+            data.length > 0 &&
+            data.map((comment) => (
+              <Comment
+                imageUrl={comment.imageUrl}
+                nickName={comment.nickName}
+                createdAt={comment.createdAt}
+                description={comment.description}
+              />
+            ))}
+        </div>
 
-      <form className="flex items-center gap-13 p-20 pb-36" onSubmit={handleSubmit(onValid)}>
-        <input
-          type="text"
-          className="w-full rounded-sm bg-white px-20 py-10 text-15"
-          placeholder="작가에게 한마디 남겨보세요!"
-          {...register('comment')}
-        />
-        <button title="submit" type="submit">
-          <CommentSend />
-        </button>
-      </form>
+        <form className="flex items-center gap-13 p-20 pb-36" onSubmit={handleSubmit(onValid)}>
+          <input
+            type="text"
+            className="w-full rounded-sm bg-white px-20 py-10 text-15"
+            placeholder="작가에게 한마디 남겨보세요!"
+            {...register('comment')}
+          />
+          <button title="submit" type="submit">
+            <CommentSend />
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

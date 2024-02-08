@@ -1,5 +1,3 @@
-import CommentContainer from '@/components/Comment/CommentContainer';
-
 function Main() {
   return (
     // 현재는 테스트 페이지
