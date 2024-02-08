@@ -69,19 +69,27 @@
 }
 
 .category-button {
-  @apply flex justify-center gap-10 rounded-md border-2 border-solid border-white bg-white px-23 py-5 text-center align-middle text-18 text-gray-4 focus:border-2 focus:border-solid focus:border-gray-4 focus:text-black;
+  @apply flex justify-center gap-10 rounded-ml border-2 border-solid border-white bg-white px-23 py-5 text-center align-middle text-18 text-gray-4 hover:text-black;
 }
 
 .category-button-focus {
-  @apply flex justify-center gap-10 rounded-md  border-2 border-solid border-gray-4 bg-white px-23 py-5 text-center align-middle text-18 text-black;
+  @apply flex justify-center gap-10 rounded-ml  border-2 border-solid border-gray-4 bg-white px-23 py-5 text-center align-middle text-18 text-black;
 }
 
-.label-button {
-  @apply flex justify-center gap-10 rounded-md border-[1.55px] border-solid border-white bg-white px-12 py-4 text-center align-middle text-12 text-black focus:border-[1.55px] focus:border-solid focus:border-primary focus:text-primary;
+.status-label-button {
+  @apply flex justify-center gap-10 rounded-md border-[1.55px] border-solid border-white bg-white px-12 py-4 text-center align-middle text-12 text-black hover:text-primary;
 }
 
-.label-button-focus {
+.status-label-button-focus {
   @apply flex justify-center gap-10 rounded-md  border-[1.55px] border-solid border-primary bg-white px-12 py-4 text-center align-middle text-12 text-primary;
+}
+
+.main-label-button {
+  @apply flex justify-center bg-white text-center align-middle text-18 text-gray-3 hover:text-primary-3;
+}
+
+.main-label-button-focus {
+  @apply flex justify-center bg-white text-center align-middle text-18 font-bold text-primary;
 }
 
 .modal-action-button {

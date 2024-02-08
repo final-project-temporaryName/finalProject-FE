@@ -11,10 +11,10 @@ enum ButtonCategoryText {
 }
 
 interface Props {
-  setValue: Dispatch<SetStateAction<'PUBLIC' | 'SELLING' | 'FREE'>>;
+  setStatusValue: Dispatch<SetStateAction<'PUBLIC' | 'SELLING' | 'FREE'>>;
 }
 
-function StatusLabelsGroup({ setValue }: Props) {
+function StatusLabelsGroup({ setStatusValue }: Props) {
   const [content, setContent] = useState('');
   const labelTexts: ButtonCategoryText[] = [
     ButtonCategoryText.POST, // 게시용
@@ -32,9 +32,9 @@ function StatusLabelsGroup({ setValue }: Props) {
         <Button.Category
           key={idx}
           labelText={labelText}
-          type="Label"
+          type="StatusLabel"
           onClick={handleActive}
-          setValue={setValue}
+          setStatusValue={setStatusValue}
           isActive={content ? content === labelText : labelText === '게시용'}
         />
       ))}
