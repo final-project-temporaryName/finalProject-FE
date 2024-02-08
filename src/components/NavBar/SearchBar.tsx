@@ -43,7 +43,7 @@ function SearchBar() {
     <form className="navSearchBar" onSubmit={handleSubmit(onValid)}>
       <input
         type="text"
-        className="w-full flex-shrink text-14 text-gray-5"
+        className="w-full flex-shrink bg-gray-1 text-14 text-gray-8 placeholder:text-gray-5"
         placeholder="‘감성도자기’ ‘수상작’ 을 검색해 보세요!"
         {...register('query')}
       />
