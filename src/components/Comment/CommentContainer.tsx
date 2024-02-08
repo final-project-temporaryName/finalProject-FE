@@ -87,13 +87,23 @@ function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentCon
       >
         <div className="ml-20 flex gap-5">
           <button
-            className="mt-7 flex items-center"
+            className="mt-7 flex w-50 items-center"
             onClick={(e) => {
               handleLikeClick(e);
             }}
           >
-            {isLikeClicked ? <RedLike /> : <WhiteLike />}
-            <p className="mb-3 text-12">{likeCount < 1000 ? likeCount : (likeCount / 1000).toFixed(1) + 'k'}</p>
+            {isLikeClicked ? (
+              <div>
+                <RedLike />
+              </div>
+            ) : (
+              <div className="pl-3 pr-5">
+                <WhiteLike />
+              </div>
+            )}
+            <p className={isLikeClicked ? 'mb-3 text-12 text-primary-4' : 'mb-3 text-12'}>
+              {likeCount < 1000 ? likeCount : (likeCount / 1000).toFixed(1) + 'k'}
+            </p>
           </button>
           <button
             className="mt-7 flex items-center"
