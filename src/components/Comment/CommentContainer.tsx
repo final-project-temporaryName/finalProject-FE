@@ -105,9 +105,6 @@ function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentCon
             </p>
           </button>
         </div>
-        {/* <div className="absolute right-20" style={{ top: '-10px' }}>
-        {artworkStatus === 'SELLING' ? <Selling /> : artworkStatus === 'FREE' ? <Free /> : null}
-      </div> */}
         <div className="flex flex-col p-20 pb-7">
           {data &&
             data.length > 0 &&
