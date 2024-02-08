@@ -48,7 +48,7 @@ function SearchBar() {
         {...register('query')}
       />
       {isSearchClicked && watchedValue && (
-        <button type="button" onClick={(e) => handleClearClick(e)}>
+        <button type="button" onClick={(e) => handleClearClick(e)} title="cancel">
           <CancelIcon />
         </button>
       )}

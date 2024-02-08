@@ -8,10 +8,12 @@ import logoImg from '../../../public/assets/images/logo.png';
 function NavBar() {
   return (
     <nav className="navBar">
-      <Link href={'/'} className="shrink-0">
-        <Image src={logoImg} alt="아트 톡톡 로고" width={85} height={85} />
-      </Link>
-      <SearchBar />
+      <div className="flex flex-grow items-center justify-start gap-40">
+        <Link href={'/'} className="shrink-0">
+          <Image src={logoImg} alt="아트 톡톡 로고" width={85} height={85} />
+        </Link>
+        <SearchBar />
+      </div>
       <NavigatorBox />
     </nav>
   );

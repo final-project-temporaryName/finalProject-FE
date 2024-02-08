@@ -21,8 +21,10 @@ function CategoryButton({ type, labelText, isActive, setValue, onClick }: Catego
   }
 
   const handleButtonClick = () => {
-    if (onClick && setValue) {
+    if (onClick) {
       onClick(labelText);
+    }
+    if (setValue) {
       if (labelText === '게시용') {
         setValue('PUBLIC');
       } else if (labelText === '판매용') {
