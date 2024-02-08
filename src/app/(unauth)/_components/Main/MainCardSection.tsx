@@ -1,5 +1,6 @@
 'use client';
 
+import CardContainer from '@/components/Card/CardContainer';
 import { useState } from 'react';
 import MainLabelsGroup from './MainLabelsGroup';
 
@@ -9,6 +10,7 @@ function MainCardSection() {
   return (
     <div className="flex-col-center mt-20">
       <MainLabelsGroup setMainValue={setLabel} />
+      <CardContainer />
     </div>
   );
 }

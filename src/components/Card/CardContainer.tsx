@@ -1,317 +1,289 @@
+'use client';
+
+import { CardType } from '@/types/cards';
+import { usePathname } from 'next/navigation';
 import Card from './Card';
 import NoContent from './NoContent';
 
-interface CardData {
-  id: number;
-  saleStatus: 'isFree' | 'forSale' | 'notForSale';
-  workImageUrl: string;
-  workTitle: string;
-  likeCount: number;
-  viewCount: number;
-  commentCount: number;
-  profileImageUrl: string;
-  authorName: string;
-  workUrl: string;
-  authorUrl: string;
-  displayStatus: 'myWork' | 'notMyWork';
-}
-
 function CardContainer() {
-  const data: CardData[] = [
+  const pathname = usePathname();
+
+  const data: CardType[] = [
     {
-      id: 1,
-      saleStatus: 'isFree',
-      workImageUrl:
+      artworkId: 1,
+      title: '모의 작품 제목 1',
+      description: '모의 작품 설명 1',
+      artworkStatus: 'SHARE',
+      thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      workTitle: '모의 작품 제목 1',
       likeCount: 1100,
       viewCount: 999,
       commentCount: 1,
-      profileImageUrl:
+      artistId: 1,
+      artistName: '모의 작가 이름 1',
+      artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      authorName: '모의 작가이름 1',
-      workUrl: '/1',
-      authorUrl: '/author1',
-      displayStatus: 'myWork',
+      createdAt: '2024-01-29T07:21:26.100Z',
+      updatedAt: '2024-01-29T07:21:26.100Z',
     },
     {
-      id: 2,
-      saleStatus: 'isFree',
-      workImageUrl:
+      artworkId: 2,
+      title: '모의 작품 제목 1',
+      description: '모의 작품 설명 1',
+      artworkStatus: 'SHARE',
+      thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      workTitle: '모의 작품 제목 2',
-      likeCount: 900,
-      viewCount: 777,
-      commentCount: 3,
-      profileImageUrl:
+      likeCount: 1100,
+      viewCount: 999,
+      commentCount: 1,
+      artistId: 1,
+      artistName: '모의 작가 이름 1',
+      artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      authorName: '모의 작가이름 2',
-      workUrl: '/2',
-      authorUrl: '/author2',
-      displayStatus: 'myWork',
+      createdAt: '2024-01-29T07:21:26.100Z',
+      updatedAt: '2024-01-29T07:21:26.100Z',
     },
     {
-      id: 3,
-      saleStatus: 'isFree',
-      workImageUrl:
+      artworkId: 3,
+      title: '모의 작품 제목 1',
+      description: '모의 작품 설명 1',
+      artworkStatus: 'SHARE',
+      thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      workTitle: '모의 작품 제목 2',
-      likeCount: 900,
-      viewCount: 777,
-      commentCount: 3,
-      profileImageUrl:
+      likeCount: 1100,
+      viewCount: 999,
+      commentCount: 1,
+      artistId: 1,
+      artistName: '모의 작가 이름 1',
+      artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      authorName: '모의 작가이름 2',
-      workUrl: '/2',
-      authorUrl: '/author2',
-      displayStatus: 'myWork',
+      createdAt: '2024-01-29T07:21:26.100Z',
+      updatedAt: '2024-01-29T07:21:26.100Z',
     },
     {
-      id: 4,
-      saleStatus: 'isFree',
-      workImageUrl:
+      artworkId: 4,
+      title: '모의 작품 제목 1',
+      description: '모의 작품 설명 1',
+      artworkStatus: 'SHARE',
+      thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      workTitle: '모의 작품 제목 2',
-      likeCount: 900,
-      viewCount: 777,
-      commentCount: 3,
-      profileImageUrl:
+      likeCount: 1100,
+      viewCount: 999,
+      commentCount: 1,
+      artistId: 1,
+      artistName: '모의 작가 이름 1',
+      artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      authorName: '모의 작가이름 2',
-      workUrl: '/2',
-      authorUrl: '/author2',
-      displayStatus: 'myWork',
+      createdAt: '2024-01-29T07:21:26.100Z',
+      updatedAt: '2024-01-29T07:21:26.100Z',
     },
     {
-      id: 5,
-      saleStatus: 'isFree',
-      workImageUrl:
+      artworkId: 5,
+      title: '모의 작품 제목 1',
+      description: '모의 작품 설명 1',
+      artworkStatus: 'SHARE',
+      thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      workTitle: '모의 작품 제목 2',
-      likeCount: 900,
-      viewCount: 777,
-      commentCount: 3,
-      profileImageUrl:
+      likeCount: 1100,
+      viewCount: 999,
+      commentCount: 1,
+      artistId: 1,
+      artistName: '모의 작가 이름 1',
+      artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      authorName: '모의 작가이름 2',
-      workUrl: '/2',
-      authorUrl: '/author2',
-      displayStatus: 'myWork',
+      createdAt: '2024-01-29T07:21:26.100Z',
+      updatedAt: '2024-01-29T07:21:26.100Z',
     },
     {
-      id: 6,
-      saleStatus: 'isFree',
-      workImageUrl:
+      artworkId: 6,
+      title: '모의 작품 제목 1',
+      description: '모의 작품 설명 1',
+      artworkStatus: 'SHARE',
+      thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      workTitle: '모의 작품 제목 2',
-      likeCount: 900,
-      viewCount: 777,
-      commentCount: 3,
-      profileImageUrl:
+      likeCount: 1100,
+      viewCount: 999,
+      commentCount: 1,
+      artistId: 1,
+      artistName: '모의 작가 이름 1',
+      artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      authorName: '모의 작가이름 2',
-      workUrl: '/2',
-      authorUrl: '/author2',
-      displayStatus: 'myWork',
+      createdAt: '2024-01-29T07:21:26.100Z',
+      updatedAt: '2024-01-29T07:21:26.100Z',
     },
     {
-      id: 7,
-      saleStatus: 'isFree',
-      workImageUrl:
+      artworkId: 7,
+      title: '모의 작품 제목 1',
+      description: '모의 작품 설명 1',
+      artworkStatus: 'SHARE',
+      thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      workTitle: '모의 작품 제목 2',
-      likeCount: 900,
-      viewCount: 777,
-      commentCount: 3,
-      profileImageUrl:
+      likeCount: 1100,
+      viewCount: 999,
+      commentCount: 1,
+      artistId: 1,
+      artistName: '모의 작가 이름 1',
+      artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      authorName: '모의 작가이름 2',
-      workUrl: '/2',
-      authorUrl: '/author2',
-      displayStatus: 'myWork',
+      createdAt: '2024-01-29T07:21:26.100Z',
+      updatedAt: '2024-01-29T07:21:26.100Z',
     },
     {
-      id: 8,
-      saleStatus: 'isFree',
-      workImageUrl:
+      artworkId: 8,
+      title: '모의 작품 제목 1',
+      description: '모의 작품 설명 1',
+      artworkStatus: 'SHARE',
+      thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      workTitle: '모의 작품 제목 2',
-      likeCount: 900,
-      viewCount: 777,
-      commentCount: 3,
-      profileImageUrl:
+      likeCount: 1100,
+      viewCount: 999,
+      commentCount: 1,
+      artistId: 1,
+      artistName: '모의 작가 이름 1',
+      artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      authorName: '모의 작가이름 2',
-      workUrl: '/2',
-      authorUrl: '/author2',
-      displayStatus: 'myWork',
+      createdAt: '2024-01-29T07:21:26.100Z',
+      updatedAt: '2024-01-29T07:21:26.100Z',
     },
     {
-      id: 9,
-      saleStatus: 'isFree',
-      workImageUrl:
+      artworkId: 9,
+      title: '모의 작품 제목 1',
+      description: '모의 작품 설명 1',
+      artworkStatus: 'SHARE',
+      thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      workTitle: '모의 작품 제목 2',
-      likeCount: 900,
-      viewCount: 777,
-      commentCount: 3,
-      profileImageUrl:
+      likeCount: 1100,
+      viewCount: 999,
+      commentCount: 1,
+      artistId: 1,
+      artistName: '모의 작가 이름 1',
+      artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      authorName: '모의 작가이름 2',
-      workUrl: '/2',
-      authorUrl: '/author2',
-      displayStatus: 'myWork',
+      createdAt: '2024-01-29T07:21:26.100Z',
+      updatedAt: '2024-01-29T07:21:26.100Z',
     },
     {
-      id: 10,
-      saleStatus: 'isFree',
-      workImageUrl:
+      artworkId: 10,
+      title: '모의 작품 제목 1',
+      description: '모의 작품 설명 1',
+      artworkStatus: 'SHARE',
+      thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      workTitle: '모의 작품 제목 2',
-      likeCount: 900,
-      viewCount: 777,
-      commentCount: 3,
-      profileImageUrl:
+      likeCount: 1100,
+      viewCount: 999,
+      commentCount: 1,
+      artistId: 1,
+      artistName: '모의 작가 이름 1',
+      artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      authorName: '모의 작가이름 2',
-      workUrl: '/2',
-      authorUrl: '/author2',
-      displayStatus: 'myWork',
+      createdAt: '2024-01-29T07:21:26.100Z',
+      updatedAt: '2024-01-29T07:21:26.100Z',
     },
     {
-      id: 11,
-      saleStatus: 'isFree',
-      workImageUrl:
+      artworkId: 11,
+      title: '모의 작품 제목 1',
+      description: '모의 작품 설명 1',
+      artworkStatus: 'SHARE',
+      thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      workTitle: '모의 작품 제목 2',
-      likeCount: 900,
-      viewCount: 777,
-      commentCount: 3,
-      profileImageUrl:
+      likeCount: 1100,
+      viewCount: 999,
+      commentCount: 1,
+      artistId: 1,
+      artistName: '모의 작가 이름 1',
+      artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      authorName: '모의 작가이름 2',
-      workUrl: '/2',
-      authorUrl: '/author2',
-      displayStatus: 'myWork',
+      createdAt: '2024-01-29T07:21:26.100Z',
+      updatedAt: '2024-01-29T07:21:26.100Z',
     },
     {
-      id: 12,
-      saleStatus: 'isFree',
-      workImageUrl:
+      artworkId: 12,
+      title: '모의 작품 제목 1',
+      description: '모의 작품 설명 1',
+      artworkStatus: 'SHARE',
+      thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      workTitle: '모의 작품 제목 2',
-      likeCount: 900,
-      viewCount: 777,
-      commentCount: 3,
-      profileImageUrl:
+      likeCount: 1100,
+      viewCount: 999,
+      commentCount: 1,
+      artistId: 1,
+      artistName: '모의 작가 이름 1',
+      artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      authorName: '모의 작가이름 2',
-      workUrl: '/2',
-      authorUrl: '/author2',
-      displayStatus: 'myWork',
+      createdAt: '2024-01-29T07:21:26.100Z',
+      updatedAt: '2024-01-29T07:21:26.100Z',
     },
     {
-      id: 13,
-      saleStatus: 'isFree',
-      workImageUrl:
+      artworkId: 13,
+      title: '모의 작품 제목 1',
+      description: '모의 작품 설명 1',
+      artworkStatus: 'SHARE',
+      thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      workTitle: '모의 작품 제목 2',
-      likeCount: 900,
-      viewCount: 777,
-      commentCount: 3,
-      profileImageUrl:
+      likeCount: 1100,
+      viewCount: 999,
+      commentCount: 1,
+      artistId: 1,
+      artistName: '모의 작가 이름 1',
+      artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      authorName: '모의 작가이름 2',
-      workUrl: '/2',
-      authorUrl: '/author2',
-      displayStatus: 'myWork',
+      createdAt: '2024-01-29T07:21:26.100Z',
+      updatedAt: '2024-01-29T07:21:26.100Z',
     },
     {
-      id: 14,
-      saleStatus: 'isFree',
-      workImageUrl:
+      artworkId: 14,
+      title: '모의 작품 제목 1',
+      description: '모의 작품 설명 1',
+      artworkStatus: 'SHARE',
+      thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      workTitle: '모의 작품 제목 2',
-      likeCount: 900,
-      viewCount: 777,
-      commentCount: 3,
-      profileImageUrl:
+      likeCount: 1100,
+      viewCount: 999,
+      commentCount: 1,
+      artistId: 1,
+      artistName: '모의 작가 이름 1',
+      artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      authorName: '모의 작가이름 2',
-      workUrl: '/2',
-      authorUrl: '/author2',
-      displayStatus: 'myWork',
+      createdAt: '2024-01-29T07:21:26.100Z',
+      updatedAt: '2024-01-29T07:21:26.100Z',
     },
     {
-      id: 15,
-      saleStatus: 'isFree',
-      workImageUrl:
+      artworkId: 15,
+      title: '모의 작품 제목 1',
+      description: '모의 작품 설명 1',
+      artworkStatus: 'SHARE',
+      thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      workTitle: '모의 작품 제목 2',
-      likeCount: 900,
-      viewCount: 777,
-      commentCount: 3,
-      profileImageUrl:
+      likeCount: 1100,
+      viewCount: 999,
+      commentCount: 1,
+      artistId: 1,
+      artistName: '모의 작가 이름 1',
+      artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      authorName: '모의 작가이름 2',
-      workUrl: '/2',
-      authorUrl: '/author2',
-      displayStatus: 'myWork',
-    },
-    {
-      id: 16,
-      saleStatus: 'isFree',
-      workImageUrl:
-        'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      workTitle: '모의 작품 제목 2',
-      likeCount: 900,
-      viewCount: 777,
-      commentCount: 3,
-      profileImageUrl:
-        'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      authorName: '모의 작가이름 2',
-      workUrl: '/2',
-      authorUrl: '/author2',
-      displayStatus: 'myWork',
-    },
-    {
-      id: 17,
-      saleStatus: 'isFree',
-      workImageUrl:
-        'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      workTitle: '모의 작품 제목 2',
-      likeCount: 900,
-      viewCount: 777,
-      commentCount: 3,
-      profileImageUrl:
-        'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      authorName: '모의 작가이름 2',
-      workUrl: '/2',
-      authorUrl: '/author2',
-      displayStatus: 'myWork',
+      createdAt: '2024-01-29T07:21:26.100Z',
+      updatedAt: '2024-01-29T07:21:26.100Z',
     },
   ];
 
   return (
     <div
-      style={{ height: data && data.length > 0 ? 'auto' : '50vh' }}
-      className={`${data && data.length > 0 ? 'mt-25 flex h-auto w-auto flex-wrap gap-33' : 'mt-25 flex w-full items-center justify-center'}`}
+      className={`${data && data.length > 0 ? (pathname === '/' ? 'card-container-mainPage' : 'card-container-artistPage') : 'flex-center mt-25 h-[55vh] w-full'}`}
     >
       {data && data.length > 0 ? (
         data.map((card) => (
           <Card
-            key={card.id}
-            saleStatus={card.saleStatus}
-            workImageUrl={card.workImageUrl}
-            workTitle={card.workTitle}
+            key={card.artworkId}
+            artworkId={card.artworkId}
+            title={card.title}
+            artworkStatus={card.artworkStatus}
             likeCount={card.likeCount}
             viewCount={card.viewCount}
             commentCount={card.commentCount}
-            profileImageUrl={card.profileImageUrl}
-            authorName={card.authorName}
-            workUrl={card.workUrl}
-            authorUrl={card.authorUrl}
-            displayStatus={card.displayStatus}
+            thumbnailImageUrl={card.thumbnailImageUrl}
+            artistId={card.artistId}
+            artistName={card.artistName}
+            artistProfileImageUrl={card.artistProfileImageUrl}
           />
         ))
       ) : (

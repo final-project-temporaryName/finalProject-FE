@@ -91,9 +91,6 @@ const config: Config = {
       },
     },
     screens: {
-      // tablet: { max: '1279px' },
-      // => @media (max-width: 1279px) { ... }
-
       mobile: { max: '375px' },
       // => @media (max-width: 375px) { ... }
     },
