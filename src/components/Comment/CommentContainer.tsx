@@ -60,6 +60,7 @@ function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentCon
   const handleLikeClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsLikeClicked((prev) => !prev);
+    // 좋아요 post api 요청 로직 필요(optimistic update)
   };
 
   const handleCommentClick = (e: MouseEvent<HTMLButtonElement>) => {
@@ -69,6 +70,7 @@ function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentCon
 
   const onValid = (data: InputForm) => {
     console.log('제출 버튼 클릭됨!');
+    // data.comment를 첨부해서 post api 요청 로직 필요
   };
 
   return (
