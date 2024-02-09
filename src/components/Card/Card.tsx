@@ -40,7 +40,7 @@ function Card({
   return (
     <div className={`flex h-${pathname === '/' ? '328' : '280'} min-w-280 flex-col`}>
       <Link href={`/art/${artworkId}`} onClick={handleArtworkClick}>
-        <div id="cardImgBox" className="group relative h-280 min-w-280 overflow-hidden">
+        <div id="cardImgBox" className="group relative z-first h-280 min-w-280 overflow-hidden">
           <Image
             className="rounded-md transition-all duration-200 ease-linear group-hover:scale-[1.2]"
             src={thumbnailImageUrl}
@@ -49,7 +49,7 @@ function Card({
             priority
             fill
           />
-          <div className="absolute inset-0 rounded-md bg-gradient-to-b from-transparent via-transparent to-gray-7"></div>
+          <div className="absolute inset-0 rounded-md bg-gradient-to-b from-transparent via-transparent to-gray-8"></div>
           {firstPathname === 'mypage' && (
             <div className="absolute left-18 top-11">
               <Button.Kebab />

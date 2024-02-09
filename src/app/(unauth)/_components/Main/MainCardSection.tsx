@@ -8,7 +8,7 @@ function MainCardSection() {
   const [label, setLabel] = useState<'전체' | 'following'>('전체');
 
   return (
-    <div className="flex-col-center mt-20">
+    <div className="flex-col-center relative mt-20">
       <MainLabelsGroup setMainValue={setLabel} />
       <CardContainer />
     </div>
