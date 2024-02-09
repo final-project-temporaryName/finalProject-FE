@@ -10,7 +10,7 @@ export default function RedirectToHome() {
   const { data: session } = useSession();
 
   const handleUserId = async () => {
-    await postUserId(session?.user.id);
+    // userRole zustand 저장
   };
 
   useEffect(() => {

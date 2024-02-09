@@ -8,11 +8,11 @@ import { useRef } from 'react';
 import ProfileDropDownImg from '../../../public/assets/images/profileDropDown.svg';
 import defaultProfileImg from '../../../public/assets/images/youthLogo.png';
 import { Button } from '../Button';
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 
 interface ProfileImgDropDownProps {
   userName: string;
-  profileImg: string | StaticImageData; // StaticImageData 타입은 추후 서버 연결되면 삭제 예정
+  profileImg: string | undefined;
   major: string;
 }
 

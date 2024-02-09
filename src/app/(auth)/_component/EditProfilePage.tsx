@@ -1,15 +1,15 @@
 'use client';
 
+import instance from '@/api/axios';
 import Input from '@/components/Input/Input';
 import LinkInput from '@/components/Input/LinkInput';
-import NavBar from '@/components/NavBar/NavBar';
 import PlusButtonIcon from '@/components/SvgComponents/PlusButtonIcon';
 import { nicknameRules } from '@/constants/InputErrorRules';
-import axios from '@/lib/axios';
+import { useMutation } from '@tanstack/react-query';
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-interface FormData {
+export interface UserData {
   nickname: string;
   profileImageUrl: string;
   activityArea: string;
@@ -22,33 +22,42 @@ function EditProfilePage() {
   const [uploadedImageUrl, setUploadedImageUrl] = useState('');
   const [nicknameError, setNicknameError] = useState<string | null>(null);
   const [hasLinkError, setHasLinkError] = useState(false);
-
-  const handleImageUpload = (url: string) => {
-    setUploadedImageUrl(url);
-  };
+  const [isNicknameAvailable, setIsNicknameAvailable] = useState(false);
 
   const {
     handleSubmit,
     register,
     watch,
     formState: { errors },
-    setError,
-    // trigger,
-  } = useForm<FormData>({ mode: 'all' });
+  } = useForm<UserData>({ mode: 'onBlur' });
   const [links, setLinks] = useState<{ id: number }[]>([{ id: 0 }]);
   const idCount = useRef(1); // useRef를 사용하여 idCount를 관리
 
-  const onSubmit = async (data: FormData) => {
-    try {
-      data.profileImageUrl = uploadedImageUrl;
+  const disableSaveButton = hasLinkError || !isNicknameAvailable;
 
-      // PUT
-      const response = await axios.put('/users/4', data);
-      console.log(response.data);
-      console.log(111111);
-    } catch (err) {
-      console.error(err);
-    }
+  const handleImageUpload = (url: string) => {
+    setUploadedImageUrl(url);
+  };
+
+  const putUserMutation = useMutation({
+    mutationFn: (userData: UserData) => instance.put('/users/4', userData),
+  });
+
+  const onSubmit = (data: UserData) => {
+    const userData: UserData = {
+      ...data,
+      profileImageUrl: uploadedImageUrl,
+    };
+
+    putUserMutation.mutate(userData, {
+      onSuccess: (data) => {
+        // 성공 후 처리 로직, 예: 사용자를 정보 페이지로 리디렉션
+        console.log(userData);
+      },
+      onError: (error) => {
+        alert('처리하는 과정에서 에러가 발생했습니다. 잠시 후 다시 시도해주세요.');
+      },
+    });
   };
 
   const addLink = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -79,52 +88,34 @@ function EditProfilePage() {
 
   const renderAddButton = () =>
     links.length < 5 && (
-      <button className="ml-90" onClick={addLink}>
-        <PlusButtonIcon />
-      </button>
+      <div className="tooltip">
+        <button className="ml-90" onClick={addLink}>
+          <PlusButtonIcon />
+        </button>
+        <span className="tooltip-text">5개까지 링크 추가 가능</span>
+      </div>
     );
 
-  // const checkNickname = async () => {
-  //   const nickname = watch('nickname');
-
-  //   try {
-  //     const response = await axios.get(`/users/check?nickname=${nickname}`);
-
-  //     if (response.data.message) {
-  //       // 에러 상태 저장
-  //       setNicknameError(response.data.message);
-  //     } else {
-  //       // 에러 없을 경우, 에러 상태 초기화
-  //       setNicknameError(null);
-  //     }
-  //   } catch (error: any) {
-  //     console.error('Nickname check failed:', error.response?.data, error.message);
-  //   }
-  // };
-  const checkNickname = async () => {
-    const nickname = watch('nickname');
-
-    try {
-      const response = await axios.get(`/users/check?nickname=${nickname}`);
-
-      if (response.data.message) {
-        // 에러 상태 저장
-        setNicknameError(response.data.message);
-
-        // nickname 필드의 에러 설정
-        setError('nickname', {
-          type: 'manual',
-          message: response.data.message,
-        });
-
-        // nickname 필드의 유효성 검사 트리거
-        // await trigger('nickname');
+  const checkNicknameMutation = useMutation({
+    mutationFn: (nickname: string) => instance.get(`/users/check?nickname=${nickname}`),
+    onSuccess: () => {
+      setNicknameError('사용 가능한 닉네임입니다.');
+      setIsNicknameAvailable(true);
+    },
+    onError: (error: any) => {
+      if (error.response.status === 409) {
+        setNicknameError('이미 사용 중인 닉네임입니다.');
       } else {
-        // 에러 없을 경우, 에러 상태 초기화
-        setNicknameError(null);
+        setNicknameError('닉네임 체크에 실패했습니다. 다시 시도해주세요.');
       }
-    } catch (error: any) {
-      console.error('Nickname check failed:', error.response?.data, error.message);
+      setIsNicknameAvailable(false);
+    },
+  });
+
+  const checkNickname = () => {
+    const nickname = watch('nickname');
+    if (nickname) {
+      checkNicknameMutation.mutate(nickname);
     }
   };
 
@@ -134,7 +125,6 @@ function EditProfilePage() {
 
   return (
     <>
-      <NavBar />
       <form className="relative mt-160 flex-col" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex-center">
           <div className="h-475 w-571">
@@ -154,7 +144,6 @@ function EditProfilePage() {
                 style="md-input relative"
                 register={register('nickname', nicknameRules)}
                 error={errors.nickname?.message || nicknameError}
-                nicknameError={nicknameError}
               />
               <div className="absolute left-170 top-27 text-[#C90000]">*</div>
               <button
@@ -200,8 +189,8 @@ function EditProfilePage() {
         <div className="absolute right-200 mt-100">
           <button
             type="submit"
-            className={`primary-button storage-button ${hasLinkError ? 'disabled' : ''}`}
-            disabled={hasLinkError}
+            className={`primary-button storage-button ${disableSaveButton ? 'disabled' : ''}`}
+            disabled={disableSaveButton}
           >
             저장하기
           </button>

@@ -1,9 +1,12 @@
 'use client';
 
+import instance from '@/api/axios';
+import { deleteImageFile } from '@/api/image/deleteImageFile';
+import { postImageFile } from '@/api/image/postImageFile';
 import PlusButtonIcon from '@/components/SvgComponents/PlusButtonIcon';
 import UpLoadIcon from '@/components/SvgComponents/UpLoadIcon';
-import axios from '@/lib/axios';
-import { ChangeEvent, useState } from 'react';
+import Image from 'next/image';
+import { ChangeEvent, useRef, useState } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 interface Props {
@@ -16,11 +19,12 @@ interface Props {
   style?: string;
   accept?: string;
   readOnly?: boolean;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   onImageUpload?: (url: string) => void;
-  nicknameError?: string | null;
+  userId?: number;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   value?: string;
   onBlur?: any;
+  // nicknameError?: string | null;
 }
 
 function Input({
@@ -32,52 +36,40 @@ function Input({
   register,
   style,
   readOnly,
-  onChange,
   onImageUpload,
-  nicknameError,
+  userId,
+  onChange,
   value,
   onBlur,
+  // nicknameError,
 }: Props) {
   const [profileImage, setProfileImage] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const inputClasses = `${style} primary-input rounded-xs ${error ? 'text-red text-10' : ''} ${readOnly ? 'bg-gray-4' : ''}`;
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
-    const imgFile = e.target.files[0];
-    if (imgFile && imgFile.type.startsWith('image')) {
-      const reader = new FileReader();
-      reader.onloadend = async () => {
-        setProfileImage(reader.result as string);
+  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files) return;
+    const imgFile = event.target.files[0];
+    const formData = new FormData();
+    formData.append('file', imgFile);
 
-        // FormData 객체를 생성하고, 파일을 추가합니다.
-        const formData = new FormData();
-        formData.append('file', imgFile);
-
-        try {
-          // POST
-          const response = await axios.post('/images/profile', formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          });
-          console.log(response.data);
-          console.log(1111);
-
-          if (onImageUpload) {
-            onImageUpload(response.data.imageUrl);
-          }
-        } catch (err) {
-          console.error(err);
-        }
-      };
-      reader.readAsDataURL(imgFile);
+    if (formData) {
+      const response = await postImageFile(formData);
+      if (response.status !== 200) {
+        console.log(response.data.error.message);
+      }
+      setProfileImage(response?.data.imageUrl);
+      event.target.value = '';
+      console.log(event.target.files);
     }
   };
 
-  const handleImgDelete = (event: React.MouseEvent) => {
+  const handleFileDelete = async (event: React.MouseEvent) => {
     event.preventDefault();
-    setProfileImage(null);
+
+    await deleteImageFile(4, profileImage);
+    setProfileImage(null); // 상태 업데이트로 이미지를 UI에서 제거
   };
 
   const renderLabel = () =>
@@ -88,9 +80,9 @@ function Input({
     );
 
   const renderFileInput = () => (
-    <div className="file-input-wrapper relative">
+    <div className="file-input-wrapper relative h-95 w-95">
       {profileImage ? (
-        <img src={profileImage} alt="Uploaded" className="h-95 w-95 rounded-full object-cover" />
+        <Image src={profileImage} alt="Uploaded" fill className="rounded-full object-cover" />
       ) : (
         <div className="h-95 w-95"></div>
       )}
@@ -100,6 +92,7 @@ function Input({
         <input
           type={type}
           id={id}
+          ref={inputRef}
           placeholder={placeholder}
           className="primary-input hidden-file-input"
           onChange={handleFileChange}
@@ -110,7 +103,7 @@ function Input({
             <div className="mt-2 text-7">사진 가져오기</div>
           </div>
           {profileImage && (
-            <button className="absolute right-0 top-0" onClick={handleImgDelete}>
+            <button className="absolute right-0 top-0" onClick={handleFileDelete}>
               <PlusButtonIcon className="rotate-45" />
             </button>
           )}
@@ -120,21 +113,13 @@ function Input({
   );
 
   const renderInput = () => (
-    <div className="flex-row">
-      <input
-        type={type}
-        id={id}
-        placeholder={placeholder}
-        className={inputClasses}
-        {...register}
-        readOnly={readOnly}
-        onChange={onChange}
-        value={value}
-        onBlur={onBlur}
-      />
-      {type === 'nickname' && (
-        <p className={error || nicknameError ? 'text-red text-10' : 'text-10 text-blue'}>{error || nicknameError}</p>
-      )}
+    <div className="relative flex-row">
+      <input type={type} id={id} placeholder={placeholder} className={inputClasses} {...register} readOnly={readOnly} />
+      <div className="absolute text-10 text-[#c90000]">
+        {type === 'nickname' && (
+          <p className={`${error === '사용 가능한 닉네임입니다.' ? 'text-[#0057FF]' : 'text-[#c90000]'}`}>{error}</p>
+        )}
+      </div>
     </div>
   );
 

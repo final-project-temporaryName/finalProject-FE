@@ -1,10 +1,10 @@
 'use client';
 
+import instance from '@/api/axios';
 import Input from '@/components/Input/Input';
 import BinIcon from '@/components/SvgComponents/BinIcon';
-import SaveIcon from '@/components/SvgComponents/SaveIcon';
 import EditIcon from '@/components/SvgComponents/EditIcon';
-import axios from '@/lib/axios';
+import SaveIcon from '@/components/SvgComponents/SaveIcon';
 import { useState } from 'react';
 import { UseFormRegister, UseFormWatch } from 'react-hook-form';
 
@@ -33,16 +33,24 @@ function LinkInput({ link, removeLink, index, handleLinkErrorUpdate }: Props) {
     setIsEditIconVisible(true);
 
     try {
-      const response = await axios.post('/users/4/links', { title, url });
+      const response = await instance.post('/users/4/links', { title, url });
+      console.log(response);
       setLinkId(response.data.id);
       setIsModified(false);
       setShowError(false);
-      handleLinkErrorUpdate(false);
+      if (handleLinkErrorUpdate) {
+        handleLinkErrorUpdate(false);
+      }
     } catch (error) {
       console.error(error);
-    }
 
-    setIsLoading(false);
+      setShowError(true);
+      if (handleLinkErrorUpdate) {
+        handleLinkErrorUpdate(true);
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleBinIconClick = async () => {
@@ -52,8 +60,9 @@ function LinkInput({ link, removeLink, index, handleLinkErrorUpdate }: Props) {
 
     if (linkId) {
       try {
-        await axios.delete(`/users/4/links/${linkId}`);
+        const response = await instance.delete(`/users/4/links/${linkId}`);
         setIsEditIconVisible(false);
+        console.log(response);
       } catch (error) {
         console.error(error);
       }
@@ -80,6 +89,7 @@ function LinkInput({ link, removeLink, index, handleLinkErrorUpdate }: Props) {
     if (isModified && !saveIconClicked) {
       setShowError(true);
       handleLinkErrorUpdate(true);
+      console.log('handleBlur');
     }
   };
 
@@ -114,7 +124,7 @@ function LinkInput({ link, removeLink, index, handleLinkErrorUpdate }: Props) {
               {isEditIconVisible && <EditIcon onClick={handleEditIconClick} />}
             </div>
           ) : (
-            <SaveIcon onClick={handleSaveIconClick} className="flex-center" />
+            <SaveIcon className="flex-center" onClick={handleSaveIconClick} />
           )}
         </div>
       </div>
