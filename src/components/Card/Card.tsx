@@ -11,6 +11,7 @@ import LikeImage from '../../../public/assets/images/LikeImage.png';
 import ViewImage from '../../../public/assets/images/ViewImage.png';
 import { Button } from '../Button';
 import Count from './Count';
+import { useStore } from '@/store';
 
 type Props = Omit<CardType, 'description' | 'createdAt' | 'updatedAt'>;
 
@@ -30,9 +31,15 @@ function Card({
   const pathnameArr = pathname.split('/');
   const firstPathname = pathnameArr[1];
 
+  const setClickedArtworkId = useStore((state) => state.setClickedArtworkId);
+
+  const handleArtworkClick = () => {
+    setClickedArtworkId(artworkId);
+  };
+
   return (
     <div className={`flex h-${pathname === '/' ? '328' : '280'} min-w-280 flex-col`}>
-      <Link href={`/art/${artworkId}`}>
+      <Link href={`/art/${artworkId}`} onClick={handleArtworkClick}>
         <div id="cardImgBox" className="group relative h-280 min-w-280 overflow-hidden">
           <Image
             className="rounded-md transition-all duration-200 ease-linear group-hover:scale-[1.2]"
