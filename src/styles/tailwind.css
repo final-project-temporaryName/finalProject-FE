@@ -2,11 +2,11 @@
 
 /* Navbar component */
 .navBar {
-  @apply fixed left-0 top-0 z-[10] flex h-80 w-full items-center justify-between gap-40 bg-gray-1 px-44 py-20 backdrop-blur-md;
+  @apply left-0 top-0 z-first flex h-80 w-full items-center justify-between gap-40 bg-white px-44 py-20 backdrop-blur-md;
 }
 
 .navSearchBar {
-  @apply flex h-40 w-600 flex-shrink items-center gap-10 rounded-lg bg-white px-32 py-8;
+  @apply flex h-40 max-w-600 flex-grow items-center gap-10 rounded-lg bg-gray-1 px-32 py-8;
 }
 
 /* LoginModal */
@@ -69,19 +69,27 @@
 }
 
 .category-button {
-  @apply flex justify-center gap-10 rounded-md border-2 border-solid border-white bg-white px-23 py-5 text-center align-middle text-18 text-gray-4 focus:border-2 focus:border-solid focus:border-gray-4 focus:text-black;
+  @apply flex justify-center gap-10 rounded-ml border-2 border-solid border-white bg-white px-23 py-5 text-center align-middle text-18 text-gray-4 hover:text-black;
 }
 
 .category-button-focus {
-  @apply flex justify-center gap-10 rounded-md  border-2 border-solid border-gray-4 bg-white px-23 py-5 text-center align-middle text-18 text-black;
+  @apply flex justify-center gap-10 rounded-ml  border-2 border-solid border-gray-4 bg-white px-23 py-5 text-center align-middle text-18 text-black;
 }
 
-.label-button {
-  @apply flex justify-center gap-10 rounded-md border-[1.55px] border-solid border-white bg-white px-12 py-4 text-center align-middle text-12 text-black focus:border-[1.55px] focus:border-solid focus:border-primary focus:text-primary;
+.status-label-button {
+  @apply flex justify-center gap-10 rounded-md border-[1.55px] border-solid border-white bg-white px-12 py-4 text-center align-middle text-12 text-black hover:text-primary;
 }
 
-.label-button-focus {
+.status-label-button-focus {
   @apply flex justify-center gap-10 rounded-md  border-[1.55px] border-solid border-primary bg-white px-12 py-4 text-center align-middle text-12 text-primary;
+}
+
+.main-label-button {
+  @apply flex justify-center bg-white text-center align-middle text-18 text-gray-3 hover:text-primary-3;
+}
+
+.main-label-button-focus {
+  @apply flex justify-center bg-white text-center align-middle text-18 font-bold text-primary;
 }
 
 .modal-action-button {
@@ -91,4 +99,13 @@
 /* upload label  */
 .status-label {
   @apply flex h-40 w-74 items-center justify-center text-12 hover:font-bold hover:text-primary;
+}
+
+/* cardContainer */
+.card-container-mainPage {
+  @apply mt-25 grid w-[95%] auto-rows-[1fr] grid-cols-[repeat(auto-fit,minmax(max(280px,100%/6),1fr))] gap-x-25 gap-y-31;
+}
+
+.card-container-artistPage {
+  @apply mt-25 grid w-[95%] auto-rows-[1fr] grid-cols-[repeat(auto-fit,minmax(max(280px,100%/5),1fr))] gap-x-25 gap-y-31;
 }

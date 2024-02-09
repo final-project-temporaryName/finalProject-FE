@@ -1,7 +1,14 @@
+import InfiniteText from '@/components/InfiniteText';
+import NavBar from '@/components/NavBar/NavBar';
+import MainCardSection from './Main/MainCardSection';
+
 function Main() {
   return (
-    // 현재는 테스트 페이지
-    <main className="flex min-h-screen flex-col items-center justify-center gap-100 p-24">전체 피드 페이지</main>
+    <>
+      <InfiniteText text="ART TALK - TALK  🎉  SITE FOR THE ARTISTS  •  DESIGNERS  •  CREATORS  🙌  SHARE YOUR CREATIVITY  😎  " />
+      <NavBar />
+      <MainCardSection />
+    </>
   );
 }
 

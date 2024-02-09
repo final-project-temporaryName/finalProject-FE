@@ -1,10 +1,10 @@
+import getUser from '@/api/users/getUser';
 import '@/styles/tailwind.css';
 import Link from 'next/link';
 import profileImage from '../../../public/assets/images/하니.jpg';
 import { Button } from '../Button';
-import ProfileImgDropDown from './ProfileImgDropDown';
-import getUser from '@/api/users/getUser';
 import MessageIcon from './MessageIcon';
+import ProfileImgDropDown from './ProfileImgDropDown';
 
 async function NavigatorBox() {
   const auth = {

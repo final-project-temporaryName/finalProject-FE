@@ -139,7 +139,7 @@ export default function UploadModal() {
               {label === 'SELLING' && <SellingLabelImg />}
               {label === 'FREE' && <ShareLabelImg />}
             </div>
-            <StatusLabelsGroup setValue={setLabel} />
+            <StatusLabelsGroup setStatusValue={setLabel} />
           </div>
         </div>
       </Modal.Body>

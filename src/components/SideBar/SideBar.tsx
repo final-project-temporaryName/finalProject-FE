@@ -30,7 +30,7 @@ async function SideBar({ id, displayStatus }: SideBarProps) {
         </div>
       </div>
       <div className="absolute top-48 flex h-650 w-260 flex-col items-center rounded-[12px] bg-gray-1">
-        <div className="mb-276 mt-89 flex h-650 w-192 flex-col items-center justify-center">
+        <div className="mb-276 mt-75 flex h-650 w-192 flex-col items-center justify-center">
           {displayStatus === 'myWork' ? (
             <Link href="/editProfile" className="z-10 absolute right-13 top-15 h-32 w-32 rounded-full">
               <div className="flex h-full w-full items-center justify-center rounded-full border-2 border-solid border-gray-4 bg-white">
@@ -38,11 +38,11 @@ async function SideBar({ id, displayStatus }: SideBarProps) {
               </div>
             </Link>
           ) : null}
-          <div className="flex-grow">
+          <div className="flex-col-center">
             <div className="items-center text-center text-18 font-semibold">{data?.nickname}</div>
             <p className="text-12 text-gray-9">{data?.activityArea + ' / ' + data?.activityField}</p>
           </div>
-          <div className="mb-16 mt-16 rounded-sm bg-white p-16">
+          <div className="mb-16 mt-16 flex min-h-60 w-192 items-center rounded-sm bg-white p-16">
             <p className="text-12 text-gray-9">{data?.description}</p>
           </div>
           <div className="mb-20 flex items-center justify-between gap-20">
