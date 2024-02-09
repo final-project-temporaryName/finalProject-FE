@@ -130,7 +130,7 @@ export default function UploadModal() {
               buttonStyle="save-button"
               onClick={handleSaveClick}
             >
-              저장하기
+              게시하기
             </Button.Modal.Action>
           </div>
           <div className="flex-col-center absolute right-20 top-0 gap-25">
