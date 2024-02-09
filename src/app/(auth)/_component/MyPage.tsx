@@ -1,14 +1,17 @@
 import CategoryButtonGroup from '@/components/Button/Category/CategoryButtonGroup';
-import NavBar from '@/components/NavBar/NavBar';
-import SideBar from '@/components/SideBar/SideBar';
 import CardContainer from '@/components/Card/CardContainer';
+import NavBar from '@/components/NavBar/NavBar';
+import NavigatorBox from '@/components/NavBar/NavigatorBox';
+import SideBar from '@/components/SideBar/SideBar';
 
 function MyPage() {
   return (
     <>
-      <NavBar />
+      <NavBar>
+        <NavigatorBox />
+      </NavBar>
       <SideBar id={2} displayStatus="myWork" />
-      <main className="ml-330 mt-77">
+      <main className="ml-330 mt-157">
         <CategoryButtonGroup />
         <CardContainer />
       </main>

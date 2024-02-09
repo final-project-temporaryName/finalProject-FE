@@ -2,7 +2,7 @@
 
 /* Navbar component */
 .navBar {
-  @apply relative left-0 top-0 z-second flex h-80 w-full items-center justify-between gap-40 bg-white px-44 py-20 backdrop-blur-md;
+  @apply left-0 top-0 z-second flex h-80 w-full items-center justify-between gap-40 bg-white px-44 py-20 backdrop-blur-lg;
 }
 
 .navSearchBar {
@@ -13,7 +13,7 @@
 /* SignupModal */
 
 .modalContainer {
-  @apply relative top-[10%] flex h-560 w-900 flex-col rounded-md bg-white;
+  @apply z-infinite relative top-[10%] flex h-560 w-900 flex-col rounded-md bg-white;
 }
 
 .modalInput {
@@ -103,9 +103,9 @@
 
 /* cardContainer */
 .card-container-mainPage {
-  @apply mt-25 grid w-[95%] auto-rows-[1fr] grid-cols-[repeat(auto-fit,minmax(max(280px,100%/6),1fr))] gap-x-25 gap-y-31;
+  @apply mt-35 grid w-[95%] auto-rows-[1fr] grid-cols-[repeat(auto-fit,minmax(max(280px,100%/6),1fr))] gap-x-25 gap-y-31;
 }
 
 .card-container-artistPage {
-  @apply mt-25 grid w-[95%] auto-rows-[1fr] grid-cols-[repeat(auto-fit,minmax(max(280px,100%/5),1fr))] gap-x-25 gap-y-31;
+  @apply mt-35 grid w-[95%] auto-rows-[1fr] grid-cols-[repeat(auto-fit,minmax(max(280px,100%/5),1fr))] gap-x-25 gap-y-31;
 }
