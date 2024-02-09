@@ -41,7 +41,7 @@ function ProfileImgDropDown({ userName, profileImg, major }: ProfileImgDropDownP
         style={{ borderRadius: '50%', cursor: 'pointer' }}
       />
       {isDropDownOpen && (
-        <div className="absolute right-[-160px] top-40" onClick={(e) => e.stopPropagation()}>
+        <div className="absolute right-[-160px] top-40 z-first" onClick={(e) => e.stopPropagation()}>
           <ProfileDropDownImg />
           <div className="absolute top-14 flex h-310 w-268 flex-col rounded-sm">
             <div className="flex w-full flex-1 flex-col items-stretch justify-between gap-13 px-17 py-23">
