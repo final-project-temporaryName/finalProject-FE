@@ -36,6 +36,7 @@ const config: Config = {
       first: '10',
       second: '20',
       third: '30',
+      infinite: '9999',
     },
     borderRadius: {
       sm: '0.75rem',

@@ -2,7 +2,7 @@
 
 /* Navbar component */
 .navBar {
-  @apply left-0 top-0 z-first flex h-80 w-full items-center justify-between gap-40 bg-white px-44 py-20 backdrop-blur-md;
+  @apply left-0 top-0 z-second flex h-80 w-full items-center justify-between gap-40 bg-white px-44 py-20 backdrop-blur-lg;
 }
 
 .navSearchBar {
@@ -13,7 +13,7 @@
 /* SignupModal */
 
 .modalContainer {
-  @apply relative top-[10%] flex h-560 w-900 flex-col rounded-md bg-white;
+  @apply z-infinite relative top-[10%] flex h-560 w-900 flex-col rounded-md bg-white;
 }
 
 .modalInput {
@@ -49,7 +49,7 @@
 }
 
 .save-button {
-  @apply flex h-40 w-113 items-center justify-center rounded-[200px] border-1 border-solid border-black px-25 py-10 hover:border-primary hover:bg-primary hover:text-white disabled:border-gray-1 disabled:bg-gray-1 disabled:text-gray-3;
+  @apply flex h-40 w-113 items-center justify-center rounded-[200px] border-1 border-solid border-black px-25 py-10 text-15 hover:border-primary hover:bg-primary hover:text-white disabled:border-gray-1 disabled:bg-gray-1 disabled:text-gray-3;
 }
 
 .nav-upload-button {
@@ -103,9 +103,9 @@
 
 /* cardContainer */
 .card-container-mainPage {
-  @apply mt-25 grid w-[95%] auto-rows-[1fr] grid-cols-[repeat(auto-fit,minmax(max(280px,100%/6),1fr))] gap-x-25 gap-y-31;
+  @apply mt-35 grid w-[95%] auto-rows-[1fr] grid-cols-[repeat(auto-fit,minmax(max(280px,100%/6),1fr))] gap-x-25 gap-y-31;
 }
 
 .card-container-artistPage {
-  @apply mt-25 grid w-[95%] auto-rows-[1fr] grid-cols-[repeat(auto-fit,minmax(max(280px,100%/5),1fr))] gap-x-25 gap-y-31;
+  @apply mt-35 grid w-[95%] auto-rows-[1fr] grid-cols-[repeat(auto-fit,minmax(max(280px,100%/5),1fr))] gap-x-25 gap-y-31;
 }

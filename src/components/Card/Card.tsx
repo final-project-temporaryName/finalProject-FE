@@ -49,7 +49,7 @@ function Card({
             priority
             fill
           />
-          <div className="absolute inset-0 rounded-md bg-gradient-to-b from-transparent via-transparent to-black"></div>
+          <div className="absolute inset-0 rounded-md bg-gradient-to-b from-transparent via-transparent to-gray-8"></div>
           {firstPathname === 'mypage' && (
             <div className="absolute left-18 top-11">
               <Button.Kebab />
