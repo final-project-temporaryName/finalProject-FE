@@ -13,7 +13,7 @@
 /* SignupModal */
 
 .modalContainer {
-  @apply z-infinite relative top-[10%] flex h-560 w-900 flex-col rounded-md bg-white;
+  @apply relative top-[10%] z-infinite flex h-560 w-900 flex-col rounded-md bg-white;
 }
 
 .modalInput {
@@ -61,7 +61,7 @@
 }
 
 .nav-chat-button {
-  @apply mt-20 h-40 w-200 hover:border-primary hover:bg-primary hover:text-white active:bg-primary;
+  @apply mb-20 h-40 w-200 hover:border-primary hover:bg-primary hover:text-white active:bg-primary;
 }
 
 .dropdown-mypage-button {
