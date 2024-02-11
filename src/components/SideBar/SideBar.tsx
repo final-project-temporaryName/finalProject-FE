@@ -54,7 +54,11 @@ async function SideBar({ id, displayStatus }: SideBarProps) {
               팔로워 &nbsp;&nbsp;<span className="text-14 font-bold">{data?.followerCount}</span>&nbsp;명
             </span>
           </div>
-
+          {displayStatus === 'notMyWork' ? (
+            <Button destination="/chat" classname="primary-button nav-chat-button">
+              1:1 대화걸기
+            </Button>
+          ) : null}
           <div className="mb-20 flex flex-col items-start gap-20">
             {data?.links &&
               data.links.map((link) => (
@@ -77,11 +81,6 @@ async function SideBar({ id, displayStatus }: SideBarProps) {
               <AddLinkIcon />
               {data?.links && data.links.length === 5 ? '링크 수정하기' : '링크 추가하기'}
             </Link>
-          ) : null}
-          {displayStatus === 'notMyWork' ? (
-            <Button destination="/chat" classname="primary-button nav-chat-button">
-              1:1 대화걸기
-            </Button>
           ) : null}
         </div>
       </div>

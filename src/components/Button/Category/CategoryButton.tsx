@@ -9,11 +9,20 @@ interface CategoryButtonProps {
   isActive: boolean;
   setStatusValue?: Dispatch<SetStateAction<'PUBLIC' | 'SELLING' | 'FREE'>>;
   setMainValue?: Dispatch<SetStateAction<'전체' | 'following'>>;
+  setArtistValue?: Dispatch<SetStateAction<'전체' | '판매중'>>;
   onClick?: (buttonLabel: string) => void;
 }
 
 // TODO: 사용할 때 props에 적절한 내용과 온클릭 함수 수정해서 넣어주세요.
-function CategoryButton({ type, labelText, isActive, setStatusValue, setMainValue, onClick }: CategoryButtonProps) {
+function CategoryButton({
+  type,
+  labelText,
+  isActive,
+  setStatusValue,
+  setMainValue,
+  setArtistValue,
+  onClick,
+}: CategoryButtonProps) {
   let labelClass;
   if (type === 'Category') {
     labelClass = isActive ? 'category-button-focus' : 'category-button';
@@ -41,6 +50,13 @@ function CategoryButton({ type, labelText, isActive, setStatusValue, setMainValu
         setMainValue('전체');
       } else {
         setMainValue('following');
+      }
+    }
+    if (setArtistValue) {
+      if (labelText === '전체') {
+        setArtistValue('전체');
+      } else {
+        setArtistValue('판매중');
       }
     }
   };
