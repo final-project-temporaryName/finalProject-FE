@@ -12,6 +12,7 @@ import Modal from '../_components';
 import BeforeUploadImage from './_components/BeforeUploadImage';
 import StatusLabelsGroup from './_components/StatusLabelsGroup';
 import TextEditor from './_components/TextEditor';
+import AddImageButton from './_components/AddImageButton';
 
 // TODO: API 함수 붙이기
 export default function UploadModal() {
@@ -89,6 +90,7 @@ export default function UploadModal() {
                   </div>
                 );
               })}
+              <AddImageButton onClick={handleUploadImageButton} />
             </div>
           ) : (
             <BeforeUploadImage onClick={handleUploadImageButton} />
