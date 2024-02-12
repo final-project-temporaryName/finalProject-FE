@@ -1,12 +1,7 @@
 import NavBar from '@/components/NavBar/NavBar';
 import ProfilePage from '@/components/ProfilePage/ProfilePage';
-import { ReactNode } from 'react';
 
-interface Props {
-  children: ReactNode;
-}
-
-export default function Layout({ children }: Props) {
+function EditProfilePage() {
   return (
     <div className="h-100dvh w-100dvw bg-white">
       <NavBar />
@@ -14,3 +9,5 @@ export default function Layout({ children }: Props) {
     </div>
   );
 }
+
+export default EditProfilePage;
