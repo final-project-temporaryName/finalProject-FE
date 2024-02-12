@@ -7,7 +7,7 @@ import PlusButtonIcon from '@/components/SvgComponents/PlusButtonIcon';
 import { nicknameRules } from '@/constants/InputErrorRules';
 import { useMutation } from '@tanstack/react-query';
 import { useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useFieldArray, FormProvider } from 'react-hook-form';
 
 export interface UserData {
   nickname: string;
@@ -15,7 +15,7 @@ export interface UserData {
   activityArea: string;
   activityField: string;
   description: string;
-  links?: { title: string; url: string }[];
+  links: { title: string; url: string }[];
 }
 
 function EditProfilePage() {
@@ -24,16 +24,27 @@ function EditProfilePage() {
   const [hasLinkError, setHasLinkError] = useState(false);
   const [isNicknameAvailable, setIsNicknameAvailable] = useState(false);
 
+  const methods = useForm<UserData>({
+    defaultValues: {
+      links: [{ title: '', url: '' }],
+    },
+    mode: 'onBlur',
+  });
+
   const {
     handleSubmit,
     register,
+    control,
     watch,
     formState: { errors },
-  } = useForm<UserData>({ mode: 'onBlur' });
-  const [links, setLinks] = useState<{ id: number }[]>([{ id: 0 }]);
-  const idCount = useRef(1); // useRef를 사용하여 idCount를 관리
+  } = methods;
 
-  const disableSaveButton = hasLinkError || !isNicknameAvailable;
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'links',
+  });
+
+  const disableSaveButton = hasLinkError || !isNicknameAvailable || Object.keys(errors).length > 0;
 
   const handleImageUpload = (url: string) => {
     setUploadedImageUrl(url);
@@ -60,41 +71,12 @@ function EditProfilePage() {
     });
   };
 
-  const addLink = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    if (links.length < 5) {
-      setLinks((prevLinks) => [...prevLinks, { id: idCount.current++ }]);
+  const removeLink = (index: number) => {
+    remove(index);
+    if (fields.length <= 1) {
+      append({ title: '', url: '' });
     }
   };
-
-  const removeLink = (id: number) => {
-    setLinks((prevLinks) =>
-      prevLinks.length === 1 ? [{ id: idCount.current++ }] : prevLinks.filter((link) => link.id !== id),
-    );
-  };
-
-  const renderLinks = () =>
-    links.map((link, index) => (
-      <LinkInput
-        key={link.id}
-        link={link}
-        removeLink={removeLink}
-        index={index}
-        register={register}
-        watch={watch}
-        handleLinkErrorUpdate={handleLinkErrorUpdate}
-      />
-    ));
-
-  const renderAddButton = () =>
-    links.length < 5 && (
-      <div className="tooltip">
-        <button className="ml-90" onClick={addLink}>
-          <PlusButtonIcon />
-        </button>
-        <span className="tooltip-text">5개까지 링크 추가 가능</span>
-      </div>
-    );
 
   const checkNicknameMutation = useMutation({
     mutationFn: (nickname: string) => instance.get(`/users/check?nickname=${nickname}`),
@@ -124,14 +106,14 @@ function EditProfilePage() {
   };
 
   return (
-    <>
+    <FormProvider {...methods}>
       <form className="relative mt-160 flex-col" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex-center">
           <div className="h-475 w-571">
             <div className="relative ml-75 flex items-center gap-10">
               <Input
                 type="file"
-                id="image_file"
+                id="file"
                 accept="image/*"
                 register={register('profileImageUrl')}
                 onImageUpload={handleImageUpload}
@@ -181,8 +163,23 @@ function EditProfilePage() {
               ></textarea>
             </div>
             <div>
-              {renderLinks()}
-              {renderAddButton()}
+              {fields.map((field, index) => (
+                <LinkInput
+                  key={field.id}
+                  link={field}
+                  remove={() => removeLink(index)}
+                  index={index}
+                  handleLinkErrorUpdate={handleLinkErrorUpdate}
+                />
+              ))}
+              {fields.length < 5 && (
+                <div className="tooltip">
+                  <button className="ml-90" onClick={() => append({ title: '', url: '' })}>
+                    <PlusButtonIcon />
+                  </button>
+                  <span className="tooltip-text">5개까지 링크 추가 가능</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -196,7 +193,7 @@ function EditProfilePage() {
           </button>
         </div>
       </form>
-    </>
+    </FormProvider>
   );
 }
 

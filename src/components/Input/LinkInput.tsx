@@ -5,46 +5,47 @@ import Input from '@/components/Input/Input';
 import BinIcon from '@/components/SvgComponents/BinIcon';
 import EditIcon from '@/components/SvgComponents/EditIcon';
 import SaveIcon from '@/components/SvgComponents/SaveIcon';
-import { useState } from 'react';
-import { UseFormRegister, UseFormWatch } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
+import { v4 as uuid } from 'uuid';
 
 interface Props {
-  link: { id: number };
-  removeLink: (id: number) => void;
+  link: { id: string };
+  remove: () => void;
   index: number;
-  register: UseFormRegister<any>;
-  watch: UseFormWatch<any>;
-  handleLinkErrorUpdate?: any;
+  handleLinkErrorUpdate?: (hasError: boolean) => void;
 }
 
-function LinkInput({ link, removeLink, index, handleLinkErrorUpdate }: Props) {
+function LinkInput({ link, remove, index, handleLinkErrorUpdate }: Props) {
+  const [isModified, setIsModified] = useState(false);
   const [isEditIconVisible, setIsEditIconVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [saveIconClicked, setSaveIconClicked] = useState(false);
-  const [title, setTitle] = useState('');
-  const [url, setUrl] = useState('');
-  const [linkId, setLinkId] = useState(null);
-  const [isModified, setIsModified] = useState(false);
-  const [showError, setShowError] = useState(false);
+  const [id, setId] = useState('default-id');
+  const {
+    register,
+    formState: { errors },
+    watch,
+    control,
+  } = useFormContext();
 
   const handleSaveIconClick = async () => {
-    setIsLoading(true);
-    setSaveIconClicked(true);
+    setIsModified(false);
     setIsEditIconVisible(true);
 
+    const title = watch(`links[${index}].title`);
+    const url = watch(`links[${index}].url`);
+
     try {
-      const response = await instance.post('/users/4/links', { title, url });
-      console.log(response);
-      setLinkId(response.data.id);
+      await instance.post('/users/4/links', { title, url });
+      setSaveIconClicked(true);
       setIsModified(false);
-      setShowError(false);
       if (handleLinkErrorUpdate) {
         handleLinkErrorUpdate(false);
       }
     } catch (error) {
       console.error(error);
 
-      setShowError(true);
       if (handleLinkErrorUpdate) {
         handleLinkErrorUpdate(true);
       }
@@ -54,21 +55,8 @@ function LinkInput({ link, removeLink, index, handleLinkErrorUpdate }: Props) {
   };
 
   const handleBinIconClick = async () => {
-    setIsLoading(true);
-    removeLink(link.id);
+    remove();
     setSaveIconClicked(false);
-
-    if (linkId) {
-      try {
-        const response = await instance.delete(`/users/4/links/${linkId}`);
-        setIsEditIconVisible(false);
-        console.log(response);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    setIsLoading(false);
   };
 
   const handleEditIconClick = () => {
@@ -78,44 +66,74 @@ function LinkInput({ link, removeLink, index, handleLinkErrorUpdate }: Props) {
     // 추후에 PUT 요청 로직 추가
   };
 
-  const handleInputChange =
-    (setter: React.Dispatch<React.SetStateAction<string>>) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      setter(event.target.value);
+  const handleInputChange = () => {
+    if (!saveIconClicked) {
       setIsModified(true);
-      setShowError(false);
-    };
+      if (handleLinkErrorUpdate) {
+        handleLinkErrorUpdate(true);
+      }
+    } else {
+      setIsModified(false);
+    }
+  };
 
   const handleBlur = () => {
-    if (isModified && !saveIconClicked) {
-      setShowError(true);
-      handleLinkErrorUpdate(true);
-      console.log('handleBlur');
-    }
+    // 아무 동작도 하지 않음
   };
 
   if (isLoading) return <div>Loading...</div>;
 
+  useEffect(() => {
+    setId(uuid()); // CSR에서 고유한 id 생성
+  }, []);
+
   return (
     <div className="relative flex flex-col">
       <div className="flex-start mb-15 flex">
-        <Input
-          label={index === 0 ? '외부링크' : ' '}
-          id={`link${link.id}`}
-          placeholder={index === 0 ? 'Behance' : '링크제목'}
-          style={saveIconClicked ? 'xs-input mr-20 save-input' : 'xs-input mr-20'}
-          readOnly={saveIconClicked}
-          onChange={handleInputChange(setTitle)}
-          value={title}
-          onBlur={handleBlur}
+        <Controller
+          name={`links[${index}].title`}
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <Input
+              label={index === 0 ? '외부링크' : ' '}
+              id={`link${id}`}
+              placeholder={index === 0 ? 'Behance' : '링크제목'}
+              style={saveIconClicked ? 'xs-input mr-20 save-input' : 'xs-input mr-20'}
+              readOnly={saveIconClicked}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                field.onChange(event); // Controller의 onChange 메소드 호출
+                handleInputChange(); // 사용자 정의 onChange 핸들러 호출
+              }}
+              onBlur={() => {
+                field.onBlur(); // Controller의 onBlur 메소드 호출
+                handleBlur(); // 사용자 정의 onBlur 핸들러 호출
+              }}
+              value={field.value}
+            />
+          )}
         />
-        <Input
-          id={`link${link.id}`}
-          placeholder={index === 0 ? 'http://behance.com' : '링크 붙여넣기'}
-          style={saveIconClicked ? 'lg-input mr-10 save-input' : 'lg-input mr-10'}
-          readOnly={saveIconClicked}
-          onChange={handleInputChange(setUrl)}
-          value={url}
-          onBlur={handleBlur}
+        <Controller
+          name={`links[${index}].url`}
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <Input
+              id={`link${id}`}
+              placeholder={index === 0 ? 'http://behance.com' : '링크 붙여넣기'}
+              style={saveIconClicked ? 'lg-input mr-10 save-input' : 'lg-input mr-10'}
+              readOnly={saveIconClicked}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                field.onChange(event);
+                handleInputChange();
+              }}
+              onBlur={() => {
+                field.onBlur();
+                handleBlur();
+              }}
+              value={field.value}
+            />
+          )}
         />
         <div className="flex-center w-60">
           {saveIconClicked ? (
@@ -129,7 +147,7 @@ function LinkInput({ link, removeLink, index, handleLinkErrorUpdate }: Props) {
         </div>
       </div>
       <div className="absolute bottom-1 right-240">
-        {showError && <div className="text-10 text-[#c90000]">링크 저장이 필요합니다!</div>}
+        {isModified && !saveIconClicked && <div className="text-10 text-[#c90000]">링크 저장이 필요합니다!</div>}
       </div>
     </div>
   );

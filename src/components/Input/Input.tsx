@@ -1,13 +1,13 @@
 'use client';
 
-import instance from '@/api/axios';
 import { deleteImageFile } from '@/api/image/deleteImageFile';
 import { postImageFile } from '@/api/image/postImageFile';
 import PlusButtonIcon from '@/components/SvgComponents/PlusButtonIcon';
 import UpLoadIcon from '@/components/SvgComponents/UpLoadIcon';
 import Image from 'next/image';
-import { ChangeEvent, useRef, useState } from 'react';
+import React, { ChangeEvent, FocusEventHandler, useEffect, useRef, useState } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
+import { v4 as uuid } from 'uuid';
 
 interface Props {
   label?: string;
@@ -21,30 +21,17 @@ interface Props {
   readOnly?: boolean;
   onImageUpload?: (url: string) => void;
   userId?: number;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  defaultValue?: string;
   value?: string;
-  onBlur?: any;
-  // nicknameError?: string | null;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: FocusEventHandler<HTMLInputElement>;
 }
 
-function Input({
-  label,
-  id,
-  type = 'text',
-  placeholder,
-  error,
-  register,
-  style,
-  readOnly,
-  onImageUpload,
-  userId,
-  onChange,
-  value,
-  onBlur,
-  // nicknameError,
-}: Props) {
+const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
+  const { label, type = 'text', placeholder, error, register, style, readOnly, value, onChange } = props;
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [id, setId] = useState('default-id');
 
   const inputClasses = `${style} primary-input rounded-xs ${error ? 'text-red text-10' : ''} ${readOnly ? 'bg-gray-4' : ''}`;
 
@@ -61,7 +48,6 @@ function Input({
       }
       setProfileImage(response?.data.imageUrl);
       event.target.value = '';
-      console.log(event.target.files);
     }
   };
 
@@ -69,15 +55,8 @@ function Input({
     event.preventDefault();
 
     await deleteImageFile(4, profileImage);
-    setProfileImage(null); // 상태 업데이트로 이미지를 UI에서 제거
+    setProfileImage(null);
   };
-
-  const renderLabel = () =>
-    label && (
-      <label htmlFor={id} className="flex h-40 w-90 items-center justify-start gap-20 whitespace-nowrap p-10 text-18">
-        {label}
-      </label>
-    );
 
   const renderFileInput = () => (
     <div className="file-input-wrapper relative h-95 w-95">
@@ -114,7 +93,16 @@ function Input({
 
   const renderInput = () => (
     <div className="relative flex-row">
-      <input type={type} id={id} placeholder={placeholder} className={inputClasses} {...register} readOnly={readOnly} />
+      <input
+        type={type}
+        id={id}
+        placeholder={placeholder}
+        className={inputClasses}
+        {...register}
+        readOnly={readOnly}
+        value={value}
+        onChange={onChange}
+      />
       <div className="absolute text-10 text-[#c90000]">
         {type === 'nickname' && (
           <p className={`${error === '사용 가능한 닉네임입니다.' ? 'text-[#0057FF]' : 'text-[#c90000]'}`}>{error}</p>
@@ -123,12 +111,20 @@ function Input({
     </div>
   );
 
+  useEffect(() => {
+    setId(uuid()); // CSR에서 고유한 id 생성
+  }, []);
+
   return (
     <div className="flex-center">
-      {renderLabel()}
+      {label && (
+        <label htmlFor={id} className="flex h-40 w-90 items-center justify-start gap-20 whitespace-nowrap p-10 text-18">
+          {label}
+        </label>
+      )}
       {type === 'file' ? renderFileInput() : renderInput()}
     </div>
   );
-}
+});
 
 export default Input;
