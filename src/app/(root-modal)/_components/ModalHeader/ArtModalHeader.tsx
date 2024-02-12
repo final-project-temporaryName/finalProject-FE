@@ -3,13 +3,21 @@
 import { Button } from '@/components/Button';
 import { dateFormat } from '@/utils/date';
 import DefaultProfile from '../../../../../public/assets/icons/ProfileImg.svg';
+import { MouseEvent, useState } from 'react';
 
 interface ModalHeaderProps {
   onClickClose: () => void;
 }
 
-// TODO: 프로필 이미지 연결하기
+// TODO: 프로필 이미지 연결하기, 팔로우 api 연결하기
 function ArtModalHeader({ onClickClose }: ModalHeaderProps) {
+  const [isFollowClicked, setIsFollowClicked] = useState(false);
+
+  const handleFollowClick = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setIsFollowClicked((prev) => !prev);
+  };
+
   return (
     <div className="relative flex justify-between border-b-1 border-solid border-primary-5 pb-24 pl-34 pr-42 pt-24 align-middle text-14">
       <Button.Modal.Close onClickClose={onClickClose} />
@@ -22,7 +30,9 @@ function ArtModalHeader({ onClickClose }: ModalHeaderProps) {
           <DefaultProfile alt="프로필 이미지" width={32} height={32} />
           <p className="text-14 font-semibold">작가 닉네임</p>
         </div>
-        <button className="primary-button artModal-follow-button">Follow</button>
+        <button onClick={(e) => handleFollowClick(e)} className="primary-button artModal-follow-button">
+          {isFollowClicked ? 'Followed' : 'Follow'}
+        </button>
         <Button destination="/chat" classname="primary-button artModal-chat-button">
           1:1 채팅
         </Button>
