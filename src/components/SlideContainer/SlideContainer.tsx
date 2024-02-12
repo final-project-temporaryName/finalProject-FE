@@ -1,4 +1,6 @@
-import { useRef } from 'react';
+'use client';
+
+import { useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Scrollbar } from 'swiper/modules';
 import SwiperCore from 'swiper';
@@ -9,6 +11,7 @@ import 'swiper/css/scrollbar';
 import '@/styles/tailwind.css';
 import Image from 'next/image';
 import Expand from './Expand';
+import Quit from './Quit';
 
 interface SlideContainerProps {
   imageUrlList: string[];
@@ -16,6 +19,18 @@ interface SlideContainerProps {
 
 function SlideContainer({ imageUrlList }: SlideContainerProps) {
   const swiperRef = useRef<SwiperCore>();
+  const [showModal, setShowModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState('');
+
+  const openModal = (imageUrl: string) => {
+    setSelectedImage(imageUrl);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setSelectedImage('');
+    setShowModal(false);
+  };
 
   return (
     <>
@@ -37,7 +52,7 @@ function SlideContainer({ imageUrlList }: SlideContainerProps) {
             <SwiperSlide key={idx}>
               <div className="relative h-520 w-auto">
                 <Image src={url} alt="작품 이미지" fill objectFit="cover" />
-                <button className="absolute bottom-15 right-15">
+                <button className="absolute bottom-15 right-15" onClick={() => openModal(url)}>
                   <Expand />
                 </button>
               </div>
@@ -45,6 +60,18 @@ function SlideContainer({ imageUrlList }: SlideContainerProps) {
           );
         })}
       </Swiper>
+
+      {showModal && (
+        <div
+          className="!important backdrop-blur-custom-blur fixed left-0 top-0 z-infinite flex h-full w-full items-center justify-center"
+          onClick={closeModal}
+        >
+          <button className="absolute right-400 top-150 text-black" onClick={closeModal}>
+            <Quit />
+          </button>
+          <Image src={selectedImage} alt="작품 확대 이미지" width={600} height={900} />
+        </div>
+      )}
     </>
   );
 }
