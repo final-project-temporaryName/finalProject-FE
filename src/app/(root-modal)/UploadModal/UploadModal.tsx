@@ -72,49 +72,22 @@ export default function UploadModal() {
       <Modal.Body classname="grid grid-cols-2 h-full">
         <div className="relative flex h-full w-full items-center justify-center border-r-1 border-solid border-black">
           {uploadImageSources.length ? (
-            <div className="flex gap-18">
+            <div className="relative grid grid-cols-3 grid-rows-3 gap-18 px-29 py-26">
               {uploadImageSources.map((uploadImageSource, index) => {
-                if (index < 9) {
-                  return (
-                    <div className="relative grid grid-cols-3 grid-rows-3 gap-18 px-29 py-26">
-                      <div key={uploadImageSource} className="relative h-96 w-96">
-                        <Image
-                          className="object-contain"
-                          src={uploadImageSource}
-                          alt="업로드한 이미지"
-                          width={96}
-                          height={96}
-                        />
-                        <button
-                          className="absolute right-5 top-5 flex h-20 w-20 items-center justify-center rounded-full bg-primary-1"
-                          onClick={() => handleDeleteImage(index)}
-                        >
-                          {index + 1}
-                        </button>
-                      </div>
-                    </div>
-                  );
-                } else {
-                  return (
-                    <div className="flex h-328 w-96 justify-end">
-                      <div key={uploadImageSource} className="relative h-96 w-96">
-                        <Image
-                          className="object-contain"
-                          src={uploadImageSource}
-                          alt="업로드한 이미지"
-                          width={96}
-                          height={96}
-                        />
-                        <button
-                          className="absolute right-5 top-5 flex h-20 w-20 items-center justify-center rounded-full bg-primary-1"
-                          onClick={() => handleDeleteImage(index)}
-                        >
-                          {index + 1}
-                        </button>
-                      </div>
-                    </div>
-                  );
-                }
+                return (
+                  <div key={uploadImageSource} className="relative flex h-96 w-96 items-center bg-black">
+                    <Image
+                      className="object-contain"
+                      src={uploadImageSource}
+                      alt="업로드한 이미지"
+                      width={96}
+                      height={96}
+                    />
+                    <button className="absolute right-5 top-5 flex h-20 w-20 items-center justify-center rounded-full bg-primary text-white">
+                      {index + 1}
+                    </button>
+                  </div>
+                );
               })}
             </div>
           ) : (
@@ -133,7 +106,7 @@ export default function UploadModal() {
         <div className="relative flex h-full w-full flex-col gap-18 p-20">
           <input
             id="title"
-            className="h-39 w-300 p-10 placeholder:text-gray-5"
+            className="h-39 w-300 p-10 text-14 font-semibold placeholder:text-gray-5"
             value={title}
             type="text"
             spellCheck="false"
