@@ -17,7 +17,7 @@ export default function ArtModal() {
 
   return (
     <Modal.Container onClickClose={onClickClose} classname="modalContainer">
-      <Modal.Header onClickClose={onClickClose} />
+      <Modal.ArtHeader onClickClose={onClickClose} />
       <Modal.Body classname="grid grid-cols-2 h-full"></Modal.Body>
     </Modal.Container>
   );

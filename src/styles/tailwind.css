@@ -96,6 +96,14 @@
   @apply h-50 w-full cursor-pointer rounded-ml border-none bg-[#0f1419] text-17 text-white hover:bg-[#272c30] disabled:opacity-50;
 }
 
+.artModal-follow-button {
+  @apply h-40 w-90 bg-primary text-white;
+}
+
+.artModal-chat-button {
+  @apply h-40 w-90 hover:border-primary hover:bg-primary hover:text-white active:bg-primary;
+}
+
 /* upload label  */
 .status-label {
   @apply flex h-40 w-74 items-center justify-center text-12 hover:font-bold hover:text-primary;
