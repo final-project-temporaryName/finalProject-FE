@@ -36,6 +36,7 @@ const config: Config = {
       first: '10',
       second: '20',
       third: '30',
+      infinite: '9999',
     },
     borderRadius: {
       sm: '0.75rem',
@@ -91,9 +92,6 @@ const config: Config = {
       },
     },
     screens: {
-      // tablet: { max: '1279px' },
-      // => @media (max-width: 1279px) { ... }
-
       mobile: { max: '375px' },
       // => @media (max-width: 375px) { ... }
     },
@@ -109,6 +107,9 @@ const config: Config = {
       },
       animation: {
         textLoop: 'textLoop 10s linear infinite',
+      },
+      boxShadow: {
+        top: '0 -4px 6px -1px rgba(0, 0, 0, 0.18)',
       },
     },
   },

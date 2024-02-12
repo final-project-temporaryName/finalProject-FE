@@ -9,3 +9,8 @@ export interface AuthState {
   setLogin: () => void;
   setLogout: () => void;
 }
+
+export interface ArtworkState {
+  clickedArtworkId: number;
+  setClickedArtworkId: (type: number) => void;
+}

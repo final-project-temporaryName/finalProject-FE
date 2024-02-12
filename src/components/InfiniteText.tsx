@@ -12,28 +12,28 @@ function InfiniteText({ text }: Props) {
           id="flow-text"
           className="group flex flex-[0_0_auto] overflow-hidden whitespace-nowrap text-16 font-bold text-white transition-[0.3s] hover:cursor-pointer hover:text-black"
         >
-          <div id="flow-wrap" className="animate-textLoop group-hover:animate-pause pr-[1.488vw]">
+          <div id="flow-wrap" className="group-hover:animate-pause animate-textLoop pr-[1.488vw]">
             {text}
           </div>
-          <div id="flow-wrap" className="animate-textLoop group-hover:animate-pause pr-[1.488vw]">
+          <div id="flow-wrap" className="group-hover:animate-pause animate-textLoop pr-[1.488vw]">
             {text}
           </div>
-          <div id="flow-wrap" className="animate-textLoop group-hover:animate-pause pr-[1.488vw]">
+          <div id="flow-wrap" className="group-hover:animate-pause animate-textLoop pr-[1.488vw]">
             {text}
           </div>
-          <div id="flow-wrap" className="animate-textLoop group-hover:animate-pause pr-[1.488vw]">
+          <div id="flow-wrap" className="group-hover:animate-pause animate-textLoop pr-[1.488vw]">
             {text}
           </div>
-          <div id="flow-wrap" className="animate-textLoop group-hover:animate-pause pr-[1.488vw]">
+          <div id="flow-wrap" className="group-hover:animate-pause animate-textLoop pr-[1.488vw]">
             {text}
           </div>
-          <div id="flow-wrap" className="animate-textLoop group-hover:animate-pause pr-[1.488vw]">
+          <div id="flow-wrap" className="group-hover:animate-pause animate-textLoop pr-[1.488vw]">
             {text}
           </div>
-          <div id="flow-wrap" className="animate-textLoop group-hover:animate-pause pr-[1.488vw]">
+          <div id="flow-wrap" className="group-hover:animate-pause animate-textLoop pr-[1.488vw]">
             {text}
           </div>
-          <div id="flow-wrap" className="animate-textLoop group-hover:animate-pause pr-[1.488vw]">
+          <div id="flow-wrap" className="group-hover:animate-pause animate-textLoop pr-[1.488vw]">
             {text}
           </div>
         </div>
