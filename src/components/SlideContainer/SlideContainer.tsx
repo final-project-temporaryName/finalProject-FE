@@ -7,7 +7,11 @@ import 'swiper/css/navigation';
 import 'swiper/css/scrollbar';
 import '@/styles/tailwind.css';
 
-function SlideContainer() {
+interface SlideContainerProps {
+  imageUrlList: string[];
+}
+
+function SlideContainer({ imageUrlList }: SlideContainerProps) {
   return (
     <>
       <Swiper pagination={true} modules={[Pagination]} className="swiper-container">
