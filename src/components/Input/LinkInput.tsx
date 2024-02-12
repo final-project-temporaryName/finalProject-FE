@@ -1,6 +1,7 @@
 'use client';
 
 import instance from '@/api/axios';
+import { postLinks } from '@/api/links/postLinks';
 import Input from '@/components/Input/Input';
 import BinIcon from '@/components/SvgComponents/BinIcon';
 import EditIcon from '@/components/SvgComponents/EditIcon';
@@ -37,7 +38,7 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate }: Props) {
     const url = watch(`links[${index}].url`);
 
     try {
-      await instance.post('/users/4/links', { title, url });
+      await postLinks({ userId: 4, title, url });
       setSaveIconClicked(true);
       setIsModified(false);
       if (handleLinkErrorUpdate) {

@@ -6,8 +6,8 @@ import LinkInput from '@/components/Input/LinkInput';
 import PlusButtonIcon from '@/components/SvgComponents/PlusButtonIcon';
 import { nicknameRules } from '@/constants/InputErrorRules';
 import { useMutation } from '@tanstack/react-query';
-import { useRef, useState } from 'react';
-import { useForm, useFieldArray, FormProvider } from 'react-hook-form';
+import { useState } from 'react';
+import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 
 export interface UserData {
   nickname: string;
@@ -50,8 +50,10 @@ function EditProfilePage() {
     setUploadedImageUrl(url);
   };
 
+  const userId = 4;
+
   const putUserMutation = useMutation({
-    mutationFn: (userData: UserData) => instance.put('/users/4', userData),
+    mutationFn: (userData: UserData) => instance.put(`/users/${userId}`, userData),
   });
 
   const onSubmit = (data: UserData) => {
@@ -78,6 +80,13 @@ function EditProfilePage() {
     }
   };
 
+  const checkNickname = () => {
+    const nickname = watch('nickname');
+    if (nickname) {
+      checkNicknameMutation.mutate(nickname);
+    }
+  };
+
   const checkNicknameMutation = useMutation({
     mutationFn: (nickname: string) => instance.get(`/users/check?nickname=${nickname}`),
     onSuccess: () => {
@@ -93,13 +102,6 @@ function EditProfilePage() {
       setIsNicknameAvailable(false);
     },
   });
-
-  const checkNickname = () => {
-    const nickname = watch('nickname');
-    if (nickname) {
-      checkNicknameMutation.mutate(nickname);
-    }
-  };
 
   const handleLinkErrorUpdate = (hasError: boolean) => {
     setHasLinkError(hasError);
