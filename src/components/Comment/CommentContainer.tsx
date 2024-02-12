@@ -103,7 +103,7 @@ function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentCon
         className={
           isCommentClicked
             ? 'h-auto w-full min-w-360 rounded-t-sm bg-gray-1 shadow-top'
-            : 'h-55 w-full min-w-360 overflow-y-hidden rounded-t-sm bg-gray-1 shadow-top'
+            : 'h-80 w-full min-w-360 overflow-y-hidden rounded-t-sm bg-gray-1 shadow-top'
         }
       >
         <div className="ml-20 flex gap-5">
@@ -138,20 +138,22 @@ function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentCon
             </p>
           </button>
         </div>
-        <div className="flex flex-col p-20 pb-7">
-          {data &&
-            data.length > 0 &&
-            data.map((comment) => (
-              <div key={comment.createdAt + comment.nickName}>
-                <Comment
-                  imageUrl={comment.imageUrl}
-                  nickName={comment.nickName}
-                  createdAt={comment.createdAt}
-                  description={comment.description}
-                />
-              </div>
-            ))}
-        </div>
+        {
+          <div className="flex flex-col p-20 pb-7">
+            {data &&
+              data.length > 0 &&
+              data.map((comment) => (
+                <div key={comment.createdAt + comment.nickName}>
+                  <Comment
+                    imageUrl={comment.imageUrl}
+                    nickName={comment.nickName}
+                    createdAt={comment.createdAt}
+                    description={comment.description}
+                  />
+                </div>
+              ))}
+          </div>
+        }
 
         <form className="flex items-center gap-13 p-20 pb-36" onSubmit={handleSubmit(onValid)}>
           <input
