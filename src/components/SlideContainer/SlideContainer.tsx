@@ -64,11 +64,12 @@ function SlideContainer({ imageUrlList }: SlideContainerProps) {
       {showModal && (
         <>
           <div className="fixed left-0 top-0 z-infinite h-full w-full bg-black opacity-65"></div>
+
           <div
             className="!important fixed left-0 top-0 z-infinite flex h-full w-full items-center justify-center"
             onClick={closeModal}
           >
-            <button className="absolute right-400 top-150 text-black" onClick={closeModal}>
+            <button className="absolute right-400 top-100 z-infinite" onClick={closeModal}>
               <Quit />
             </button>
             <Image src={selectedImage} alt="작품 확대 이미지" width={750} height={900} />
