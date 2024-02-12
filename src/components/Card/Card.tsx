@@ -13,7 +13,11 @@ import { Button } from '../Button';
 import Count from './Count';
 import { useStore } from '@/store';
 
-type Props = Omit<CardType, 'description' | 'createdAt' | 'updatedAt'>;
+type CustomCardType = Omit<CardType, 'description' | 'createdAt' | 'updatedAt'>;
+
+interface Props extends CustomCardType {
+  type: 'main' | 'mypage';
+}
 
 function Card({
   artworkId,
@@ -26,6 +30,7 @@ function Card({
   artistId,
   artistName,
   artistProfileImageUrl,
+  type,
 }: Props) {
   const pathname = usePathname();
   const pathnameArr = pathname.split('/');
@@ -38,9 +43,9 @@ function Card({
   };
 
   return (
-    <div className={`flex h-${pathname === '/' ? '328' : '280'} min-w-280 flex-col`}>
-      <Link href={`/art/${artworkId}`} onClick={handleArtworkClick}>
-        <div id="cardImgBox" className="group relative h-280 min-w-280 overflow-hidden">
+    <div className={`flex h-${type === 'main' ? '328' : '280'} min-w-280 flex-col`}>
+      <Link href={`/art/${artworkId}`}>
+        <div id="cardImgBox" className="group relative h-280 min-w-280 overflow-hidden" onClick={handleArtworkClick}>
           <Image
             className="rounded-md transition-all duration-200 ease-linear group-hover:scale-[1.2]"
             src={thumbnailImageUrl}
@@ -74,8 +79,8 @@ function Card({
           </div>
         </div>
       </Link>
-      {pathname === '/' && (
-        <div className="relative flex h-48 w-280 items-center pt-10">
+      {type === 'main' && (
+        <div className="relative flex h-48 w-280 flex-shrink-0 items-center pt-10">
           <Link href={`/artist/${artistId}`} className="flex items-center gap-10">
             <Image
               className="h-40 w-40 rounded-full"

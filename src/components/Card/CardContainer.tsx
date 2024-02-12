@@ -1,13 +1,12 @@
-'use client';
-
 import { CardType } from '@/types/cards';
-import { usePathname } from 'next/navigation';
 import Card from './Card';
 import NoContent from './NoContent';
 
-function CardContainer() {
-  const pathname = usePathname();
+interface Props {
+  type: 'main' | 'mypage';
+}
 
+function CardContainer({ type }: Props) {
   const data: CardType[] = [
     {
       artworkId: 1,
@@ -268,7 +267,7 @@ function CardContainer() {
 
   return (
     <div
-      className={`${data && data.length > 0 ? (pathname === '/' ? 'card-container-mainPage' : 'card-container-artistPage') : 'flex-center mt-25 h-[55vh] w-full'}`}
+      className={`${data && data.length > 0 ? (type === 'main' ? 'card-container-mainPage' : 'card-container-artistPage') : 'flex-center mt-25 h-[55vh] w-full'}`}
     >
       {data && data.length > 0 ? (
         data.map((card) => (
@@ -284,6 +283,7 @@ function CardContainer() {
             artistId={card.artistId}
             artistName={card.artistName}
             artistProfileImageUrl={card.artistProfileImageUrl}
+            type={type}
           />
         ))
       ) : (

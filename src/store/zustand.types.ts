@@ -12,5 +12,7 @@ export interface AuthState {
 
 export interface ArtworkState {
   clickedArtworkId: number;
-  setClickedArtworkId: (type: number) => void;
+  setClickedArtworkId: (id: number) => void;
+  clickedUploadArtworkUrl: string;
+  setClickedUploadArtworkUrl: (path: string) => void;
 }

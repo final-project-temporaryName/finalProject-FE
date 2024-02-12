@@ -1,7 +1,7 @@
 import RedirectToArt from '../_components/RedirectToArt';
 import Home from '../../../(auth)/mypage/page';
 
-export default async function Login() {
+export default async function Art() {
   return (
     <>
       <RedirectToArt />

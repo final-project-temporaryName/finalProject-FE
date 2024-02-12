@@ -7,14 +7,15 @@ interface Props {
   classname: string;
   children: ReactNode;
   type?: 'button' | 'reset' | 'submit' | undefined;
+  onClick?: () => void;
 }
 
 // destination: 사용할 때 props에 이동할 Route를 string 형태로 넣어주세요.
 // style: tailwindCSS를 넣어주세요.
-export default function PrimaryButton({ destination, classname, children, type }: Props) {
+export default function PrimaryButton({ destination, classname, children, type, onClick }: Props) {
   return (
     <Link href={`${destination}`}>
-      <button className={`${classname}`} type={type}>
+      <button className={`${classname}`} type={type} onClick={onClick}>
         {children}
       </button>
     </Link>
