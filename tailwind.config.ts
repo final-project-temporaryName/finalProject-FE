@@ -36,6 +36,7 @@ const config: Config = {
       first: '10',
       second: '20',
       third: '30',
+      infinite: '9999',
     },
     borderRadius: {
       xs: '0.5rem',
@@ -92,15 +93,24 @@ const config: Config = {
       },
     },
     screens: {
-      // tablet: { max: '1279px' },
-      // => @media (max-width: 1279px) { ... }
-
       mobile: { max: '375px' },
       // => @media (max-width: 375px) { ... }
     },
     extend: {
       height: {
         screen: '100dvh', //dvh를 애용합시다!
+      },
+      keyframes: {
+        textLoop: {
+          '0%': { '-webkit-transform': 'translate3d(0, 0, 0)', transform: 'translate3d(0, 0, 0)' },
+          '100%': { '-webkit-transform': 'translate3d(-100%, 0, 0)', transform: 'translate3d(-100%, 0, 0)' },
+        },
+      },
+      animation: {
+        textLoop: 'textLoop 10s linear infinite',
+      },
+      boxShadow: {
+        top: '0 -4px 6px -1px rgba(0, 0, 0, 0.18)',
       },
     },
   },

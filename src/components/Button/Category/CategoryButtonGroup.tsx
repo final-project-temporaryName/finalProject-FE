@@ -29,6 +29,7 @@ function CategoryButtonGroup() {
           key={idx}
           labelText={labelText}
           onClick={handleActive}
+          type="Category"
           isActive={content ? content === labelText : labelText === '전체'}
         />
       ))}

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import EditIcon from './EditIcon';
 import AddLinkIcon from './AddLinkIcon';
-import defaultProfileImg from '../../../public/assets/images/youthLogo.png';
+import defaultProfileImg from '../../../public/assets/images/logo.png';
 import { Button } from '@/components/Button';
 import LinkIcon from './LinkIcon';
 import getUser from '@/api/users/getUser';
@@ -30,7 +30,7 @@ async function SideBar({ id, displayStatus }: SideBarProps) {
         </div>
       </div>
       <div className="absolute top-48 flex h-650 w-260 flex-col items-center rounded-[12px] bg-gray-1">
-        <div className="mb-276 mt-89 flex h-650 w-192 flex-col items-center justify-center">
+        <div className="mb-276 mt-75 flex h-650 w-192 flex-col items-center justify-center">
           {displayStatus === 'myWork' ? (
             <Link href="/editProfile" className="z-10 absolute right-13 top-15 h-32 w-32 rounded-full">
               <div className="flex h-full w-full items-center justify-center rounded-full border-2 border-solid border-gray-4 bg-white">
@@ -38,11 +38,11 @@ async function SideBar({ id, displayStatus }: SideBarProps) {
               </div>
             </Link>
           ) : null}
-          <div className="flex-grow">
+          <div className="flex-col-center">
             <div className="items-center text-center text-18 font-semibold">{data?.nickname}</div>
             <p className="text-12 text-gray-9">{data?.activityArea + ' / ' + data?.activityField}</p>
           </div>
-          <div className="mb-16 mt-16 rounded-sm bg-white p-16">
+          <div className="mb-16 mt-16 flex min-h-60 w-192 items-center rounded-sm bg-white p-16">
             <p className="text-12 text-gray-9">{data?.description}</p>
           </div>
           <div className="mb-20 flex items-center justify-between gap-20">
@@ -54,7 +54,11 @@ async function SideBar({ id, displayStatus }: SideBarProps) {
               팔로워 &nbsp;&nbsp;<span className="text-14 font-bold">{data?.followerCount}</span>&nbsp;명
             </span>
           </div>
-
+          {displayStatus === 'notMyWork' ? (
+            <Button destination="/chat" classname="primary-button nav-chat-button">
+              1:1 대화걸기
+            </Button>
+          ) : null}
           <div className="mb-20 flex flex-col items-start gap-20">
             {data?.links &&
               data.links.map((link) => (
@@ -77,11 +81,6 @@ async function SideBar({ id, displayStatus }: SideBarProps) {
               <AddLinkIcon />
               {data?.links && data.links.length === 5 ? '링크 수정하기' : '링크 추가하기'}
             </Link>
-          ) : null}
-          {displayStatus === 'notMyWork' ? (
-            <Button destination="/chat" classname="primary-button nav-chat-button">
-              1:1 대화걸기
-            </Button>
           ) : null}
         </div>
       </div>
