@@ -126,3 +126,7 @@
 .swiper-container {
   @apply h-520;
 }
+
+.swiper {
+  @apply relative;
+}

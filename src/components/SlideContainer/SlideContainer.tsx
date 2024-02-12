@@ -8,6 +8,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/scrollbar';
 import '@/styles/tailwind.css';
 import Image from 'next/image';
+import Expand from './Expand';
 
 interface SlideContainerProps {
   imageUrlList: string[];
@@ -34,8 +35,11 @@ function SlideContainer({ imageUrlList }: SlideContainerProps) {
         {imageUrlList?.map((url, idx) => {
           return (
             <SwiperSlide key={idx}>
-              <div className="h-500 w-auto">
+              <div className="relative h-520 w-auto">
                 <Image src={url} alt="작품 이미지" fill objectFit="cover" />
+                <button className="absolute bottom-15 right-15">
+                  <Expand />
+                </button>
               </div>
             </SwiperSlide>
           );
