@@ -2,18 +2,18 @@
 
 import { Button } from '@/components/Button';
 import '@/styles/tailwind.css';
+import { DragDropContext, Draggable, DropResult, Droppable } from '@hello-pangea/dnd';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useCallback, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import 'react-quill/dist/quill.bubble.css';
 import SellingLabelImg from '../../../../public/assets/icons/saleFlag.svg';
 import ShareLabelImg from '../../../../public/assets/icons/shareFlag.svg';
 import Modal from '../_components';
+import AddImageButton from './_components/AddImageButton';
 import BeforeUploadImage from './_components/BeforeUploadImage';
 import StatusLabelsGroup from './_components/StatusLabelsGroup';
 import TextEditor from './_components/TextEditor';
-import AddImageButton from './_components/AddImageButton';
-import { DragDropContext, Draggable, DropResult, Droppable } from '@hello-pangea/dnd';
 
 // TODO: API 함수 붙이기
 export default function UploadModal() {
@@ -69,6 +69,7 @@ export default function UploadModal() {
   };
 
   const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
+    console.log([draggableId, destination, source]);
     if (!destination) return;
     uploadImageSources.splice(source.index, 1);
     uploadImageSources.splice(destination?.index, 0, draggableId);
@@ -84,15 +85,17 @@ export default function UploadModal() {
               <Droppable droppableId="temporary">
                 {(provided) => (
                   <div
-                    key={'temporary'}
                     ref={provided.innerRef}
-                    className="relative grid grid-cols-3 grid-rows-3 gap-18 px-29 py-26"
                     {...provided.droppableProps}
+                    className="relative grid grid-cols-4 grid-rows-3 gap-18 px-29 py-26"
                   >
                     {uploadImageSources.map((uploadImageSource, index) => {
                       return (
                         <>
-                          <Draggable key={uploadImageSource} draggableId={uploadImageSource} index={index}>
+                          {/* <Droppable droppableId={'tem'}>
+                        {(provided) => (
+                          <div ref={provided.innerRef} {...provided.droppableProps}> */}
+                          <Draggable draggableId={uploadImageSource} index={index}>
                             {(provided) => (
                               <div
                                 className="relative flex h-96 w-96 items-center bg-black"
@@ -107,17 +110,23 @@ export default function UploadModal() {
                                   width={96}
                                   height={96}
                                 />
-                                <button className="absolute right-5 top-5 flex h-20 w-20 items-center justify-center rounded-full bg-primary text-white">
+                                <button
+                                  onClick={() => handleDeleteImage(index)}
+                                  className="absolute right-5 top-5 flex h-20 w-20 items-center justify-center rounded-full bg-primary text-white"
+                                >
                                   {index + 1}
                                 </button>
                               </div>
                             )}
                           </Draggable>
+                          {/* </div> */}
+                          {/* )} */}
+                          {/* </Droppable> */}
                         </>
                       );
                     })}
                     {provided.placeholder}
-                    <AddImageButton onClick={handleUploadImageButton} />
+                    {uploadImageSources.length !== 10 && <AddImageButton onClick={handleUploadImageButton} />}
                   </div>
                 )}
               </Droppable>
