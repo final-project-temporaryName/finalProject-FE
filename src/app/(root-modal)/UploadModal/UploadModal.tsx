@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/Button';
+import Quit from '@/components/SlideContainer/Quit';
 import '@/styles/tailwind.css';
 import { DragDropContext, Draggable, DropResult, Droppable } from '@hello-pangea/dnd';
 import Image from 'next/image';
@@ -21,6 +22,8 @@ export default function UploadModal() {
   const [description, setDescription] = useState('');
   const [uploadImageSources, setUploadImageSources] = useState<string[]>([]);
   const [label, setLabel] = useState<'PUBLIC' | 'SELLING' | 'FREE'>('PUBLIC');
+  const [showImage, setShowImage] = useState(false);
+  const [selectedImage, setSelectedImage] = useState('');
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -68,6 +71,17 @@ export default function UploadModal() {
     inputRef.current?.click();
   };
 
+  const openEnlargedImage = (imageUrl: string) => {
+    console.log('hh');
+    setSelectedImage(imageUrl);
+    setShowImage(true);
+  };
+
+  const closeEnlargedImage = () => {
+    setSelectedImage('');
+    setShowImage(false);
+  };
+
   const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
     console.log([draggableId, destination, source]);
     if (!destination) return;
@@ -98,6 +112,7 @@ export default function UploadModal() {
                           <Draggable draggableId={uploadImageSource} index={index}>
                             {(provided) => (
                               <div
+                                onDoubleClick={() => openEnlargedImage(uploadImageSource)}
                                 className="relative flex h-96 w-96 items-center bg-black"
                                 ref={provided.innerRef}
                                 {...provided.draggableProps}
@@ -174,6 +189,20 @@ export default function UploadModal() {
             <StatusLabelsGroup setStatusValue={setLabel} />
           </div>
         </div>
+        {showImage && (
+          <>
+            <div className="fixed left-0 top-0 z-infinite h-full w-full bg-black opacity-65"></div>
+            <div
+              className="!important fixed left-0 top-0 z-infinite flex h-full w-full items-center justify-center"
+              onClick={closeEnlargedImage}
+            >
+              <button className="absolute right-400 top-100 z-infinite" onClick={closeEnlargedImage}>
+                <Quit />
+              </button>
+              <Image src={selectedImage} alt="작품 확대 이미지" width={750} height={900} />
+            </div>
+          </>
+        )}
       </Modal.Body>
     </Modal.Container>
   );
