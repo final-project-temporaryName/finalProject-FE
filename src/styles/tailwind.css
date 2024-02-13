@@ -13,7 +13,11 @@
 /* SignupModal */
 
 .modalContainer {
-  @apply z-infinite relative top-[10%] flex h-560 w-900 flex-col rounded-md bg-white;
+  @apply relative top-[10%] z-infinite flex h-560 w-900 flex-col rounded-md bg-white;
+}
+
+.artModalContainer {
+  @apply relative top-[5%] z-infinite flex h-870 w-900 flex-col overflow-y-scroll rounded-tl-md rounded-tr-md bg-white;
 }
 
 .modalInput {
@@ -94,6 +98,14 @@
 
 .modal-action-button {
   @apply h-50 w-full cursor-pointer rounded-ml border-none bg-[#0f1419] text-17 text-white hover:bg-[#272c30] disabled:opacity-50;
+}
+
+.artModal-follow-button {
+  @apply h-40 w-90 bg-primary text-white;
+}
+
+.artModal-chat-button {
+  @apply h-40 w-90 hover:border-primary hover:bg-primary hover:text-white active:bg-primary;
 }
 
 .storage-button {
@@ -189,4 +201,13 @@
 
 .card-container-artistPage {
   @apply mt-35 grid w-[95%] auto-rows-[1fr] grid-cols-[repeat(auto-fit,minmax(max(280px,100%/5),1fr))] gap-x-25 gap-y-31;
+}
+
+/* swiper */
+.swiper-container {
+  @apply h-520;
+}
+
+.swiper {
+  @apply relative;
 }

@@ -33,6 +33,27 @@ const data: CommentData[] = [
     imageUrl:
       'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     nickName: 'Elon Musk',
+    createdAt: '2024년 2월 11일',
+    description: '내가 본 것 중에서 단연 최고였다. 와우~',
+  },
+  {
+    imageUrl:
+      'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    nickName: 'Elon Musk',
+    createdAt: '2024년 2월 10일',
+    description: '내가 본 것 중에서 단연 최고였다. 와우~',
+  },
+  {
+    imageUrl:
+      'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    nickName: 'Elon Musk',
+    createdAt: '2024년 2월 9일',
+    description: '내가 본 것 중에서 단연 최고였다. 와우~',
+  },
+  {
+    imageUrl:
+      'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    nickName: 'Elon Musk',
     createdAt: '2024년 2월 8일',
     description: '내가 본 것 중에서 단연 최고였다. 와우~',
   },
@@ -82,7 +103,7 @@ function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentCon
         className={
           isCommentClicked
             ? 'h-auto w-full min-w-360 rounded-t-sm bg-gray-1 shadow-top'
-            : 'h-55 w-full min-w-360 overflow-y-hidden rounded-t-sm bg-gray-1 shadow-top'
+            : 'h-80 w-full min-w-360 overflow-y-hidden rounded-t-sm bg-gray-1 shadow-top'
         }
       >
         <div className="ml-20 flex gap-5">
@@ -117,20 +138,22 @@ function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentCon
             </p>
           </button>
         </div>
-        <div className="flex flex-col p-20 pb-7">
-          {data &&
-            data.length > 0 &&
-            data.map((comment) => (
-              <div key={comment.createdAt + comment.nickName}>
-                <Comment
-                  imageUrl={comment.imageUrl}
-                  nickName={comment.nickName}
-                  createdAt={comment.createdAt}
-                  description={comment.description}
-                />
-              </div>
-            ))}
-        </div>
+        {
+          <div className="flex flex-col p-20 pb-7">
+            {data &&
+              data.length > 0 &&
+              data.map((comment) => (
+                <div key={comment.createdAt + comment.nickName}>
+                  <Comment
+                    imageUrl={comment.imageUrl}
+                    nickName={comment.nickName}
+                    createdAt={comment.createdAt}
+                    description={comment.description}
+                  />
+                </div>
+              ))}
+          </div>
+        }
 
         <form className="flex items-center gap-13 p-20 pb-36" onSubmit={handleSubmit(onValid)}>
           <input
