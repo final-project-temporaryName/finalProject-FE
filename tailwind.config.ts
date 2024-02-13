@@ -39,6 +39,7 @@ const config: Config = {
       infinite: '9999',
     },
     borderRadius: {
+      xs: '0.5rem',
       sm: '0.75rem',
       md: '1rem',
       ml: '1.5rem',
@@ -110,6 +111,9 @@ const config: Config = {
       },
       boxShadow: {
         top: '0 -4px 6px -1px rgba(0, 0, 0, 0.18)',
+      },
+      backdropBlur: {
+        'custom-blur': '2.5px',
       },
     },
   },
