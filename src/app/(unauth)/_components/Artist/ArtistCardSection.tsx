@@ -10,7 +10,7 @@ function ArtistCardSection() {
   return (
     <div className="relative mt-25 flex-col">
       <ArtistLabelsGroup setArtistValue={setLabel} />
-      <CardContainer />
+      <CardContainer type="mypage" />
     </div>
   );
 }

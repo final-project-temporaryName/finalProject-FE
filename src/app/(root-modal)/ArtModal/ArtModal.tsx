@@ -31,10 +31,10 @@ export default function ArtModal() {
   return (
     <Modal.Container onClickClose={onClickClose} classname="artModalContainer">
       <Modal.ArtHeader onClickClose={onClickClose} />
-      <Modal.Body classname="relative h-full flex flex-col justify-between">
+      <Modal.Body classname="relative h-full flex flex-col justify-between overflow-y-scroll">
         <div className="p-10 text-[#8f8f8f]">
           <SlideContainer imageUrlList={imageUrlList} />
-          <div className="flex flex-col gap-20 p-10 pt-20">
+          <div className="flex h-full flex-col gap-20 p-10 pt-20">
             <p>게시글 제목</p>
             <p>게시글 내용</p>
             <p>게시글 내용</p>
@@ -44,7 +44,7 @@ export default function ArtModal() {
             <p>게시글 내용</p>
           </div>
         </div>
-        <div className="sticky bottom-0 right-0 z-infinite">
+        <div className="z-beforeInfinite sticky bottom-0 right-0">
           <CommentContainer likeCount={1100} commentCount={3} artworkStatus="SELLING" />
         </div>
       </Modal.Body>

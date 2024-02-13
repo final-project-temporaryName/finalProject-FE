@@ -10,10 +10,12 @@ import SearchBar from './SearchBar';
 
 function NavBar({ children }: PropsWithChildren) {
   const pathname = usePathname();
+  const pathnameArr = pathname.split('/');
+  const firstPathname = pathnameArr[1];
 
   return (
     <nav
-      className={`navBar ${pathname === '/' || pathname === '/flow/upload' || pathname === '/upload' ? 'relative' : 'fixed'}`}
+      className={`navBar ${pathname === '/' || firstPathname === 'upload' || firstPathname === 'flow' || firstPathname === 'art' ? 'relative' : 'fixed'}`}
     >
       <div className="flex flex-grow items-center justify-start gap-60">
         <Link href={'/'} className="shrink-0">

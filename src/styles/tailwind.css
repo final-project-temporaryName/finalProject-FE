@@ -17,7 +17,7 @@
 }
 
 .artModalContainer {
-  @apply relative top-[5%] z-infinite flex h-870 w-900 flex-col overflow-y-scroll rounded-tl-md rounded-tr-md bg-white;
+  @apply relative top-[5%] z-infinite flex h-560 w-900 flex-col overflow-hidden rounded-md bg-white;
 }
 
 .modalInput {
