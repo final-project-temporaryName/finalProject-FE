@@ -40,7 +40,7 @@ function SlideContainer({ imageUrlList }: SlideContainerProps) {
         }}
         modules={[Navigation, Scrollbar]}
         spaceBetween={10}
-        slidesPerView={3}
+        slidesPerView={2}
         autoplay={false}
         loop={false}
         navigation
