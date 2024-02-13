@@ -11,7 +11,6 @@ import 'swiper/css/scrollbar';
 import { Navigation, Scrollbar } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Expand from './Expand';
-import Quit from './Quit';
 
 interface SlideContainerProps {
   imageUrlList: string[];
@@ -40,7 +39,7 @@ function SlideContainer({ imageUrlList }: SlideContainerProps) {
         }}
         modules={[Navigation, Scrollbar]}
         spaceBetween={10}
-        slidesPerView={2}
+        slidesPerView={3}
         autoplay={false}
         loop={false}
         navigation
@@ -60,19 +59,15 @@ function SlideContainer({ imageUrlList }: SlideContainerProps) {
           );
         })}
       </Swiper>
-
       {showModal && (
         <>
-          <div className="fixed left-0 top-0 z-infinite h-full w-full bg-black opacity-65"></div>
-
           <div
-            className="!important fixed left-0 top-0 z-infinite flex h-full w-full items-center justify-center"
+            className="flex-center fixed left-0 top-0 z-infinite h-full w-full bg-[#00000066] p-10"
             onClick={closeModal}
           >
-            <button className="absolute right-400 top-100 z-infinite" onClick={closeModal}>
-              <Quit />
-            </button>
-            <Image src={selectedImage} alt="작품 확대 이미지" width={750} height={900} />
+            <div className="relative h-full w-full">
+              <Image src={selectedImage} alt="작품 확대 이미지" fill priority style={{ objectFit: 'contain' }} />
+            </div>
           </div>
         </>
       )}
