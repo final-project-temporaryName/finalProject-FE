@@ -106,9 +106,6 @@ export default function UploadModal() {
                     {uploadImageSources.map((uploadImageSource, index) => {
                       return (
                         <>
-                          {/* <Droppable droppableId={'tem'}>
-                        {(provided) => (
-                          <div ref={provided.innerRef} {...provided.droppableProps}> */}
                           <Draggable draggableId={uploadImageSource} index={index}>
                             {(provided) => (
                               <div
@@ -119,7 +116,7 @@ export default function UploadModal() {
                                 {...provided.dragHandleProps}
                               >
                                 <Image
-                                  className="object-contain"
+                                  className="h-full object-contain"
                                   src={uploadImageSource}
                                   alt="업로드한 이미지"
                                   width={96}
@@ -134,9 +131,6 @@ export default function UploadModal() {
                               </div>
                             )}
                           </Draggable>
-                          {/* </div> */}
-                          {/* )} */}
-                          {/* </Droppable> */}
                         </>
                       );
                     })}
