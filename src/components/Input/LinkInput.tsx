@@ -1,6 +1,5 @@
 'use client';
 
-import instance from '@/api/axios';
 import { postLinks } from '@/api/links/postLinks';
 import Input from '@/components/Input/Input';
 import BinIcon from '@/components/SvgComponents/BinIcon';

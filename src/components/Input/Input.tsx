@@ -33,8 +33,6 @@ const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [id, setId] = useState('default-id');
 
-  const inputClasses = `${style} primary-input rounded-xs ${error ? 'text-red text-10' : ''} ${readOnly ? 'bg-gray-4' : ''}`;
-
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
     const imgFile = event.target.files[0];
@@ -97,7 +95,7 @@ const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
         type={type}
         id={id}
         placeholder={placeholder}
-        className={inputClasses}
+        className={`${style} primary-input rounded-xs ${error ? 'text-red text-10' : ''} ${readOnly ? 'bg-gray-4' : ''}`}
         {...register}
         readOnly={readOnly}
         value={value}

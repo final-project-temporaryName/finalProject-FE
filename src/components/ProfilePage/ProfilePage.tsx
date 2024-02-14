@@ -119,7 +119,7 @@ function ProfilePage({ type }: Props) {
 
   return (
     <FormProvider {...methods}>
-      <form className="relative mt-160 flex-col" onSubmit={handleSubmit(onSubmit)}>
+      <form className={`relative ${type === 'put' ? 'mt-160' : 'mt-30'} flex-col`} onSubmit={handleSubmit(onSubmit)}>
         <div className="flex-center">
           <div className="h-475 w-571">
             <div className="relative ml-75 flex items-center gap-10">
@@ -135,7 +135,7 @@ function ProfilePage({ type }: Props) {
                 label="닉네임"
                 id="nickname"
                 placeholder="작가명을 써주세요"
-                style="md-input relative"
+                style="md-input relative primary-input"
                 register={register('nickname', nicknameRules)}
                 error={errors.nickname?.message || nicknameError}
               />
