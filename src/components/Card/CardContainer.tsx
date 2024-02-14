@@ -3,7 +3,7 @@ import Card from './Card';
 import NoContent from './NoContent';
 
 interface Props {
-  type: 'main' | 'mypage';
+  type: 'main' | 'mypage' | 'artist';
 }
 
 function CardContainer({ type }: Props) {

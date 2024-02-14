@@ -142,7 +142,7 @@ function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentCon
             </button>
           </a>
         </div>
-        <div className="flex flex-col bg-gray-1 p-20 pb-7">
+        <div className="flex flex-col  bg-gray-1 p-20 pb-7   ">
           {data &&
             data.length > 0 &&
             data.map((comment) => (

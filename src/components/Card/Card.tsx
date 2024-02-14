@@ -16,7 +16,7 @@ import { useStore } from '@/store';
 type CustomCardType = Omit<CardType, 'description' | 'createdAt' | 'updatedAt'>;
 
 interface Props extends CustomCardType {
-  type: 'main' | 'mypage';
+  type: 'main' | 'mypage' | 'artist';
 }
 
 function Card({
@@ -37,9 +37,11 @@ function Card({
   const firstPathname = pathnameArr[1];
 
   const setClickedArtworkId = useStore((state) => state.setClickedArtworkId);
+  const setClickedArtworkUrl = useStore((state) => state.setClickedArtworkUrl);
 
   const handleArtworkClick = () => {
     setClickedArtworkId(artworkId);
+    setClickedArtworkUrl(firstPathname);
   };
 
   return (
@@ -55,7 +57,7 @@ function Card({
             fill
           />
           <div className="absolute inset-0 rounded-md bg-gradient-to-b from-transparent via-transparent to-gray-8"></div>
-          {firstPathname === 'mypage' && (
+          {type === 'mypage' && (
             <div className="absolute left-18 top-11">
               <Button.Kebab />
             </div>
