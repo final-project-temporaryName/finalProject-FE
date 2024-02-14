@@ -43,7 +43,7 @@ export default function UploadModal() {
     postArtwork({ imageIds: imageOrder, title, description, artworkStatus: label });
   };
 
-  const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const files = e.target.files;
     let imageUrlList = [...uploadImageSources];
