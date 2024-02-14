@@ -94,8 +94,6 @@ function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentCon
     // data.comment를 첨부해서 post api 요청 로직 필요
   };
 
-  console.log(isCommentClicked);
-
   return (
     <div className="relative">
       <div className="absolute right-20" style={{ top: '-10px', zIndex: '2' }}>
