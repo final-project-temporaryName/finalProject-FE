@@ -11,15 +11,23 @@ import 'swiper/css/scrollbar';
 import { Navigation, Scrollbar } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Expand from './Expand';
+import { useBrowserSize } from '@/hooks/useBrowserSize';
 
 interface SlideContainerProps {
   imageUrlList: string[];
 }
 
 function SlideContainer({ imageUrlList }: SlideContainerProps) {
-  const swiperRef = useRef<SwiperCore>();
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
+
+  const swiperRef = useRef<SwiperCore>();
+  const { width: browserWidthSize } = useBrowserSize();
+
+  let slidesPerView;
+  if (browserWidthSize) {
+    slidesPerView = browserWidthSize > 1200 ? 3 : browserWidthSize > 767 ? 2 : 1;
+  }
 
   const openModal = (imageUrl: string) => {
     setSelectedImage(imageUrl);
@@ -39,7 +47,7 @@ function SlideContainer({ imageUrlList }: SlideContainerProps) {
         }}
         modules={[Navigation, Scrollbar]}
         spaceBetween={10}
-        slidesPerView={3}
+        slidesPerView={slidesPerView}
         autoplay={false}
         loop={false}
         navigation
