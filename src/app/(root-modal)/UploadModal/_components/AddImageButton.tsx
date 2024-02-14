@@ -1,4 +1,4 @@
-import AddImage from '../../../../../public/assets/icons/AddPhoto.svg';
+import WhiteAddImage from '../../../../../public/assets/icons/WhiteAddPhoto.svg';
 
 interface AddImageButtonProps {
   onClick: () => void;
@@ -8,9 +8,10 @@ function AddImageButton({ onClick }: AddImageButtonProps) {
   return (
     <button
       onClick={onClick}
-      className="flex h-96 w-96 items-center justify-center rounded-md border-2 border-solid border-primary-2"
+      className="flex w-auto items-center justify-center rounded-xl bg-gray-4 px-20 py-10 text-white hover:bg-primary"
     >
-      <AddImage alt="이미지 추가" width={24} height={24} />
+      <WhiteAddImage alt="이미지 추가" width={24} height={24} />
+      사진 추가
     </button>
   );
 }

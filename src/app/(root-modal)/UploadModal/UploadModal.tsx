@@ -16,6 +16,7 @@ import BeforeUploadImage from './_components/BeforeUploadImage';
 import StatusLabelsGroup from './_components/StatusLabelsGroup';
 import TextEditor from './_components/TextEditor';
 import Close from '../../../../public/assets/icons/Close.svg';
+import DeleteAllImageButton from './_components/DeleteAllImageButton';
 
 // TODO: API 함수 붙이기
 export default function UploadModal() {
@@ -62,6 +63,10 @@ export default function UploadModal() {
 
   const handleDeleteImage = (index: number) => {
     setUploadImageSources(uploadImageSources.filter((_, i) => i !== index));
+  };
+
+  const handleDeleteAllImage = () => {
+    setUploadImageSources([]);
   };
 
   const handleUploadImageButton = () => {
@@ -138,7 +143,10 @@ export default function UploadModal() {
                       );
                     })}
                     {provided.placeholder}
-                    {uploadImageSources.length !== 10 && <AddImageButton onClick={handleUploadImageButton} />}
+                    <div className="absolute bottom-4 left-88 flex gap-24">
+                      <DeleteAllImageButton onClick={handleDeleteAllImage} />
+                      {uploadImageSources.length !== 10 && <AddImageButton onClick={handleUploadImageButton} />}
+                    </div>
                   </div>
                 )}
               </Droppable>
