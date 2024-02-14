@@ -59,7 +59,6 @@ export default function UploadModal() {
     setUploadImageSources(imageUrlList);
   };
 
-  // TODO: api image delete 로직 추가
   const handleDeleteImage = (index: number) => {
     setUploadImageSources(uploadImageSources.filter((_, i) => i !== index));
   };
@@ -164,7 +163,8 @@ export default function UploadModal() {
             onChange={handleTitleChange}
           />
           <TextEditor value={description} setValue={setDescription} />
-          <div className="flex justify-end">
+          <div className="flex justify-between gap-40">
+            <StatusLabelsGroup setStatusValue={setLabel} />
             <Button.Modal.Action
               disabled={!title || !description || description === '<p><br></p>'}
               wrapperStyle=""
@@ -180,7 +180,6 @@ export default function UploadModal() {
               {label === 'SELLING' && <SellingLabelImg />}
               {label === 'FREE' && <ShareLabelImg />}
             </div>
-            <StatusLabelsGroup setStatusValue={setLabel} />
           </div>
         </div>
         {showImage && (
@@ -190,10 +189,12 @@ export default function UploadModal() {
               className="!important fixed left-0 top-0 z-infinite flex h-full w-full items-center justify-center"
               onClick={closeEnlargedImage}
             >
-              <button className="absolute right-400 top-100 z-infinite" onClick={closeEnlargedImage}>
-                <Quit />
-              </button>
-              <Image src={selectedImage} alt="작품 확대 이미지" width={750} height={900} />
+              <div className="relative">
+                <button className="absolute -right-10 -top-10 z-infinite" onClick={closeEnlargedImage}>
+                  <Quit />
+                </button>
+                <Image src={selectedImage} alt="작품 확대 이미지" width={750} height={900} />
+              </div>
             </div>
           </>
         )}
