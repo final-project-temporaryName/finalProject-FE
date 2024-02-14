@@ -1,3 +1,4 @@
+import ArtistPage from '@/app/(unauth)/_components/ArtistPage';
 import Main from '@/app/(unauth)/_components/Main';
 import MyPage from '../_component/MyPage';
 import ParallelChildren from './_component/ParallelChildren';
@@ -7,7 +8,7 @@ export default async function Upload() {
   return (
     <>
       <RedirectToUpload />
-      <ParallelChildren main={<Main />}>
+      <ParallelChildren main={<Main />} artist={<ArtistPage />}>
         <MyPage />
       </ParallelChildren>
     </>
