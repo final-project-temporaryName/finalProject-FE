@@ -17,8 +17,8 @@ import StatusLabelsGroup from './_components/StatusLabelsGroup';
 import TextEditor from './_components/TextEditor';
 import Close from '../../../../public/assets/icons/Close.svg';
 import DeleteAllImageButton from './_components/DeleteAllImageButton';
+import { postArtwork } from '@/api/upload/postArtwork';
 
-// TODO: API 함수 붙이기
 export default function UploadModal() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -48,10 +48,13 @@ export default function UploadModal() {
     const files = e.target.files;
     let imageUrlList = [...uploadImageSources];
     const fileList = Array.from(files);
+    // const formData = new FormData();
 
     fileList.forEach((file) => {
       const currentImageUrl = URL.createObjectURL(file);
-      // TODO: api image 1개 api 추가 (currentImageUrl를 담아서 사용, mutate)
+      // TODO: api image 1개 api 추가 (currentImageUrl를 담아서 사용)
+      // 파일 객체(file) 담기
+      // formData.append('file', file);
       imageUrlList.push(currentImageUrl);
     });
 
@@ -77,7 +80,6 @@ export default function UploadModal() {
   };
 
   const openEnlargedImage = (imageUrl: string) => {
-    console.log('hh');
     setSelectedImage(imageUrl);
     setShowImage(true);
   };
