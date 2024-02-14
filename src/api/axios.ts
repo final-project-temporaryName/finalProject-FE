@@ -7,9 +7,10 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    const userAuth = localStorage.getItem('store');
+    const userAuth = window.localStorage.getItem('store');
 
     if (!userAuth) {
+      console.log('request start', config);
       return config;
     } else {
       const {
@@ -19,16 +20,19 @@ instance.interceptors.request.use(
       config.headers.Authorization = `Bearer ${userAccessToken}`;
       config.headers['Authorization-refresh'] = `Bearer ${userRefreshToken}`;
 
+      console.log('request start', config);
       return config;
     }
   },
   (error) => {
+    console.log('request error', error);
     return Promise.reject(error);
   },
 );
 
 instance.interceptors.response.use(
   (Response) => {
+    console.log('get response', Response);
     return Response;
   },
   async (error) => {
@@ -38,7 +42,7 @@ instance.interceptors.response.use(
     } = error;
     if (status === 401) {
       const originalRequest = config;
-      const userAuth = localStorage.getItem('store');
+      const userAuth = window.localStorage.getItem('store');
 
       if (userAuth) {
         const oldParsedUserAuth = JSON.parse(userAuth);
@@ -50,7 +54,7 @@ instance.interceptors.response.use(
         });
         const { accessToken: newAccessToken } = data;
         newParsedUserAuth.state.userAccessToken = newAccessToken;
-        localStorage.setItem('store', JSON.stringify(newParsedUserAuth));
+        window.localStorage.setItem('store', JSON.stringify(newParsedUserAuth));
 
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
@@ -58,6 +62,7 @@ instance.interceptors.response.use(
       }
     }
 
+    console.log('response error', error);
     return Promise.reject(error);
   },
 );

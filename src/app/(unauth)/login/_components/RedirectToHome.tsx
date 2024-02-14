@@ -3,7 +3,6 @@
 import { postUserId } from '@/api/auth/postSocialInfo';
 import { useStore } from '@/store';
 import { useSession } from 'next-auth/react';
-import { LocaleRouteNormalizer } from 'next/dist/server/future/normalizers/locale-route-normalizer';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -31,12 +30,11 @@ export default async function RedirectToHome() {
     }
   };
 
-  console.log(localStorage.getItem('store'));
-
   useEffect(() => {
     if (session) {
       handleUserId();
     }
+    console.log(localStorage.getItem('store'));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
   return null;
