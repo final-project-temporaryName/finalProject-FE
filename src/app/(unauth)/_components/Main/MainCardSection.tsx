@@ -10,7 +10,7 @@ function MainCardSection() {
   return (
     <div className="flex-col-center relative mt-25">
       <MainLabelsGroup setMainValue={setLabel} />
-      <CardContainer />
+      <CardContainer type="main" />
     </div>
   );
 }

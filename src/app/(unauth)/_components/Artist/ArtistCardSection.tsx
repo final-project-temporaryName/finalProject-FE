@@ -1,17 +1,22 @@
 'use client';
 
 import CardContainer from '@/components/Card/CardContainer';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import ArtistLabelsGroup from './ArtistLabelsGroup';
 
 function ArtistCardSection() {
   const [label, setLabel] = useState<'전체' | '판매중'>('전체');
 
+  const pathname = usePathname();
+  const pathnameArr = pathname.split('/');
+  const firstPathname = pathnameArr[1];
+
   return (
-    <div className="relative mt-25 flex-col">
+    <main className={`ml-330 ${firstPathname === 'artist' ? 'mt-157' : 'mt-77'}`}>
       <ArtistLabelsGroup setArtistValue={setLabel} />
-      <CardContainer />
-    </div>
+      <CardContainer type="artist" />
+    </main>
   );
 }
 

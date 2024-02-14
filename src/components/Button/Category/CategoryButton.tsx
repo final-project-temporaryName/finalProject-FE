@@ -10,6 +10,7 @@ interface CategoryButtonProps {
   setStatusValue?: Dispatch<SetStateAction<'PUBLIC' | 'SELLING' | 'FREE'>>;
   setMainValue?: Dispatch<SetStateAction<'전체' | 'following'>>;
   setArtistValue?: Dispatch<SetStateAction<'전체' | '판매중'>>;
+  setMyPageValue?: Dispatch<SetStateAction<'전체' | '판매중' | '컬렉션'>>;
   onClick?: (buttonLabel: string) => void;
 }
 
@@ -21,6 +22,7 @@ function CategoryButton({
   setStatusValue,
   setMainValue,
   setArtistValue,
+  setMyPageValue,
   onClick,
 }: CategoryButtonProps) {
   let labelClass;
@@ -57,6 +59,15 @@ function CategoryButton({
         setArtistValue('전체');
       } else {
         setArtistValue('판매중');
+      }
+    }
+    if (setMyPageValue) {
+      if (labelText === '전체') {
+        setMyPageValue('전체');
+      } else if (labelText === '판매중') {
+        setMyPageValue('판매중');
+      } else {
+        setMyPageValue('컬렉션');
       }
     }
   };

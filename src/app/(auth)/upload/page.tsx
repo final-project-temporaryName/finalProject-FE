@@ -1,11 +1,16 @@
-import Home from '../mypage/page';
+import ArtistPage from '@/app/(unauth)/_components/ArtistPage';
+import Main from '@/app/(unauth)/_components/Main';
+import MyPage from '../_component/MyPage';
+import ParallelChildren from './_component/ParallelChildren';
 import RedirectToUpload from './_component/RedirectToUpload';
 
-export default async function Login() {
+export default async function Upload() {
   return (
     <>
       <RedirectToUpload />
-      <Home />
+      <ParallelChildren main={<Main />} artist={<ArtistPage />}>
+        <MyPage />
+      </ParallelChildren>
     </>
   );
 }

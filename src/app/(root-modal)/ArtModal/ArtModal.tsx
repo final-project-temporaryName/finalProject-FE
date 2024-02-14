@@ -1,10 +1,10 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import Modal from '../_components';
-import { useStore } from '@/store';
 import CommentContainer from '@/components/Comment/CommentContainer';
 import SlideContainer from '@/components/SlideContainer/SlideContainer';
+import { useStore } from '@/store';
+import { useRouter } from 'next/navigation';
+import Modal from '../_components';
 
 export default function ArtModal() {
   const router = useRouter();
@@ -31,7 +31,7 @@ export default function ArtModal() {
   return (
     <Modal.Container onClickClose={onClickClose} classname="artModalContainer">
       <Modal.ArtHeader onClickClose={onClickClose} />
-      <Modal.Body classname="relative h-full flex flex-col justify-between">
+      <Modal.Body classname="flex flex-col overflow-y-scroll">
         <div className="p-10 text-[#8f8f8f]">
           <SlideContainer imageUrlList={imageUrlList} />
           <div className="flex flex-col gap-20 p-10 pt-20">
@@ -44,7 +44,7 @@ export default function ArtModal() {
             <p>게시글 내용</p>
           </div>
         </div>
-        <div className="sticky bottom-0 right-0 z-infinite">
+        <div className="sticky bottom-0 right-0 z-beforeInfinite">
           <CommentContainer likeCount={1100} commentCount={3} artworkStatus="SELLING" />
         </div>
       </Modal.Body>

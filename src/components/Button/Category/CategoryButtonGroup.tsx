@@ -1,7 +1,7 @@
 'use client';
 
 import '@/styles/tailwind.css';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { Button } from '..';
 
 enum ButtonCategoryText {
@@ -10,7 +10,11 @@ enum ButtonCategoryText {
   'COLLECTION' = '컬렉션',
 }
 
-function CategoryButtonGroup() {
+interface Props {
+  setMyPageValue: Dispatch<SetStateAction<'전체' | '판매중' | '컬렉션'>>;
+}
+
+function CategoryButtonGroup({ setMyPageValue }: Props) {
   const [content, setContent] = useState('');
   const labelTexts: ButtonCategoryText[] = [
     ButtonCategoryText.ALL, // 전체
@@ -30,6 +34,7 @@ function CategoryButtonGroup() {
           labelText={labelText}
           onClick={handleActive}
           type="Category"
+          setMyPageValue={setMyPageValue}
           isActive={content ? content === labelText : labelText === '전체'}
         />
       ))}
