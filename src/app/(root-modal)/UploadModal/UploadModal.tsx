@@ -3,7 +3,7 @@
 import { Button } from '@/components/Button';
 import Quit from '@/components/SlideContainer/Quit';
 import '@/styles/tailwind.css';
-import { DragDropContext, Draggable, DropResult, Droppable } from '@hello-pangea/dnd';
+import { DropResult } from '@hello-pangea/dnd';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
@@ -13,12 +13,10 @@ import ShareLabelImg from '../../../../public/assets/icons/shareFlag.svg';
 import Modal from '../_components';
 import AddImageButton from './_components/AddImageButton';
 import BeforeUploadImage from './_components/BeforeUploadImage';
+import DeleteAllImageButton from './_components/DeleteAllImageButton';
+import PreviewImage from './_components/PreviewImage';
 import StatusLabelsGroup from './_components/StatusLabelsGroup';
 import TextEditor from './_components/TextEditor';
-import Close from '../../../../public/assets/icons/Close.svg';
-import DeleteAllImageButton from './_components/DeleteAllImageButton';
-import { postArtwork } from '@/api/upload/postArtwork';
-import PreviewImage from './_components/PreviewImage';
 
 export default function UploadModal() {
   const [title, setTitle] = useState('');
@@ -40,11 +38,12 @@ export default function UploadModal() {
     setTitle(e.target.value);
   };
 
-  const handleSaveClick = () => {
+  const handleSubmit = () => {
     console.log(title, description, label);
+    // postArtwork({[1,2,3], title, description, label})
   };
 
-  const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const files = e.target.files;
     let imageUrlList = [...uploadImageSources];
@@ -53,6 +52,7 @@ export default function UploadModal() {
 
     fileList.forEach((file) => {
       const currentImageUrl = URL.createObjectURL(file);
+      // const {id, src} = await postUploadImageFile(file)
       // TODO: api image 1개 api 추가 (currentImageUrl를 담아서 사용)
       // 파일 객체(file) 담기
       // formData.append('file', file);
@@ -102,37 +102,24 @@ export default function UploadModal() {
       <Modal.Header onClickClose={onClickClose} />
       <Modal.Body classname="grid grid-cols-2 h-full">
         {uploadImageSources.length ? (
-          <DragDropContext onDragEnd={onDragEnd}>
-            <div className="relative flex h-full w-full justify-center border-r-1 border-solid border-black pb-31 pt-26">
-              <Droppable droppableId="temporary">
-                {(provided) => (
-                  <div
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                    className="relative grid grid-cols-4 grid-rows-3 grid-rows-[96px] gap-18 px-29 py-25"
-                  >
-                    {uploadImageSources.map((uploadImageSource, index) => {
-                      return (
-                        <>
-                          <PreviewImage
-                            uploadImageSource={uploadImageSource}
-                            index={index}
-                            openEnlargedImage={openEnlargedImage}
-                            handleDeleteImage={handleDeleteImage}
-                          />
-                        </>
-                      );
-                    })}
-                    {provided.placeholder}
-                    <div className="absolute bottom-4 left-88 flex gap-24">
-                      <DeleteAllImageButton onClick={handleDeleteAllImage} />
-                      {uploadImageSources.length !== 10 && <AddImageButton onClick={handleUploadImageButton} />}
-                    </div>
-                  </div>
-                )}
-              </Droppable>
+          <div className="relative flex h-full w-full justify-center border-r-1 border-solid border-black pb-31 pt-26">
+            <div className="relative grid grid-cols-4 grid-rows-3 gap-18 px-29 py-25">
+              {uploadImageSources.map((uploadImageSource, index) => {
+                return (
+                  <PreviewImage
+                    uploadImageSource={uploadImageSource}
+                    index={index}
+                    openEnlargedImage={openEnlargedImage}
+                    handleDeleteImage={handleDeleteImage}
+                  />
+                );
+              })}
+              <div className="absolute bottom-4 left-88 flex gap-24">
+                <DeleteAllImageButton onClick={handleDeleteAllImage} />
+                {uploadImageSources.length !== 10 && <AddImageButton onClick={handleUploadImageButton} />}
+              </div>
             </div>
-          </DragDropContext>
+          </div>
         ) : (
           <div className="relative flex h-full w-full items-center justify-center border-r-1 border-solid border-black">
             <BeforeUploadImage onClick={handleUploadImageButton} />
@@ -164,7 +151,7 @@ export default function UploadModal() {
               disabled={!title || !description || description === '<p><br></p>'}
               wrapperStyle=""
               buttonStyle="save-button"
-              onClick={handleSaveClick}
+              onClick={handleSubmit}
             >
               게시하기
             </Button.Modal.Action>
