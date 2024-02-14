@@ -1,9 +1,9 @@
 'use client';
 
+import { postArtwork } from '@/api/upload/postArtwork';
 import { Button } from '@/components/Button';
 import Quit from '@/components/SlideContainer/Quit';
 import '@/styles/tailwind.css';
-import { DropResult } from '@hello-pangea/dnd';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
@@ -25,6 +25,7 @@ export default function UploadModal() {
   const [label, setLabel] = useState<'PUBLIC' | 'SELLING' | 'FREE'>('PUBLIC');
   const [showImage, setShowImage] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
+  const [imageOrder, setImageOrder] = useState<number[]>([1, 2]);
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -39,8 +40,7 @@ export default function UploadModal() {
   };
 
   const handleSubmit = () => {
-    console.log(title, description, label);
-    // postArtwork({[1,2,3], title, description, label})
+    postArtwork({ imageIds: imageOrder, title, description, artworkStatus: label });
   };
 
   const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,6 +56,7 @@ export default function UploadModal() {
       // TODO: api image 1개 api 추가 (currentImageUrl를 담아서 사용)
       // 파일 객체(file) 담기
       // formData.append('file', file);
+      // setImageOrder
       imageUrlList.push(currentImageUrl);
     });
 
@@ -88,13 +89,6 @@ export default function UploadModal() {
   const closeEnlargedImage = () => {
     setSelectedImage('');
     setShowImage(false);
-  };
-
-  const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
-    console.log([draggableId, destination, source]);
-    if (!destination) return;
-    uploadImageSources.splice(source.index, 1);
-    uploadImageSources.splice(destination?.index, 0, draggableId);
   };
 
   return (
