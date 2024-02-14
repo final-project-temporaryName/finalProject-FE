@@ -15,6 +15,7 @@ import AddImageButton from './_components/AddImageButton';
 import BeforeUploadImage from './_components/BeforeUploadImage';
 import StatusLabelsGroup from './_components/StatusLabelsGroup';
 import TextEditor from './_components/TextEditor';
+import Close from '../../../../public/assets/icons/Close.svg';
 
 // TODO: API 함수 붙이기
 export default function UploadModal() {
@@ -121,11 +122,14 @@ export default function UploadModal() {
                                   width={96}
                                   height={96}
                                 />
+                                <button className="absolute left-9 top-9 flex h-20 w-20 items-center justify-center rounded-full bg-primary align-middle text-10 text-white">
+                                  {index + 1}
+                                </button>
                                 <button
                                   onClick={() => handleDeleteImage(index)}
-                                  className="absolute right-5 top-5 flex h-20 w-20 items-center justify-center rounded-full bg-primary text-white"
+                                  className="absolute right-2 top-6 flex h-24 w-24 items-center justify-center"
                                 >
-                                  {index + 1}
+                                  <Close />
                                 </button>
                               </div>
                             )}
