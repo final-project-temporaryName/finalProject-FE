@@ -18,6 +18,7 @@ import TextEditor from './_components/TextEditor';
 import Close from '../../../../public/assets/icons/Close.svg';
 import DeleteAllImageButton from './_components/DeleteAllImageButton';
 import { postArtwork } from '@/api/upload/postArtwork';
+import PreviewImage from './_components/PreviewImage';
 
 export default function UploadModal() {
   const [title, setTitle] = useState('');
@@ -100,47 +101,25 @@ export default function UploadModal() {
     <Modal.Container onClickClose={onClickClose} classname="modalContainer">
       <Modal.Header onClickClose={onClickClose} />
       <Modal.Body classname="grid grid-cols-2 h-full">
-        <div className="relative flex h-full w-full items-center justify-center border-r-1 border-solid border-black">
-          {uploadImageSources.length ? (
-            <DragDropContext onDragEnd={onDragEnd}>
+        {uploadImageSources.length ? (
+          <DragDropContext onDragEnd={onDragEnd}>
+            <div className="relative flex h-full w-full justify-center border-r-1 border-solid border-black pb-31 pt-26">
               <Droppable droppableId="temporary">
                 {(provided) => (
                   <div
                     ref={provided.innerRef}
                     {...provided.droppableProps}
-                    className="relative grid grid-cols-4 grid-rows-3 gap-18 px-29 py-26"
+                    className="relative grid grid-cols-4 grid-rows-3 grid-rows-[96px] gap-18 px-29 py-25"
                   >
                     {uploadImageSources.map((uploadImageSource, index) => {
                       return (
                         <>
-                          <Draggable draggableId={uploadImageSource} index={index}>
-                            {(provided) => (
-                              <div
-                                onDoubleClick={() => openEnlargedImage(uploadImageSource)}
-                                className="relative flex h-96 w-96 items-center bg-black"
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                              >
-                                <Image
-                                  className="h-full object-contain"
-                                  src={uploadImageSource}
-                                  alt="업로드한 이미지"
-                                  width={96}
-                                  height={96}
-                                />
-                                <button className="absolute left-9 top-9 flex h-20 w-20 items-center justify-center rounded-full bg-primary align-middle text-10 text-white">
-                                  {index + 1}
-                                </button>
-                                <button
-                                  onClick={() => handleDeleteImage(index)}
-                                  className="absolute right-2 top-6 flex h-24 w-24 items-center justify-center"
-                                >
-                                  <Close />
-                                </button>
-                              </div>
-                            )}
-                          </Draggable>
+                          <PreviewImage
+                            uploadImageSource={uploadImageSource}
+                            index={index}
+                            openEnlargedImage={openEnlargedImage}
+                            handleDeleteImage={handleDeleteImage}
+                          />
                         </>
                       );
                     })}
@@ -152,20 +131,22 @@ export default function UploadModal() {
                   </div>
                 )}
               </Droppable>
-            </DragDropContext>
-          ) : (
+            </div>
+          </DragDropContext>
+        ) : (
+          <div className="relative flex h-full w-full items-center justify-center border-r-1 border-solid border-black">
             <BeforeUploadImage onClick={handleUploadImageButton} />
-          )}
-          <input
-            id="image"
-            className="hidden"
-            type="file"
-            accept="image/*"
-            multiple
-            ref={inputRef}
-            onChange={handleUploadImage}
-          />
-        </div>
+          </div>
+        )}
+        <input
+          id="image"
+          className="hidden"
+          type="file"
+          accept="image/*"
+          multiple
+          ref={inputRef}
+          onChange={handleUploadImage}
+        />
         <div className="relative flex h-full w-full flex-col gap-18 p-20">
           <input
             id="title"
