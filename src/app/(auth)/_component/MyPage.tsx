@@ -9,7 +9,7 @@ function MyPage() {
       <NavBar>
         <NavigatorBox />
       </NavBar>
-      <SideBar id={2} displayStatus="myWork" />
+      <SideBar id={13} displayStatus="myWork" />
       <MainContainer />
     </>
   );

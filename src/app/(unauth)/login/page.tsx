@@ -1,5 +1,5 @@
 import LoginPage from '../_components/LoginPage';
 
-export default function Login() {
+export default async function Login() {
   return <LoginPage />;
 }

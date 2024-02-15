@@ -1,11 +1,11 @@
 'use client';
 
-import { postUserId } from '@/api/auth/postUserId';
+// import { postUserId } from '@/api/auth/postUserId';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-export default function RedirectToHome() {
+export default async function RedirectToHome() {
   const router = useRouter();
   const { data: session } = useSession();
 

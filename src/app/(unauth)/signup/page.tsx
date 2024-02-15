@@ -1,5 +1,5 @@
 import SignUpPage from '../_components/SignupPage';
 
-export default function SingUp() {
+export default async function SingUp() {
   return <SignUpPage />;
 }

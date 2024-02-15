@@ -4,7 +4,7 @@ import ParallelChildren from '../_components/ParallelChildren';
 import RedirectToArt from '../_components/RedirectToArt';
 import ArtistPage from '../../_components/ArtistPage';
 
-export default function Art() {
+export default async function Art() {
   return (
     <>
       <RedirectToArt />
