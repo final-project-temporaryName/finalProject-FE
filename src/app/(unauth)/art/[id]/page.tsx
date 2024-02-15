@@ -1,12 +1,16 @@
+import MyPage from '@/app/(auth)/_component/MyPage';
+import Main from '../../_components/Main';
+import ParallelChildren from '../_components/ParallelChildren';
 import RedirectToArt from '../_components/RedirectToArt';
-import Home from '../../../(auth)/mypage/page';
+import ArtistPage from '../../_components/ArtistPage';
 
-export default async function Login() {
+export default async function Art() {
   return (
     <>
       <RedirectToArt />
-      {/* Home은 추후 현재 열려 있는 페이지에 맞게 변경 예정 */}
-      <Home />
+      <ParallelChildren main={<Main />} artist={<ArtistPage />}>
+        <MyPage />
+      </ParallelChildren>
     </>
   );
 }

@@ -13,7 +13,11 @@ import { Button } from '../Button';
 import Count from './Count';
 import { useStore } from '@/store';
 
-type Props = Omit<CardType, 'description' | 'createdAt' | 'updatedAt'>;
+type CustomCardType = Omit<CardType, 'description' | 'createdAt' | 'updatedAt'>;
+
+interface Props extends CustomCardType {
+  type: 'main' | 'mypage' | 'artist';
+}
 
 function Card({
   artworkId,
@@ -26,21 +30,24 @@ function Card({
   artistId,
   artistName,
   artistProfileImageUrl,
+  type,
 }: Props) {
   const pathname = usePathname();
   const pathnameArr = pathname.split('/');
   const firstPathname = pathnameArr[1];
 
   const setClickedArtworkId = useStore((state) => state.setClickedArtworkId);
+  const setClickedArtworkUrl = useStore((state) => state.setClickedArtworkUrl);
 
   const handleArtworkClick = () => {
     setClickedArtworkId(artworkId);
+    setClickedArtworkUrl(firstPathname);
   };
 
   return (
-    <div className={`flex h-${pathname === '/' ? '328' : '280'} min-w-280 flex-col`}>
-      <Link href={`/art/${artworkId}`} onClick={handleArtworkClick}>
-        <div id="cardImgBox" className="group relative h-280 min-w-280 overflow-hidden">
+    <div className={`flex h-${type === 'main' ? '328' : '280'} min-w-280 flex-col`}>
+      <Link href={`/art/${artworkId}`}>
+        <div id="cardImgBox" className="group relative h-280 min-w-280 overflow-hidden" onClick={handleArtworkClick}>
           <Image
             className="rounded-md transition-all duration-200 ease-linear group-hover:scale-[1.2]"
             src={thumbnailImageUrl}
@@ -50,7 +57,7 @@ function Card({
             fill
           />
           <div className="absolute inset-0 rounded-md bg-gradient-to-b from-transparent via-transparent to-gray-8"></div>
-          {firstPathname === 'mypage' && (
+          {type === 'mypage' && (
             <div className="absolute left-18 top-11">
               <Button.Kebab />
             </div>
@@ -74,8 +81,8 @@ function Card({
           </div>
         </div>
       </Link>
-      {pathname === '/' && (
-        <div className="relative flex h-48 w-280 items-center pt-10">
+      {type === 'main' && (
+        <div className="relative flex h-48 w-280 flex-shrink-0 items-center pt-10">
           <Link href={`/artist/${artistId}`} className="flex items-center gap-10">
             <Image
               className="h-40 w-40 rounded-full"
