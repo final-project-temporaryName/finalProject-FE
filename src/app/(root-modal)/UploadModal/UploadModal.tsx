@@ -1,6 +1,7 @@
 'use client';
 
 import { postArtwork } from '@/api/upload/postArtwork';
+import { postUploadImageFile } from '@/api/upload/postUploadImageFile';
 import { Button } from '@/components/Button';
 import Quit from '@/components/SlideContainer/Quit';
 import '@/styles/tailwind.css';
@@ -17,7 +18,6 @@ import DeleteAllImageButton from './_components/DeleteAllImageButton';
 import PreviewImage from './_components/PreviewImage';
 import StatusLabelsGroup from './_components/StatusLabelsGroup';
 import TextEditor from './_components/TextEditor';
-import { postUploadImageFile } from '@/api/upload/postUploadImageFile';
 
 export default function UploadModal() {
   const [title, setTitle] = useState('');

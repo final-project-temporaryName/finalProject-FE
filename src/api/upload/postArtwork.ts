@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import instance from '../axios';
 
 interface postArtworkProps {
@@ -24,7 +25,8 @@ export const postArtwork = async ({ imageIds, title, description, artworkStatus 
       },
     );
     return response;
-  } catch (err: any) {
-    return err.response;
+  } catch (err: unknown) {
+    const error = err as AxiosError;
+    return error.response;
   }
 };
