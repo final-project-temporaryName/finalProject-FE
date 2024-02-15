@@ -6,8 +6,8 @@ import '@/styles/tailwind.css';
 function SignUpPage() {
   return (
     <>
-      <div className="w-dvh flex h-dvh flex-col justify-start">
-        <div className="w-dvh relative h-[15%]">
+      <div className="flex h-dvh w-dvw flex-col justify-start">
+        <div className="relative h-[15%] w-dvw">
           <Image src={loginBgImg} alt="로그인 페이지 사진" fill priority />
         </div>
         <div className="flex-col-center mt-45">
