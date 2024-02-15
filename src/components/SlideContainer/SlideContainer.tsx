@@ -2,7 +2,7 @@
 
 import '@/styles/tailwind.css';
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import SwiperCore from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -24,10 +24,17 @@ function SlideContainer({ imageUrlList }: SlideContainerProps) {
   const swiperRef = useRef<SwiperCore>();
   const { width: browserWidthSize } = useBrowserSize();
 
+  const setSlidesPerView = (width: number | undefined) => {
+    if (!width) return 1;
+    if (width < 768) return 1;
+    else if (width < 1200) return 2;
+    else return 3;
+  };
+
   let slidesPerView;
-  if (browserWidthSize) {
-    slidesPerView = browserWidthSize > 1200 ? 3 : browserWidthSize > 767 ? 2 : 1;
-  }
+  slidesPerView = useMemo(() => setSlidesPerView(browserWidthSize), [browserWidthSize]);
+
+  console.log(browserWidthSize);
 
   const openModal = (imageUrl: string) => {
     setSelectedImage(imageUrl);
