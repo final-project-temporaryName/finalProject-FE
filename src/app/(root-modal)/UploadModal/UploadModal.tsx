@@ -1,7 +1,10 @@
 'use client';
 
+import { postArtwork } from '@/api/upload/postArtwork';
+import { postUploadImageFile } from '@/api/upload/postUploadImageFile';
 import { Button } from '@/components/Button';
 import '@/styles/tailwind.css';
+import { ImageArtworkType } from '@/types/artworks';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
@@ -9,16 +12,22 @@ import 'react-quill/dist/quill.bubble.css';
 import SellingLabelImg from '../../../../public/assets/icons/saleFlag.svg';
 import ShareLabelImg from '../../../../public/assets/icons/shareFlag.svg';
 import Modal from '../_components';
+import AddImageButton from './_components/AddImageButton';
 import BeforeUploadImage from './_components/BeforeUploadImage';
+import DeleteAllImageButton from './_components/DeleteAllImageButton';
+import PreviewImage from './_components/PreviewImage';
 import StatusLabelsGroup from './_components/StatusLabelsGroup';
 import TextEditor from './_components/TextEditor';
 
-// TODO: API 함수 붙이기
 export default function UploadModal() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [uploadImageSources, setUploadImageSources] = useState<string[]>([]);
   const [label, setLabel] = useState<'PUBLIC' | 'SELLING' | 'FREE'>('PUBLIC');
+  const [showImage, setShowImage] = useState(false);
+  const [selectedImage, setSelectedImage] = useState('');
+  const [imageOrder, setImageOrder] = useState<number[]>([]);
+  const [currentImageData, setCurrentImageData] = useState<ImageArtworkType | undefined>();
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -32,31 +41,47 @@ export default function UploadModal() {
     setTitle(e.target.value);
   };
 
-  const handleSaveClick = () => {
-    console.log(title, description, label);
+  const handleSubmit = () => {
+    postArtwork({ imageIds: imageOrder, title, description, artworkStatus: label });
+  };
+
+  const getImageData = async (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const { imageId, imageUrl } = await postUploadImageFile(formData);
+    setImageOrder((prev): number[] => [...prev, imageId]);
+    setCurrentImageData({ imageId, imageUrl });
   };
 
   const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const files = e.target.files;
     let imageUrlList = [...uploadImageSources];
+    let imageOrderList = [...imageOrder];
     const fileList = Array.from(files);
 
     fileList.forEach((file) => {
-      const currentImageUrl = URL.createObjectURL(file);
-      // TODO: api image 1개 api 추가 (currentImageUrl를 담아서 사용, mutate)
-      imageUrlList.push(currentImageUrl);
+      getImageData(file);
+      if (!currentImageData) return;
+      imageOrderList.push(currentImageData?.imageId);
+      imageUrlList.push(currentImageData?.imageUrl);
     });
 
     if (imageUrlList.length > 10) {
       imageUrlList = imageUrlList.slice(0, 10);
+      imageOrderList = imageOrder.slice(0, 10);
     }
     setUploadImageSources(imageUrlList);
+    setImageOrder(imageOrderList);
   };
 
-  // TODO: api image delete 로직 추가
   const handleDeleteImage = (index: number) => {
     setUploadImageSources(uploadImageSources.filter((_, i) => i !== index));
+  };
+
+  const handleDeleteAllImage = () => {
+    setUploadImageSources([]);
+    setImageOrder([]);
   };
 
   const handleUploadImageButton = () => {
@@ -66,56 +91,57 @@ export default function UploadModal() {
     inputRef.current?.click();
   };
 
+  const openEnlargedImage = (imageUrl: string) => {
+    setSelectedImage(imageUrl);
+    setShowImage(true);
+  };
+
+  const closeEnlargedImage = () => {
+    setSelectedImage('');
+    setShowImage(false);
+  };
+
   return (
     <Modal.Container onClickClose={onClickClose} classname="modalContainer">
       <Modal.Header onClickClose={onClickClose} />
       <Modal.Body classname="grid grid-cols-2 h-full">
-        <div className="relative flex h-full w-full items-center justify-center border-r-1 border-solid border-black">
-          {uploadImageSources.length ? (
-            <>
+        {uploadImageSources.length ? (
+          <div className="relative flex h-full w-full justify-center border-r-1 border-solid border-black pb-31 pt-26">
+            <div className="relative grid grid-cols-4 grid-rows-3 gap-18 px-29 py-25">
               {uploadImageSources.map((uploadImageSource, index) => {
                 return (
-                  <div key={index} className="relative">
-                    <Image
-                      className="object-contain"
-                      src={uploadImageSource}
-                      alt="업로드한 이미지"
-                      width={490}
-                      height={490}
-                    />
-                    <button className="absolute right-5 top-5" onClick={() => handleDeleteImage(index)}>
-                      <svg
-                        width={24}
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                        className="r-18jsvk2 r-4qtqp9 r-yyyyoo r-z80fyv r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-19wmn03"
-                      >
-                        <g>
-                          <path d="M10.59 12L4.54 5.96l1.42-1.42L12 10.59l6.04-6.05 1.42 1.42L13.41 12l6.05 6.04-1.42 1.42L12 13.41l-6.04 6.05-1.42-1.42L10.59 12z"></path>
-                        </g>
-                      </svg>
-                    </button>
-                  </div>
+                  <PreviewImage
+                    uploadImageSource={uploadImageSource}
+                    index={index}
+                    openEnlargedImage={openEnlargedImage}
+                    handleDeleteImage={handleDeleteImage}
+                  />
                 );
               })}
-            </>
-          ) : (
+              <div className="absolute bottom-4 left-88 flex gap-24">
+                <DeleteAllImageButton onClick={handleDeleteAllImage} />
+                {uploadImageSources.length !== 10 && <AddImageButton onClick={handleUploadImageButton} />}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="relative flex h-full w-full items-center justify-center border-r-1 border-solid border-black">
             <BeforeUploadImage onClick={handleUploadImageButton} />
-          )}
-          <input
-            id="image"
-            className="hidden"
-            type="file"
-            accept="image/*"
-            multiple
-            ref={inputRef}
-            onChange={handleUploadImage}
-          />
-        </div>
+          </div>
+        )}
+        <input
+          id="image"
+          className="hidden"
+          type="file"
+          accept="image/*"
+          multiple
+          ref={inputRef}
+          onChange={handleUploadImage}
+        />
         <div className="relative flex h-full w-full flex-col gap-18 p-20">
           <input
             id="title"
-            className="h-39 w-300 p-10 placeholder:text-gray-5"
+            className="h-39 w-300 p-10 text-14 font-semibold placeholder:text-gray-5"
             value={title}
             type="text"
             spellCheck="false"
@@ -123,12 +149,13 @@ export default function UploadModal() {
             onChange={handleTitleChange}
           />
           <TextEditor value={description} setValue={setDescription} />
-          <div className="flex justify-end">
+          <div className="flex justify-between gap-40">
+            <StatusLabelsGroup setStatusValue={setLabel} />
             <Button.Modal.Action
-              disabled={!title || !description || description === '<p><br></p>'}
+              disabled={!title || !description || description === '<p><br></p>' || uploadImageSources.length === 0}
               wrapperStyle=""
               buttonStyle="save-button"
-              onClick={handleSaveClick}
+              onClick={handleSubmit}
             >
               게시하기
             </Button.Modal.Action>
@@ -139,9 +166,20 @@ export default function UploadModal() {
               {label === 'SELLING' && <SellingLabelImg />}
               {label === 'FREE' && <ShareLabelImg />}
             </div>
-            <StatusLabelsGroup setStatusValue={setLabel} />
           </div>
         </div>
+        {showImage && (
+          <>
+            <div
+              className="flex-center fixed left-0 top-0 z-infinite h-full w-full bg-[#00000066] p-10"
+              onClick={closeEnlargedImage}
+            >
+              <div className="relative h-full w-full">
+                <Image src={selectedImage} alt="작품 확대 이미지" width={750} height={900} />
+              </div>
+            </div>
+          </>
+        )}
       </Modal.Body>
     </Modal.Container>
   );

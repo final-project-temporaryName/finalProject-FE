@@ -73,19 +73,19 @@
 }
 
 .category-button {
-  @apply flex justify-center gap-10 rounded-ml border-2 border-solid border-white bg-white px-23 py-5 text-center align-middle text-18 text-gray-4 hover:text-black;
+  @apply flex items-center justify-center gap-10 rounded-ml border-2 border-solid border-white bg-white px-23 py-5 text-center text-18 text-gray-4 hover:text-black;
 }
 
 .category-button-focus {
-  @apply flex justify-center gap-10 rounded-ml  border-2 border-solid border-gray-4 bg-white px-23 py-5 text-center align-middle text-18 text-black;
+  @apply flex items-center justify-center gap-10  rounded-ml border-2 border-solid border-gray-4 bg-white px-23 py-5 text-center text-18 text-black;
 }
 
 .status-label-button {
-  @apply flex justify-center gap-10 rounded-md border-[1.55px] border-solid border-white bg-white px-12 py-4 text-center align-middle text-12 text-black hover:text-primary;
+  @apply flex items-center justify-center gap-10 rounded-ml border-[1.55px] border-solid border-white bg-white px-12 py-4 text-center text-12 text-black hover:text-primary;
 }
 
 .status-label-button-focus {
-  @apply flex justify-center gap-10 rounded-md  border-[1.55px] border-solid border-primary bg-white px-12 py-4 text-center align-middle text-12 text-primary;
+  @apply flex items-center justify-center gap-10  rounded-lg border-[1.55px] border-solid border-primary bg-white px-12 py-4 text-center text-12 text-primary;
 }
 
 .main-label-button {
