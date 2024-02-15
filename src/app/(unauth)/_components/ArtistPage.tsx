@@ -10,7 +10,7 @@ export default function ArtistPage() {
       <NavBar>
         <NavigatorBox />
       </NavBar>
-      <SideBar id={2} displayStatus="notMyWork" />
+      <SideBar id={13} displayStatus="notMyWork" />
       <ArtistCardSection />
     </>
   );

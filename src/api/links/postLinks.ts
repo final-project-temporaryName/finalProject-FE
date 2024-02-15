@@ -1,12 +1,12 @@
 import instance from '../axios';
 
-interface Props {
+export interface LinkProps {
   userId: number;
   title: string;
   url: string;
 }
 
-export const postLinks = async ({ userId, title, url }: Props) => {
+export const postLinks = async ({ userId, title, url }: LinkProps) => {
   try {
     const response = await instance.post(`/users/${userId}/links`, { title, url });
     return response.data;

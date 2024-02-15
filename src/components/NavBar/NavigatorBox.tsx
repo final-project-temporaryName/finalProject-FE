@@ -10,7 +10,7 @@ async function NavigatorBox() {
     isLogin: true,
   };
 
-  const id = 2;
+  const id = 13;
   const data = await getUser(id);
 
   return (
