@@ -18,6 +18,7 @@ import DeleteAllImageButton from './_components/DeleteAllImageButton';
 import PreviewImage from './_components/PreviewImage';
 import StatusLabelsGroup from './_components/StatusLabelsGroup';
 import TextEditor from './_components/TextEditor';
+import { ImageArtworkType } from '@/types/artworks';
 
 export default function UploadModal() {
   const [title, setTitle] = useState('');
@@ -27,6 +28,7 @@ export default function UploadModal() {
   const [showImage, setShowImage] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
   const [imageOrder, setImageOrder] = useState<number[]>([]);
+  const [currentImageData, setCurrentImageData] = useState<ImageArtworkType | undefined>();
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -49,26 +51,48 @@ export default function UploadModal() {
     formData.append('file', file);
     const { imageId, imageUrl } = await postUploadImageFile(formData);
     setImageOrder((prev): number[] => [...prev, imageId]);
-    return { imageId, imageUrl };
+    setCurrentImageData({ imageId, imageUrl });
   };
 
   const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const files = e.target.files;
     let imageUrlList = [...uploadImageSources];
+    let imageOrderList = [...imageOrder];
     const fileList = Array.from(files);
 
     fileList.forEach((file) => {
-      const currentImageUrl = URL.createObjectURL(file);
       getImageData(file);
-      imageUrlList.push(currentImageUrl);
+      if (!currentImageData) return;
+      imageOrderList.push(currentImageData?.imageId);
+      imageUrlList.push(currentImageData?.imageUrl);
     });
 
     if (imageUrlList.length > 10) {
       imageUrlList = imageUrlList.slice(0, 10);
+      imageOrderList = imageOrder.slice(0, 10);
     }
     setUploadImageSources(imageUrlList);
+    setImageOrder(imageOrderList);
   };
+
+  // const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (!e.target.files) return;
+  //   const files = e.target.files;
+  //   let imageUrlList = [...uploadImageSources];
+  //   const fileList = Array.from(files);
+
+  //   fileList.forEach((file) => {
+  //     const currentImageUrl = URL.createObjectURL(file);
+  //     getImageData(file);
+  //     imageUrlList.push(currentImageUrl);
+  //   });
+
+  //   if (imageUrlList.length > 10) {
+  //     imageUrlList = imageUrlList.slice(0, 10);
+  //   }
+  //   setUploadImageSources(imageUrlList);
+  // };
 
   const handleDeleteImage = (index: number) => {
     setUploadImageSources(uploadImageSources.filter((_, i) => i !== index));
