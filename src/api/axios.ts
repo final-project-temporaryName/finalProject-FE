@@ -17,8 +17,8 @@ instance.interceptors.request.use(
         state: { userAccessToken, userRefreshToken },
       } = JSON.parse(userAuth);
 
-      config.headers.Authorization = `Bearer ${userAccessToken}`;
-      config.headers['Authorization-refresh'] = `Bearer ${userRefreshToken}`;
+      config.headers.Authorization = `${userAccessToken}`;
+      config.headers['Authorization-refresh'] = `${userRefreshToken}`;
 
       console.log('request start', config);
       return config;
@@ -56,7 +56,7 @@ instance.interceptors.response.use(
         newParsedUserAuth.state.userAccessToken = newAccessToken;
         window.localStorage.setItem('store', JSON.stringify(newParsedUserAuth));
 
-        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        originalRequest.headers.Authorization = `${newAccessToken}`;
 
         return axios(originalRequest);
       }
