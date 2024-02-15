@@ -8,7 +8,7 @@ function EditProfilePage() {
       <NavBar>
         <NavigatorBox />
       </NavBar>
-      <ProfilePage type="put" />
+      <ProfilePage mode="edit" />
     </div>
   );
 }
