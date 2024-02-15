@@ -44,8 +44,6 @@ function SlideContainer({ imageUrlList }: SlideContainerProps) {
   let slidesPerView;
   slidesPerView = useMemo(() => setSlidesPerView(browserWidthSize, imageUrlList.length), [browserWidthSize]);
 
-  console.log(browserWidthSize);
-
   const openModal = (imageUrl: string) => {
     setSelectedImage(imageUrl);
     setShowModal(true);
