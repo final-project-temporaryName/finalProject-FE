@@ -1,14 +1,5 @@
 import instance from '../axios';
 
-/**
- *{
- *  imageIds: number[],
- *  title: string,
- *  description: string,
- *  artworkStatus: 'PUBLIC'| 'SELLING'| 'FREE'
- *}
- */
-
 interface postArtworkProps {
   imageIds: number[];
   title: string;

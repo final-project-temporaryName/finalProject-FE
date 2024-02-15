@@ -17,6 +17,7 @@ import DeleteAllImageButton from './_components/DeleteAllImageButton';
 import PreviewImage from './_components/PreviewImage';
 import StatusLabelsGroup from './_components/StatusLabelsGroup';
 import TextEditor from './_components/TextEditor';
+import { postUploadImageFile } from '@/api/upload/postUploadImageFile';
 
 export default function UploadModal() {
   const [title, setTitle] = useState('');
@@ -25,7 +26,7 @@ export default function UploadModal() {
   const [label, setLabel] = useState<'PUBLIC' | 'SELLING' | 'FREE'>('PUBLIC');
   const [showImage, setShowImage] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
-  const [imageOrder, setImageOrder] = useState<number[]>([1, 2]);
+  const [imageOrder, setImageOrder] = useState<number[]>([]);
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -43,20 +44,23 @@ export default function UploadModal() {
     postArtwork({ imageIds: imageOrder, title, description, artworkStatus: label });
   };
 
+  const getImageData = async (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const { imageId, imageUrl } = await postUploadImageFile(formData);
+    setImageOrder((prev): number[] => [...prev, imageId]);
+    return { imageId, imageUrl };
+  };
+
   const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const files = e.target.files;
     let imageUrlList = [...uploadImageSources];
     const fileList = Array.from(files);
-    // const formData = new FormData();
 
     fileList.forEach((file) => {
       const currentImageUrl = URL.createObjectURL(file);
-      // const {id, src} = await postUploadImageFile(file)
-      // TODO: api image 1개 api 추가 (currentImageUrl를 담아서 사용)
-      // 파일 객체(file) 담기
-      // formData.append('file', file);
-      // setImageOrder
+      getImageData(file);
       imageUrlList.push(currentImageUrl);
     });
 
@@ -72,6 +76,7 @@ export default function UploadModal() {
 
   const handleDeleteAllImage = () => {
     setUploadImageSources([]);
+    setImageOrder([]);
   };
 
   const handleUploadImageButton = () => {

@@ -9,7 +9,7 @@ export default function RedirectToHome() {
   const router = useRouter();
   const { data: session } = useSession();
 
-  const handleUserId = async () => {
+  const handleUserId = () => {
     // userRole zustand 저장
   };
 

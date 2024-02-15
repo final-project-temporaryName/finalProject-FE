@@ -1,7 +1,7 @@
 import LoginPage from '../../_components/LoginPage';
 import RedirectToHome from '../_components/RedirectToHome';
 
-export default async function LoginFlow() {
+export default function LoginFlow() {
   return (
     <>
       <RedirectToHome />

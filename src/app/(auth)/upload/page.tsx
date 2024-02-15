@@ -4,7 +4,7 @@ import MyPage from '../_component/MyPage';
 import ParallelChildren from './_component/ParallelChildren';
 import RedirectToUpload from './_component/RedirectToUpload';
 
-export default async function Upload() {
+export default function Upload() {
   return (
     <>
       <RedirectToUpload />
