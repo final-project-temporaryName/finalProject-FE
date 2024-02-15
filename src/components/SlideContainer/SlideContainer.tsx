@@ -24,15 +24,25 @@ function SlideContainer({ imageUrlList }: SlideContainerProps) {
   const swiperRef = useRef<SwiperCore>();
   const { width: browserWidthSize } = useBrowserSize();
 
-  const setSlidesPerView = (width: number | undefined) => {
+  const setSlidesPerView = (width: number | undefined, num: number) => {
     if (!width) return 1;
-    if (width < 768) return 1;
-    else if (width < 1200) return 2;
-    else return 3;
+
+    if (num > 3) {
+      if (width < 768) return 1;
+      else if (width < 1200) return 2;
+      else return 3;
+    } else {
+      if (num === 2) {
+        if (width < 768) return 1;
+        else return 2;
+      } else if (num === 1) {
+        return 1;
+      }
+    }
   };
 
   let slidesPerView;
-  slidesPerView = useMemo(() => setSlidesPerView(browserWidthSize), [browserWidthSize]);
+  slidesPerView = useMemo(() => setSlidesPerView(browserWidthSize, imageUrlList.length), [browserWidthSize]);
 
   console.log(browserWidthSize);
 
