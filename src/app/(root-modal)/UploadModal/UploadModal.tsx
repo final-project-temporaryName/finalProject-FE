@@ -3,8 +3,8 @@
 import { postArtwork } from '@/api/upload/postArtwork';
 import { postUploadImageFile } from '@/api/upload/postUploadImageFile';
 import { Button } from '@/components/Button';
-import Quit from '@/components/SlideContainer/Quit';
 import '@/styles/tailwind.css';
+import { ImageArtworkType } from '@/types/artworks';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
@@ -18,7 +18,6 @@ import DeleteAllImageButton from './_components/DeleteAllImageButton';
 import PreviewImage from './_components/PreviewImage';
 import StatusLabelsGroup from './_components/StatusLabelsGroup';
 import TextEditor from './_components/TextEditor';
-import { ImageArtworkType } from '@/types/artworks';
 
 export default function UploadModal() {
   const [title, setTitle] = useState('');
@@ -75,24 +74,6 @@ export default function UploadModal() {
     setUploadImageSources(imageUrlList);
     setImageOrder(imageOrderList);
   };
-
-  // const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (!e.target.files) return;
-  //   const files = e.target.files;
-  //   let imageUrlList = [...uploadImageSources];
-  //   const fileList = Array.from(files);
-
-  //   fileList.forEach((file) => {
-  //     const currentImageUrl = URL.createObjectURL(file);
-  //     getImageData(file);
-  //     imageUrlList.push(currentImageUrl);
-  //   });
-
-  //   if (imageUrlList.length > 10) {
-  //     imageUrlList = imageUrlList.slice(0, 10);
-  //   }
-  //   setUploadImageSources(imageUrlList);
-  // };
 
   const handleDeleteImage = (index: number) => {
     setUploadImageSources(uploadImageSources.filter((_, i) => i !== index));
@@ -171,7 +152,7 @@ export default function UploadModal() {
           <div className="flex justify-between gap-40">
             <StatusLabelsGroup setStatusValue={setLabel} />
             <Button.Modal.Action
-              disabled={!title || !description || description === '<p><br></p>'}
+              disabled={!title || !description || description === '<p><br></p>' || uploadImageSources.length === 0}
               wrapperStyle=""
               buttonStyle="save-button"
               onClick={handleSubmit}
@@ -189,15 +170,11 @@ export default function UploadModal() {
         </div>
         {showImage && (
           <>
-            <div className="fixed left-0 top-0 z-infinite h-full w-full bg-black opacity-65"></div>
             <div
-              className="!important fixed left-0 top-0 z-infinite flex h-full w-full items-center justify-center"
+              className="flex-center fixed left-0 top-0 z-infinite h-full w-full bg-[#00000066] p-10"
               onClick={closeEnlargedImage}
             >
-              <div className="relative">
-                <button className="absolute -right-10 -top-10 z-infinite" onClick={closeEnlargedImage}>
-                  <Quit />
-                </button>
+              <div className="relative h-full w-full">
                 <Image src={selectedImage} alt="작품 확대 이미지" width={750} height={900} />
               </div>
             </div>
