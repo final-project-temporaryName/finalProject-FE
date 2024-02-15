@@ -19,10 +19,10 @@ export interface UserData {
 }
 
 interface Props {
-  type: 'post' | 'put';
+  mode: 'create' | 'edit';
 }
 
-function ProfilePage({ type }: Props) {
+function ProfilePage({ mode }: Props) {
   const [uploadedImageUrl, setUploadedImageUrl] = useState('');
   const [nicknameError, setNicknameError] = useState<string | null>(null);
   const [hasLinkError, setHasLinkError] = useState(false);
@@ -56,9 +56,9 @@ function ProfilePage({ type }: Props) {
 
   const userId = 4;
 
-  const buttonText = type === 'post' ? '가입하기' : '저장하기';
+  const buttonText = mode === 'create' ? '가입하기' : '저장하기';
   const mutationFn =
-    type === 'post'
+    mode === 'create'
       ? (userData: UserData) => instance.post(`/users`, userData)
       : (userData: UserData) => instance.put(`/users/${userId}`, userData);
 
@@ -119,9 +119,9 @@ function ProfilePage({ type }: Props) {
 
   return (
     <FormProvider {...methods}>
-      <form className={`relative ${type === 'put' ? 'mt-160' : 'mt-30'} flex-col`} onSubmit={handleSubmit(onSubmit)}>
+      <form className="relative flex-col" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex-center">
-          <div className="h-475 w-571">
+          <div className={`pb-100 ${mode === 'edit' ? 'pt-160' : 'pt-30'}`}>
             <div className="relative ml-75 flex items-center gap-10">
               <Input
                 type="file"
@@ -148,7 +148,7 @@ function ProfilePage({ type }: Props) {
                 중복확인
               </button>
             </div>
-            <div className="mt-30 flex gap-33">
+            <div className="mt-60 flex gap-33">
               <Input
                 label="활동지역"
                 id="zone"
@@ -195,15 +195,13 @@ function ProfilePage({ type }: Props) {
             </div>
           </div>
         </div>
-        <div className="absolute right-200 mt-100">
-          <button
-            type="submit"
-            className={`primary-button storage-button ${disableSaveButton ? 'disabled' : ''}`}
-            disabled={disableSaveButton}
-          >
-            {buttonText}
-          </button>
-        </div>
+        <button
+          type="submit"
+          className={`primary-button storage-button fixed bottom-90 right-200 ${disableSaveButton ? 'disabled' : ''}`}
+          disabled={disableSaveButton}
+        >
+          {buttonText}
+        </button>
       </form>
     </FormProvider>
   );

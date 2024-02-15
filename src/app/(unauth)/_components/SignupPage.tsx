@@ -16,7 +16,7 @@ function SignUpPage() {
             <span className="text-primary">아트톡톡</span>을 통해 소통할 프로필을 작성해요!
           </p>
         </div>
-        <ProfilePage type="post" />
+        <ProfilePage mode="create" />
       </div>
     </>
   );

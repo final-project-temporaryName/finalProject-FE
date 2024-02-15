@@ -5,9 +5,8 @@ import { postImageFile } from '@/api/image/postImageFile';
 import PlusButtonIcon from '@/components/SvgComponents/PlusButtonIcon';
 import UpLoadIcon from '@/components/SvgComponents/UpLoadIcon';
 import Image from 'next/image';
-import React, { ChangeEvent, FocusEventHandler, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, FocusEventHandler, useId, useRef, useState } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
-import { v4 as uuid } from 'uuid';
 
 interface Props {
   label?: string;
@@ -31,7 +30,7 @@ const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
   const { label, type = 'text', placeholder, error, register, style, readOnly, value, onChange } = props;
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [id, setId] = useState('default-id');
+  const id = useId();
 
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
@@ -75,10 +74,8 @@ const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
           onChange={handleFileChange}
         />
         <label htmlFor={id} className="file-input-label border-1 border-solid border-gray-4">
-          <div className="absolute right-25 top-20">
-            <UpLoadIcon />
-            <div className="mt-2 text-7">사진 가져오기</div>
-          </div>
+          <UpLoadIcon />
+          <div className="mt-2 text-7">사진 가져오기</div>
           {profileImage && (
             <button className="absolute right-0 top-0" onClick={handleFileDelete}>
               <PlusButtonIcon className="rotate-45" />
@@ -108,10 +105,6 @@ const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
       </div>
     </div>
   );
-
-  useEffect(() => {
-    setId(uuid()); // CSR에서 고유한 id 생성
-  }, []);
 
   return (
     <div className="flex-center">

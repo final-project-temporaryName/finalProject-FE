@@ -5,9 +5,8 @@ import Input from '@/components/Input/Input';
 import BinIcon from '@/components/SvgComponents/BinIcon';
 import EditIcon from '@/components/SvgComponents/EditIcon';
 import SaveIcon from '@/components/SvgComponents/SaveIcon';
-import { useEffect, useState } from 'react';
+import { useId, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { v4 as uuid } from 'uuid';
 
 interface Props {
   link: { id: string };
@@ -21,13 +20,13 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate }: Props) {
   const [isEditIconVisible, setIsEditIconVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [saveIconClicked, setSaveIconClicked] = useState(false);
-  const [id, setId] = useState('default-id');
   const {
     register,
     formState: { errors },
     watch,
     control,
   } = useFormContext();
+  const id = useId();
 
   const handleSaveIconClick = async () => {
     setIsModified(false);
@@ -82,10 +81,6 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate }: Props) {
   };
 
   if (isLoading) return <div>Loading...</div>;
-
-  useEffect(() => {
-    setId(uuid()); // CSR에서 고유한 id 생성
-  }, []);
 
   return (
     <div className="relative flex flex-col">
@@ -146,7 +141,7 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate }: Props) {
           )}
         </div>
       </div>
-      <div className="absolute bottom-1 right-240">
+      <div className="absolute bottom-0 right-235">
         {isModified && !saveIconClicked && <div className="text-10 text-[#c90000]">링크 저장이 필요합니다!</div>}
       </div>
     </div>
