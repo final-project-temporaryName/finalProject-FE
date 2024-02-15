@@ -61,6 +61,9 @@ instance.interceptors.response.use(
         return axios(originalRequest);
       }
     }
+    if (status === 403) {
+      window.location.replace('/login');
+    }
 
     console.log('response error', error);
     return Promise.reject(error);

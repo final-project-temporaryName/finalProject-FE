@@ -4,9 +4,11 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { MouseEvent } from 'react';
 import naverLogoImg from '../../../../../public/assets/images/naverLogo.png';
+import useIfLogin from '@/hooks/useIfLogin';
 
 function NaverLoginButton() {
   const { data: session } = useSession();
+  const { result } = useIfLogin();
 
   const handleNaverLoginClick = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -20,6 +22,7 @@ function NaverLoginButton() {
   };
 
   console.log(session);
+  console.log(result);
 
   return (
     <button

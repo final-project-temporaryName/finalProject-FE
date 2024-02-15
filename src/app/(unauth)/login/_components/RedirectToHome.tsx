@@ -10,10 +10,12 @@ export default async function RedirectToHome() {
   const router = useRouter();
   const { data: session } = useSession();
 
-  const { setUserAccessToken, setUserRefreshToken, setUserRole } = useStore((state) => ({
+  const { setUserAccessToken, setUserRefreshToken, setUserRole, setLogin, setLogout } = useStore((state) => ({
     setUserAccessToken: state.setUserAccessToken,
     setUserRefreshToken: state.setUserRefreshToken,
     setUserRole: state.setUserRole,
+    setLogin: state.setLogin,
+    setLogout: state.setLogout,
   }));
 
   const socialId = session?.user.id;
@@ -25,11 +27,16 @@ export default async function RedirectToHome() {
       setUserAccessToken(accessToken);
       setUserRefreshToken(refreshToken);
       setUserRole(userRole);
+    } catch (error) {
+      console.error(error);
+      setLogout();
     } finally {
+      setLogin();
       router.replace('/');
     }
   };
 
+  // 이부분 때문에 strictMode 해제
   useEffect(() => {
     if (session) {
       handleUserId();
