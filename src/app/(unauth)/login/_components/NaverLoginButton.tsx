@@ -8,7 +8,7 @@ import useIfLogin from '@/hooks/useIfLogin';
 
 function NaverLoginButton() {
   const { data: session } = useSession();
-  const { result } = useIfLogin();
+  const { userData } = useIfLogin();
 
   const handleNaverLoginClick = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -22,7 +22,7 @@ function NaverLoginButton() {
   };
 
   console.log(session);
-  console.log(result);
+  console.log(userData);
 
   return (
     <button
