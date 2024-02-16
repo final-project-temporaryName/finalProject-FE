@@ -106,9 +106,9 @@ export default function UploadModal() {
   return (
     <Modal.Container onClickClose={onClickClose} classname="modalContainer">
       <Modal.Header onClickClose={onClickClose} />
-      <Modal.Body classname="grid grid-cols-2 h-full">
+      <Modal.Body classname="flex h-full">
         {uploadImageSources.length ? (
-          <div className="relative flex h-full w-full justify-center border-r-1 border-solid border-black pb-31 pt-26">
+          <div className="relative flex h-full w-3/5 justify-center border-r-1 border-solid border-black pb-31 pt-26">
             <div className="relative grid grid-cols-4 grid-rows-3 gap-18 px-29 py-25">
               {uploadImageSources.map((uploadImageSource, index) => {
                 return (
@@ -127,7 +127,7 @@ export default function UploadModal() {
             </div>
           </div>
         ) : (
-          <div className="relative flex h-full w-full items-center justify-center border-r-1 border-solid border-black">
+          <div className="relative flex h-full w-3/5 items-center justify-center border-r-1 border-solid border-black">
             <BeforeUploadImage onClick={handleUploadImageButton} />
           </div>
         )}
@@ -140,7 +140,7 @@ export default function UploadModal() {
           ref={inputRef}
           onChange={handleUploadImage}
         />
-        <div className="relative flex h-full w-full flex-col gap-18 p-20">
+        <div className="relative flex h-full w-2/5 flex-col gap-18 p-20">
           <input
             id="title"
             className="h-39 w-300 p-10 text-14 font-semibold placeholder:text-gray-5"
@@ -151,7 +151,7 @@ export default function UploadModal() {
             onChange={handleTitleChange}
           />
           <TextEditor value={description} setValue={setDescription} />
-          <div className="flex justify-between gap-40">
+          <div className="flex items-center justify-between gap-18">
             <StatusLabelsGroup setStatusValue={setLabel} />
             <Button.Modal.Action
               disabled={!title || !description || description === '<p><br></p>' || uploadImageSources.length === 0}

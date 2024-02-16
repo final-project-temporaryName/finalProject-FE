@@ -28,7 +28,7 @@ function TextEditor({ value, setValue }: Props) {
   const formats = ['bold', 'underline', 'blockquote', 'list', 'bullet'];
 
   return (
-    <div className="h-333 w-355">
+    <div className="h-330 w-355">
       <QuillNoSSRWrapper
         theme="bubble"
         modules={modules}
