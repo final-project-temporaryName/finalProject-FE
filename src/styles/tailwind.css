@@ -122,19 +122,19 @@
 }
 
 .xs-input {
-  @apply w-115;
+  @apply md:w-90 w-115;
 }
 
 .sm-input {
-  @apply w-172;
+  @apply md:w-150 w-172;
 }
 
 .md-input {
-  @apply w-200;
+  @apply md:w-150 w-200;
 }
 
 .lg-input {
-  @apply w-268;
+  @apply md:w-208 w-268;
 }
 
 .file-input-wrapper {
