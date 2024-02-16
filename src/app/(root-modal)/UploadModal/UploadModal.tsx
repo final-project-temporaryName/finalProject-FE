@@ -20,6 +20,7 @@ import StatusLabelsGroup from './_components/StatusLabelsGroup';
 import TextEditor from './_components/TextEditor';
 
 export default function UploadModal() {
+  // states
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [uploadImageSources, setUploadImageSources] = useState<string[]>([]);
@@ -29,10 +30,11 @@ export default function UploadModal() {
   const [imageOrder, setImageOrder] = useState<number[]>([]);
   const [currentImageData, setCurrentImageData] = useState<ImageArtworkType | undefined>();
 
+  //hooks
   const inputRef = useRef<HTMLInputElement | null>(null);
-
   const router = useRouter();
 
+  // handlers
   const onClickClose = () => {
     router.back();
   };
