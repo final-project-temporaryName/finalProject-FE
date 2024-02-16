@@ -111,7 +111,7 @@ const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
       {label && (
         <label
           htmlFor={id}
-          className="md:text-18 md:w-90 flex h-40 w-70 items-center justify-start gap-20 whitespace-nowrap p-10 text-14"
+          className="md:w-70 md:text-14 flex h-40 w-90 items-center justify-start gap-20 whitespace-nowrap p-10 text-18"
         >
           {label}
         </label>

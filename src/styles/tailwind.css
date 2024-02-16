@@ -126,11 +126,11 @@
 }
 
 .sm-input {
-  @apply md:w-172 w-150;
+  @apply md:w-150 w-172;
 }
 
 .md-input {
-  @apply md:w-200 w-150;
+  @apply md:w-150 w-200;
 }
 
 .lg-input {
