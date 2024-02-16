@@ -55,6 +55,7 @@ async function SideBar({ id, displayStatus }: SideBarProps) {
             </span>
           </div>
           {displayStatus === 'notMyWork' ? (
+            // 추후 destination 바뀔 예정
             <Button destination="/chat" classname="primary-button nav-chat-button">
               1:1 대화걸기
             </Button>
