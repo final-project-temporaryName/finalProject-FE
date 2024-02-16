@@ -33,26 +33,28 @@ function ProfileImgDropDown({ userName, profileImg, major }: ProfileImgDropDownP
 
   return (
     <div className="relative flex-shrink-0" ref={containerRef} onClick={handleContainerClick}>
-      <Image
-        src={profileImg ? profileImg : defaultProfileImg}
-        alt="프로필 이미지"
-        width={32}
-        height={32}
-        style={{ borderRadius: '50%', cursor: 'pointer' }}
-      />
+      <div className="relative h-32 w-32 cursor-pointer overflow-hidden rounded-full">
+        <Image
+          src={profileImg ? profileImg : defaultProfileImg}
+          alt="프로필 이미지"
+          fill
+          style={{ objectFit: 'cover' }}
+        />
+      </div>
       {isDropDownOpen && (
         <div className="absolute right-[-160px] top-40" onClick={(e) => e.stopPropagation()}>
           <ProfileDropDownImg />
           <div className="absolute left-2 top-14 flex h-310 w-266 flex-col rounded-sm">
             <div className="flex w-full flex-1 flex-col items-stretch justify-between gap-13 px-17 py-23">
               <div className="flex items-center gap-30">
-                <Image
-                  src={profileImg ? profileImg : defaultProfileImg}
-                  alt="프로필 이미지"
-                  width={60}
-                  height={60}
-                  style={{ borderRadius: '50%' }}
-                />
+                <div className="relative h-60 w-60 overflow-hidden rounded-full">
+                  <Image
+                    src={profileImg ? profileImg : defaultProfileImg}
+                    alt="프로필 이미지"
+                    fill
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
                 <div>
                   <p className="text-18 font-semibold">{userName}</p>
                   <p className="text-12 text-gray-5">{major}</p>

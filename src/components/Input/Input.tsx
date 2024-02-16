@@ -27,7 +27,7 @@ interface Props {
 }
 
 const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
-  const { label, type = 'text', placeholder, error, register, style, readOnly, value, onChange } = props;
+  const { label, type = 'text', placeholder, error, register, style, readOnly, value, onChange, onImageUpload } = props;
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const id = useId();
@@ -38,12 +38,13 @@ const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
     const formData = new FormData();
     formData.append('file', imgFile);
 
-    if (formData) {
+    if (onImageUpload && formData) {
       const response = await postImageFile(formData);
       if (response.status !== 200) {
         console.log(response.data.error.message);
       }
       setProfileImage(response?.data.imageUrl);
+      onImageUpload(response?.data.imageUrl);
       event.target.value = '';
     }
   };

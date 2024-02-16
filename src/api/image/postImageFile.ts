@@ -2,7 +2,7 @@ import instance from '../axios';
 
 export const postImageFile = async (data: FormData) => {
   try {
-    const response = await instance.post('/images/profile', data, {
+    const response = await instance.post('/image/profile', data, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

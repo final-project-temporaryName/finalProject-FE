@@ -7,7 +7,7 @@ function SignUpPage() {
   return (
     <>
       <div className="flex h-dvh w-dvw flex-col justify-start">
-        <div className="relative h-[15%] w-dvw">
+        <div className="relative h-[15%] w-dvw flex-shrink-0">
           <Image src={loginBgImg} alt="로그인 페이지 사진" fill priority />
         </div>
         <div className="flex-col-center mt-45">
