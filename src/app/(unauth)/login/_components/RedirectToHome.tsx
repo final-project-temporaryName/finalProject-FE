@@ -1,24 +1,49 @@
 'use client';
 
-// import { postUserId } from '@/api/auth/postUserId';
+import { postUserId } from '@/api/auth/postSocialInfo';
+import { useStore } from '@/store';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
-export default async function RedirectToHome() {
+export default function RedirectToHome() {
   const router = useRouter();
   const { data: session } = useSession();
 
-  const handleUserId = () => {
-    // userRole zustand 저장
-  };
+  const { setUserAccessToken, setUserRefreshToken, setUserRole, setLogin, setLogout } = useStore((state) => ({
+    setUserAccessToken: state.setUserAccessToken,
+    setUserRefreshToken: state.setUserRefreshToken,
+    setUserRole: state.setUserRole,
+    setLogin: state.setLogin,
+    setLogout: state.setLogout,
+  }));
 
+  const socialId = session?.user.id;
+  const socialType = socialId?.length === 10 ? 'KAKAO' : 'NAVER';
+
+  const handleUserId = useCallback(async () => {
+    if (!session) return;
+
+    try {
+      const { accessToken, refreshToken, userRole } = await postUserId(socialId, socialType);
+      setUserAccessToken(accessToken);
+      setUserRefreshToken(refreshToken);
+      setUserRole(userRole);
+    } catch (error) {
+      console.error(error);
+      setLogout();
+    } finally {
+      setLogin();
+      router.replace('/');
+    }
+  }, [socialId, socialType]);
+
+  // 이부분 때문에 strictMode 해제
   useEffect(() => {
-    // handleUserId();
+    handleUserId();
 
-    router.replace('/');
-
+    console.log(localStorage.getItem('store'));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [handleUserId]);
   return null;
 }

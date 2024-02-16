@@ -2,7 +2,7 @@
 
 import '@/styles/tailwind.css';
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import SwiperCore from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -11,15 +11,38 @@ import 'swiper/css/scrollbar';
 import { Navigation, Scrollbar } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Expand from './Expand';
+import { useBrowserSize } from '@/hooks/useBrowserSize';
 
 interface SlideContainerProps {
   imageUrlList: string[];
 }
 
 function SlideContainer({ imageUrlList }: SlideContainerProps) {
-  const swiperRef = useRef<SwiperCore>();
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
+
+  const swiperRef = useRef<SwiperCore>();
+  const { width: browserWidthSize } = useBrowserSize();
+
+  const setSlidesPerView = (width: number | undefined, num: number) => {
+    if (!width) return 1;
+
+    if (num > 3) {
+      if (width < 768) return 1;
+      else if (width < 1200) return 2;
+      else return 3;
+    } else {
+      if (num === 2) {
+        if (width < 768) return 1;
+        else return 2;
+      } else if (num === 1) {
+        return 1;
+      }
+    }
+  };
+
+  let slidesPerView;
+  slidesPerView = useMemo(() => setSlidesPerView(browserWidthSize, imageUrlList.length), [browserWidthSize]);
 
   const openModal = (imageUrl: string) => {
     setSelectedImage(imageUrl);
@@ -39,7 +62,7 @@ function SlideContainer({ imageUrlList }: SlideContainerProps) {
         }}
         modules={[Navigation, Scrollbar]}
         spaceBetween={10}
-        slidesPerView={3}
+        slidesPerView={slidesPerView}
         autoplay={false}
         loop={false}
         navigation
