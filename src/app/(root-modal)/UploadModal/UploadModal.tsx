@@ -18,6 +18,7 @@ import DeleteAllImageButton from './_components/DeleteAllImageButton';
 import PreviewImage from './_components/PreviewImage';
 import StatusLabelsGroup from './_components/StatusLabelsGroup';
 import TextEditor from './_components/TextEditor';
+import { DragDropContext, DropResult, Droppable } from '@hello-pangea/dnd';
 
 export default function UploadModal() {
   // states
@@ -55,26 +56,45 @@ export default function UploadModal() {
     setCurrentImageData({ imageId, imageUrl });
   };
 
+  // const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (!e.target.files) return;
+  //   const files = e.target.files;
+  //   let imageUrlList = [...uploadImageSources];
+  //   let imageOrderList = [...imageOrder];
+  //   const fileList = Array.from(files);
+
+  //   fileList.forEach((file) => {
+  //     getImageData(file);
+  //     if (!currentImageData) return;
+  //     imageOrderList.push(currentImageData?.imageId);
+  //     imageUrlList.push(currentImageData?.imageUrl);
+  //   });
+
+  //   if (imageUrlList.length > 10) {
+  //     imageUrlList = imageUrlList.slice(0, 10);
+  //     imageOrderList = imageOrder.slice(0, 10);
+  //   }
+  //   setUploadImageSources(imageUrlList);
+  //   setImageOrder(imageOrderList);
+  // };
+
+  // 테스트용
   const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const files = e.target.files;
     let imageUrlList = [...uploadImageSources];
-    let imageOrderList = [...imageOrder];
     const fileList = Array.from(files);
 
     fileList.forEach((file) => {
+      const currentImageUrl = URL.createObjectURL(file);
       getImageData(file);
-      if (!currentImageData) return;
-      imageOrderList.push(currentImageData?.imageId);
-      imageUrlList.push(currentImageData?.imageUrl);
+      imageUrlList.push(currentImageUrl);
     });
 
     if (imageUrlList.length > 10) {
       imageUrlList = imageUrlList.slice(0, 10);
-      imageOrderList = imageOrder.slice(0, 10);
     }
     setUploadImageSources(imageUrlList);
-    setImageOrder(imageOrderList);
   };
 
   const handleDeleteImage = (index: number) => {
@@ -103,34 +123,50 @@ export default function UploadModal() {
     setShowImage(false);
   };
 
+  const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
+    if (!destination) return;
+    const newUploadImageSources = [...uploadImageSources];
+    newUploadImageSources.splice(source.index, 1);
+    newUploadImageSources.splice(destination?.index, 0, draggableId);
+    setUploadImageSources(newUploadImageSources); // 기존과 다른 점
+  };
+
   return (
     <Modal.Container onClickClose={onClickClose} classname="modalContainer">
       <Modal.Header onClickClose={onClickClose} />
       <Modal.Body classname="flex h-full">
-        {uploadImageSources.length ? (
-          <div className="relative flex h-full w-3/5 justify-center border-r-1 border-solid border-black pb-31 pt-26">
-            <div className="relative grid grid-cols-4 grid-rows-3 gap-18 px-29 py-25">
-              {uploadImageSources.map((uploadImageSource, index) => {
-                return (
-                  <PreviewImage
-                    uploadImageSource={uploadImageSource}
-                    index={index}
-                    openEnlargedImage={openEnlargedImage}
-                    handleDeleteImage={handleDeleteImage}
-                  />
-                );
-              })}
-              <div className="absolute bottom-4 left-88 flex gap-24">
-                <DeleteAllImageButton onClick={handleDeleteAllImage} />
-                {uploadImageSources.length !== 10 && <AddImageButton onClick={handleUploadImageButton} />}
+        <DragDropContext onDragEnd={onDragEnd}>
+          {uploadImageSources.length ? (
+            <div className="relative flex h-full w-3/5 justify-center border-r-1 border-solid border-black pb-31 pt-26">
+              <div className="relative grid grid-cols-4 grid-rows-3 gap-18 px-29 py-25">
+                {uploadImageSources.map((uploadImageSource, index) => {
+                  return (
+                    <Droppable droppableId={uploadImageSource}>
+                      {(provided) => (
+                        <div {...provided.droppableProps} ref={provided.innerRef}>
+                          <PreviewImage
+                            uploadImageSource={uploadImageSource}
+                            index={index}
+                            openEnlargedImage={openEnlargedImage}
+                            handleDeleteImage={handleDeleteImage}
+                          />
+                        </div>
+                      )}
+                    </Droppable>
+                  );
+                })}
+                <div className="absolute bottom-4 left-88 flex gap-24">
+                  <DeleteAllImageButton onClick={handleDeleteAllImage} />
+                  {uploadImageSources.length !== 10 && <AddImageButton onClick={handleUploadImageButton} />}
+                </div>
               </div>
             </div>
-          </div>
-        ) : (
-          <div className="relative flex h-full w-3/5 items-center justify-center border-r-1 border-solid border-black">
-            <BeforeUploadImage onClick={handleUploadImageButton} />
-          </div>
-        )}
+          ) : (
+            <div className="relative flex h-full w-3/5 items-center justify-center border-r-1 border-solid border-black">
+              <BeforeUploadImage onClick={handleUploadImageButton} />
+            </div>
+          )}
+        </DragDropContext>
         <input
           id="image"
           className="hidden"
@@ -173,10 +209,10 @@ export default function UploadModal() {
         {showImage && (
           <>
             <div
-              className="flex-center fixed left-0 top-0 z-infinite h-full w-full bg-[#00000066] p-10"
+              className="fixed left-0 top-0 z-infinite flex h-full w-full  bg-[#00000066] p-10"
               onClick={closeEnlargedImage}
             >
-              <div className="relative h-full w-full">
+              <div className="relative flex h-full w-full items-center justify-center">
                 <Image src={selectedImage} alt="작품 확대 이미지" width={750} height={900} />
               </div>
             </div>
