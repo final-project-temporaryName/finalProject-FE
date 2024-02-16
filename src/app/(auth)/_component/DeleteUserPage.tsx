@@ -1,13 +1,8 @@
-import DeleteBox from '@/app/(auth)/deleteUser/_component/DeleteBox';
-import NavBar from '@/components/NavBar/NavBar';
-import NavigatorBox from '@/components/NavBar/NavigatorBox';
+import DeleteBox from '@/app/(auth)/(manage)/myAccount/@deleteModal/_component/DeleteBox';
 
 function DeleteUserPage() {
   return (
     <>
-      <NavBar>
-        <NavigatorBox />
-      </NavBar>
       <DeleteBox />
     </>
   );
