@@ -139,10 +139,10 @@ function ProfilePage({ mode }: Props) {
                 register={register('nickname', nicknameRules)}
                 error={errors.nickname?.message || nicknameError}
               />
-              <div className="absolute left-170 top-27 text-[#C90000]">*</div>
+              <div className="md:left-170 md:top-27 absolute left-150 text-[#C90000]">*</div>
               <button
                 type="button"
-                className="primary-button duplication-button justify-center"
+                className="primary-button duplication-button md:ml-0 ml-22 justify-center"
                 onClick={checkNickname}
               >
                 중복확인
@@ -165,11 +165,11 @@ function ProfilePage({ mode }: Props) {
               />
             </div>
             <div className="my-40 flex">
-              <div className="flex h-40 w-90 items-center justify-start gap-20 whitespace-nowrap p-10 text-18">
+              <div className="md:ml-0 md:text-18 md:w-90 md:gap-20 ml-40 flex h-40 w-70 items-center justify-start gap-5 whitespace-nowrap p-10 text-14">
                 소개글
               </div>
               <textarea
-                className="min-h-92 w-465 resize-none rounded-xs bg-gray-1 p-15 text-14 focus:outline-none "
+                className="md:w-465 min-h-92 w-375 resize-none rounded-xs bg-gray-1 p-15 text-14 focus:outline-none "
                 placeholder="사람들에게 나를 알릴 수 있는 글을 자유롭게 적어보세요."
                 {...register('description')}
               ></textarea>
