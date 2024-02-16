@@ -122,7 +122,7 @@ function ProfilePage({ mode }: Props) {
       <form className="relative flex-col" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex-center">
           <div className={`pb-100 ${mode === 'edit' ? 'pt-160' : 'pt-30'}`}>
-            <div className="relative ml-75 flex items-center gap-10">
+            <div className="md:gap-10 md:ml-75 relative ml-60 flex items-center gap-4">
               <Input
                 type="file"
                 id="file"
@@ -148,7 +148,7 @@ function ProfilePage({ mode }: Props) {
                 중복확인
               </button>
             </div>
-            <div className="mt-60 flex gap-33">
+            <div className="md:ml-0 md:gap-33 ml-40 mt-60 flex gap-5">
               <Input
                 label="활동지역"
                 id="zone"
