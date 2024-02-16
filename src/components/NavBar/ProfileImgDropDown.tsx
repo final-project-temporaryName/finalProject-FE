@@ -63,8 +63,7 @@ function ProfileImgDropDown({ userName, profileImg, major }: ProfileImgDropDownP
               </Button>
             </div>
             <div className="flex h-100 w-full flex-col border-t-1 border-solid border-t-gray-4">
-              {/* 추후 Link 변경 예정 */}
-              <Link href={'/'}>
+              <Link href={'/editProfile'}>
                 <div className="flex h-50 items-center px-18 hover:bg-gray-1">계정관리</div>
               </Link>
               {/* 추후 Link 변경 예정 */}

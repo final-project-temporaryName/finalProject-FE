@@ -8,6 +8,14 @@ export interface AuthState {
   isLogin: boolean;
   setLogin: () => void;
   setLogout: () => void;
+  userRole: string;
+  setUserRole: (data: string) => void;
+  userId: number;
+  setUserId: (data: number) => void;
+  userAccessToken: string;
+  setUserAccessToken: (data: string) => void;
+  userRefreshToken: string;
+  setUserRefreshToken: (data: string) => void;
 }
 
 export interface ArtworkState {
