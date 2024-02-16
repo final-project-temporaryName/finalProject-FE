@@ -15,6 +15,23 @@ export interface GetMyInfo {
   userRole: 'associate' | 'regular';
 }
 
+export interface PutRequestSignUp {
+  profileImageUrl: string;
+  nickname: string;
+  activityArea: string;
+  activityField: string;
+  description: string;
+}
+
+export interface PutRequestUserProfile extends PutRequestSignUp {}
+
+export interface PutResponseSignup {
+  userId: number;
+  role: 'ASSOCIATE' | 'REGULAR';
+  accessToken: string;
+  refreshToken: string;
+}
+
 export interface GetUserLinks {
   linkId: number;
   title: string;

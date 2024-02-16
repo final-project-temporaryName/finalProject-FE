@@ -94,8 +94,8 @@ const config: Config = {
       },
     },
     screens: {
-      mobile: { max: '375px' },
-      // => @media (max-width: 375px) { ... }
+      md: { max: '767px' },
+      // => @media (max-width: 767px) { ... }
     },
     extend: {
       height: {

@@ -15,7 +15,7 @@ function LoginPage() {
             <h1 className="text-center text-32 font-bold">반가워요✨</h1>
             <br />
             <p className="text-center text-16">
-              <span className="font-bold text-primary">청춘예찬</span>을 통해 여러 아티스트들과 소통하고
+              <span className="font-bold text-primary">아트톡톡</span>을 통해 여러 아티스트들과 소통하고
               <br />
               작품거래 및 공유로 트렌드를 만들어 보세요!
             </p>

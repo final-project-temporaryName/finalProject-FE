@@ -83,7 +83,7 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate }: Props) {
   if (isLoading) return <div>Loading...</div>;
 
   return (
-    <div className="relative flex flex-col">
+    <div className="md:ml-10 relative ml-0 flex flex-col">
       <div className="flex-start mb-15 flex">
         <Controller
           name={`links[${index}].title`}

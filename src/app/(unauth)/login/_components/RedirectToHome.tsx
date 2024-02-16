@@ -29,12 +29,14 @@ export default function RedirectToHome() {
       setUserAccessToken(accessToken);
       setUserRefreshToken(refreshToken);
       setUserRole(userRole);
+
+      setLogin();
+
+      if (userRole === 'REGULAR') router.replace('/');
+      else if (userRole === 'ASSOCIATE') router.replace('/signup');
     } catch (error) {
       console.error(error);
       setLogout();
-    } finally {
-      setLogin();
-      router.replace('/');
     }
   }, [socialId, socialType]);
 
@@ -42,7 +44,6 @@ export default function RedirectToHome() {
   useEffect(() => {
     handleUserId();
 
-    console.log(localStorage.getItem('store'));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleUserId]);
   return null;
