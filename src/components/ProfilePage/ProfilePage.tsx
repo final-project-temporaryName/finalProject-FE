@@ -122,7 +122,7 @@ function ProfilePage({ mode }: Props) {
       <form className="relative flex-col" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex-center">
           <div className={`pb-100 ${mode === 'edit' ? 'pt-160' : 'pt-30'}`}>
-            <div className="md:ml-60 md:gap-4 relative ml-75 flex items-center gap-10">
+            <div className="md:ml-30 md:gap-4 relative ml-75 flex items-center gap-10">
               <Input
                 type="file"
                 id="file"
@@ -148,7 +148,7 @@ function ProfilePage({ mode }: Props) {
                 중복확인
               </button>
             </div>
-            <div className="md:ml-40 md:gap-5 ml-0 mt-60 flex gap-33">
+            <div className="md:ml-10 md:gap-5 ml-0 mt-60 flex gap-33">
               <Input
                 label="활동지역"
                 id="zone"
@@ -165,7 +165,7 @@ function ProfilePage({ mode }: Props) {
               />
             </div>
             <div className="my-40 flex">
-              <div className="md:ml-40 md:w-70 md:gap-5 md:text-14 ml-0 flex h-40 w-90 items-center justify-start gap-20 whitespace-nowrap p-10 text-18">
+              <div className="md:ml-10 md:w-70 md:gap-5 md:text-14 ml-0 flex h-40 w-90 items-center justify-start gap-20 whitespace-nowrap p-10 text-18">
                 소개글
               </div>
               <textarea
