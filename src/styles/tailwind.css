@@ -29,7 +29,7 @@
 }
 
 .deleteModal {
-  @apply relative top-[10%] z-infinite flex h-170 w-500 flex-col items-center justify-center rounded-md bg-gray-2;
+  @apply relative z-infinite flex h-170 w-500 flex-col items-center justify-center rounded-md bg-gray-2;
 }
 
 /* SideBar component */

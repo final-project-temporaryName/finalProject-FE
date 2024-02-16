@@ -2,8 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import Modal from '../../../../(root-modal)/_components';
 import Link from 'next/link';
+import Modal from '@/app/(root-modal)/_components';
 
 function DeleteModal() {
   const router = useRouter();
@@ -26,8 +26,12 @@ function DeleteModal() {
   };
 
   return (
-    <Modal.Container classname="deleteModal" onClickClose={onClickClose}>
-      <Modal.Body classname="flex flex-col gap-20">
+    <div
+      className="flex-center fixed bottom-0 left-0 right-0 top-0 z-infinite h-full w-screen bg-[#00000066]"
+      onClick={onClickClose}
+    >
+    <div className="deleteModal" onClick={(e) => e.stopPropagation()}>
+      <div className="flex flex-col gap-20">
         <span className="flex-center text-14 font-bold">계정 탈퇴</span>
         <span className="text-14">청춘예찬 계정을 탈퇴하시려면 ‘청춘 탈퇴’를 입력해주세요</span>
         <form className="flex flex-row gap-40" onSubmit={handleSubmit(onSubmit)}>
@@ -54,8 +58,9 @@ function DeleteModal() {
             </button>
           </Link>
         </form>
-      </Modal.Body>
-    </Modal.Container>
+      </div>
+    </div>
+    </div>
   );
 }
 
