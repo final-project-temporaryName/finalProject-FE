@@ -7,12 +7,14 @@ import '@/styles/tailwind.css';
 import { UserType } from '@/types/users';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import defaultProfileImg from '../../../public/assets/images/logo.png';
 import ProfileFallbackUI from '../FallbackUI/SideBar/ProfileFallbackUI';
 import AddLinkIcon from './AddLinkIcon';
 import EditIcon from './EditIcon';
 import LinkIcon from './LinkIcon';
+import getUser from '@/api/users/getUser';
 
 interface SideBarProps {
   displayStatus: 'myWork' | 'notMyWork';
@@ -20,18 +22,23 @@ interface SideBarProps {
 
 function SideBar({ displayStatus }: SideBarProps) {
   const [userInfo, setUserInfo] = useState<UserType>();
+  const params = useParams<{ id: string }>();
 
   const { isLogin } = useStore((state) => ({
     isLogin: state.isLogin,
   }));
 
   const handleFetchMyProfile = useCallback(async () => {
-    if (displayStatus === 'myWork') {
+    if (displayStatus === 'myWork' && isLogin === true) {
       const { userProfileResponse } = await getMyPage();
 
       setUserInfo(userProfileResponse);
+    } else if (displayStatus === 'notMyWork') {
+      const response = await getUser(params.id);
+
+      setUserInfo(response);
     }
-  }, [displayStatus]);
+  }, [displayStatus, isLogin]);
 
   useEffect(() => {
     handleFetchMyProfile();

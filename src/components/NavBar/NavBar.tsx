@@ -25,7 +25,7 @@ function NavBar() {
         <InfiniteText text="ART TALK - TALK  🎉  SITE FOR THE ARTISTS  •  DESIGNERS  •  CREATORS  🙌  SHARE YOUR CREATIVITY  😎  " />
       )}
       <nav
-        className={`navBar ${pathname === '/' || firstPathname === 'upload' || firstPathname === 'flow' || firstPathname === 'art' ? 'sticky' : 'fixed'} ${pathname === '/login' || pathname === '/signup' ? 'hidden' : 'flex'}`}
+        className={`navBar ${pathname === '/' || firstPathname === 'upload' || firstPathname === 'flow' || firstPathname === 'art' ? 'sticky' : 'fixed'} ${firstPathname === 'login' || pathname === '/signup' ? 'hidden' : 'flex'}`}
       >
         <div className="flex flex-grow items-center justify-start gap-60">
           <Link href={'/'} className="shrink-0">

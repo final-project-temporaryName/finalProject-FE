@@ -62,11 +62,11 @@ function Card({
               <Button.Kebab />
             </div>
           )}
-          {artworkStatus === 'FORSALE' ? (
+          {artworkStatus === 'SELLING' ? (
             <div className="absolute right-18 top-0">
               <SellingLabelImg />
             </div>
-          ) : artworkStatus === 'SHARE' ? (
+          ) : artworkStatus === 'FREE' ? (
             <div className="absolute right-18 top-0">
               <ShareLabelImg />
             </div>

@@ -12,7 +12,7 @@ function CardContainer({ type }: Props) {
       artworkId: 1,
       title: '모의 작품 제목 1',
       description: '모의 작품 설명 1',
-      artworkStatus: 'SHARE',
+      artworkStatus: 'FREE',
       thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       likeCount: 1100,
@@ -29,7 +29,7 @@ function CardContainer({ type }: Props) {
       artworkId: 2,
       title: '모의 작품 제목 1',
       description: '모의 작품 설명 1',
-      artworkStatus: 'SHARE',
+      artworkStatus: 'FREE',
       thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       likeCount: 1100,
@@ -46,7 +46,7 @@ function CardContainer({ type }: Props) {
       artworkId: 3,
       title: '모의 작품 제목 1',
       description: '모의 작품 설명 1',
-      artworkStatus: 'SHARE',
+      artworkStatus: 'FREE',
       thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       likeCount: 1100,
@@ -63,7 +63,7 @@ function CardContainer({ type }: Props) {
       artworkId: 4,
       title: '모의 작품 제목 1',
       description: '모의 작품 설명 1',
-      artworkStatus: 'SHARE',
+      artworkStatus: 'FREE',
       thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       likeCount: 1100,
@@ -80,7 +80,7 @@ function CardContainer({ type }: Props) {
       artworkId: 5,
       title: '모의 작품 제목 1',
       description: '모의 작품 설명 1',
-      artworkStatus: 'SHARE',
+      artworkStatus: 'FREE',
       thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       likeCount: 1100,
@@ -97,7 +97,7 @@ function CardContainer({ type }: Props) {
       artworkId: 6,
       title: '모의 작품 제목 1',
       description: '모의 작품 설명 1',
-      artworkStatus: 'SHARE',
+      artworkStatus: 'FREE',
       thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       likeCount: 1100,
@@ -114,7 +114,7 @@ function CardContainer({ type }: Props) {
       artworkId: 7,
       title: '모의 작품 제목 1',
       description: '모의 작품 설명 1',
-      artworkStatus: 'SHARE',
+      artworkStatus: 'FREE',
       thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       likeCount: 1100,
@@ -131,7 +131,7 @@ function CardContainer({ type }: Props) {
       artworkId: 8,
       title: '모의 작품 제목 1',
       description: '모의 작품 설명 1',
-      artworkStatus: 'SHARE',
+      artworkStatus: 'FREE',
       thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       likeCount: 1100,
@@ -148,7 +148,7 @@ function CardContainer({ type }: Props) {
       artworkId: 9,
       title: '모의 작품 제목 1',
       description: '모의 작품 설명 1',
-      artworkStatus: 'SHARE',
+      artworkStatus: 'FREE',
       thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       likeCount: 1100,
@@ -165,7 +165,7 @@ function CardContainer({ type }: Props) {
       artworkId: 10,
       title: '모의 작품 제목 1',
       description: '모의 작품 설명 1',
-      artworkStatus: 'SHARE',
+      artworkStatus: 'FREE',
       thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       likeCount: 1100,
@@ -182,13 +182,13 @@ function CardContainer({ type }: Props) {
       artworkId: 11,
       title: '모의 작품 제목 1',
       description: '모의 작품 설명 1',
-      artworkStatus: 'SHARE',
+      artworkStatus: 'FREE',
       thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       likeCount: 1100,
       viewCount: 999,
       commentCount: 1,
-      artistId: 1,
+      artistId: 11,
       artistName: '모의 작가 이름 1',
       artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -199,13 +199,13 @@ function CardContainer({ type }: Props) {
       artworkId: 12,
       title: '모의 작품 제목 1',
       description: '모의 작품 설명 1',
-      artworkStatus: 'SHARE',
+      artworkStatus: 'FREE',
       thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       likeCount: 1100,
       viewCount: 999,
       commentCount: 1,
-      artistId: 1,
+      artistId: 12,
       artistName: '모의 작가 이름 1',
       artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -216,13 +216,13 @@ function CardContainer({ type }: Props) {
       artworkId: 13,
       title: '모의 작품 제목 1',
       description: '모의 작품 설명 1',
-      artworkStatus: 'SHARE',
+      artworkStatus: 'FREE',
       thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       likeCount: 1100,
       viewCount: 999,
       commentCount: 1,
-      artistId: 1,
+      artistId: 13,
       artistName: '모의 작가 이름 1',
       artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -233,13 +233,13 @@ function CardContainer({ type }: Props) {
       artworkId: 14,
       title: '모의 작품 제목 1',
       description: '모의 작품 설명 1',
-      artworkStatus: 'SHARE',
+      artworkStatus: 'FREE',
       thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       likeCount: 1100,
       viewCount: 999,
       commentCount: 1,
-      artistId: 1,
+      artistId: 14,
       artistName: '모의 작가 이름 1',
       artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -250,13 +250,13 @@ function CardContainer({ type }: Props) {
       artworkId: 15,
       title: '모의 작품 제목 1',
       description: '모의 작품 설명 1',
-      artworkStatus: 'SHARE',
+      artworkStatus: 'FREE',
       thumbnailImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       likeCount: 1100,
       viewCount: 999,
       commentCount: 1,
-      artistId: 1,
+      artistId: 15,
       artistName: '모의 작가 이름 1',
       artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',

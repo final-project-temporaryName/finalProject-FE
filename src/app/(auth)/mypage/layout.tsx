@@ -1,4 +1,4 @@
-import SideBar from '@/components/SideBar/SideBar';
+import CheckLogin from '@/components/CheckLogin';
 import { ReactNode } from 'react';
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 export default function Layout({ children }: Props) {
   return (
     <>
-      <SideBar displayStatus="myWork" />
+      <CheckLogin />
       {children}
     </>
   );
