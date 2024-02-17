@@ -1,31 +1,45 @@
+import { InfiniteQueryObserverResult } from '@tanstack/react-query';
 import { RefObject, useEffect } from 'react';
 
-interface UseObserverProps {
+interface UseObserverProps<T> {
   target: RefObject<Element>;
-  root?: Element | Document | null;
+  root?: Element | null;
   rootMargin?: string;
   threshold?: number;
-  onIntersect: (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => void;
+  onIntersect: (
+    [entry]: IntersectionObserverEntry[],
+    observer: IntersectionObserver,
+  ) => false | Promise<InfiniteQueryObserverResult<T, Error>>;
 }
 
-export const useObserver = ({
+export const useObserver = <T>({
   target,
   root = null,
   rootMargin = '0px',
   threshold = 1.0,
   onIntersect,
-}: UseObserverProps) => {
+}: UseObserverProps<T>) => {
   useEffect(() => {
-    let observer: IntersectionObserver;
+    let observer: IntersectionObserver | undefined;
 
     if (target && target.current) {
-      observer = new IntersectionObserver(onIntersect, {
-        root,
-        rootMargin,
-        threshold,
-      });
+      observer = new IntersectionObserver(
+        (entry, observer) => {
+          onIntersect(entry, observer);
+        },
+        {
+          root,
+          rootMargin,
+          threshold,
+        },
+      );
       observer.observe(target.current);
     }
-    return () => observer && observer.disconnect();
+
+    return () => {
+      if (observer) {
+        observer.disconnect();
+      }
+    };
   }, [target, rootMargin, threshold]);
 };

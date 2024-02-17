@@ -56,12 +56,13 @@ function CardContainer({ type }: Props) {
   });
 
   const bottom = useRef(null);
-  const onIntersect = ([entry]: [IntersectionObserverEntry]) => entry.isIntersecting && fetchNextPage();
+  const onIntersect = ([entry]: IntersectionObserverEntry[]) => entry.isIntersecting && fetchNextPage();
 
-  useObserver({
+  useObserver<ArtWorks>({
     target: bottom,
     onIntersect,
   });
+
   return (
     <div
       className={`${status === 'success' && data ? (type === 'main' ? 'card-container-mainPage' : 'card-container-artistPage') : 'flex-center mt-25 h-[55vh] w-full'}`}
