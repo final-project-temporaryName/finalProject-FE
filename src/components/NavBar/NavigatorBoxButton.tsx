@@ -1,11 +1,12 @@
 'use client';
 
 import { useStore } from '@/store';
-import { Button } from '../Button';
 import { usePathname } from 'next/navigation';
+import { Button } from '../Button';
+import ButtonFallbackUI from '../FallbackUI/NavBar/ButtonFallbackUI';
 
 interface Props {
-  isLogin: boolean;
+  isLogin?: boolean;
 }
 
 function NavigatorBoxButton({ isLogin }: Props) {
@@ -18,6 +19,10 @@ function NavigatorBoxButton({ isLogin }: Props) {
   const handleUploadButtonClick = () => {
     setClickedUploadArtworkUrl(firstPathname);
   };
+
+  if (typeof isLogin === 'undefined') {
+    return <ButtonFallbackUI />;
+  }
 
   return (
     <>
