@@ -6,7 +6,7 @@ function MyPage() {
   return (
     <>
       <NavBar />
-      <SideBar id={13} displayStatus="myWork" />
+      <SideBar displayStatus="myWork" />
       <MainContainer />
     </>
   );
