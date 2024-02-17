@@ -2,7 +2,7 @@ export interface CardType {
   artworkId: number;
   title: string;
   description: string;
-  artworkStatus: 'FORSALE' | 'SHARE' | 'NOTFORSALE';
+  artworkStatus: 'PUBLIC' | 'SELLING' | 'FREE';
   thumbnailImageUrl: string;
   likeCount: number;
   viewCount: number;
