@@ -1,16 +1,15 @@
 import instance from '../axios';
 
 export interface Props {
-  size: number;
-  lastIdxId: number | null;
+  pageParam?: number | null;
 }
 
-export const getArtworks = async ({ size, lastIdxId }: Props) => {
+export const getArtworks = async ({ pageParam = null }: Props) => {
   try {
     const response = await instance.get('/artworks', {
       params: {
-        size: size,
-        lastIdxId: lastIdxId,
+        size: 15,
+        lastIdxId: pageParam,
       },
     });
     return response.data;
