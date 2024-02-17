@@ -19,6 +19,7 @@ import PreviewImage from './_components/PreviewImage';
 import StatusLabelsGroup from './_components/StatusLabelsGroup';
 import TextEditor from './_components/TextEditor';
 import { DragDropContext, DropResult, Droppable } from '@hello-pangea/dnd';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function UploadModal() {
   // states
@@ -129,7 +130,7 @@ export default function UploadModal() {
     const newUploadImageSources = [...uploadImageSources];
     newUploadImageSources.splice(source.index, 1);
     newUploadImageSources.splice(destination?.index, 0, draggableId);
-    setUploadImageSources(newUploadImageSources); // 기존과 다른 점
+    setUploadImageSources(newUploadImageSources);
   };
 
   return (
@@ -139,10 +140,10 @@ export default function UploadModal() {
         <DragDropContext onDragEnd={onDragEnd}>
           {uploadImageSources.length ? (
             <div className="relative flex h-full w-3/5 justify-center border-r-1 border-solid border-black pb-31 pt-26">
-              <div className="grid-template-rows-3/96 relative grid grid-cols-4 gap-18 px-29 py-25">
+              <div className="relative grid grid-cols-4 grid-rows-3/96 gap-18 px-29 py-25">
                 {uploadImageSources.map((uploadImageSource, index) => {
                   return (
-                    <Droppable droppableId={uploadImageSource}>
+                    <Droppable droppableId={String(uuidv4())}>
                       {(provided) => (
                         <div {...provided.droppableProps} ref={provided.innerRef}>
                           <PreviewImage

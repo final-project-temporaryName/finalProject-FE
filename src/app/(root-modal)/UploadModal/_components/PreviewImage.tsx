@@ -11,7 +11,7 @@ interface PreviewImageProps {
 
 function PreviewImage({ uploadImageSource, index, openEnlargedImage, handleDeleteImage }: PreviewImageProps) {
   return (
-    <Draggable draggableId={uploadImageSource} index={index}>
+    <Draggable draggableId={uploadImageSource} index={index} key={uploadImageSource}>
       {(provided) => (
         <div
           onDoubleClick={() => openEnlargedImage(uploadImageSource)}
