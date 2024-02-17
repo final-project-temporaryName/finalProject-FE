@@ -59,7 +59,7 @@ function CardContainer({ type }: Props) {
   });
   // console.log(data);
   const bottom = useRef(null);
-  const onIntersect = ([entry]) => entry.isIntersecting && fetchNextPage();
+  const onIntersect = ([entry]: [IntersectionObserverEntry]) => entry.isIntersecting && fetchNextPage();
 
   useObserver({
     target: bottom,
