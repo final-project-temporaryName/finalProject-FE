@@ -12,6 +12,7 @@ import ViewImage from '../../../public/assets/images/ViewImage.png';
 import { Button } from '../Button';
 import Count from './Count';
 import { useStore } from '@/store';
+import defaultImage from '../../../public/assets/images/logo.png';
 
 type CustomCardType = Omit<CardType, 'description' | 'createdAt' | 'updatedAt'>;
 
@@ -44,13 +45,15 @@ function Card({
     setClickedArtworkUrl(firstPathname);
   };
 
+  const urlRegex: RegExp = /^(?!http:\/\/|https:\/\/).+/;
+
   return (
     <div className={`flex h-${type === 'main' ? '328' : '280'} min-w-280 flex-col`}>
       <Link href={`/art/${artworkId}`}>
         <div id="cardImgBox" className="group relative h-280 min-w-280 overflow-hidden" onClick={handleArtworkClick}>
           <Image
             className="rounded-md transition-all duration-200 ease-linear group-hover:scale-[1.2]"
-            src={thumbnailImageUrl}
+            src={!urlRegex.test(thumbnailImageUrl) ? thumbnailImageUrl : defaultImage}
             alt="카드 이미지"
             style={{ objectFit: 'cover' }}
             priority
@@ -86,7 +89,7 @@ function Card({
           <Link href={`/artist/${artistId}`} className="flex items-center gap-10">
             <Image
               className="h-40 w-40 rounded-full"
-              src={artistProfileImageUrl}
+              src={!urlRegex.test(artistProfileImageUrl) ? artistProfileImageUrl : defaultImage}
               alt="프로필 이미지"
               width={40}
               height={40}
