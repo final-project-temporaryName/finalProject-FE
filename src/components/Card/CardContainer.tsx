@@ -5,6 +5,8 @@ import Card from './Card';
 import NoContent from './NoContent';
 import { getArtworks } from '@/api/artworks/getArtworks';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { useObserver } from '@/hooks/useObserver';
+import { useRef } from 'react';
 
 interface Props {
   type: 'main' | 'mypage' | 'artist';
@@ -55,15 +57,21 @@ function CardContainer({ type }: Props) {
     },
     initialPageParam: null,
   });
-  console.log(data);
+  // console.log(data);
+  const bottom = useRef(null);
+  const onIntersect = ([entry]) => entry.isIntersecting && fetchNextPage();
 
+  useObserver({
+    target: bottom,
+    onIntersect,
+  });
   return (
     <div
       className={`${status === 'success' && data ? (type === 'main' ? 'card-container-mainPage' : 'card-container-artistPage') : 'flex-center mt-25 h-[55vh] w-full'}`}
     >
       {status === 'success' &&
         data &&
-        data?.pages?.map((page) => {
+        data.pages?.map((page: ArtWorks) => {
           const cards = page.contents;
           return cards.map((card) => {
             return (
@@ -84,6 +92,7 @@ function CardContainer({ type }: Props) {
             );
           });
         })}
+      <div ref={bottom} />
     </div>
   );
 }
