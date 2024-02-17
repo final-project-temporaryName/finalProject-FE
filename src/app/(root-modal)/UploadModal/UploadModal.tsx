@@ -46,7 +46,7 @@ export default function UploadModal() {
   };
 
   const handleSubmit = () => {
-    console.log({ imageIds: imageOrder, title, description, artworkStatus: label });
+    // console.log({ imageIds: imageOrder, title, description, artworkStatus: label });
     postArtwork({ imageIds: imageOrder, title, description, artworkStatus: label });
   };
 
@@ -58,46 +58,46 @@ export default function UploadModal() {
     setCurrentImageData({ imageId, imageUrl });
   };
 
-  // const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (!e.target.files) return;
-  //   const files = e.target.files;
-  //   let imageUrlList = [...uploadImageSources];
-  //   let imageOrderList = [...imageOrder];
-  //   const fileList = Array.from(files);
-
-  //   fileList.forEach((file) => {
-  //     getImageData(file);
-  //     if (!currentImageData) return;
-  //     imageOrderList.push(currentImageData?.imageId);
-  //     imageUrlList.push(currentImageData?.imageUrl);
-  //   });
-
-  //   if (imageUrlList.length > 10) {
-  //     imageUrlList = imageUrlList.slice(0, 10);
-  //     imageOrderList = imageOrder.slice(0, 10);
-  //   }
-  //   setUploadImageSources(imageUrlList);
-  //   setImageOrder(imageOrderList);
-  // };
-
-  // 테스트용
   const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const files = e.target.files;
     let imageUrlList = [...uploadImageSources];
+    let imageOrderList = [...imageOrder];
     const fileList = Array.from(files);
 
     fileList.forEach((file) => {
-      const currentImageUrl = URL.createObjectURL(file);
       getImageData(file);
-      imageUrlList.push(currentImageUrl);
+      if (!currentImageData) return;
+      imageOrderList.push(currentImageData?.imageId);
+      imageUrlList.push(currentImageData?.imageUrl);
     });
 
     if (imageUrlList.length > 10) {
       imageUrlList = imageUrlList.slice(0, 10);
+      imageOrderList = imageOrder.slice(0, 10);
     }
     setUploadImageSources(imageUrlList);
+    setImageOrder(imageOrderList);
   };
+
+  // 테스트용
+  // const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (!e.target.files) return;
+  //   const files = e.target.files;
+  //   let imageUrlList = [...uploadImageSources];
+  //   const fileList = Array.from(files);
+
+  //   fileList.forEach((file) => {
+  //     const currentImageUrl = URL.createObjectURL(file);
+  //     getImageData(file);
+  //     imageUrlList.push(currentImageUrl);
+  //   });
+
+  //   if (imageUrlList.length > 10) {
+  //     imageUrlList = imageUrlList.slice(0, 10);
+  //   }
+  //   setUploadImageSources(imageUrlList);
+  // };
 
   const handleDeleteImage = (index: number) => {
     setUploadImageSources(uploadImageSources.filter((_, i) => i !== index));
