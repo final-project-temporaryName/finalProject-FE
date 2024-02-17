@@ -71,7 +71,7 @@ const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
           id={id}
           ref={inputRef}
           placeholder={placeholder}
-          className="primary-input hidden-file-input"
+          className="primary-input hidden-file-input cursor-pointer"
           onChange={handleFileChange}
         />
         <label htmlFor={id} className="file-input-label border-1 border-solid border-gray-4">
