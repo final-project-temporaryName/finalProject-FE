@@ -13,6 +13,7 @@ interface Props {
 export interface ArtWorks {
   contents: Content[];
   hasNext: boolean;
+  pages: ArtWorks[];
 }
 
 export interface Content {
@@ -69,7 +70,7 @@ function CardContainer({ type }: Props) {
     >
       {status === 'success' &&
         data &&
-        data.pages?.map((page: ArtWorks) => {
+        data.pages.map((page: ArtWorks) => {
           const cards = page.contents;
           return cards.map((card) => {
             return (
