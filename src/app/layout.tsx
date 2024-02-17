@@ -25,10 +25,7 @@ export default function RootLayout({
     <html lang="ko">
       <body className={notoSansKr.className}>
         <AuthSession>
-          <ReactQueryProviders>
-            <NavBar />
-            {children}
-          </ReactQueryProviders>
+          <ReactQueryProviders>{children}</ReactQueryProviders>
         </AuthSession>
       </body>
     </html>

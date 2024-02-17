@@ -8,15 +8,20 @@ import logoImg from '../../../public/assets/images/logo.png';
 import NavigatorBox from './NavigatorBox';
 import SearchBar from './SearchBar';
 import InfiniteText from '../InfiniteText';
+import { useStore } from '@/store';
 
 function NavBar() {
   const pathname = usePathname();
   const pathnameArr = pathname.split('/');
   const firstPathname = pathnameArr[1];
 
+  const clickedArtworkUrl = useStore((state) => state.clickedArtworkUrl);
+
   return (
     <>
-      {pathname === '/' && (
+      {(pathname === '/' ||
+        (pathname === '/flow/art' && clickedArtworkUrl === '') ||
+        (firstPathname === 'art' && clickedArtworkUrl === '')) && (
         <InfiniteText text="ART TALK - TALK  🎉  SITE FOR THE ARTISTS  •  DESIGNERS  •  CREATORS  🙌  SHARE YOUR CREATIVITY  😎  " />
       )}
       <nav
