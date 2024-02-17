@@ -45,6 +45,7 @@ export default function UploadModal() {
   };
 
   const handleSubmit = () => {
+    console.log({ imageIds: imageOrder, title, description, artworkStatus: label });
     postArtwork({ imageIds: imageOrder, title, description, artworkStatus: label });
   };
 
@@ -138,7 +139,7 @@ export default function UploadModal() {
         <DragDropContext onDragEnd={onDragEnd}>
           {uploadImageSources.length ? (
             <div className="relative flex h-full w-3/5 justify-center border-r-1 border-solid border-black pb-31 pt-26">
-              <div className="relative grid grid-cols-4 grid-rows-3 gap-18 px-29 py-25">
+              <div className="grid-template-rows-3/96 relative grid grid-cols-4 gap-18 px-29 py-25">
                 {uploadImageSources.map((uploadImageSource, index) => {
                   return (
                     <Droppable droppableId={uploadImageSource}>
