@@ -5,17 +5,16 @@ import Input from '@/components/Input/Input';
 import LinkInput from '@/components/Input/LinkInput';
 import PlusButtonIcon from '@/components/SvgComponents/PlusButtonIcon';
 import { nicknameRules } from '@/constants/InputErrorRules';
+import { useStore } from '@/store';
+import { PostUserLinks, PutRequestSignUp } from '@/types/users';
+import getUserInfo from '@/utils/getUserInfo';
 import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 
-export interface UserData {
-  nickname: string;
-  profileImageUrl: string;
-  activityArea: string;
-  activityField: string;
-  description: string;
-  links: { title: string; url: string }[];
+interface UserData extends PutRequestSignUp {
+  links: PostUserLinks[];
 }
 
 interface Props {
@@ -27,6 +26,16 @@ function ProfilePage({ mode }: Props) {
   const [nicknameError, setNicknameError] = useState<string | null>(null);
   const [hasLinkError, setHasLinkError] = useState(false);
   const [isNicknameAvailable, setIsNicknameAvailable] = useState(false);
+
+  const router = useRouter();
+  const userInfo = getUserInfo();
+
+  const { setUserAccessToken, setUserRefreshToken, setUserRole, setUserId } = useStore((state) => ({
+    setUserAccessToken: state.setUserAccessToken,
+    setUserRefreshToken: state.setUserRefreshToken,
+    setUserRole: state.setUserRole,
+    setUserId: state.setUserId,
+  }));
 
   const methods = useForm<UserData>({
     defaultValues: {
@@ -54,13 +63,17 @@ function ProfilePage({ mode }: Props) {
     setUploadedImageUrl(url);
   };
 
-  const userId = 4;
-
   const buttonText = mode === 'create' ? '가입하기' : '저장하기';
   const mutationFn =
     mode === 'create'
-      ? (userData: UserData) => instance.post(`/users`, userData)
-      : (userData: UserData) => instance.put(`/users/${userId}`, userData);
+      ? (userData: UserData) => {
+          const { links, ...rest } = userData;
+          return instance.put(`/sign-up`, rest);
+        }
+      : (userData: UserData) => {
+          const { links, ...rest } = userData;
+          return instance.put(`/users/${userInfo.userId}`, rest);
+        };
 
   const putUserMutation = useMutation({
     mutationFn,
@@ -74,8 +87,15 @@ function ProfilePage({ mode }: Props) {
 
     putUserMutation.mutate(userData, {
       onSuccess: (data) => {
-        // 성공 후 처리 로직, 예: 사용자를 정보 페이지로 리디렉션
-        console.log(userData);
+        const response = data.data;
+        const { accessToken, refreshToken, role, userId } = response;
+
+        setUserAccessToken(accessToken);
+        setUserRefreshToken(refreshToken);
+        setUserRole(role);
+        setUserId(userId);
+
+        router.replace('/');
       },
       onError: (error) => {
         alert('처리하는 과정에서 에러가 발생했습니다. 잠시 후 다시 시도해주세요.');
@@ -87,13 +107,6 @@ function ProfilePage({ mode }: Props) {
     remove(index);
     if (fields.length <= 1) {
       append({ title: '', url: '' });
-    }
-  };
-
-  const checkNickname = () => {
-    const nickname = watch('nickname');
-    if (nickname) {
-      checkNicknameMutation.mutate(nickname);
     }
   };
 
@@ -112,6 +125,13 @@ function ProfilePage({ mode }: Props) {
       setIsNicknameAvailable(false);
     },
   });
+
+  const checkNickname = () => {
+    const nickname = watch('nickname');
+    if (nickname) {
+      checkNicknameMutation.mutate(nickname);
+    }
+  };
 
   const handleLinkErrorUpdate = (hasError: boolean) => {
     setHasLinkError(hasError);
