@@ -41,20 +41,21 @@ export enum ArtworkStatus {
 }
 
 function CardContainer({ type }: Props) {
-  const res = useInfiniteQuery({
+  const { data, status, hasNextPage, fetchNextPage, isFetchingNextPage, isFetching } = useInfiniteQuery<
+    ArtWorks,
+    Error,
+    ArtWorks,
+    string[],
+    number | null
+  >({
     queryKey: ['allArtworks'],
-    queryFn: ({ pageParam = null }) => {
-      return instance.get<ArtWorks>('/artworks', {
-        params: {
-          size: 15,
-          lastIdxId: pageParam,
-        },
-      });
+    queryFn: async ({ pageParam }) => {
+      return await getArtworks({ pageParam });
     },
-    getNextPageParam: (lastPage: ArtWorks) => {
-      if (lastPage.hasNext === false) return;
-      return lastPage.contents[lastPage.contents.length - 1].artworkId;
+    getNextPageParam: (lastPage) => {
+      return lastPage.hasNext ? lastPage.contents[lastPage.contents.length - 1].artworkId : undefined;
     },
+    initialPageParam: null,
   });
 
   const tempData: CardType[] = [
