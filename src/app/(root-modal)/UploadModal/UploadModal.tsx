@@ -139,7 +139,7 @@ export default function UploadModal() {
       <Modal.Body classname="flex h-full">
         <DragDropContext onDragEnd={onDragEnd}>
           {uploadImageSources.length ? (
-            <div className="relative flex h-full w-3/5 justify-center border-r-1 border-solid border-black pb-31 pt-26">
+            <div className="relative flex h-full w-3/5 flex-col justify-center border-r-1 border-solid border-black pb-31 pt-26">
               <div className="relative grid grid-cols-4 grid-rows-3/96 gap-18 px-29 py-25">
                 {uploadImageSources.map((uploadImageSource, index) => {
                   return (
@@ -157,10 +157,10 @@ export default function UploadModal() {
                     </Droppable>
                   );
                 })}
-                <div className="absolute bottom-4 left-88 flex gap-24">
-                  <DeleteAllImageButton onClick={handleDeleteAllImage} />
-                  {uploadImageSources.length !== 10 && <AddImageButton onClick={handleUploadImageButton} />}
-                </div>
+              </div>
+              <div className="flex justify-center gap-24">
+                <DeleteAllImageButton onClick={handleDeleteAllImage} />
+                {uploadImageSources.length !== 10 && <AddImageButton onClick={handleUploadImageButton} />}
               </div>
             </div>
           ) : (
