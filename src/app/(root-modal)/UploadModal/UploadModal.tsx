@@ -7,7 +7,7 @@ import '@/styles/tailwind.css';
 import { ImageArtworkType } from '@/types/artworks';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import 'react-quill/dist/quill.bubble.css';
 import SellingLabelImg from '../../../../public/assets/icons/saleFlag.svg';
 import ShareLabelImg from '../../../../public/assets/icons/shareFlag.svg';
@@ -32,6 +32,10 @@ export default function UploadModal() {
   const [imageOrder, setImageOrder] = useState<number[]>([]);
   const [currentImageData, setCurrentImageData] = useState<ImageArtworkType | undefined>();
 
+  // constants
+  // let imageUrlList = [...uploadImageSources];
+  // let imageOrderList = [...imageOrder];
+
   //hooks
   const inputRef = useRef<HTMLInputElement | null>(null);
   const router = useRouter();
@@ -53,7 +57,8 @@ export default function UploadModal() {
   const getImageData = async (file: File) => {
     const formData = new FormData();
     formData.append('file', file);
-    const { imageId, imageUrl } = await postUploadImageFile(formData);
+    const { imageId, imageUrl } = await postUploadImageFile(formData); // 순서가 느림
+    console.log({ imageId, imageUrl });
     setImageOrder((prev): number[] => [...prev, imageId]);
     setCurrentImageData({ imageId, imageUrl });
   };
@@ -67,7 +72,7 @@ export default function UploadModal() {
 
     fileList.forEach((file) => {
       getImageData(file);
-      if (!currentImageData) return;
+      if (!currentImageData) return; // 커렌트 값에 대한 비동기 처리 필요 (데이터 싱크 맞추기 = 디펜던시 (useCallback, useEffect가 필요)) (최고의 경험)
       imageOrderList.push(currentImageData?.imageId);
       imageUrlList.push(currentImageData?.imageUrl);
     });
@@ -76,9 +81,26 @@ export default function UploadModal() {
       imageUrlList = imageUrlList.slice(0, 10);
       imageOrderList = imageOrder.slice(0, 10);
     }
+
+    console.log({ imageUrlList, imageOrderList });
+
     setUploadImageSources(imageUrlList);
     setImageOrder(imageOrderList);
+    // updateImageData();
   };
+
+  // const updateImageData = useCallback(() => {
+  //   if (imageOrderList && imageOrderList?.length > 0 && imageUrlList && imageUrlList?.length > 0) {
+  //     debugger;
+  //     console.log({ imageUrlList, imageOrderList });
+  //     setUploadImageSources(imageUrlList);
+  //     setImageOrder(imageOrderList);
+  //   }
+  // }, [imageOrder]);
+
+  // useEffect(() => {
+  //   updateImageData();
+  // }, [updateImageData]);
 
   // 테스트용
   // const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
