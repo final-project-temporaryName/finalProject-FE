@@ -1,8 +1,13 @@
 'use client';
 
-function Tab({ activeTab, setActiveTab }: any) {
+interface TabProps {
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
+}
+
+function Tab({ activeTab, setActiveTab }: TabProps) {
   return (
-    <div className="ml-100 mt-160 gap-0">
+    <div className="ml-100 mt-160">
       <button
         className="flex-center relative h-100 w-200 cursor-pointer border-b-1 border-solid border-gray-4 text-18"
         onClick={() => setActiveTab('profile')}

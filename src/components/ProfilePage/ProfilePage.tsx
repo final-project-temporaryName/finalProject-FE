@@ -139,8 +139,8 @@ function ProfilePage({ mode }: Props) {
 
   return (
     <FormProvider {...methods}>
-      <form className="relative flex-col" onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex-center">
+      <form className="mr-100 flex h-full w-screen flex-col" onSubmit={handleSubmit(onSubmit)}>
+        <div className="flex-center gap-20">
           <div className={`pb-100 ${mode === 'edit' ? 'pt-160' : 'pt-30'}`}>
             <div className="md:ml-30 md:gap-4 relative ml-75 flex items-center gap-10">
               <Input
@@ -214,14 +214,16 @@ function ProfilePage({ mode }: Props) {
               )}
             </div>
           </div>
+          <div className="mb-10 mt-auto flex justify-end">
+            <button
+              type="submit"
+              className={`primary-button storage-button flex-end ${disableSaveButton ? 'disabled' : ''}`}
+              disabled={disableSaveButton}
+            >
+              {buttonText}
+            </button>
+          </div>
         </div>
-        <button
-          type="submit"
-          className={`primary-button storage-button fixed bottom-90 right-200 ${disableSaveButton ? 'disabled' : ''}`}
-          disabled={disableSaveButton}
-        >
-          {buttonText}
-        </button>
       </form>
     </FormProvider>
   );

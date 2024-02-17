@@ -2,7 +2,7 @@ import { Button } from '@/components/Button';
 
 function DeleteBox() {
   return (
-    <div className="mt-200 flex h-152 w-auto gap-58 pl-371 pr-500">
+    <div className="mt-200 flex h-152 w-auto gap-58 pl-150">
       <span className="text-18 ">계정 탈퇴</span>
       <div>
         <Button

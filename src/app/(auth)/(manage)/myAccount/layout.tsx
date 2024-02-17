@@ -1,13 +1,18 @@
 'use client';
 
 import Tab from '@/components/Tab/Tab';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 
-export default function Layout({ editProfile, deleteModal }: any) {
+interface LayoutProps {
+  editProfile: ReactNode;
+  deleteModal: ReactNode;
+}
+
+export default function Layout({ editProfile, deleteModal }: LayoutProps) {
   const [activeTab, setActiveTab] = useState('profile');
 
   return (
-    <div className="flex flex-row gap-119">
+    <div className="flex flex-row">
       <Tab activeTab={activeTab} setActiveTab={setActiveTab} />
       {activeTab === 'profile' ? editProfile : deleteModal}
     </div>
