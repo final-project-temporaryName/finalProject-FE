@@ -25,16 +25,21 @@ export interface GetSpecificCardResponseType {
   title: string;
   description: string;
   artworkStatus: 'PUBLIC' | 'SELLING' | 'FREE';
-  thumbnailImageUrl: string;
-  imageUrl: string[];
-  likeCount: number;
+  artworkImageResponse: GetArtworkImageResponse[];
   viewCount: number;
+  likeCount: number;
   commentCount: number;
+  thumbnailImageUrl: string;
   artistId: number;
   artistName: string;
   artistProfileImageUrl: string;
   createdAt: string; // "2024-01-29T07:21:26.100Z"
   updatedAt: string; // "2024-01-29T07:21:26.100Z"
+}
+
+export interface GetArtworkImageResponse {
+  imageId: number;
+  imageUrl: string;
 }
 
 // 확정 후 수정 예정

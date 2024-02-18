@@ -1,8 +1,10 @@
 'use client';
 
+import { useBrowserSize } from '@/hooks/useBrowserSize';
 import '@/styles/tailwind.css';
+import { GetArtworkImageResponse } from '@/types/cards';
 import Image from 'next/image';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import SwiperCore from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -11,13 +13,12 @@ import 'swiper/css/scrollbar';
 import { Navigation, Scrollbar } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Expand from './Expand';
-import { useBrowserSize } from '@/hooks/useBrowserSize';
 
-interface SlideContainerProps {
-  imageUrlList: string[];
+interface Props {
+  artworkImageResponse?: GetArtworkImageResponse[];
 }
 
-function SlideContainer({ imageUrlList }: SlideContainerProps) {
+function SlideContainer({ artworkImageResponse }: Props) {
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
 
@@ -42,7 +43,9 @@ function SlideContainer({ imageUrlList }: SlideContainerProps) {
   };
 
   let slidesPerView;
-  slidesPerView = useMemo(() => setSlidesPerView(browserWidthSize, imageUrlList.length), [browserWidthSize]);
+  if (artworkImageResponse) {
+    slidesPerView = useMemo(() => setSlidesPerView(browserWidthSize, artworkImageResponse.length), [browserWidthSize]);
+  }
 
   const openModal = (imageUrl: string) => {
     setSelectedImage(imageUrl);
@@ -69,12 +72,12 @@ function SlideContainer({ imageUrlList }: SlideContainerProps) {
         scrollbar={{ draggable: true }}
         className="swiper-container"
       >
-        {imageUrlList?.map((url, idx) => {
+        {artworkImageResponse?.map((data) => {
           return (
-            <SwiperSlide key={idx}>
+            <SwiperSlide key={data.imageId}>
               <div className="relative h-520 w-auto">
-                <Image src={url} alt="작품 이미지" fill objectFit="cover" />
-                <button className="absolute bottom-15 right-15" onClick={() => openModal(url)}>
+                <Image src={data.imageUrl} alt="작품 이미지" fill objectFit="cover" />
+                <button className="absolute bottom-15 right-15" onClick={() => openModal(data.imageUrl)}>
                   <Expand />
                 </button>
               </div>

@@ -35,7 +35,7 @@ function CardContainer({ type }: Props) {
       likeCount: 1100,
       viewCount: 999,
       commentCount: 1,
-      artistId: 1,
+      artistId: 2,
       artistName: '모의 작가 이름 1',
       artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -52,7 +52,7 @@ function CardContainer({ type }: Props) {
       likeCount: 1100,
       viewCount: 999,
       commentCount: 1,
-      artistId: 1,
+      artistId: 3,
       artistName: '모의 작가 이름 1',
       artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -69,7 +69,7 @@ function CardContainer({ type }: Props) {
       likeCount: 1100,
       viewCount: 999,
       commentCount: 1,
-      artistId: 1,
+      artistId: 4,
       artistName: '모의 작가 이름 1',
       artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -86,7 +86,7 @@ function CardContainer({ type }: Props) {
       likeCount: 1100,
       viewCount: 999,
       commentCount: 1,
-      artistId: 1,
+      artistId: 5,
       artistName: '모의 작가 이름 1',
       artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -103,7 +103,7 @@ function CardContainer({ type }: Props) {
       likeCount: 1100,
       viewCount: 999,
       commentCount: 1,
-      artistId: 1,
+      artistId: 6,
       artistName: '모의 작가 이름 1',
       artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -120,7 +120,7 @@ function CardContainer({ type }: Props) {
       likeCount: 1100,
       viewCount: 999,
       commentCount: 1,
-      artistId: 1,
+      artistId: 7,
       artistName: '모의 작가 이름 1',
       artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -137,7 +137,7 @@ function CardContainer({ type }: Props) {
       likeCount: 1100,
       viewCount: 999,
       commentCount: 1,
-      artistId: 1,
+      artistId: 8,
       artistName: '모의 작가 이름 1',
       artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -154,7 +154,7 @@ function CardContainer({ type }: Props) {
       likeCount: 1100,
       viewCount: 999,
       commentCount: 1,
-      artistId: 1,
+      artistId: 9,
       artistName: '모의 작가 이름 1',
       artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -171,7 +171,7 @@ function CardContainer({ type }: Props) {
       likeCount: 1100,
       viewCount: 999,
       commentCount: 1,
-      artistId: 1,
+      artistId: 10,
       artistName: '모의 작가 이름 1',
       artistProfileImageUrl:
         'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
