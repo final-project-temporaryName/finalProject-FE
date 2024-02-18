@@ -2,15 +2,19 @@
 
 import { getMyPage } from '@/api/users/getMyPage';
 import { Button } from '@/components/Button';
+import { useStore } from '@/store';
 import '@/styles/tailwind.css';
 import { UserType } from '@/types/users';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import defaultProfileImg from '../../../public/assets/images/logo.png';
+import ProfileFallbackUI from '../FallbackUI/SideBar/ProfileFallbackUI';
 import AddLinkIcon from './AddLinkIcon';
 import EditIcon from './EditIcon';
 import LinkIcon from './LinkIcon';
+import getUser from '@/api/users/getUser';
 
 interface SideBarProps {
   displayStatus: 'myWork' | 'notMyWork';
@@ -18,18 +22,31 @@ interface SideBarProps {
 
 function SideBar({ displayStatus }: SideBarProps) {
   const [userInfo, setUserInfo] = useState<UserType>();
+  const params = useParams<{ id: string }>();
+
+  const { isLogin } = useStore((state) => ({
+    isLogin: state.isLogin,
+  }));
 
   const handleFetchMyProfile = useCallback(async () => {
-    if (displayStatus === 'myWork') {
+    if (displayStatus === 'myWork' && isLogin === true) {
       const { userProfileResponse } = await getMyPage();
 
       setUserInfo(userProfileResponse);
+    } else if (displayStatus === 'notMyWork') {
+      const response = await getUser(params.id);
+
+      setUserInfo(response);
     }
-  }, [displayStatus]);
+  }, [displayStatus, isLogin]);
 
   useEffect(() => {
     handleFetchMyProfile();
   }, [handleFetchMyProfile]);
+
+  if (typeof isLogin === 'undefined') {
+    return <ProfileFallbackUI />;
+  }
 
   return (
     <div className="fixed left-36 top-110 h-648 w-260 rounded-sm">
@@ -45,7 +62,7 @@ function SideBar({ displayStatus }: SideBarProps) {
         </div>
       </div>
       <div className="absolute top-48 flex h-650 w-260 flex-col items-center rounded-[12px] bg-gray-1">
-        <div className="mb-276 mt-75 flex h-650 w-192 flex-col items-center justify-center">
+        <div className="mb-276 mt-30 flex h-650 w-192 flex-col items-center justify-center">
           {displayStatus === 'myWork' ? (
             <Link href="/editProfile" className="z-10 absolute right-13 top-15 h-32 w-32 rounded-full">
               <div className="flex h-full w-full items-center justify-center rounded-full border-2 border-solid border-gray-4 bg-white">

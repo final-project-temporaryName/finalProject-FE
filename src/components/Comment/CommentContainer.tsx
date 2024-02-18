@@ -71,6 +71,13 @@ const data: CommentData[] = [
     createdAt: '2024년 2월 6일',
     description: 'Slay',
   },
+  {
+    imageUrl:
+      'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    nickName: 'Elon Musk',
+    createdAt: '2024년 2월 6일',
+    description: 'Slay',
+  },
 ];
 
 function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentContainerProps) {
@@ -140,32 +147,36 @@ function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentCon
             </button>
           </a>
         </div>
-        <div className="flex flex-col  bg-gray-1 p-20 pb-7   ">
-          {data &&
-            data.length > 0 &&
-            data.map((comment) => (
-              <div key={comment.createdAt + comment.nickName}>
-                <Comment
-                  imageUrl={comment.imageUrl}
-                  nickName={comment.nickName}
-                  createdAt={comment.createdAt}
-                  description={comment.description}
-                />
-              </div>
-            ))}
-        </div>
-        <form className="flex items-center gap-13 bg-gray-1 p-20 pb-36" onSubmit={handleSubmit(onValid)}>
-          <a id="des"></a>
-          <input
-            type="text"
-            className="w-full rounded-sm bg-white px-20 py-10 text-15"
-            placeholder="작가에게 한마디 남겨보세요!"
-            {...register('comment')}
-          />
-          <button title="submit" type="submit">
-            <CommentSend />
-          </button>
-        </form>
+        {isCommentClicked && (
+          <>
+            <div className="flex max-h-250 flex-col overflow-y-scroll bg-gray-1 p-20 pb-7">
+              {data &&
+                data.length > 0 &&
+                data.map((comment) => (
+                  <div key={comment.createdAt + comment.nickName}>
+                    <Comment
+                      imageUrl={comment.imageUrl}
+                      nickName={comment.nickName}
+                      createdAt={comment.createdAt}
+                      description={comment.description}
+                    />
+                  </div>
+                ))}
+            </div>
+            <form className="flex items-center gap-13 bg-gray-1 p-20 pb-36" onSubmit={handleSubmit(onValid)}>
+              <a id="des"></a>
+              <input
+                type="text"
+                className="w-full rounded-sm bg-white px-20 py-10 text-15"
+                placeholder="작가에게 한마디 남겨보세요!"
+                {...register('comment')}
+              />
+              <button title="submit" type="submit">
+                <CommentSend />
+              </button>
+            </form>
+          </>
+        )}
       </div>
     </div>
   );

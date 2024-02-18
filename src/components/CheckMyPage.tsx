@@ -1,24 +1,23 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-export default function CheckLogin() {
+export default function CheckMyPage() {
   const router = useRouter();
+  const params = useParams<{ id: string }>();
 
   const handleRedirect = () => {
     if (!window) return;
 
     const userAuth = window.localStorage.getItem('store');
 
-    if (!userAuth) {
-      router.replace('/');
-    } else {
+    if (userAuth) {
       const {
-        state: { isLogin, userRole },
+        state: { isLogin, userRole, userId },
       } = JSON.parse(userAuth);
 
-      if (isLogin === false || userRole === '' || userRole === 'ASSOCIATE') router.replace('/');
+      if (isLogin === true && userRole === 'REGULAR' && parseInt(params.id) === userId) router.replace('/mypage');
     }
   };
 

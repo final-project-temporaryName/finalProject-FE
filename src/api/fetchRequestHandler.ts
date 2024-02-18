@@ -31,7 +31,7 @@ export const request = async <T>({ url, method = 'GET', params, body }: RequestT
 
   if (!response.ok) {
     // 가장 가까운 Error Boundary의 error.tsx를 활성화 시킴
-    throw new Error('error occurred');
+    console.log(response.status);
   }
 
   return (await response.json()) as T;

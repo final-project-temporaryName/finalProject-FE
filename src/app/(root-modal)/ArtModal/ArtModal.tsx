@@ -1,12 +1,17 @@
 'use client';
 
+import { getArtwork } from '@/api/artwork/getArtwork';
 import CommentContainer from '@/components/Comment/CommentContainer';
 import SlideContainer from '@/components/SlideContainer/SlideContainer';
 import { useStore } from '@/store';
+import DOMPurify from 'dompurify';
+import { GetSpecificCardResponseType } from '@/types/cards';
 import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 import Modal from '../_components';
 
 export default function ArtModal() {
+  const [artwork, setArtwork] = useState<GetSpecificCardResponseType>();
   const router = useRouter();
 
   const onClickClose = () => {
@@ -15,31 +20,37 @@ export default function ArtModal() {
 
   const clickedArtworkId = useStore((state) => state.clickedArtworkId);
 
-  const imageUrlList = [
-    'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1707305318944-0dd559c12789?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  ];
+  const getArtworkData = useCallback(async () => {
+    const response = await getArtwork(clickedArtworkId);
+
+    setArtwork(response);
+  }, [clickedArtworkId]);
+
+  useEffect(() => {
+    getArtworkData();
+  }, [getArtworkData]);
+
   return (
     <Modal.Container onClickClose={onClickClose} classname="artModalContainer">
-      <Modal.ArtHeader onClickClose={onClickClose} />
-      <Modal.Body classname="flex flex-col overflow-y-scroll">
+      <Modal.ArtHeader
+        onClickClose={onClickClose}
+        artistName={artwork?.artistName}
+        artistProfileImageUrl={artwork?.artistProfileImageUrl}
+        createdAt={artwork?.updatedAt ? artwork?.updatedAt : artwork?.createdAt}
+      />
+      <Modal.Body classname="h-full overflow-y-scroll">
         <div className="p-10 text-[#8f8f8f]">
-          <SlideContainer imageUrlList={imageUrlList} />
-          <div className="flex flex-col gap-20 p-10 pt-20">
-            <p>게시글 제목</p>
-            <p>게시글 내용</p>
-            <p>게시글 내용</p>
-            <p>게시글 내용</p>
-            <p>게시글 내용</p>
-            <p>게시글 내용</p>
-            <p>게시글 내용</p>
+          {artwork?.artworkImageResponse?.length && (
+            <SlideContainer artworkImageResponse={artwork?.artworkImageResponse} />
+          )}
+          <div className={`flex flex-col gap-20 p-10 pt-20 ${artwork?.artworkImageResponse.length || `min-h-660`}`}>
+            <p>{artwork?.title}</p>
+            {artwork?.description && (
+              <div
+                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(artwork?.description) }}
+                className={`min-h-65`}
+              ></div>
+            )}
           </div>
         </div>
         <div className="sticky bottom-0 right-0 z-beforeInfinite">
