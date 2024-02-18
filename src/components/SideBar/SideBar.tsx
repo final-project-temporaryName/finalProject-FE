@@ -1,27 +1,42 @@
+'use client';
+
+import { getMyPage } from '@/api/users/getMyPage';
+import { Button } from '@/components/Button';
 import '@/styles/tailwind.css';
+import { UserType } from '@/types/users';
 import Image from 'next/image';
 import Link from 'next/link';
-import EditIcon from './EditIcon';
-import AddLinkIcon from './AddLinkIcon';
+import { useCallback, useEffect, useState } from 'react';
 import defaultProfileImg from '../../../public/assets/images/logo.png';
-import { Button } from '@/components/Button';
+import AddLinkIcon from './AddLinkIcon';
+import EditIcon from './EditIcon';
 import LinkIcon from './LinkIcon';
-import getUser from '@/api/users/getUser';
 
 interface SideBarProps {
-  id: number;
   displayStatus: 'myWork' | 'notMyWork';
 }
 
-async function SideBar({ id, displayStatus }: SideBarProps) {
-  const data = await getUser(id);
+function SideBar({ displayStatus }: SideBarProps) {
+  const [userInfo, setUserInfo] = useState<UserType>();
+
+  const handleFetchMyProfile = useCallback(async () => {
+    if (displayStatus === 'myWork') {
+      const { userProfileResponse } = await getMyPage();
+
+      setUserInfo(userProfileResponse);
+    }
+  }, [displayStatus]);
+
+  useEffect(() => {
+    handleFetchMyProfile();
+  }, [handleFetchMyProfile]);
 
   return (
     <div className="fixed left-36 top-110 h-648 w-260 rounded-sm">
       <div className="absolute -top-10 left-1/2 z-first h-120 w-120 -translate-x-1/2 transform rounded-full">
         <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-full border-2 border-solid border-gray-4 bg-white hover:border-primary-3">
           <Image
-            src={data?.profileImageUrl ? data.profileImageUrl : defaultProfileImg}
+            src={userInfo?.profileImageUrl ? userInfo.profileImageUrl : defaultProfileImg}
             alt="프로필 이미지"
             className="h-full w-full rounded-full object-cover"
             objectFit="cover"
@@ -32,26 +47,26 @@ async function SideBar({ id, displayStatus }: SideBarProps) {
       <div className="absolute top-48 flex h-650 w-260 flex-col items-center rounded-[12px] bg-gray-1">
         <div className="mb-276 mt-75 flex h-650 w-192 flex-col items-center justify-center">
           {displayStatus === 'myWork' ? (
-            <Link href="/editProfile" className="z-10 absolute right-13 top-15 h-32 w-32 rounded-full">
+            <Link href="/myAccount" className="z-10 absolute right-13 top-15 h-32 w-32 rounded-full">
               <div className="flex h-full w-full items-center justify-center rounded-full border-2 border-solid border-gray-4 bg-white">
                 <EditIcon />
               </div>
             </Link>
           ) : null}
           <div className="flex-col-center">
-            <div className="items-center text-center text-18 font-semibold">{data?.nickname}</div>
-            <p className="text-12 text-gray-9">{data?.activityArea + ' / ' + data?.activityField}</p>
+            <div className="items-center text-center text-18 font-semibold">{userInfo?.nickname}</div>
+            <p className="text-12 text-gray-9">{userInfo?.activityArea + ' / ' + userInfo?.activityField}</p>
           </div>
           <div className="mb-16 mt-16 flex min-h-60 w-192 items-center rounded-sm bg-white p-16">
-            <p className="text-12 text-gray-9">{data?.description}</p>
+            <p className="text-12 text-gray-9">{userInfo?.description}</p>
           </div>
           <div className="mb-20 flex items-center justify-between gap-20">
             <span className="count">
-              좋아요&nbsp;&nbsp;<span className="text-14 font-bold">{data?.totalLikeCount}</span>&nbsp;개
+              좋아요&nbsp;&nbsp;<span className="text-14 font-bold">{userInfo?.totalLikeCount}</span>&nbsp;개
             </span>
             <div className="h-25 w-2 bg-white"></div>
             <span className="count">
-              팔로워 &nbsp;&nbsp;<span className="text-14 font-bold">{data?.followerCount}</span>&nbsp;명
+              팔로워 &nbsp;&nbsp;<span className="text-14 font-bold">{userInfo?.followerCount}</span>&nbsp;명
             </span>
           </div>
           {displayStatus === 'notMyWork' ? (
@@ -61,8 +76,8 @@ async function SideBar({ id, displayStatus }: SideBarProps) {
             </Button>
           ) : null}
           <div className="mb-20 flex flex-col items-start gap-20">
-            {data?.links &&
-              data.links.map((link) => (
+            {userInfo?.links &&
+              userInfo.links.map((link) => (
                 <Link
                   className=" flex gap-2 text-14 font-semibold"
                   href={link.address}
@@ -80,7 +95,7 @@ async function SideBar({ id, displayStatus }: SideBarProps) {
           {displayStatus === 'myWork' ? (
             <Link href="/editProfile" className="flex w-116 items-center gap-4 text-12 text-gray-9">
               <AddLinkIcon />
-              {data?.links && data.links.length === 5 ? '링크 수정하기' : '링크 추가하기'}
+              {userInfo?.links && userInfo.links.length === 5 ? '링크 수정하기' : '링크 추가하기'}
             </Link>
           ) : null}
         </div>

@@ -1,16 +1,17 @@
 'use client';
 
 import instance from '@/api/axios';
+import { getMyPage } from '@/api/users/getMyPage';
 import Input from '@/components/Input/Input';
 import LinkInput from '@/components/Input/LinkInput';
 import PlusButtonIcon from '@/components/SvgComponents/PlusButtonIcon';
 import { nicknameRules } from '@/constants/InputErrorRules';
 import { useStore } from '@/store';
-import { PostUserLinks, PutRequestSignUp } from '@/types/users';
+import { PostUserLinks, PutRequestSignUp, UserType } from '@/types/users';
 import getUserInfo from '@/utils/getUserInfo';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 
 interface UserData extends PutRequestSignUp {
@@ -49,6 +50,7 @@ function ProfilePage({ mode }: Props) {
     register,
     control,
     watch,
+    reset,
     formState: { errors },
   } = methods;
 
@@ -72,7 +74,7 @@ function ProfilePage({ mode }: Props) {
         }
       : (userData: UserData) => {
           const { links, ...rest } = userData;
-          return instance.put(`/users/${userInfo.userId}`, rest);
+          return instance.put(`/users/${userInfo?.userId}`, rest);
         };
 
   const putUserMutation = useMutation({
@@ -99,6 +101,7 @@ function ProfilePage({ mode }: Props) {
       },
       onError: (error) => {
         alert('처리하는 과정에서 에러가 발생했습니다. 잠시 후 다시 시도해주세요.');
+        console.error(error);
       },
     });
   };
@@ -137,6 +140,23 @@ function ProfilePage({ mode }: Props) {
     setHasLinkError(hasError);
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { userProfileResponse } = await getMyPage();
+        setUploadedImageUrl(userProfileResponse.profileImageUrl);
+        reset({
+          ...userProfileResponse,
+          links: userProfileResponse.links ? userProfileResponse.links : [{ title: '', url: '' }],
+        });
+      } catch (error) {
+        console.error('Failed to fetch user data:', error);
+      }
+    };
+
+    fetchData();
+  }, [reset]);
+
   return (
     <FormProvider {...methods}>
       <form className="mr-100 flex h-full w-screen flex-col" onSubmit={handleSubmit(onSubmit)}>
@@ -149,6 +169,7 @@ function ProfilePage({ mode }: Props) {
                 accept="image/*"
                 register={register('profileImageUrl')}
                 onImageUpload={handleImageUpload}
+                defaultValue={uploadedImageUrl}
               />
               <Input
                 type="nickname"

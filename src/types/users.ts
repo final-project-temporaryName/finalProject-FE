@@ -1,5 +1,6 @@
 export interface UserType {
   userId: number;
+  userRole: 'ASSOCIATE' | 'REGULAR';
   nickname: string;
   activityField: string;
   activityArea: string;
@@ -12,7 +13,7 @@ export interface UserType {
 
 export interface GetMyInfo {
   userId: number;
-  userRole: 'associate' | 'regular';
+  userRole: 'ASSOCIATE' | 'REGULAR';
 }
 
 export interface PutRequestSignUp {

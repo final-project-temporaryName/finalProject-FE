@@ -5,7 +5,7 @@ import { postImageFile } from '@/api/image/postImageFile';
 import PlusButtonIcon from '@/components/SvgComponents/PlusButtonIcon';
 import UpLoadIcon from '@/components/SvgComponents/UpLoadIcon';
 import Image from 'next/image';
-import React, { ChangeEvent, FocusEventHandler, useId, useRef, useState } from 'react';
+import React, { ChangeEvent, FocusEventHandler, useEffect, useId, useRef, useState } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 interface Props {
@@ -28,7 +28,7 @@ interface Props {
 
 const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
   const { label, type = 'text', placeholder, error, register, style, readOnly, value, onChange, onImageUpload } = props;
-  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [profileImage, setProfileImage] = useState<string | null>(props.defaultValue ? props.defaultValue : null);
   const inputRef = useRef<HTMLInputElement>(null);
   const id = useId();
 
@@ -106,6 +106,11 @@ const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
       </div>
     </div>
   );
+
+  useEffect(() => {
+    // props.defaultValue가 변경될 때마다 profileImage 상태를 업데이트합니다.
+    setProfileImage(props.defaultValue ? props.defaultValue : null);
+  }, [props.defaultValue]);
 
   return (
     <div className="flex-center">

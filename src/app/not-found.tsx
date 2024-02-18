@@ -10,8 +10,8 @@ function NotFound() {
         <div className="flex-col-center gap-8">
           <div className="text-26 font-bold">페이지를 찾을 수 없습니다 🧐</div>
           <p className="text-center text-14 font-medium">
-            찾으시려는 주소가 잘못입력되었거나 <br />
-            주소 변경 혹은 삭제로 해당 페이지를 사용하실 수 없습니다.
+            찾으시려는 주소가 잘못 입력되었거나 <br />
+            접근 권한이 없으므로 해당 페이지를 사용하실 수 없습니다.
           </p>
         </div>
         <Link href="/">

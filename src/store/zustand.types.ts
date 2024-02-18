@@ -5,7 +5,7 @@ export interface SearchState {
 }
 
 export interface AuthState {
-  isLogin: boolean;
+  isLogin?: boolean;
   setLogin: () => void;
   setLogout: () => void;
   userRole: string;

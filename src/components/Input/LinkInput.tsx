@@ -1,12 +1,19 @@
 'use client';
 
-import { postLinks } from '@/api/links/postLinks';
+import instance from '@/api/axios';
 import Input from '@/components/Input/Input';
 import BinIcon from '@/components/SvgComponents/BinIcon';
 import EditIcon from '@/components/SvgComponents/EditIcon';
 import SaveIcon from '@/components/SvgComponents/SaveIcon';
-import { useId, useState } from 'react';
+import { postLinks } from '@/api/links/postLinks';
+import { useMutation } from '@tanstack/react-query';
+import { useCallback, useEffect, useId, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+import { deleteLinks } from '@/api/links/deleteLinks';
+import getUserInfo from '@/utils/getUserInfo';
+import { getMyPage } from '@/api/users/getMyPage';
+import { UserType } from '@/types/users';
+import { putLinks } from '@/api/links/putLinks';
 
 interface Props {
   link: { id: string };
@@ -20,6 +27,9 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate }: Props) {
   const [isEditIconVisible, setIsEditIconVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [saveIconClicked, setSaveIconClicked] = useState(false);
+  const [userInfo, setUserInfo] = useState<UserType>();
+  const [linkId, setLinkId] = useState(link.id);
+  const [isEditing, setIsEditing] = useState(false);
   const {
     register,
     formState: { errors },
@@ -28,41 +38,119 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate }: Props) {
   } = useFormContext();
   const id = useId();
 
+  const handleFetchMyProfile = useCallback(async () => {
+    const { userProfileResponse } = await getMyPage();
+
+    setUserInfo(userProfileResponse);
+  }, []);
+
+  const userId = userInfo?.userId;
+
+  const postLinkMutation = useMutation({
+    mutationFn: postLinks,
+  });
+
   const handleSaveIconClick = async () => {
+    if (typeof userId !== 'number') {
+      console.error('userId is undefined or not a number');
+      return;
+    }
+
+    setIsEditing(false);
     setIsModified(false);
     setIsEditIconVisible(true);
 
     const title = watch(`links[${index}].title`);
     const url = watch(`links[${index}].url`);
 
-    try {
-      await postLinks({ userId: 4, title, url });
-      setSaveIconClicked(true);
-      setIsModified(false);
-      if (handleLinkErrorUpdate) {
-        handleLinkErrorUpdate(false);
-      }
-    } catch (error) {
-      console.error(error);
-
-      if (handleLinkErrorUpdate) {
-        handleLinkErrorUpdate(true);
-      }
-    } finally {
-      setIsLoading(false);
-    }
+    postLinkMutation.mutate(
+      { userId, title, url },
+      {
+        onSuccess: (data) => {
+          setLinkId(data.data.linkId);
+          setSaveIconClicked(true);
+          setIsModified(false);
+          if (handleLinkErrorUpdate) {
+            handleLinkErrorUpdate(false);
+          }
+        },
+        onError: (error) => {
+          console.error(error);
+          if (handleLinkErrorUpdate) {
+            handleLinkErrorUpdate(true);
+          }
+        },
+        onSettled: () => {
+          setIsLoading(false);
+        },
+      },
+    );
   };
 
+  const putLinkMutation = useMutation({
+    mutationFn: putLinks,
+  });
+
+  const handleEditSaveIconClick = async () => {
+    if (typeof userId !== 'number' || typeof linkId !== 'number') {
+      console.error('userId or linkId is undefined or not a number');
+      return;
+    }
+
+    const title = watch(`links[${index}].title`);
+    const url = watch(`links[${index}].url`);
+
+    setIsLoading(true);
+    setIsEditing(false);
+    setIsModified(false);
+
+    putLinkMutation.mutate(
+      { userId, linkId, title, url },
+      {
+        onSuccess: () => {
+          setIsLoading(false);
+          setSaveIconClicked(true);
+          setIsEditIconVisible(true);
+        },
+        onError: (error) => {
+          console.error('Failed to update the link:', error);
+          setIsLoading(false);
+        },
+        onSettled: () => {
+          setIsLoading(false);
+        },
+      },
+    );
+  };
+
+  const deleteLinkMutation = useMutation({
+    mutationFn: deleteLinks,
+  });
+
   const handleBinIconClick = async () => {
-    remove();
-    setSaveIconClicked(false);
+    if (typeof userId !== 'number' || typeof linkId !== 'number') {
+      console.error('userId or linkId is undefined or not a number');
+      return;
+    }
+
+    deleteLinkMutation.mutate(
+      { userId, linkId },
+      {
+        onSuccess: (data) => {
+          remove();
+          setSaveIconClicked(false);
+        },
+        onError: (error) => {
+          console.error(error);
+        },
+      },
+    );
   };
 
   const handleEditIconClick = () => {
     setIsEditIconVisible(false);
     setSaveIconClicked(false);
-
-    // 추후에 PUT 요청 로직 추가
+    setIsEditing(true);
   };
 
   const handleInputChange = () => {
@@ -79,6 +167,10 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate }: Props) {
   const handleBlur = () => {
     // 아무 동작도 하지 않음
   };
+
+  useEffect(() => {
+    handleFetchMyProfile();
+  }, [handleFetchMyProfile]);
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -131,12 +223,17 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate }: Props) {
           )}
         />
         <div className="flex-center w-60">
-          {saveIconClicked ? (
+          {isEditing ? (
+            // 편집 모드일 때 저장 아이콘 표시, 편집 완료 처리
+            <SaveIcon className="flex-center" onClick={handleEditSaveIconClick} />
+          ) : isEditIconVisible ? (
+            // 저장 후 편집 및 삭제 아이콘 표시
             <div className="flex gap-10">
               <BinIcon onClick={handleBinIconClick} />
-              {isEditIconVisible && <EditIcon onClick={handleEditIconClick} />}
+              <EditIcon onClick={handleEditIconClick} />
             </div>
           ) : (
+            // 기본 상태에서 저장 아이콘 표시
             <SaveIcon className="flex-center" onClick={handleSaveIconClick} />
           )}
         </div>
