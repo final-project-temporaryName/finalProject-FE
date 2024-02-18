@@ -4,18 +4,18 @@ import '@/styles/tailwind.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { PropsWithChildren } from 'react';
 import logoImg from '../../../public/assets/images/logo.png';
+import NavigatorBox from './NavigatorBox';
 import SearchBar from './SearchBar';
 
-function NavBar({ children }: PropsWithChildren) {
+function NavBar() {
   const pathname = usePathname();
   const pathnameArr = pathname.split('/');
   const firstPathname = pathnameArr[1];
 
   return (
     <nav
-      className={`navBar ${pathname === '/' || firstPathname === 'upload' || firstPathname === 'flow' || firstPathname === 'art' ? 'relative' : 'fixed'}`}
+      className={`navBar ${pathname === '/' || firstPathname === 'upload' || firstPathname === 'flow' || firstPathname === 'art' ? 'sticky' : 'fixed'}`}
     >
       <div className="flex flex-grow items-center justify-start gap-60">
         <Link href={'/'} className="shrink-0">
@@ -23,7 +23,7 @@ function NavBar({ children }: PropsWithChildren) {
         </Link>
         <SearchBar />
       </div>
-      {children}
+      <NavigatorBox />
     </nav>
   );
 }
