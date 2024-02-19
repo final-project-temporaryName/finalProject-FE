@@ -1,11 +1,13 @@
 'use client';
 
 import { useStore } from '@/store';
-import { Button } from '../Button';
 import { usePathname } from 'next/navigation';
+import { Button } from '../Button';
+import ButtonFallbackUI from '../FallbackUI/NavBar/ButtonFallbackUI';
+import { useEffect } from 'react';
 
 interface Props {
-  isLogin: boolean;
+  isLogin?: boolean;
 }
 
 function NavigatorBoxButton({ isLogin }: Props) {
@@ -14,10 +16,32 @@ function NavigatorBoxButton({ isLogin }: Props) {
   const firstPathname = pathnameArr[1];
 
   const setClickedUploadArtworkUrl = useStore((state) => state.setClickedUploadArtworkUrl);
+  const setLogout = useStore((state) => state.setLogout);
 
   const handleUploadButtonClick = () => {
     setClickedUploadArtworkUrl(firstPathname);
   };
+
+  useEffect(() => {
+    const userAuth = window.localStorage.getItem('store');
+
+    if (userAuth) {
+      const parsedUserAuth = JSON.parse(userAuth);
+      const { state } = parsedUserAuth;
+      if (!Object.keys(state).includes('isLogin')) {
+        const changeIsLogin = setTimeout(() => {
+          setLogout();
+        }, 1000);
+
+        return () => clearTimeout(changeIsLogin);
+      }
+    }
+    return undefined;
+  }, []);
+
+  if (typeof isLogin === 'undefined') {
+    return <ButtonFallbackUI />;
+  }
 
   return (
     <>

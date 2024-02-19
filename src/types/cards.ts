@@ -2,7 +2,7 @@ export interface CardType {
   artworkId: number;
   title: string;
   description: string;
-  artworkStatus: 'FORSALE' | 'SHARE' | 'NOTFORSALE';
+  artworkStatus: 'PUBLIC' | 'SELLING' | 'FREE';
   thumbnailImageUrl: string;
   likeCount: number;
   viewCount: number;
@@ -24,17 +24,22 @@ export interface GetSpecificCardResponseType {
   artworkId: number;
   title: string;
   description: string;
-  artworkStatus: 'FORSALE' | 'SHARE' | 'NOTFORSALE';
-  thumbnailImageUrl: string;
-  imageUrl: string[];
-  likeCount: number;
+  artworkStatus: 'PUBLIC' | 'SELLING' | 'FREE';
+  artworkImageResponse: GetArtworkImageResponse[];
   viewCount: number;
+  likeCount: number;
   commentCount: number;
+  thumbnailImageUrl: string;
   artistId: number;
   artistName: string;
   artistProfileImageUrl: string;
   createdAt: string; // "2024-01-29T07:21:26.100Z"
   updatedAt: string; // "2024-01-29T07:21:26.100Z"
+}
+
+export interface GetArtworkImageResponse {
+  imageId: number;
+  imageUrl: string;
 }
 
 // 확정 후 수정 예정
@@ -43,7 +48,7 @@ export interface PostCardRequestType {
   description: string;
   tags: string[]; // 논의 필요
   imageUrl: string;
-  status: 'FORSALE' | 'SHARE' | 'NOTFORSALE';
+  status: 'PUBLIC' | 'SELLING' | 'FREE';
 }
 
 export interface PostCardResponseType extends CardType {}
@@ -54,7 +59,7 @@ export interface PutCardRequestType {
   description: string;
   tags: string[]; // 논의 필요
   imageUrl: string;
-  status: 'FORSALE' | 'SHARE' | 'NOTFORSALE';
+  status: 'PUBLIC' | 'SELLING' | 'FREE';
 }
 
 export interface PutCardResponseType extends CardType {}

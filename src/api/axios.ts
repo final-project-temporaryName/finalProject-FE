@@ -64,6 +64,11 @@ instance.interceptors.response.use(
     if (status === 403) {
       window.location.replace('/login');
     }
+    if (status === 400) {
+      if (error.response.data.message === 'JWT 토큰이 없습니다.') {
+        window.location.replace('/');
+      }
+    }
 
     console.log('response error', error);
     return Promise.reject(error);

@@ -1,4 +1,4 @@
-import { ImageArtworkType } from '@/types/artworks';
+import { ImageArtworkType } from '@/types/image';
 import { AxiosResponse } from 'axios';
 import instance from '../axios';
 

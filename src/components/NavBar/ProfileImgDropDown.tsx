@@ -2,23 +2,29 @@
 
 import useDropDown from '@/hooks/useDropDown';
 import useOnClickOutside from '@/hooks/useOnClickOutside';
+import removeStore from '@/utils/removeStore';
 import { signOut } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
 import defaultProfileImg from '../../../public/assets/images/logo.png';
 import ProfileDropDownImg from '../../../public/assets/images/profileDropDown.svg';
 import { Button } from '../Button';
+import { useStore } from '@/store';
 
 interface ProfileImgDropDownProps {
-  userName: string;
-  profileImg: string | undefined;
-  major: string;
+  userName?: string;
+  profileImg?: string;
+  major?: string;
 }
 
 function ProfileImgDropDown({ userName, profileImg, major }: ProfileImgDropDownProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
   const { isOpen: isDropDownOpen, handleDropDownOpen, handleDropDownClose } = useDropDown();
+  const setLogout = useStore((state) => state.setLogout);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   useOnClickOutside(containerRef, handleDropDownClose);
 
@@ -28,7 +34,10 @@ function ProfileImgDropDown({ userName, profileImg, major }: ProfileImgDropDownP
   };
 
   const handleLogoutClick = async () => {
+    removeStore();
+    setLogout();
     await signOut();
+    router.push('/');
   };
 
   return (
@@ -57,7 +66,7 @@ function ProfileImgDropDown({ userName, profileImg, major }: ProfileImgDropDownP
                 </div>
                 <div>
                   <p className="text-18 font-semibold">{userName}</p>
-                  <p className="text-12 text-gray-5">{major}</p>
+                  <p className="pl-1 text-12 text-gray-5">{major}</p>
                 </div>
               </div>
               <Button destination="/mypage" classname="primary-button dropdown-mypage-button">

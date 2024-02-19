@@ -22,6 +22,8 @@ export const useStore = create<SliceType>()(
           userId: state.userId,
           userAccessToken: state.userAccessToken,
           userRefreshToken: state.userRefreshToken,
+          isLogin: state.isLogin,
+          clickedArtworkId: state.clickedArtworkId,
         }),
       },
     ),

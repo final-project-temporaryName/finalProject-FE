@@ -3,6 +3,7 @@ import ReactQueryProviders from '@/utils/ReactQueryProvider';
 import type { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
 import '../styles/globals.css';
+import NavBar from '@/components/NavBar/NavBar';
 
 // Noto sans 폰트 적용
 const notoSansKr = Noto_Sans_KR({
@@ -23,9 +24,9 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={notoSansKr.className}>
-        <AuthSession>
-          <ReactQueryProviders>{children}</ReactQueryProviders>
-        </AuthSession>
+        <ReactQueryProviders>
+          <AuthSession>{children}</AuthSession>
+        </ReactQueryProviders>
       </body>
     </html>
   );
