@@ -1,5 +1,6 @@
 'use client';
 
+import { getMe } from '@/api/auth/getMe';
 import instance from '@/api/axios';
 import { getMyPage } from '@/api/users/getMyPage';
 import Input from '@/components/Input/Input';
@@ -9,7 +10,7 @@ import { nicknameRules } from '@/constants/InputErrorRules';
 import { useStore } from '@/store';
 import { PostUserLinks, PutRequestSignUp, UserType } from '@/types/users';
 import getUserInfo from '@/utils/getUserInfo';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
@@ -93,14 +94,18 @@ function ProfilePage({ mode }: Props) {
     putUserMutation.mutate(userData, {
       onSuccess: (data) => {
         const response = data.data;
-        const { accessToken, refreshToken, role, userId } = response;
+        if (response) {
+          const { accessToken, refreshToken, role, userId } = response;
 
-        setUserAccessToken(accessToken);
-        setUserRefreshToken(refreshToken);
-        setUserRole(role);
-        setUserId(userId);
+          setUserAccessToken(accessToken);
+          setUserRefreshToken(refreshToken);
+          setUserRole(role);
+          setUserId(userId);
 
-        router.replace('/');
+          router.replace('/');
+        } else {
+          router.replace('/mypage');
+        }
       },
       onError: (error) => {
         alert('처리하는 과정에서 에러가 발생했습니다. 잠시 후 다시 시도해주세요.');
@@ -165,7 +170,7 @@ function ProfilePage({ mode }: Props) {
       <form className="mr-100 flex h-full w-screen flex-col" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex-center gap-20">
           <div className={`pb-100 ${mode === 'edit' ? 'pt-160' : 'pt-30'}`}>
-            <div className="md:ml-30 md:gap-4 relative ml-75 flex items-center gap-10">
+            <div className="relative ml-75 flex items-center gap-10 md:ml-30 md:gap-4">
               <Input
                 type="file"
                 id="file"
@@ -183,16 +188,16 @@ function ProfilePage({ mode }: Props) {
                 register={register('nickname', nicknameRules)}
                 error={errors.nickname?.message || nicknameError}
               />
-              <div className="md:left-150 absolute left-170 top-27 text-[#C90000]">*</div>
+              <div className="absolute left-170 top-27 text-[#C90000] md:left-150">*</div>
               <button
                 type="button"
-                className="primary-button duplication-button md:ml-22 ml-0 justify-center"
+                className="primary-button duplication-button ml-0 justify-center md:ml-22"
                 onClick={checkNickname}
               >
                 중복확인
               </button>
             </div>
-            <div className="md:ml-10 md:gap-5 ml-0 mt-60 flex gap-33">
+            <div className="ml-0 mt-60 flex gap-33 md:ml-10 md:gap-5">
               <Input
                 label="활동지역"
                 id="zone"
@@ -209,11 +214,11 @@ function ProfilePage({ mode }: Props) {
               />
             </div>
             <div className="my-40 flex">
-              <div className="md:ml-10 md:w-70 md:gap-5 md:text-14 ml-0 flex h-40 w-90 items-center justify-start gap-20 whitespace-nowrap p-10 text-18">
+              <div className="ml-0 flex h-40 w-90 items-center justify-start gap-20 whitespace-nowrap p-10 text-18 md:ml-10 md:w-70 md:gap-5 md:text-14">
                 소개글
               </div>
               <textarea
-                className="md:w-375 min-h-92 w-465 resize-none rounded-xs bg-gray-1 p-15 text-14 focus:outline-none "
+                className="min-h-92 w-465 resize-none rounded-xs bg-gray-1 p-15 text-14 focus:outline-none md:w-375 "
                 placeholder="사람들에게 나를 알릴 수 있는 글을 자유롭게 적어보세요."
                 {...register('description')}
               ></textarea>

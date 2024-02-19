@@ -18,6 +18,8 @@ function TextEditor({ value, setValue }: Props) {
   const modules = useMemo(
     () => ({
       toolbar: [
+        [{ size: ['small', false, 'large'] }],
+        [{ color: [] }],
         ['bold', 'underline', 'blockquote'],
         [{ list: 'ordered' }, { list: 'bullet' }],
       ],
@@ -25,10 +27,10 @@ function TextEditor({ value, setValue }: Props) {
     [],
   );
 
-  const formats = ['bold', 'underline', 'blockquote', 'list', 'bullet'];
+  const formats = ['size', 'color', 'bold', 'underline', 'blockquote', 'list', 'bullet'];
 
   return (
-    <div className="h-333 w-355">
+    <div className="h-330 w-355">
       <QuillNoSSRWrapper
         theme="bubble"
         modules={modules}

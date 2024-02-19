@@ -5,10 +5,12 @@ import { postUploadImageFile } from '@/api/upload/postUploadImageFile';
 import { Button } from '@/components/Button';
 import '@/styles/tailwind.css';
 import { ImageArtworkType } from '@/types/image';
+import { DragDropContext, DropResult, Droppable } from '@hello-pangea/dnd';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 import 'react-quill/dist/quill.bubble.css';
+import { v4 as uuidv4 } from 'uuid';
 import SellingLabelImg from '../../../../public/assets/icons/saleFlag.svg';
 import ShareLabelImg from '../../../../public/assets/icons/shareFlag.svg';
 import Modal from '../_components';
@@ -20,6 +22,7 @@ import StatusLabelsGroup from './_components/StatusLabelsGroup';
 import TextEditor from './_components/TextEditor';
 
 export default function UploadModal() {
+  // states
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [uploadImageSources, setUploadImageSources] = useState<string[]>([]);
@@ -29,10 +32,11 @@ export default function UploadModal() {
   const [imageOrder, setImageOrder] = useState<number[]>([]);
   const [currentImageData, setCurrentImageData] = useState<ImageArtworkType | undefined>();
 
+  //hooks
   const inputRef = useRef<HTMLInputElement | null>(null);
-
   const router = useRouter();
 
+  // handlers
   const onClickClose = () => {
     router.back();
   };
@@ -48,29 +52,39 @@ export default function UploadModal() {
   const getImageData = async (file: File) => {
     const formData = new FormData();
     formData.append('file', file);
-    const { imageId, imageUrl } = await postUploadImageFile(formData);
-    setImageOrder((prev): number[] => [...prev, imageId]);
-    setCurrentImageData({ imageId, imageUrl });
+
+    try {
+      const { imageId, imageUrl } = await postUploadImageFile(formData);
+      setCurrentImageData({ imageId, imageUrl });
+      return { imageId, imageUrl };
+    } catch (error) {
+      console.error('Error occurred while uploading image file:', error);
+      throw error;
+    }
   };
 
-  const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const files = e.target.files;
     let imageUrlList = [...uploadImageSources];
     let imageOrderList = [...imageOrder];
     const fileList = Array.from(files);
 
-    fileList.forEach((file) => {
-      getImageData(file);
-      if (!currentImageData) return;
-      imageOrderList.push(currentImageData?.imageId);
-      imageUrlList.push(currentImageData?.imageUrl);
-    });
+    for (const file of fileList) {
+      try {
+        const imageData = await getImageData(file);
+        imageOrderList.push(imageData.imageId);
+        imageUrlList.push(imageData.imageUrl);
+      } catch (error) {
+        console.error('Error occurred while getting image data:', error);
+      }
+    }
 
     if (imageUrlList.length > 10) {
       imageUrlList = imageUrlList.slice(0, 10);
-      imageOrderList = imageOrder.slice(0, 10);
+      imageOrderList = imageOrderList.slice(0, 10);
     }
+
     setUploadImageSources(imageUrlList);
     setImageOrder(imageOrderList);
   };
@@ -101,34 +115,50 @@ export default function UploadModal() {
     setShowImage(false);
   };
 
+  const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
+    if (!destination) return;
+    const newUploadImageSources = [...uploadImageSources];
+    newUploadImageSources.splice(source.index, 1);
+    newUploadImageSources.splice(destination?.index, 0, draggableId);
+    setUploadImageSources(newUploadImageSources);
+  };
+
   return (
     <Modal.Container onClickClose={onClickClose} classname="modalContainer">
       <Modal.Header onClickClose={onClickClose} />
-      <Modal.Body classname="grid grid-cols-2 h-full">
-        {uploadImageSources.length ? (
-          <div className="relative flex h-full w-full justify-center border-r-1 border-solid border-black pb-31 pt-26">
-            <div className="relative grid grid-cols-4 grid-rows-3 gap-18 px-29 py-25">
-              {uploadImageSources.map((uploadImageSource, index) => {
-                return (
-                  <PreviewImage
-                    uploadImageSource={uploadImageSource}
-                    index={index}
-                    openEnlargedImage={openEnlargedImage}
-                    handleDeleteImage={handleDeleteImage}
-                  />
-                );
-              })}
-              <div className="absolute bottom-4 left-88 flex gap-24">
+      <Modal.Body classname="flex h-full">
+        <DragDropContext onDragEnd={onDragEnd}>
+          {uploadImageSources.length ? (
+            <div className="relative flex h-full w-3/5 flex-col justify-center border-r-1 border-solid border-black pb-31 pt-26">
+              <div className="relative grid grid-cols-4 grid-rows-3/96 gap-18 px-29 py-25">
+                {uploadImageSources.map((uploadImageSource, index) => {
+                  return (
+                    <Droppable key={uploadImageSource} droppableId={String(uuidv4())}>
+                      {(provided) => (
+                        <div {...provided.droppableProps} ref={provided.innerRef}>
+                          <PreviewImage
+                            uploadImageSource={uploadImageSource}
+                            index={index}
+                            openEnlargedImage={openEnlargedImage}
+                            handleDeleteImage={handleDeleteImage}
+                          />
+                        </div>
+                      )}
+                    </Droppable>
+                  );
+                })}
+              </div>
+              <div className="flex justify-center gap-24">
                 <DeleteAllImageButton onClick={handleDeleteAllImage} />
                 {uploadImageSources.length !== 10 && <AddImageButton onClick={handleUploadImageButton} />}
               </div>
             </div>
-          </div>
-        ) : (
-          <div className="relative flex h-full w-full items-center justify-center border-r-1 border-solid border-black">
-            <BeforeUploadImage onClick={handleUploadImageButton} />
-          </div>
-        )}
+          ) : (
+            <div className="relative flex h-full w-3/5 items-center justify-center border-r-1 border-solid border-black">
+              <BeforeUploadImage onClick={handleUploadImageButton} />
+            </div>
+          )}
+        </DragDropContext>
         <input
           id="image"
           className="hidden"
@@ -138,7 +168,7 @@ export default function UploadModal() {
           ref={inputRef}
           onChange={handleUploadImage}
         />
-        <div className="relative flex h-full w-full flex-col gap-18 p-20">
+        <div className="relative flex h-full w-2/5 flex-col gap-18 p-20">
           <input
             id="title"
             className="h-39 w-300 p-10 text-14 font-semibold placeholder:text-gray-5"
@@ -149,7 +179,7 @@ export default function UploadModal() {
             onChange={handleTitleChange}
           />
           <TextEditor value={description} setValue={setDescription} />
-          <div className="flex justify-between gap-40">
+          <div className="flex items-center justify-between gap-18">
             <StatusLabelsGroup setStatusValue={setLabel} />
             <Button.Modal.Action
               disabled={!title || !description || description === '<p><br></p>' || uploadImageSources.length === 0}
@@ -171,10 +201,10 @@ export default function UploadModal() {
         {showImage && (
           <>
             <div
-              className="flex-center fixed left-0 top-0 z-infinite h-full w-full bg-[#00000066] p-10"
+              className="fixed left-0 top-0 z-infinite flex h-full w-full  bg-[#00000066] p-10"
               onClick={closeEnlargedImage}
             >
-              <div className="relative h-full w-full">
+              <div className="relative flex h-full w-full items-center justify-center">
                 <Image src={selectedImage} alt="작품 확대 이미지" width={750} height={900} />
               </div>
             </div>

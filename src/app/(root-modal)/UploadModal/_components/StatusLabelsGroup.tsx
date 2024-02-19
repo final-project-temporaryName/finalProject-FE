@@ -27,7 +27,7 @@ function StatusLabelsGroup({ setStatusValue }: Props) {
   };
 
   return (
-    <div className="flex gap-16 align-middle">
+    <div className="flex gap-16">
       {labelTexts.map((labelText, idx) => (
         <Button.Category
           key={idx}
