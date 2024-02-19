@@ -5,10 +5,12 @@ import { postUploadImageFile } from '@/api/upload/postUploadImageFile';
 import { Button } from '@/components/Button';
 import '@/styles/tailwind.css';
 import { ImageArtworkType } from '@/types/artworks';
+import { DragDropContext, DropResult, Droppable } from '@hello-pangea/dnd';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import 'react-quill/dist/quill.bubble.css';
+import { v4 as uuidv4 } from 'uuid';
 import SellingLabelImg from '../../../../public/assets/icons/saleFlag.svg';
 import ShareLabelImg from '../../../../public/assets/icons/shareFlag.svg';
 import Modal from '../_components';
@@ -18,8 +20,6 @@ import DeleteAllImageButton from './_components/DeleteAllImageButton';
 import PreviewImage from './_components/PreviewImage';
 import StatusLabelsGroup from './_components/StatusLabelsGroup';
 import TextEditor from './_components/TextEditor';
-import { DragDropContext, DropResult, Droppable } from '@hello-pangea/dnd';
-import { v4 as uuidv4 } from 'uuid';
 
 export default function UploadModal() {
   // states
@@ -31,10 +31,6 @@ export default function UploadModal() {
   const [selectedImage, setSelectedImage] = useState('');
   const [imageOrder, setImageOrder] = useState<number[]>([]);
   const [currentImageData, setCurrentImageData] = useState<ImageArtworkType | undefined>();
-
-  // constants
-  // let imageUrlList = [...uploadImageSources];
-  // let imageOrderList = [...imageOrder];
 
   //hooks
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -50,76 +46,53 @@ export default function UploadModal() {
   };
 
   const handleSubmit = () => {
-    // console.log({ imageIds: imageOrder, title, description, artworkStatus: label });
+    console.log({ imageIds: imageOrder, title, description, artworkStatus: label });
     postArtwork({ imageIds: imageOrder, title, description, artworkStatus: label });
   };
 
   const getImageData = async (file: File) => {
     const formData = new FormData();
     formData.append('file', file);
-    const { imageId, imageUrl } = await postUploadImageFile(formData); // 순서가 느림
-    console.log({ imageId, imageUrl });
-    setImageOrder((prev): number[] => [...prev, imageId]);
-    setCurrentImageData({ imageId, imageUrl });
+
+    try {
+      const { imageId, imageUrl } = await postUploadImageFile(formData);
+      setCurrentImageData({ imageId, imageUrl });
+      console.log({ imageId, imageUrl });
+      return { imageId, imageUrl };
+    } catch (error) {
+      console.error('Error occurred while uploading image file:', error);
+      throw error;
+    }
   };
 
-  const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const files = e.target.files;
     let imageUrlList = [...uploadImageSources];
     let imageOrderList = [...imageOrder];
     const fileList = Array.from(files);
 
-    fileList.forEach((file) => {
-      getImageData(file);
-      if (!currentImageData) return; // 커렌트 값에 대한 비동기 처리 필요 (데이터 싱크 맞추기 = 디펜던시 (useCallback, useEffect가 필요)) (최고의 경험)
-      imageOrderList.push(currentImageData?.imageId);
-      imageUrlList.push(currentImageData?.imageUrl);
-    });
+    for (const file of fileList) {
+      try {
+        const imageData = await getImageData(file);
+        imageOrderList.push(imageData.imageId);
+        imageUrlList.push(imageData.imageUrl);
+        console.log({ imageUrlList, imageOrderList });
+      } catch (error) {
+        console.error('Error occurred while getting image data:', error);
+      }
+    }
 
     if (imageUrlList.length > 10) {
       imageUrlList = imageUrlList.slice(0, 10);
-      imageOrderList = imageOrder.slice(0, 10);
+      imageOrderList = imageOrderList.slice(0, 10);
     }
 
     console.log({ imageUrlList, imageOrderList });
 
     setUploadImageSources(imageUrlList);
     setImageOrder(imageOrderList);
-    // updateImageData();
   };
-
-  // const updateImageData = useCallback(() => {
-  //   if (imageOrderList && imageOrderList?.length > 0 && imageUrlList && imageUrlList?.length > 0) {
-  //     debugger;
-  //     console.log({ imageUrlList, imageOrderList });
-  //     setUploadImageSources(imageUrlList);
-  //     setImageOrder(imageOrderList);
-  //   }
-  // }, [imageOrder]);
-
-  // useEffect(() => {
-  //   updateImageData();
-  // }, [updateImageData]);
-
-  // 테스트용
-  // const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (!e.target.files) return;
-  //   const files = e.target.files;
-  //   let imageUrlList = [...uploadImageSources];
-  //   const fileList = Array.from(files);
-
-  //   fileList.forEach((file) => {
-  //     const currentImageUrl = URL.createObjectURL(file);
-  //     getImageData(file);
-  //     imageUrlList.push(currentImageUrl);
-  //   });
-
-  //   if (imageUrlList.length > 10) {
-  //     imageUrlList = imageUrlList.slice(0, 10);
-  //   }
-  //   setUploadImageSources(imageUrlList);
-  // };
 
   const handleDeleteImage = (index: number) => {
     setUploadImageSources(uploadImageSources.filter((_, i) => i !== index));
@@ -165,7 +138,7 @@ export default function UploadModal() {
               <div className="relative grid grid-cols-4 grid-rows-3/96 gap-18 px-29 py-25">
                 {uploadImageSources.map((uploadImageSource, index) => {
                   return (
-                    <Droppable droppableId={String(uuidv4())}>
+                    <Droppable key={uploadImageSource} droppableId={String(uuidv4())}>
                       {(provided) => (
                         <div {...provided.droppableProps} ref={provided.innerRef}>
                           <PreviewImage

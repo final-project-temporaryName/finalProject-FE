@@ -20,7 +20,7 @@ export const postArtwork = async ({ imageIds, title, description, artworkStatus 
       },
       {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
         },
       },
     );
