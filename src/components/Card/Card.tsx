@@ -1,6 +1,5 @@
 'use client';
 
-import ArtModal from '@/app/(root-modal)/ArtModal/ArtModal';
 import { useStore } from '@/store';
 import { CardType } from '@/types/cards';
 import Image from 'next/image';
@@ -33,8 +32,7 @@ function Card({
   artistProfileImageUrl,
   type,
 }: Props) {
-  const { modals, showModal, setClickedArtworkId } = useStore((state) => ({
-    modals: state.modals,
+  const { showModal, setClickedArtworkId } = useStore((state) => ({
     showModal: state.showModal,
     setClickedArtworkId: state.setClickedArtworkId,
   }));
@@ -51,7 +49,7 @@ function Card({
       <div className={`flex h-${type === 'main' ? '328' : '280'} min-w-280 flex-col`}>
         <div
           id="cardImgBox"
-          className="group relative h-280 min-w-280 overflow-hidden rounded-md"
+          className="group relative h-280 min-w-280 cursor-pointer overflow-hidden rounded-md"
           onClick={handleArtworkClick}
         >
           <Image
@@ -106,7 +104,6 @@ function Card({
           </div>
         )}
       </div>
-      {modals[modals?.length - 1] === 'artModal' && <ArtModal />}
     </>
   );
 }
