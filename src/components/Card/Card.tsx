@@ -91,13 +91,16 @@ function Card({
       {type === 'main' && (
         <div className="relative flex h-48 w-280 flex-shrink-0 items-center pt-10">
           <Link href={`/artist/${artistId}`} className="flex items-center gap-10">
-            <Image
-              className="h-40 w-40 rounded-full"
-              src={!urlRegex.test(artistProfileImageUrl) ? artistProfileImageUrl : defaultImage}
-              alt="프로필 이미지"
-              width={40}
-              height={40}
-            />
+            <div className="relative h-40 w-40 overflow-hidden rounded-full">
+              <Image
+                src={
+                  artistProfileImageUrl && !urlRegex.test(artistProfileImageUrl) ? artistProfileImageUrl : defaultImage
+                }
+                alt="프로필 이미지"
+                fill
+                objectFit="cover"
+              />
+            </div>
             <p className="text-base font-normal font-bold leading-normal">{artistName}</p>
           </Link>
         </div>

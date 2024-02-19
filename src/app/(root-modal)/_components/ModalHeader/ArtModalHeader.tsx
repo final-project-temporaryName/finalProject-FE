@@ -45,7 +45,7 @@ function ArtModalHeader({ onClickClose, artistName, artistProfileImageUrl, creat
               src={artistProfileImageUrl ? artistProfileImageUrl : defaultProfileImg}
               alt="프로필 이미지"
               fill
-              style={{ objectFit: 'cover' }}
+              objectFit="cover"
             />
           </div>
           <p className="text-14 font-semibold">{artistName ? artistName : '닉네임 없음'}</p>
