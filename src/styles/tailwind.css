@@ -2,7 +2,7 @@
 
 /* Navbar component */
 .navBar {
-  @apply left-0 top-0 z-second flex h-80 w-full items-center justify-between gap-40 bg-[#ffffff80] px-44 py-20 backdrop-blur;
+  @apply left-0 top-0 z-second h-80 w-full items-center justify-between gap-40 bg-[#ffffff80] px-44 py-20 backdrop-blur;
 }
 
 .navSearchBar {
@@ -126,19 +126,19 @@
 }
 
 .xs-input {
-  @apply md:w-90 w-115;
+  @apply w-115 md:w-90;
 }
 
 .sm-input {
-  @apply md:w-150 w-172;
+  @apply w-172 md:w-150;
 }
 
 .md-input {
-  @apply md:w-150 w-200;
+  @apply w-200 md:w-150;
 }
 
 .lg-input {
-  @apply md:w-208 w-268;
+  @apply w-268 md:w-208;
 }
 
 .file-input-wrapper {

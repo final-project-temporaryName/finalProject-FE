@@ -41,7 +41,7 @@ export interface GetUserLinks {
 
 export interface PostUserLinks {
   title: string;
-  url: string;
+  address: string;
 }
 
 // userLink 삭제는 userId, linkId 를 query로 요청

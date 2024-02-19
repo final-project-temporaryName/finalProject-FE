@@ -40,7 +40,7 @@ function ProfilePage({ mode }: Props) {
 
   const methods = useForm<UserData>({
     defaultValues: {
-      links: [{ title: '', url: '' }],
+      links: [{ title: '', address: '' }],
     },
     mode: 'onBlur',
   });
@@ -59,7 +59,10 @@ function ProfilePage({ mode }: Props) {
     name: 'links',
   });
 
-  const disableSaveButton = hasLinkError || !isNicknameAvailable || Object.keys(errors).length > 0;
+  const nickname = watch('nickname');
+
+  const disableSaveButton =
+    hasLinkError || !isNicknameAvailable || Object.keys(errors).length > 0 || nickname.length === 0;
 
   const handleImageUpload = (url: string) => {
     setUploadedImageUrl(url);
@@ -109,7 +112,7 @@ function ProfilePage({ mode }: Props) {
   const removeLink = (index: number) => {
     remove(index);
     if (fields.length <= 1) {
-      append({ title: '', url: '' });
+      append({ title: '', address: '' });
     }
   };
 
@@ -130,7 +133,6 @@ function ProfilePage({ mode }: Props) {
   });
 
   const checkNickname = () => {
-    const nickname = watch('nickname');
     if (nickname) {
       checkNicknameMutation.mutate(nickname);
     }
@@ -147,8 +149,9 @@ function ProfilePage({ mode }: Props) {
         setUploadedImageUrl(userProfileResponse.profileImageUrl);
         reset({
           ...userProfileResponse,
-          links: userProfileResponse.links ? userProfileResponse.links : [{ title: '', url: '' }],
+          links: userProfileResponse.links ? userProfileResponse.links : [{ title: '', address: '' }],
         });
+        setIsNicknameAvailable(true);
       } catch (error) {
         console.error('Failed to fetch user data:', error);
       }
@@ -227,7 +230,7 @@ function ProfilePage({ mode }: Props) {
               ))}
               {fields.length < 5 && (
                 <div className="tooltip">
-                  <button className="ml-90" onClick={() => append({ title: '', url: '' })}>
+                  <button className="ml-90" onClick={() => append({ title: '', address: '' })}>
                     <PlusButtonIcon />
                   </button>
                   <span className="tooltip-text">5개까지 링크 추가 가능</span>

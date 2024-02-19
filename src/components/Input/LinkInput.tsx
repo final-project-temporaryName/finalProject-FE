@@ -1,19 +1,17 @@
 'use client';
 
-import instance from '@/api/axios';
+import { deleteLinks } from '@/api/links/deleteLinks';
+import { postLinks } from '@/api/links/postLinks';
+import { putLinks } from '@/api/links/putLinks';
+import { getMyPage } from '@/api/users/getMyPage';
 import Input from '@/components/Input/Input';
 import BinIcon from '@/components/SvgComponents/BinIcon';
 import EditIcon from '@/components/SvgComponents/EditIcon';
 import SaveIcon from '@/components/SvgComponents/SaveIcon';
-import { postLinks } from '@/api/links/postLinks';
+import { UserType } from '@/types/users';
 import { useMutation } from '@tanstack/react-query';
 import { useCallback, useEffect, useId, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { deleteLinks } from '@/api/links/deleteLinks';
-import getUserInfo from '@/utils/getUserInfo';
-import { getMyPage } from '@/api/users/getMyPage';
-import { UserType } from '@/types/users';
-import { putLinks } from '@/api/links/putLinks';
 
 interface Props {
   link: { id: string };
@@ -46,6 +44,7 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate }: Props) {
 
   const userId = userInfo?.userId;
 
+  //POST
   const postLinkMutation = useMutation({
     mutationFn: postLinks,
   });
@@ -61,10 +60,10 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate }: Props) {
     setIsEditIconVisible(true);
 
     const title = watch(`links[${index}].title`);
-    const url = watch(`links[${index}].url`);
+    const address = watch(`links[${index}].address`);
 
     postLinkMutation.mutate(
-      { userId, title, url },
+      { userId, title, address },
       {
         onSuccess: (data) => {
           setLinkId(data.data.linkId);
@@ -87,6 +86,7 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate }: Props) {
     );
   };
 
+  //PUT
   const putLinkMutation = useMutation({
     mutationFn: putLinks,
   });
@@ -98,14 +98,14 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate }: Props) {
     }
 
     const title = watch(`links[${index}].title`);
-    const url = watch(`links[${index}].url`);
+    const address = watch(`links[${index}].address`);
 
     setIsLoading(true);
     setIsEditing(false);
     setIsModified(false);
 
     putLinkMutation.mutate(
-      { userId, linkId, title, url },
+      { userId, linkId, title, address },
       {
         onSuccess: () => {
           setIsLoading(false);
@@ -123,6 +123,7 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate }: Props) {
     );
   };
 
+  //Delete
   const deleteLinkMutation = useMutation({
     mutationFn: deleteLinks,
   });
@@ -201,7 +202,7 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate }: Props) {
           )}
         />
         <Controller
-          name={`links[${index}].url`}
+          name={`links[${index}].address`}
           control={control}
           defaultValue=""
           render={({ field }) => (
