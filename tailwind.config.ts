@@ -116,6 +116,9 @@ const config: Config = {
       backdropBlur: {
         'custom-blur': '2.5px',
       },
+      gridTemplateRows: {
+        '3/96': 'repeat(3, minmax(0, 96px))',
+      },
     },
   },
   plugins: [],

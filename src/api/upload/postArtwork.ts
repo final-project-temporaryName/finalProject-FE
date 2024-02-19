@@ -1,14 +1,14 @@
 import { AxiosError } from 'axios';
 import instance from '../axios';
 
-interface postArtworkProps {
+interface PostArtworkProps {
   imageIds: number[];
   title: string;
   description: string;
   artworkStatus: 'PUBLIC' | 'SELLING' | 'FREE';
 }
 
-export const postArtwork = async ({ imageIds, title, description, artworkStatus }: postArtworkProps) => {
+export const postArtwork = async ({ imageIds, title, description, artworkStatus }: PostArtworkProps) => {
   try {
     const response = await instance.post(
       '/artworks',
@@ -20,7 +20,7 @@ export const postArtwork = async ({ imageIds, title, description, artworkStatus 
       },
       {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
         },
       },
     );

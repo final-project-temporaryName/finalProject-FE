@@ -89,14 +89,18 @@ function ProfilePage({ mode }: Props) {
     putUserMutation.mutate(userData, {
       onSuccess: (data) => {
         const response = data.data;
-        const { accessToken, refreshToken, role, userId } = response;
+        if (response) {
+          const { accessToken, refreshToken, role, userId } = response;
 
-        setUserAccessToken(accessToken);
-        setUserRefreshToken(refreshToken);
-        setUserRole(role);
-        setUserId(userId);
+          setUserAccessToken(accessToken);
+          setUserRefreshToken(refreshToken);
+          setUserRole(role);
+          setUserId(userId);
 
-        router.replace('/');
+          router.replace('/');
+        } else {
+          router.replace('/mypage');
+        }
       },
       onError: (error) => {
         alert('처리하는 과정에서 에러가 발생했습니다. 잠시 후 다시 시도해주세요.');

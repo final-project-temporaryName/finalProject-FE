@@ -13,7 +13,7 @@
 /* SignupModal */
 
 .modalContainer {
-  @apply relative top-[10%] z-infinite flex h-560 w-900 flex-col rounded-md bg-white;
+  @apply relative top-[10%] z-infinite flex h-560 w-940 flex-col rounded-md bg-white;
 }
 
 .artModalContainer {
@@ -81,11 +81,11 @@
 }
 
 .status-label-button {
-  @apply flex items-center justify-center gap-10 rounded-ml border-[1.55px] border-solid border-white bg-white px-12 py-4 text-center text-12 text-black hover:text-primary;
+  @apply flex h-24 items-center justify-center whitespace-nowrap rounded-ml border-[1.55px] border-solid border-white bg-white px-12 py-4 text-center text-12 text-black hover:text-primary;
 }
 
 .status-label-button-focus {
-  @apply flex items-center justify-center gap-10  rounded-lg border-[1.55px] border-solid border-primary bg-white px-12 py-4 text-center text-12 text-primary;
+  @apply flex h-24 items-center justify-center whitespace-nowrap  rounded-lg border-[1.55px] border-solid border-primary bg-white px-12 py-4 text-center text-12 text-primary;
 }
 
 .main-label-button {
