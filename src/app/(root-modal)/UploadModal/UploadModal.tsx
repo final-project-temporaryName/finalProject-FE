@@ -19,6 +19,7 @@ import DeleteAllImageButton from './_components/DeleteAllImageButton';
 import PreviewImage from './_components/PreviewImage';
 import StatusLabelsGroup from './_components/StatusLabelsGroup';
 import TextEditor from './_components/TextEditor';
+import { useStore } from '@/store';
 
 export default function UploadModal() {
   // states
@@ -33,6 +34,7 @@ export default function UploadModal() {
 
   //hooks
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const clearModal = useStore((state) => state.clearModal);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -40,6 +42,7 @@ export default function UploadModal() {
 
   const handleSubmit = () => {
     postArtwork({ imageIds: imageOrder, title, description, artworkStatus: label });
+    clearModal();
   };
 
   const getImageData = async (file: File) => {
@@ -117,8 +120,8 @@ export default function UploadModal() {
   };
 
   return (
-    <Modal.Container onClickClose={onClickClose} classname="modalContainer">
-      <Modal.Header onClickClose={onClickClose} />
+    <Modal.Container classname="modalContainer">
+      <Modal.Header />
       <Modal.Body classname="flex h-full">
         <DragDropContext onDragEnd={onDragEnd}>
           {uploadImageSources.length ? (
