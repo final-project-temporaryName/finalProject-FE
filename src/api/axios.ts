@@ -62,10 +62,12 @@ instance.interceptors.response.use(
       }
     }
     if (status === 403) {
+      window.alert('로그인이 만료되었습니다.');
       window.location.replace('/login');
     }
     if (status === 400) {
       if (error.response.data.message === 'JWT 토큰이 없습니다.') {
+        window.alert('접근 권한이 없습니다. 로그인을 해주세요.');
         window.location.replace('/');
       }
     }

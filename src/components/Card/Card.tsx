@@ -50,7 +50,11 @@ function Card({
   return (
     <div className={`flex h-${type === 'main' ? '328' : '280'} min-w-280 flex-col`}>
       <Link href={`/art/${artworkId}`}>
-        <div id="cardImgBox" className="group relative h-280 min-w-280 overflow-hidden" onClick={handleArtworkClick}>
+        <div
+          id="cardImgBox"
+          className="group relative h-280 min-w-280 overflow-hidden rounded-md"
+          onClick={handleArtworkClick}
+        >
           <Image
             className="rounded-md transition-all duration-200 ease-linear group-hover:scale-[1.2]"
             src={!urlRegex.test(thumbnailImageUrl) ? thumbnailImageUrl : defaultImage}
