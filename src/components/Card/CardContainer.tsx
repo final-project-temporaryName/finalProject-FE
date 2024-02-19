@@ -7,17 +7,23 @@ import { useObserver } from '@/hooks/useObserver';
 import { useRef } from 'react';
 import { CardType } from '@/types/cards';
 
-interface Props {
-  type: 'main' | 'mypage' | 'artist';
+interface queryFnProps {
+  pageParam?: number | null;
 }
 
-export interface ArtWorks {
+interface CardContainerProps {
+  type: 'main' | 'mypage' | 'artist';
+  queryKey?: string[];
+  queryFn?: (props: queryFnProps) => Promise<any>;
+}
+
+interface ArtWorks {
   contents: CardType[];
   hasNext: boolean;
   pages: ArtWorks[];
 }
 
-function CardContainer({ type }: Props) {
+function CardContainer({ type }: CardContainerProps) {
   const { data, status, hasNextPage, fetchNextPage, isFetchingNextPage, isFetching } = useInfiniteQuery<
     ArtWorks,
     Error,
