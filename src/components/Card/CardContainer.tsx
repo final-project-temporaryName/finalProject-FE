@@ -5,37 +5,16 @@ import { getArtworks } from '@/api/artworks/getArtworks';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useObserver } from '@/hooks/useObserver';
 import { useRef } from 'react';
+import { CardType } from '@/types/cards';
 
 interface Props {
   type: 'main' | 'mypage' | 'artist';
 }
 
 export interface ArtWorks {
-  contents: Content[];
+  contents: CardType[];
   hasNext: boolean;
   pages: ArtWorks[];
-}
-
-export interface Content {
-  artworkId: number;
-  title: string;
-  description: string;
-  artworkStatus: ArtworkStatus;
-  viewCount: number;
-  likeCount: number;
-  commentCount: number;
-  thumbnailImageUrl: string;
-  artistId: number;
-  artistName: string;
-  artistProfileImageUrl: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export enum ArtworkStatus {
-  Public = 'PUBLIC',
-  Selling = 'SELLING',
-  Free = 'FREE',
 }
 
 function CardContainer({ type }: Props) {
