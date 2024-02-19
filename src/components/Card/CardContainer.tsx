@@ -1,7 +1,6 @@
 'use client';
 
 import Card from './Card';
-import { getArtworks } from '@/api/artworks/getArtworks';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useObserver } from '@/hooks/useObserver';
 import { useRef } from 'react';
@@ -13,8 +12,8 @@ interface queryFnProps {
 
 interface CardContainerProps {
   type: 'main' | 'mypage' | 'artist';
-  queryKey?: string[];
-  queryFn?: (props: queryFnProps) => Promise<any>;
+  queryKey: string[];
+  queryFn: (props: queryFnProps) => Promise<any>;
 }
 
 interface ArtWorks {
@@ -23,7 +22,7 @@ interface ArtWorks {
   pages: ArtWorks[];
 }
 
-function CardContainer({ type }: CardContainerProps) {
+function CardContainer({ type, queryKey, queryFn }: CardContainerProps) {
   const { data, status, hasNextPage, fetchNextPage, isFetchingNextPage, isFetching } = useInfiniteQuery<
     ArtWorks,
     Error,
@@ -31,9 +30,9 @@ function CardContainer({ type }: CardContainerProps) {
     string[],
     number | null
   >({
-    queryKey: ['allArtworks'],
+    queryKey: queryKey,
     queryFn: async ({ pageParam }) => {
-      return await getArtworks({ pageParam });
+      return await queryFn({ pageParam });
     },
     getNextPageParam: (lastPage) => {
       return lastPage.hasNext ? lastPage.contents[lastPage.contents.length - 1].artworkId : undefined;
