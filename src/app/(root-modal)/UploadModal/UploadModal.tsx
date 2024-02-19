@@ -46,7 +46,6 @@ export default function UploadModal() {
   };
 
   const handleSubmit = () => {
-    console.log({ imageIds: imageOrder, title, description, artworkStatus: label });
     postArtwork({ imageIds: imageOrder, title, description, artworkStatus: label });
   };
 
@@ -57,7 +56,6 @@ export default function UploadModal() {
     try {
       const { imageId, imageUrl } = await postUploadImageFile(formData);
       setCurrentImageData({ imageId, imageUrl });
-      console.log({ imageId, imageUrl });
       return { imageId, imageUrl };
     } catch (error) {
       console.error('Error occurred while uploading image file:', error);
@@ -77,7 +75,6 @@ export default function UploadModal() {
         const imageData = await getImageData(file);
         imageOrderList.push(imageData.imageId);
         imageUrlList.push(imageData.imageUrl);
-        console.log({ imageUrlList, imageOrderList });
       } catch (error) {
         console.error('Error occurred while getting image data:', error);
       }
@@ -87,8 +84,6 @@ export default function UploadModal() {
       imageUrlList = imageUrlList.slice(0, 10);
       imageOrderList = imageOrderList.slice(0, 10);
     }
-
-    console.log({ imageUrlList, imageOrderList });
 
     setUploadImageSources(imageUrlList);
     setImageOrder(imageOrderList);
