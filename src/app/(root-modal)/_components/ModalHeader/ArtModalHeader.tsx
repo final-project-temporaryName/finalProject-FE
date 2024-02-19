@@ -1,21 +1,25 @@
 'use client';
 
 import { Button } from '@/components/Button';
-import { dateFormat } from '@/utils/date';
-import defaultProfileImg from '../../../../../public/assets/images/logo.png';
-import { MouseEvent, useState } from 'react';
+import { useStore } from '@/store';
 import Image from 'next/image';
+import { MouseEvent, useState } from 'react';
+import defaultProfileImg from '../../../../../public/assets/images/logo.png';
 
 interface Props {
-  onClickClose: () => void;
   artistName?: string;
   artistProfileImageUrl?: string;
   createdAt?: string;
 }
 
 // TODO: 프로필 이미지 연결하기, 팔로우 api 연결하기
-function ArtModalHeader({ onClickClose, artistName, artistProfileImageUrl, createdAt }: Props) {
+function ArtModalHeader({ artistName, artistProfileImageUrl, createdAt }: Props) {
   const [isFollowClicked, setIsFollowClicked] = useState(false);
+  const { modals, hideModal } = useStore((state) => ({
+    modals: state.modals,
+    hideModal: state.hideModal,
+  }));
+
   let customDate;
 
   const handleFollowClick = (e: MouseEvent<HTMLButtonElement>) => {
@@ -34,7 +38,7 @@ function ArtModalHeader({ onClickClose, artistName, artistProfileImageUrl, creat
 
   return (
     <div className="relative flex items-center justify-between border-b-1 border-solid border-primary-5 px-34 py-20 text-14">
-      <Button.Modal.Close onClickClose={onClickClose} />
+      <Button.Modal.Close onClickClose={() => hideModal(modals[modals.length - 1])} />
       <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2">
         <div className="text-[#8f8f8f]">{customDate}</div>
       </div>
@@ -53,7 +57,7 @@ function ArtModalHeader({ onClickClose, artistName, artistProfileImageUrl, creat
         <button onClick={(e) => handleFollowClick(e)} className="primary-button artModal-follow-button">
           {isFollowClicked ? 'Followed' : 'Follow'}
         </button>
-        <Button destination="/chat" classname="primary-button artModal-chat-button">
+        <Button isLink={true} destination="/chat" classname="primary-button artModal-chat-button">
           1:1 채팅
         </Button>
       </div>

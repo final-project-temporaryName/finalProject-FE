@@ -59,7 +59,7 @@ function ProfileImgDropDown({ userName, profileImg, major }: ProfileImgDropDownP
                   <p className="pl-1 text-12 text-gray-5">{major}</p>
                 </div>
               </div>
-              <Button destination="/mypage" classname="primary-button dropdown-mypage-button">
+              <Button isLink={true} destination="/mypage" classname="primary-button dropdown-mypage-button">
                 마이페이지
               </Button>
             </div>

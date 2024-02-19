@@ -3,23 +3,35 @@
 import useNotScroll from '@/hooks/useNotScroll';
 import '@/styles/tailwind.css';
 import { PropsWithChildren } from 'react';
+import ModalPortal from '../../ModalPortal';
+import { useStore } from '@/store';
 
 interface Props {
   classname: string;
-  onClickClose: () => void;
 }
 
-export default function ModalContainer({ onClickClose, classname, children }: PropsWithChildren<Props>) {
+export default function ModalContainer({ classname, children }: PropsWithChildren<Props>) {
+  const { modals, hideModal } = useStore((state) => ({
+    modals: state.modals,
+    hideModal: state.hideModal,
+  }));
+
   useNotScroll();
 
+  if (!modals.length) {
+    return null;
+  }
+
   return (
-    <div
-      className="fixed bottom-0 left-0 right-0 top-0 z-infinite flex h-full w-screen justify-center bg-[#00000066]"
-      onClick={onClickClose}
-    >
-      <div className={`${classname}`} onClick={(e) => e.stopPropagation()}>
-        {children}
+    <ModalPortal>
+      <div
+        className="fixed bottom-0 left-0 right-0 top-0 z-infinite flex h-full w-screen justify-center bg-[#00000066]"
+        onClick={() => hideModal(modals[modals.length - 1])}
+      >
+        <div className={`${classname}`} onClick={(e) => e.stopPropagation()}>
+          {children}
+        </div>
       </div>
-    </div>
+    </ModalPortal>
   );
 }

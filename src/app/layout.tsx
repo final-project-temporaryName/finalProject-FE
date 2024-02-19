@@ -25,7 +25,10 @@ export default function RootLayout({
     <html lang="ko">
       <body className={notoSansKr.className}>
         <ReactQueryProviders>
-          <AuthSession>{children}</AuthSession>
+          <AuthSession>
+            {children}
+            <div id="modal"></div>
+          </AuthSession>
         </ReactQueryProviders>
       </body>
     </html>
