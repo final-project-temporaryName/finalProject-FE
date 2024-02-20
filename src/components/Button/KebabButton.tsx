@@ -21,10 +21,12 @@ function KebabButton() {
 
   const handleModifyClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    // 모달 포탈 뜨게 하기 (게시물 id 전달)
   };
 
   const handleDeleteClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    // 게시물 삭제 API 함수 호출
   };
 
   return (
