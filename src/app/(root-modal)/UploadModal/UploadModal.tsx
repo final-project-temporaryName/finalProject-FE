@@ -12,6 +12,8 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useRef, useState } from 'react';
 import 'react-quill/dist/quill.bubble.css';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { v4 as uuidv4 } from 'uuid';
 import SellingLabelImg from '../../../../public/assets/icons/saleFlag.svg';
 import ShareLabelImg from '../../../../public/assets/icons/shareFlag.svg';
@@ -48,6 +50,7 @@ export default function UploadModal() {
   const uploadPostMutation = useMutation({
     mutationFn: (newPost: PostArtworkProps) => postArtwork(newPost),
     onSuccess: () => {
+      toast.success('작품 업로드 성공! 🎉');
       if (pathname === '/') queryClient.refetchQueries({ queryKey: ['allArtworks'] });
     },
   });

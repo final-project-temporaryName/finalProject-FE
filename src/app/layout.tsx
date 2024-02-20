@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
 import '../styles/globals.css';
 import NavBar from '@/components/NavBar/NavBar';
+import { ToastContainer } from 'react-toastify';
 
 // Noto sans 폰트 적용
 const notoSansKr = Noto_Sans_KR({
@@ -27,6 +28,14 @@ export default function RootLayout({
         <ReactQueryProviders>
           <AuthSession>
             {children}
+            <ToastContainer
+              position="top-right"
+              autoClose={2000}
+              closeOnClick
+              pauseOnHover={false}
+              theme="light"
+              limit={1}
+            />
             <div id="modal"></div>
           </AuthSession>
         </ReactQueryProviders>

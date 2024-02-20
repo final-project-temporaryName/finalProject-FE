@@ -94,7 +94,7 @@ function SideBar({ displayStatus }: SideBarProps) {
           <div className="mb-20 flex flex-col items-start gap-20">
             {userInfo?.links &&
               userInfo.links.map((link) => (
-                <Link
+                <a
                   className=" flex gap-2 text-14 font-semibold"
                   href={link.address.startsWith('http') ? link.address : 'https://' + link.address}
                   key={link.linkId}
@@ -105,7 +105,7 @@ function SideBar({ displayStatus }: SideBarProps) {
                   {link.address.length > 21
                     ? link.title + ' ' + link.address.slice(0, 21) + '...'
                     : link.title + ' ' + link.address}
-                </Link>
+                </a>
               ))}
           </div>
           {displayStatus === 'myWork' ? (
