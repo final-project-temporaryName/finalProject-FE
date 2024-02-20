@@ -5,30 +5,18 @@ import CommentContainer from '@/components/Comment/CommentContainer';
 import SlideContainer from '@/components/SlideContainer/SlideContainer';
 import { useStore } from '@/store';
 import { GetSpecificCardResponseType } from '@/types/cards';
+import { useQuery } from '@tanstack/react-query';
 import DOMPurify from 'dompurify';
-import { useCallback, useEffect, useState } from 'react';
 import Modal from '../_components';
-import { useMutation } from '@tanstack/react-query';
 
 export default function ArtModal() {
-  const [artwork, setArtwork] = useState<GetSpecificCardResponseType>();
   const clickedArtworkId = useStore((state) => state.clickedArtworkId);
 
-  const getArtworkMutation = useMutation({
-    mutationFn: (clickedArtworkId: number) => getArtwork(clickedArtworkId),
+  const { data: artwork } = useQuery<GetSpecificCardResponseType>({
+    queryKey: ['artwork', clickedArtworkId],
+    queryFn: () => getArtwork(clickedArtworkId),
+    staleTime: 3 * 1000,
   });
-
-  const getArtworkData = useCallback(async () => {
-    getArtworkMutation.mutate(clickedArtworkId, {
-      onSuccess: (data) => {
-        setArtwork(data);
-      },
-    });
-  }, [clickedArtworkId]);
-
-  useEffect(() => {
-    getArtworkData();
-  }, [getArtworkData]);
 
   return (
     <Modal.Container classname="artModalContainer">
