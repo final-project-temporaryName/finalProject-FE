@@ -12,8 +12,10 @@ import ProfileImgDropDown from './ProfileImgDropDown';
 
 function NavigatorBox() {
   const [userInfo, setUserInfo] = useState<UserType>();
-  const isLogin = useStore((state) => state.isLogin);
-  const setUserId = useStore((state) => state.setUserId);
+  const { isLogin, setUserId } = useStore((state) => ({
+    isLogin: state.isLogin,
+    setUserId: state.setUserId,
+  }));
 
   const handleFetchMyProfile = useCallback(async () => {
     if (!isLogin) return;
@@ -21,7 +23,7 @@ function NavigatorBox() {
     const { userProfileResponse } = await getMyPage();
 
     setUserInfo(userProfileResponse);
-    setUserId(userProfileResponse.userId);
+    setUserId(userProfileResponse?.userId);
   }, [isLogin]);
 
   useEffect(() => {
