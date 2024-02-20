@@ -8,16 +8,22 @@ import { GetSpecificCardResponseType } from '@/types/cards';
 import DOMPurify from 'dompurify';
 import { useCallback, useEffect, useState } from 'react';
 import Modal from '../_components';
+import { useMutation } from '@tanstack/react-query';
 
 export default function ArtModal() {
   const [artwork, setArtwork] = useState<GetSpecificCardResponseType>();
-
   const clickedArtworkId = useStore((state) => state.clickedArtworkId);
 
-  const getArtworkData = useCallback(async () => {
-    const response = await getArtwork(clickedArtworkId);
+  const getArtworkMutation = useMutation({
+    mutationFn: (clickedArtworkId: number) => getArtwork(clickedArtworkId),
+  });
 
-    setArtwork(response);
+  const getArtworkData = useCallback(async () => {
+    getArtworkMutation.mutate(clickedArtworkId, {
+      onSuccess: (data) => {
+        setArtwork(data);
+      },
+    });
   }, [clickedArtworkId]);
 
   useEffect(() => {
