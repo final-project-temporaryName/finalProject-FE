@@ -42,26 +42,19 @@ export interface GetArtworkImageResponse {
   imageUrl: string;
 }
 
-// 확정 후 수정 예정
 export interface PostCardRequestType {
+  imageIds: number[];
   title: string;
   description: string;
-  tags: string[]; // 논의 필요
-  imageUrl: string;
-  status: 'PUBLIC' | 'SELLING' | 'FREE';
+  artworkStatus: 'PUBLIC' | 'SELLING' | 'FREE';
 }
 
-export interface PostCardResponseType extends CardType {}
-
-// 확정 후 수정 예정
 export interface PutCardRequestType {
+  artworkId: number;
+  imageIds: number[];
   title: string;
   description: string;
-  tags: string[]; // 논의 필요
-  imageUrl: string;
-  status: 'PUBLIC' | 'SELLING' | 'FREE';
+  artworkStatus: 'PUBLIC' | 'SELLING' | 'FREE';
 }
-
-export interface PutCardResponseType extends CardType {}
 
 export interface DeleteCardRequestType {}
