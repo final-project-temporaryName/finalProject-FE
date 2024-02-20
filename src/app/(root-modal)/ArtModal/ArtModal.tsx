@@ -36,7 +36,7 @@ export default function ArtModal() {
           {artwork?.artworkImageResponse?.length && (
             <SlideContainer artworkImageResponse={artwork?.artworkImageResponse} />
           )}
-          <div className={`flex flex-col gap-20 p-10 pt-20 ${artwork?.artworkImageResponse.length || `min-h-660`}`}>
+          <div className={`flex flex-col gap-20 p-10 pt-20 ${artwork?.artworkImageResponse?.length || `min-h-660`}`}>
             <p>{artwork?.title}</p>
             {artwork?.description && (
               <div

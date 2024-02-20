@@ -36,7 +36,7 @@ export interface PutResponseSignup {
 export interface GetUserLinks {
   linkId: number;
   title: string;
-  address: string;
+  url: string;
 }
 
 export interface PostUserLinks {
