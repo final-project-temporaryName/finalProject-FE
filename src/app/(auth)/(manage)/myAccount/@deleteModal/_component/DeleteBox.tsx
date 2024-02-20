@@ -7,7 +7,7 @@ function DeleteBox() {
       <div>
         <Button
           destination="/deleteModal"
-          classname="storage-button flex-center inline-block shrink-0 rounded-xs text-14"
+          classname="withdraw-button flex-center inline-block shrink-0 rounded-xs text-14"
         >
           영구탈퇴하기
         </Button>

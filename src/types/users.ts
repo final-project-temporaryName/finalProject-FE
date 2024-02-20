@@ -36,12 +36,12 @@ export interface PutResponseSignup {
 export interface GetUserLinks {
   linkId: number;
   title: string;
-  address: string;
+  url: string;
 }
 
 export interface PostUserLinks {
   title: string;
-  address: string;
+  url: string;
 }
 
 // userLink 삭제는 userId, linkId 를 query로 요청

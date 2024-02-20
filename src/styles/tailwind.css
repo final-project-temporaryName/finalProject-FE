@@ -120,25 +120,29 @@
   @apply h-30 w-77 border-primary bg-white text-black hover:border-primary hover:bg-primary hover:text-white active:bg-primary active:text-white;
 }
 
+.withdraw-button {
+  @apply h-40 w-123 border-none bg-gray-5 text-white;
+}
+
 /* Input */
 .primary-input {
   @apply h-40 w-auto bg-gray-1 px-15 py-11 text-14 focus:outline-none;
 }
 
 .xs-input {
-  @apply w-115 md:w-90;
+  @apply md:w-90 w-115;
 }
 
 .sm-input {
-  @apply w-172 md:w-150;
+  @apply md:w-150 w-172;
 }
 
 .md-input {
-  @apply w-200 md:w-150;
+  @apply md:w-150 w-200;
 }
 
 .lg-input {
-  @apply w-268 md:w-208;
+  @apply md:w-208 w-268;
 }
 
 .file-input-wrapper {

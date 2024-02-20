@@ -1,6 +1,5 @@
 'use client';
 
-import { getMe } from '@/api/auth/getMe';
 import instance from '@/api/axios';
 import { getMyPage } from '@/api/users/getMyPage';
 import Input from '@/components/Input/Input';
@@ -8,9 +7,9 @@ import LinkInput from '@/components/Input/LinkInput';
 import PlusButtonIcon from '@/components/SvgComponents/PlusButtonIcon';
 import { nicknameRules } from '@/constants/InputErrorRules';
 import { useStore } from '@/store';
-import { PostUserLinks, PutRequestSignUp, UserType } from '@/types/users';
+import { GetUserLinks, PostUserLinks, PutRequestSignUp } from '@/types/users';
 import getUserInfo from '@/utils/getUserInfo';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
@@ -28,6 +27,7 @@ function ProfilePage({ mode }: Props) {
   const [nicknameError, setNicknameError] = useState<string | null>(null);
   const [hasLinkError, setHasLinkError] = useState(false);
   const [isNicknameAvailable, setIsNicknameAvailable] = useState(false);
+  const [links, setLinks] = useState<GetUserLinks[]>([]);
 
   const router = useRouter();
   const userInfo = getUserInfo();
@@ -41,7 +41,7 @@ function ProfilePage({ mode }: Props) {
 
   const methods = useForm<UserData>({
     defaultValues: {
-      links: [{ title: '', address: '' }],
+      links: [{ title: '', url: '' }],
     },
     mode: 'onBlur',
   });
@@ -117,7 +117,7 @@ function ProfilePage({ mode }: Props) {
   const removeLink = (index: number) => {
     remove(index);
     if (fields.length <= 1) {
-      append({ title: '', address: '' });
+      append({ title: '', url: '' });
     }
   };
 
@@ -138,6 +138,7 @@ function ProfilePage({ mode }: Props) {
   });
 
   const checkNickname = () => {
+    const nickname = watch('nickname');
     if (nickname) {
       checkNicknameMutation.mutate(nickname);
     }
@@ -147,6 +148,10 @@ function ProfilePage({ mode }: Props) {
     setHasLinkError(hasError);
   };
 
+  const handleAddLink = (newLink: GetUserLinks) => {
+    setLinks((prevLinks) => [...prevLinks, newLink]);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -154,7 +159,7 @@ function ProfilePage({ mode }: Props) {
         setUploadedImageUrl(userProfileResponse.profileImageUrl);
         reset({
           ...userProfileResponse,
-          links: userProfileResponse.links ? userProfileResponse.links : [{ title: '', address: '' }],
+          links: userProfileResponse.links ? userProfileResponse.links : [{ title: '', url: '' }],
         });
         setIsNicknameAvailable(true);
       } catch (error) {
@@ -231,11 +236,18 @@ function ProfilePage({ mode }: Props) {
                   remove={() => removeLink(index)}
                   index={index}
                   handleLinkErrorUpdate={handleLinkErrorUpdate}
+                  handleAddLink={handleAddLink}
                 />
               ))}
               {fields.length < 5 && (
                 <div className="tooltip">
-                  <button className="ml-90" onClick={() => append({ title: '', address: '' })}>
+                  <button
+                    className="ml-90"
+                    onClick={(event) => {
+                      event.preventDefault(); // mypage로 리다이렉트 시키는 것 차단
+                      append({ title: '', url: '' });
+                    }}
+                  >
                     <PlusButtonIcon />
                   </button>
                   <span className="tooltip-text">5개까지 링크 추가 가능</span>

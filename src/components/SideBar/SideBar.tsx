@@ -63,13 +63,13 @@ function SideBar({ displayStatus }: SideBarProps) {
       </div>
       <div className="absolute top-48 flex h-650 w-260 flex-col items-center rounded-[12px] bg-gray-1">
         <div className="mb-276 mt-30 flex h-650 w-192 flex-col items-center justify-center">
-          {displayStatus === 'myWork' ? (
+          {/* {displayStatus === 'myWork' ? (
             <Link href="/myAccount" className="z-10 absolute right-13 top-15 h-32 w-32 rounded-full">
               <div className="flex h-full w-full items-center justify-center rounded-full border-2 border-solid border-gray-4 bg-white">
                 <EditIcon />
               </div>
             </Link>
-          ) : null}
+          ) : null} */}
           <div className="flex-col-center">
             <div className="items-center text-center text-18 font-semibold">{userInfo?.nickname}</div>
             <p className="text-12 text-gray-9">{userInfo?.activityArea + ' / ' + userInfo?.activityField}</p>
@@ -97,15 +97,15 @@ function SideBar({ displayStatus }: SideBarProps) {
               userInfo.links.map((link) => (
                 <Link
                   className=" flex gap-2 text-14 font-semibold"
-                  href={link.address}
+                  href={link.url}
                   key={link.linkId}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <LinkIcon />
-                  {link.address.length > 21
-                    ? link.title + ' ' + link.address.slice(0, 21) + '...'
-                    : link.title + ' ' + link.address}
+                  {link.url.length > 21
+                    ? link.title + ' ' + link.url.slice(0, 21) + '...'
+                    : link.title + ' ' + link.url}
                 </Link>
               ))}
           </div>

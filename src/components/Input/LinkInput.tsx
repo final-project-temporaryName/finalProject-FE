@@ -14,19 +14,20 @@ import { useCallback, useEffect, useId, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 interface Props {
-  link: { id: string };
+  link: { id: string; linkId?: number };
   remove: () => void;
   index: number;
   handleLinkErrorUpdate?: (hasError: boolean) => void;
+  handleAddLink?: any;
 }
 
-function LinkInput({ link, remove, index, handleLinkErrorUpdate }: Props) {
+function LinkInput({ link, remove, index, handleLinkErrorUpdate, handleAddLink }: Props) {
   const [isModified, setIsModified] = useState(false);
   const [isEditIconVisible, setIsEditIconVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [saveIconClicked, setSaveIconClicked] = useState(false);
   const [userInfo, setUserInfo] = useState<UserType>();
-  const [linkId, setLinkId] = useState(link.id);
+  //const [linkId, setLinkId] = useState<number | undefined>(link.id ? Number(link.id) : undefined);
   const [isEditing, setIsEditing] = useState(false);
   const {
     register,
@@ -35,6 +36,8 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate }: Props) {
     control,
   } = useFormContext();
   const id = useId();
+  const { linkId } = link;
+  console.log(linkId);
 
   const handleFetchMyProfile = useCallback(async () => {
     const { userProfileResponse } = await getMyPage();
@@ -60,13 +63,14 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate }: Props) {
     setIsEditIconVisible(true);
 
     const title = watch(`links[${index}].title`);
-    const address = watch(`links[${index}].address`);
+    const url = watch(`links[${index}].url`);
 
     postLinkMutation.mutate(
-      { userId, title, address },
+      { userId, title, url },
       {
         onSuccess: (data) => {
-          setLinkId(data.data.linkId);
+          handleAddLink(data.data);
+          //setLinkId(data.data.linkId);
           setSaveIconClicked(true);
           setIsModified(false);
           if (handleLinkErrorUpdate) {
@@ -98,14 +102,14 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate }: Props) {
     }
 
     const title = watch(`links[${index}].title`);
-    const address = watch(`links[${index}].address`);
+    const url = watch(`links[${index}].url`);
 
     setIsLoading(true);
     setIsEditing(false);
     setIsModified(false);
 
     putLinkMutation.mutate(
-      { userId, linkId, title, address },
+      { userId, linkId, title, url },
       {
         onSuccess: () => {
           setIsLoading(false);
@@ -173,10 +177,20 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate }: Props) {
     handleFetchMyProfile();
   }, [handleFetchMyProfile]);
 
+  useEffect(() => {
+    if (linkId) {
+      setSaveIconClicked(true);
+      setIsEditIconVisible(true);
+    } else {
+      setSaveIconClicked(false);
+      setIsEditIconVisible(false);
+    }
+  }, [linkId]);
+
   if (isLoading) return <div>Loading...</div>;
 
   return (
-    <div className="md:ml-10 relative ml-0 flex flex-col">
+    <div className="relative ml-0 flex flex-col md:ml-10">
       <div className="flex-start mb-15 flex">
         <Controller
           name={`links[${index}].title`}
@@ -202,7 +216,7 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate }: Props) {
           )}
         />
         <Controller
-          name={`links[${index}].address`}
+          name={`links[${index}].url`}
           control={control}
           defaultValue=""
           render={({ field }) => (
@@ -240,7 +254,7 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate }: Props) {
         </div>
       </div>
       <div className="absolute bottom-0 right-235">
-        {isModified && !saveIconClicked && <div className="text-10 text-[#c90000]">링크 저장이 필요합니다!</div>}
+        {isModified && !saveIconClicked && <div className="text-10 text-[#c90000]">링크 저장이 필요합니다</div>}
       </div>
     </div>
   );
