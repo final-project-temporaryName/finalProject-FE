@@ -5,7 +5,7 @@ import instance from '../axios';
 export const putArtwork = async ({ artworkId, imageIds, title, description, artworkStatus }: PutCardRequestType) => {
   try {
     const response = await instance.put(
-      `artworks/${artworkId}`,
+      `/artworks/${artworkId}`,
       {
         imageIds,
         title,

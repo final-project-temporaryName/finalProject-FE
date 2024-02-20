@@ -1,10 +1,11 @@
 'use client';
 
-import { PostArtworkProps, postArtwork } from '@/api/upload/postArtwork';
+import { postArtwork } from '@/api/upload/postArtwork';
 import { postUploadImageFile } from '@/api/upload/postUploadImageFile';
 import { Button } from '@/components/Button';
 import { useStore } from '@/store';
 import '@/styles/tailwind.css';
+import { PostCardRequestType } from '@/types/cards';
 import { ImageArtworkType } from '@/types/image';
 import { DragDropContext, DropResult, Droppable } from '@hello-pangea/dnd';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -48,7 +49,7 @@ export default function UploadModal() {
   const queryClient = useQueryClient();
 
   const uploadPostMutation = useMutation({
-    mutationFn: (newPost: PostArtworkProps) => postArtwork(newPost),
+    mutationFn: (newPost: PostCardRequestType) => postArtwork(newPost),
     onSuccess: () => {
       toast.success('작품 업로드 성공! 🎉');
       if (pathname === '/') queryClient.refetchQueries({ queryKey: ['allArtworks'] });
