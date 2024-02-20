@@ -7,6 +7,7 @@ import '@/styles/tailwind.css';
 import { ImageArtworkType } from '@/types/image';
 import { DragDropContext, DropResult, Droppable } from '@hello-pangea/dnd';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 import 'react-quill/dist/quill.bubble.css';
 import { v4 as uuidv4 } from 'uuid';
@@ -19,7 +20,6 @@ import DeleteAllImageButton from './_components/DeleteAllImageButton';
 import PreviewImage from './_components/PreviewImage';
 import StatusLabelsGroup from './_components/StatusLabelsGroup';
 import TextEditor from './_components/TextEditor';
-import { useStore } from '@/store';
 
 export default function UploadModal() {
   // states
@@ -34,7 +34,7 @@ export default function UploadModal() {
 
   //hooks
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const clearModal = useStore((state) => state.clearModal);
+  const router = useRouter();
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -42,7 +42,6 @@ export default function UploadModal() {
 
   const handleSubmit = () => {
     postArtwork({ imageIds: imageOrder, title, description, artworkStatus: label });
-    clearModal();
   };
 
   const getImageData = async (file: File) => {
@@ -126,7 +125,7 @@ export default function UploadModal() {
         <DragDropContext onDragEnd={onDragEnd}>
           {uploadImageSources.length ? (
             <div className="relative flex h-full w-3/5 flex-col justify-center border-r-1 border-solid border-black pb-31 pt-26">
-              <div className="grid-rows-3/96 relative grid grid-cols-4 gap-18 px-29 py-25">
+              <div className="relative grid grid-cols-4 grid-rows-3/96 gap-18 px-29 py-25">
                 {uploadImageSources.map((uploadImageSource, index) => {
                   return (
                     <Droppable key={uploadImageSource} droppableId={String(uuidv4())}>
