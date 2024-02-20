@@ -62,7 +62,7 @@ function Card({
           />
           <div className="absolute inset-0 rounded-md bg-gradient-to-b from-transparent via-transparent to-gray-8"></div>
           {type === 'mypage' && (
-            <div className="absolute left-18 top-11">
+            <div className="absolute left-18 top-11" onClick={(e) => e.stopPropagation()}>
               <Button.Kebab />
             </div>
           )}

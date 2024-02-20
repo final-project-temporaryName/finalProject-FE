@@ -1,13 +1,15 @@
 'use client';
 
-import { postArtwork } from '@/api/upload/postArtwork';
+import { PostArtworkProps, postArtwork } from '@/api/upload/postArtwork';
 import { postUploadImageFile } from '@/api/upload/postUploadImageFile';
 import { Button } from '@/components/Button';
+import { useStore } from '@/store';
 import '@/styles/tailwind.css';
 import { ImageArtworkType } from '@/types/image';
 import { DragDropContext, DropResult, Droppable } from '@hello-pangea/dnd';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useRef, useState } from 'react';
 import 'react-quill/dist/quill.bubble.css';
 import { v4 as uuidv4 } from 'uuid';
@@ -32,16 +34,32 @@ export default function UploadModal() {
   const [imageOrder, setImageOrder] = useState<number[]>([]);
   const [currentImageData, setCurrentImageData] = useState<ImageArtworkType | undefined>();
 
+  const { clearModal } = useStore((state) => ({
+    clearModal: state.clearModal,
+  }));
+
   //hooks
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const router = useRouter();
+  const pathname = usePathname();
+  const pathnameArr = pathname.split('/');
+  const firstPathname = pathnameArr[1];
+  const queryClient = useQueryClient();
+
+  const uploadPostMutation = useMutation({
+    mutationFn: (newPost: PostArtworkProps) => postArtwork(newPost),
+    onSuccess: () => {
+      if (pathname === '/') queryClient.refetchQueries({ queryKey: ['allArtworks'] });
+    },
+  });
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
 
   const handleSubmit = () => {
-    postArtwork({ imageIds: imageOrder, title, description, artworkStatus: label });
+    const newPost = { imageIds: imageOrder, title, description, artworkStatus: label };
+    uploadPostMutation.mutate(newPost);
+    clearModal();
   };
 
   const getImageData = async (file: File) => {
