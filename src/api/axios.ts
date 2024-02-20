@@ -20,19 +20,16 @@ instance.interceptors.request.use(
       config.headers.Authorization = `${userAccessToken}`;
       config.headers['Authorization-refresh'] = `${userRefreshToken}`;
 
-      console.log('request start', config);
       return config;
     }
   },
   (error) => {
-    console.log('request error', error);
     return Promise.reject(error);
   },
 );
 
 instance.interceptors.response.use(
   (Response) => {
-    console.log('get response', Response);
     return Response;
   },
   async (error) => {
@@ -72,7 +69,6 @@ instance.interceptors.response.use(
       }
     }
 
-    console.log('response error', error);
     return Promise.reject(error);
   },
 );

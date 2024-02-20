@@ -1,26 +1,21 @@
 'use client';
 
+import UploadModal from '@/app/(root-modal)/UploadModal/UploadModal';
 import { useStore } from '@/store';
-import { usePathname } from 'next/navigation';
+import { useEffect } from 'react';
 import { Button } from '../Button';
 import ButtonFallbackUI from '../FallbackUI/NavBar/ButtonFallbackUI';
-import { useEffect } from 'react';
 
 interface Props {
   isLogin?: boolean;
 }
 
 function NavigatorBoxButton({ isLogin }: Props) {
-  const pathname = usePathname();
-  const pathnameArr = pathname.split('/');
-  const firstPathname = pathnameArr[1];
-
-  const setClickedUploadArtworkUrl = useStore((state) => state.setClickedUploadArtworkUrl);
-  const setLogout = useStore((state) => state.setLogout);
-
-  const handleUploadButtonClick = () => {
-    setClickedUploadArtworkUrl(firstPathname);
-  };
+  const { modals, showModal, setLogout } = useStore((state) => ({
+    modals: state.modals,
+    showModal: state.showModal,
+    setLogout: state.setLogout,
+  }));
 
   useEffect(() => {
     const userAuth = window.localStorage.getItem('store');
@@ -46,14 +41,15 @@ function NavigatorBoxButton({ isLogin }: Props) {
   return (
     <>
       {isLogin ? (
-        <Button destination="/upload" classname="primary-button nav-upload-button" onClick={handleUploadButtonClick}>
+        <Button isLink={false} classname="primary-button nav-upload-button" onClick={() => showModal('uploadModal')}>
           작품 업로드
         </Button>
       ) : (
-        <Button destination="/login" classname="primary-button nav-login-button">
+        <Button isLink={true} destination="/login" classname="primary-button nav-login-button">
           로그인
         </Button>
       )}
+      {modals[modals?.length - 1] === 'uploadModal' && <UploadModal />}
     </>
   );
 }

@@ -4,19 +4,13 @@ import { getArtwork } from '@/api/artwork/getArtwork';
 import CommentContainer from '@/components/Comment/CommentContainer';
 import SlideContainer from '@/components/SlideContainer/SlideContainer';
 import { useStore } from '@/store';
-import DOMPurify from 'dompurify';
 import { GetSpecificCardResponseType } from '@/types/cards';
-import { useRouter } from 'next/navigation';
+import DOMPurify from 'dompurify';
 import { useCallback, useEffect, useState } from 'react';
 import Modal from '../_components';
 
 export default function ArtModal() {
   const [artwork, setArtwork] = useState<GetSpecificCardResponseType>();
-  const router = useRouter();
-
-  const onClickClose = () => {
-    router.back();
-  };
 
   const clickedArtworkId = useStore((state) => state.clickedArtworkId);
 
@@ -31,9 +25,8 @@ export default function ArtModal() {
   }, [getArtworkData]);
 
   return (
-    <Modal.Container onClickClose={onClickClose} classname="artModalContainer">
+    <Modal.Container classname="artModalContainer">
       <Modal.ArtHeader
-        onClickClose={onClickClose}
         artistName={artwork?.artistName}
         artistProfileImageUrl={artwork?.artistProfileImageUrl}
         createdAt={artwork?.updatedAt ? artwork?.updatedAt : artwork?.createdAt}

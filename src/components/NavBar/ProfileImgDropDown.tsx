@@ -43,12 +43,7 @@ function ProfileImgDropDown({ userName, profileImg, major }: ProfileImgDropDownP
   return (
     <div className="relative flex-shrink-0" ref={containerRef} onClick={handleContainerClick}>
       <div className="relative h-32 w-32 cursor-pointer overflow-hidden rounded-full">
-        <Image
-          src={profileImg ? profileImg : defaultProfileImg}
-          alt="프로필 이미지"
-          fill
-          style={{ objectFit: 'cover' }}
-        />
+        <Image src={profileImg ? profileImg : defaultProfileImg} alt="프로필 이미지" fill objectFit="cover" />
       </div>
       {isDropDownOpen && (
         <div className="absolute right-[-160px] top-40" onClick={(e) => e.stopPropagation()}>
@@ -57,19 +52,14 @@ function ProfileImgDropDown({ userName, profileImg, major }: ProfileImgDropDownP
             <div className="flex w-full flex-1 flex-col items-stretch justify-between gap-13 px-17 py-23">
               <div className="flex items-center gap-30">
                 <div className="relative h-60 w-60 overflow-hidden rounded-full">
-                  <Image
-                    src={profileImg ? profileImg : defaultProfileImg}
-                    alt="프로필 이미지"
-                    fill
-                    style={{ objectFit: 'cover' }}
-                  />
+                  <Image src={profileImg ? profileImg : defaultProfileImg} alt="프로필 이미지" fill objectFit="cover" />
                 </div>
                 <div>
                   <p className="text-18 font-semibold">{userName}</p>
                   <p className="pl-1 text-12 text-gray-5">{major}</p>
                 </div>
               </div>
-              <Button destination="/mypage" classname="primary-button dropdown-mypage-button">
+              <Button isLink={true} destination="/mypage" classname="primary-button dropdown-mypage-button">
                 마이페이지
               </Button>
             </div>
