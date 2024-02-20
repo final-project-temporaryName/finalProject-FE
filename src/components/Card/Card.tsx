@@ -1,18 +1,17 @@
 'use client';
 
+import { useStore } from '@/store';
 import { CardType } from '@/types/cards';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import SellingLabelImg from '../../../public/assets/icons/saleFlag.svg';
 import ShareLabelImg from '../../..//public/assets/icons/shareFlag.svg';
+import SellingLabelImg from '../../../public/assets/icons/saleFlag.svg';
 import CommentImage from '../../../public/assets/images/CommentImage.png';
 import LikeImage from '../../../public/assets/images/LikeImage.png';
 import ViewImage from '../../../public/assets/images/ViewImage.png';
+import defaultImage from '../../../public/assets/images/logo.png';
 import { Button } from '../Button';
 import Count from './Count';
-import { useStore } from '@/store';
-import defaultImage from '../../../public/assets/images/logo.png';
 
 type CustomCardType = Omit<CardType, 'description' | 'createdAt' | 'updatedAt'>;
 
@@ -33,26 +32,24 @@ function Card({
   artistProfileImageUrl,
   type,
 }: Props) {
-  const pathname = usePathname();
-  const pathnameArr = pathname.split('/');
-  const firstPathname = pathnameArr[1];
-
-  const setClickedArtworkId = useStore((state) => state.setClickedArtworkId);
-  const setClickedArtworkUrl = useStore((state) => state.setClickedArtworkUrl);
+  const { showModal, setClickedArtworkId } = useStore((state) => ({
+    showModal: state.showModal,
+    setClickedArtworkId: state.setClickedArtworkId,
+  }));
 
   const handleArtworkClick = () => {
     setClickedArtworkId(artworkId);
-    setClickedArtworkUrl(firstPathname);
+    showModal('artModal');
   };
 
   const urlRegex: RegExp = /^(?!http:\/\/|https:\/\/).+/;
 
   return (
-    <div className={`flex h-${type === 'main' ? '328' : '280'} min-w-280 flex-col`}>
-      <Link href={`/art/${artworkId}`}>
+    <>
+      <div className={`flex h-${type === 'main' ? '328' : '280'} min-w-280 flex-col`}>
         <div
           id="cardImgBox"
-          className="group relative h-280 min-w-280 overflow-hidden rounded-md"
+          className="group relative h-280 min-w-280 cursor-pointer overflow-hidden rounded-md"
           onClick={handleArtworkClick}
         >
           <Image
@@ -65,7 +62,7 @@ function Card({
           />
           <div className="absolute inset-0 rounded-md bg-gradient-to-b from-transparent via-transparent to-gray-8"></div>
           {type === 'mypage' && (
-            <div className="absolute left-18 top-11">
+            <div className="absolute left-18 top-11" onClick={(e) => e.stopPropagation()}>
               <Button.Kebab />
             </div>
           )}
@@ -87,22 +84,27 @@ function Card({
             </div>
           </div>
         </div>
-      </Link>
-      {type === 'main' && (
-        <div className="relative flex h-48 w-280 flex-shrink-0 items-center pt-10">
-          <Link href={`/artist/${artistId}`} className="flex items-center gap-10">
-            <Image
-              className="h-40 w-40 rounded-full"
-              src={!urlRegex.test(artistProfileImageUrl) ? artistProfileImageUrl : defaultImage}
-              alt="프로필 이미지"
-              width={40}
-              height={40}
-            />
-            <p className="text-base font-normal font-bold leading-normal">{artistName}</p>
-          </Link>
-        </div>
-      )}
-    </div>
+        {type === 'main' && (
+          <div className="relative flex h-48 w-280 flex-shrink-0 items-center pt-10">
+            <Link href={`/artist/${artistId}`} className="flex items-center gap-10">
+              <div className="relative h-40 w-40 overflow-hidden rounded-full">
+                <Image
+                  src={
+                    artistProfileImageUrl && !urlRegex.test(artistProfileImageUrl)
+                      ? artistProfileImageUrl
+                      : defaultImage
+                  }
+                  alt="프로필 이미지"
+                  fill
+                  objectFit="cover"
+                />
+              </div>
+              <p className="text-base font-normal font-bold leading-normal">{artistName}</p>
+            </Link>
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 
