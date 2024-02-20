@@ -6,11 +6,20 @@ import KebabImage from '../../../public/assets/images/KebabImage.png';
 import ProfileDropDownImage from '../../../public/assets/icons/KebabDropDown.svg';
 import useDropDown from '@/hooks/useDropDown';
 import useOnClickOutside from '@/hooks/useOnClickOutside';
+import { useStore } from '@/store';
 
 function KebabButton() {
-  const containerRef = useRef<HTMLDivElement>(null);
+  // states
   const { isOpen: isDropDownOpen, handleDropDownOpen, handleDropDownClose } = useDropDown();
+  const { showModal, setClickedArtworkId } = useStore((state) => ({
+    showModal: state.showModal,
+    setClickedArtworkId: state.setClickedArtworkId,
+  }));
 
+  // hooks
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // handlers
   useOnClickOutside(containerRef, handleDropDownClose);
 
   const handleKebabClick = (e: MouseEvent<HTMLDivElement>) => {
@@ -19,14 +28,15 @@ function KebabButton() {
     else handleDropDownOpen();
   };
 
-  const handleModifyClick = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleModifyClick = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    // 모달 포탈 뜨게 하기 (게시물 id 전달)
+    // 특정 게시물의 정보가 들어간 업로드 모달 뜨기(게시물 id 전달)
+    showModal('uploadModal');
   };
 
   const handleDeleteClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    // 게시물 삭제 API 함수 호출
+    // TODO: 게시물 삭제 API 함수 호출
   };
 
   return (
