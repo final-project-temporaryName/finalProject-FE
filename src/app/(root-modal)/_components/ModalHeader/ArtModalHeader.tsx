@@ -5,15 +5,16 @@ import { useStore } from '@/store';
 import Image from 'next/image';
 import { MouseEvent, useState } from 'react';
 import defaultProfileImg from '../../../../../public/assets/images/logo.png';
+import Link from 'next/link';
 
 interface Props {
   artistName?: string;
   artistProfileImageUrl?: string;
-  createdAt?: string;
+  artistId?: number;
 }
 
 // TODO: 프로필 이미지 연결하기, 팔로우 api 연결하기
-function ArtModalHeader({ artistName, artistProfileImageUrl, createdAt }: Props) {
+function ArtModalHeader({ artistName, artistProfileImageUrl, artistId }: Props) {
   const [isFollowClicked, setIsFollowClicked] = useState(false);
   const { modals, hideModal } = useStore((state) => ({
     modals: state.modals,
@@ -27,33 +28,23 @@ function ArtModalHeader({ artistName, artistProfileImageUrl, createdAt }: Props)
     setIsFollowClicked((prev) => !prev);
   };
 
-  if (createdAt) {
-    const dateResponse = new Date(createdAt);
-    const year = dateResponse.getFullYear();
-    const month = dateResponse.getMonth();
-    const date = dateResponse.getDate();
-
-    customDate = `${year}년 ${month + 1}월 ${date}일`;
-  }
-
   return (
     <div className="relative flex items-center justify-between border-b-1 border-solid border-primary-5 px-34 py-20 text-14">
       <Button.Modal.Close onClickClose={() => hideModal(modals[modals.length - 1])} />
-      <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2">
-        <div className="text-[#8f8f8f]">{customDate}</div>
-      </div>
       <div className="flex items-center gap-12">
-        <div className="flex items-center gap-8 pr-5">
-          <div className="relative h-32 w-32 overflow-hidden rounded-full">
-            <Image
-              src={artistProfileImageUrl ? artistProfileImageUrl : defaultProfileImg}
-              alt="프로필 이미지"
-              fill
-              objectFit="cover"
-            />
+        <Link href={`/artist/${artistId}`}>
+          <div className="flex items-center gap-8 pr-5" onClick={() => hideModal(modals[modals.length - 1])}>
+            <div className="relative h-32 w-32 overflow-hidden rounded-full">
+              <Image
+                src={artistProfileImageUrl ? artistProfileImageUrl : defaultProfileImg}
+                alt="프로필 이미지"
+                fill
+                objectFit="cover"
+              />
+            </div>
+            <p className="text-14 font-semibold">{artistName ? artistName : '닉네임 없음'}</p>
           </div>
-          <p className="text-14 font-semibold">{artistName ? artistName : '닉네임 없음'}</p>
-        </div>
+        </Link>
         <button onClick={(e) => handleFollowClick(e)} className="primary-button artModal-follow-button">
           {isFollowClicked ? 'Followed' : 'Follow'}
         </button>
