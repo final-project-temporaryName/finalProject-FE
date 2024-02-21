@@ -6,10 +6,10 @@ import { Button } from '@/components/Button';
 import { useStore } from '@/store';
 import '@/styles/tailwind.css';
 import { UserType } from '@/types/users';
+import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
 import defaultProfileImg from '../../../public/assets/images/logo.png';
 import ProfileFallbackUI from '../FallbackUI/SideBar/ProfileFallbackUI';
 import AddLinkIcon from './AddLinkIcon';
@@ -21,26 +21,32 @@ interface SideBarProps {
 }
 
 function SideBar({ displayStatus }: SideBarProps) {
-  const [userInfo, setUserInfo] = useState<UserType>();
   const params = useParams<{ id: string }>();
-
   const isLogin = useStore((state) => state.isLogin);
 
-  const handleFetchMyProfile = useCallback(async () => {
-    if (displayStatus === 'myWork' && isLogin === true) {
-      const { userProfileResponse } = await getMyPage();
-
-      setUserInfo(userProfileResponse);
-    } else if (displayStatus === 'notMyWork') {
-      const response = await getUser(params.id);
-
-      setUserInfo(response);
+  let userInfo;
+  if (displayStatus === 'myWork') {
+    const { data, isPending } = useQuery({
+      queryKey: ['myPageInfo'],
+      queryFn: getMyPage,
+      enabled: !!isLogin,
+      staleTime: 3 * 1000,
+    });
+    if (isPending) {
+      return <ProfileFallbackUI />;
     }
-  }, [displayStatus, isLogin]);
-
-  useEffect(() => {
-    handleFetchMyProfile();
-  }, [handleFetchMyProfile]);
+    userInfo = data?.userProfileResponse as UserType;
+  } else if (displayStatus === 'notMyWork') {
+    const { data, isPending } = useQuery<UserType>({
+      queryKey: ['artistInfo'],
+      queryFn: () => getUser(params.id),
+      staleTime: 3 * 1000,
+    });
+    if (isPending) {
+      return <ProfileFallbackUI />;
+    }
+    userInfo = data;
+  }
 
   if (typeof isLogin === 'undefined') {
     return <ProfileFallbackUI />;
