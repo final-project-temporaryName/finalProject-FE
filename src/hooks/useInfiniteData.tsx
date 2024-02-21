@@ -22,7 +22,7 @@ function useInfiniteData<T, E extends Element>({
   ref,
 }: Props<T, E>) {
   // query
-  const { data, status, fetchNextPage, ...rest } = useInfiniteQuery<T, Error, T, string[], number | null>({
+  const { data, status, fetchNextPage, isPending, ...rest } = useInfiniteQuery<T, Error, T, string[], number | null>({
     queryKey,
     queryFn: async ({ pageParam }) => {
       return await queryFn({ pageParam });
@@ -38,7 +38,7 @@ function useInfiniteData<T, E extends Element>({
     onIntersect,
   });
 
-  return { data, status, ...rest };
+  return { data, status, isPending, ...rest };
 }
 
 export default useInfiniteData;
