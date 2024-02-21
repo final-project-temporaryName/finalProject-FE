@@ -63,7 +63,7 @@ export default function EditUploadModal() {
     mutationFn: (newPost: PutCardRequestType) => putArtwork(newPost),
     onSuccess: () => {
       // TODO: myPage에 해당하는 queryKey로 수정하기
-      if (pathname === '/') queryClient.refetchQueries({ queryKey: ['allArtworks'] });
+      queryClient.refetchQueries({ queryKey: ['allArtworks'] });
     },
   });
 
@@ -76,9 +76,9 @@ export default function EditUploadModal() {
     uploadPutMutation.mutate(newPost, {
       onSuccess: (res) => {
         if (res?.data === 'fail') {
-          toast.error('작품 업로드 실패!');
+          toast.error('작품 수정 실패!');
         } else {
-          toast.success('작품 업로드 성공! 🎉');
+          toast.success('작품 수정 성공! 🎉');
           clearModal();
         }
       },
