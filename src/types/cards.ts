@@ -51,10 +51,10 @@ export interface PostCardRequestType {
 
 export interface PutCardRequestType {
   artworkId: number;
-  imageIds: number[];
-  title: string;
-  description: string;
-  artworkStatus: 'PUBLIC' | 'SELLING' | 'FREE';
+  imageIds: number[] | undefined;
+  title: string | undefined;
+  description: string | undefined;
+  artworkStatus: 'PUBLIC' | 'SELLING' | 'FREE' | undefined;
 }
 
 export interface DeleteCardRequestType {}

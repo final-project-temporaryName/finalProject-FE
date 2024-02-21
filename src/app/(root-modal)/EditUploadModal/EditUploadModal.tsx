@@ -38,7 +38,6 @@ export default function EditUploadModal() {
     queryFn: () => getArtwork(clickedArtworkId),
   });
 
-  // 객체 배열에서 원하는 키만 분리 (이미지 주소 배열, 이미지 소스 배열)
   const imageIds = artwork?.artworkImageResponse.map((item) => item.imageId);
   const imageUrls = artwork?.artworkImageResponse.map((item) => item.imageUrl);
 
@@ -74,7 +73,8 @@ export default function EditUploadModal() {
 
   const handleSubmit = () => {
     const newPost = { artworkId: clickedArtworkId, imageIds: imageOrder, title, description, artworkStatus: label };
-    // uploadPutMutation.mutate(newPost);
+    console.log(newPost);
+    uploadPutMutation.mutate(newPost);
     clearModal();
   };
 
