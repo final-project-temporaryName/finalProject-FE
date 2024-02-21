@@ -36,10 +36,8 @@ export default function UploadModal() {
   const [imageOrder, setImageOrder] = useState<number[]>([]);
   const [currentImageData, setCurrentImageData] = useState<ImageArtworkType | undefined>();
 
-  const { modals, clearModal, showModal } = useStore((state) => ({
-    modals: state.modals,
+  const { clearModal } = useStore((state) => ({
     clearModal: state.clearModal,
-    showModal: state.showModal,
   }));
 
   //hooks
@@ -52,17 +50,12 @@ export default function UploadModal() {
   const uploadPostMutation = useMutation({
     mutationFn: (newPost: PostArtworkProps) => postArtwork(newPost),
     onSuccess: () => {
-      if (modals.includes('uploadModal')) toast.error('작품 업로드 실패!');
-      else toast.success('작품 업로드 성공! 🎉');
-
-      if (pathname === '/') queryClient.refetchQueries({ queryKey: ['allArtworks'] });
+      if (pathname === '/') queryClient.invalidateQueries({ queryKey: ['allArtworks'] });
     },
     onError: () => {
       console.error('err');
     },
   });
-
-  console.log(modals);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -71,11 +64,17 @@ export default function UploadModal() {
   const handleSubmit = () => {
     const newPost = { imageIds: imageOrder, title, description, artworkStatus: label };
     uploadPostMutation.mutate(newPost, {
-      onSuccess: () => {
-        clearModal();
+      onSuccess: (res) => {
+        if (res?.data === 'fail') {
+          toast.error('작품 업로드 실패!');
+        } else {
+          toast.success('작품 업로드 성공! 🎉');
+
+          clearModal();
+        }
       },
-      onError: () => {
-        console.log('error');
+      onError: (err) => {
+        console.log(err);
       },
     });
   };
