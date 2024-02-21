@@ -9,6 +9,8 @@ import { useRef } from 'react';
 import ArtModal from '@/app/(root-modal)/ArtModal/ArtModal';
 import EditUploadModal from '@/app/(root-modal)/EditUploadModal/EditUploadModal';
 import AskForDeleteModal from '@/app/(root-modal)/AskForDeleteModal/AskForDeleteModal';
+import useInfiniteData from '@/hooks/useInfiniteData';
+import { getArtworks } from '@/api/artworks/getArtworks';
 
 interface queryFnProps {
   pageParam?: number | null;
@@ -16,8 +18,6 @@ interface queryFnProps {
 
 interface Props {
   type: 'main' | 'mypage' | 'artist';
-  queryKey: string[];
-  queryFn: (props: queryFnProps) => Promise<any>;
 }
 
 interface ArtWorks {
@@ -26,41 +26,34 @@ interface ArtWorks {
   pages: ArtWorks[];
 }
 
-function CardContainer({ type, queryKey, queryFn }: Props) {
-  const { data, status, hasNextPage, fetchNextPage, isFetchingNextPage, isFetching } = useInfiniteQuery<
-    ArtWorks,
-    Error,
-    ArtWorks,
-    string[],
-    number | null
-  >({
-    queryKey: queryKey,
-    queryFn: async ({ pageParam }) => {
-      return await queryFn({ pageParam });
-    },
-    getNextPageParam: (lastPage) => {
-      return lastPage.hasNext ? lastPage.contents[lastPage.contents.length - 1].artworkId : undefined;
-    },
-    initialPageParam: null,
-  });
+function CardContainer({ type }: Props) {
+  const bottom = useRef<HTMLDivElement>(null);
+  let data;
+  let isPending;
 
   const modals = useStore((state) => state.modals);
 
-  const bottom = useRef(null);
-  const onIntersect = ([entry]: IntersectionObserverEntry[]) => entry.isIntersecting && fetchNextPage();
-
-  useObserver<ArtWorks>({
-    target: bottom,
-    onIntersect,
-  });
+  if (type === 'main') {
+    const argument = {
+      queryKey: ['allArtworks'],
+      queryFn: getArtworks,
+      initialPageParam: null,
+      getNextPageParam: (lastPage: ArtWorks) => {
+        return lastPage.hasNext ? lastPage.contents[lastPage.contents.length - 1].artworkId : undefined;
+      },
+      ref: bottom,
+    };
+    const { data: responseData, isPending: pending } = useInfiniteData(argument);
+    data = responseData;
+    isPending = pending;
+  }
 
   return (
     <>
       <div
-        className={`${status === 'success' && data ? (type === 'main' ? 'card-container-mainPage' : 'card-container-artistPage') : 'flex-center mt-25 h-[55vh] w-full'}`}
+        className={`${data ? (type === 'main' ? 'card-container-mainPage' : 'card-container-artistPage') : 'flex-center mt-25 h-[55vh] w-full'}`}
       >
-        {status === 'success' &&
-          data &&
+        {data &&
           data.pages.map((page: ArtWorks) => {
             const cards = page.contents;
             return cards.map((card) => {

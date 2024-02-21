@@ -11,7 +11,7 @@ function MainCardSection() {
   return (
     <div className="flex-col-center relative mt-25">
       <MainLabelsGroup setMainValue={setLabel} />
-      <CardContainer type="main" queryKey={['allArtworks']} queryFn={getArtworks} />
+      <CardContainer type="main" />
     </div>
   );
 }
