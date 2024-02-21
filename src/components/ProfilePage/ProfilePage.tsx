@@ -9,9 +9,9 @@ import { nicknameRules } from '@/constants/InputErrorRules';
 import { useStore } from '@/store';
 import { GetMyPageResponseType, GetUserLinks, PostUserLinks, PutRequestSignUp, UserType } from '@/types/users';
 import getUserInfo from '@/utils/getUserInfo';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 
 interface UserData extends PutRequestSignUp {
@@ -28,9 +28,6 @@ function ProfilePage({ mode }: Props) {
   const [hasLinkError, setHasLinkError] = useState(false);
   const [isNicknameAvailable, setIsNicknameAvailable] = useState(false);
   const [links, setLinks] = useState<GetUserLinks[]>([]);
-
-  const router = useRouter();
-  const userInfo = getUserInfo();
 
   const { setUserAccessToken, setUserRefreshToken, setUserRole, setUserId } = useStore((state) => ({
     setUserAccessToken: state.setUserAccessToken,
@@ -65,14 +62,24 @@ function ProfilePage({ mode }: Props) {
     name: 'links',
   });
 
+  const router = useRouter();
+  const userInfo = getUserInfo();
   const nickname = watch('nickname');
+  const buttonText = mode === 'create' ? '가입하기' : '저장하기';
 
-  const disableSaveButton =
-    hasLinkError || !isNicknameAvailable || Object.keys(errors).length > 0 || nickname?.length === 0;
+  const disableSaveButton = useMemo(() => {
+    // 닉네임 입력 필드에 에러가 있거나 닉네임이 사용 불가능한 경우
+    const isNicknameInvalid = nicknameError !== null || !isNicknameAvailable;
+    // react-hook-form의 errors 객체를 사용하여 폼의 유효성 검사 결과에 에러가 있는지 확인
+    const isFormInvalid = Object.keys(errors).length > 0;
+    // 링크 입력 필드에 에러가 있는 경우
+    const isLinkInputInvalid = hasLinkError;
+    // 닉네임 필드가 비어 있는 경우를 체크 (닉네임 필드가 필수인 경우에만 적용)
+    const isNicknameEmpty = nickname.length === 0;
 
-  const handleImageUpload = (url: string) => {
-    setUploadedImageUrl(url);
-  };
+    // 위의 조건 중 하나라도 참이라면 버튼을 비활성화
+    return isNicknameInvalid || isFormInvalid || isLinkInputInvalid || isNicknameEmpty;
+  }, [nicknameError, isNicknameAvailable, errors, hasLinkError, nickname.length]);
 
   const response = useQuery<GetMyPageResponseType>({
     queryKey: ['userProfile'],
@@ -83,6 +90,7 @@ function ProfilePage({ mode }: Props) {
 
   const getProfileData = useCallback(() => {
     setUploadedImageUrl(userProfileResponse?.profileImageUrl ?? '');
+    setIsNicknameAvailable(true);
     // 각 폼 필드에 대한 데이터가 있다면, 해당 값을 사용하여 setValue 호출
     setValue('profileImageUrl', userProfileResponse?.profileImageUrl ?? '');
     setValue('nickname', userProfileResponse?.nickname ?? '');
@@ -98,7 +106,6 @@ function ProfilePage({ mode }: Props) {
     }
   }, [userProfileResponse]);
 
-  const buttonText = mode === 'create' ? '가입하기' : '저장하기';
   const mutationFn =
     mode === 'create'
       ? (userData: UserData) => {
@@ -171,6 +178,10 @@ function ProfilePage({ mode }: Props) {
     if (nickname) {
       checkNicknameMutation.mutate(nickname);
     }
+  };
+
+  const handleImageUpload = (url: string) => {
+    setUploadedImageUrl(url);
   };
 
   const handleLinkErrorUpdate = (hasError: boolean) => {
@@ -259,7 +270,7 @@ function ProfilePage({ mode }: Props) {
                   <button
                     className="ml-90"
                     onClick={(event) => {
-                      event.preventDefault(); // mypage로 리다이렉트 시키는 것 차단
+                      event.preventDefault();
                       append({ title: '', url: '' });
                     }}
                   >
