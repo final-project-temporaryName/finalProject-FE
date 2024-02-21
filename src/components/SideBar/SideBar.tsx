@@ -24,9 +24,7 @@ function SideBar({ displayStatus }: SideBarProps) {
   const [userInfo, setUserInfo] = useState<UserType>();
   const params = useParams<{ id: string }>();
 
-  const { isLogin } = useStore((state) => ({
-    isLogin: state.isLogin,
-  }));
+  const isLogin = useStore((state) => state.isLogin);
 
   const handleFetchMyProfile = useCallback(async () => {
     if (displayStatus === 'myWork' && isLogin === true) {
