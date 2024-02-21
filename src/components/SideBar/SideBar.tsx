@@ -29,7 +29,7 @@ function SideBar({ displayStatus }: SideBarProps) {
     const { data, isPending } = useQuery({
       queryKey: ['myPageInfo'],
       queryFn: getMyPage,
-      enabled: !!isLogin,
+      enabled: isLogin,
       staleTime: 3 * 1000,
     });
     if (isPending) {
