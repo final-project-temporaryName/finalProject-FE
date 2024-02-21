@@ -27,7 +27,7 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate, handleAddLink }
   const [isLoading, setIsLoading] = useState(false);
   const [saveIconClicked, setSaveIconClicked] = useState(false);
   const [userInfo, setUserInfo] = useState<UserType>();
-  //const [linkId, setLinkId] = useState<number | undefined>(link.id ? Number(link.id) : undefined);
+  const [currentLinkId, setCurrentLinkId] = useState(link.linkId);
   const [isEditing, setIsEditing] = useState(false);
   const {
     register,
@@ -69,7 +69,13 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate, handleAddLink }
       { userId, title, url },
       {
         onSuccess: (data) => {
-          handleAddLink(data.data);
+          const newLink = {
+            title,
+            url,
+            linkId: data.data.linkId,
+          };
+          handleAddLink(newLink);
+          setCurrentLinkId(data.data.linkId);
           //setLinkId(data.data.linkId);
           setSaveIconClicked(true);
           setIsModified(false);

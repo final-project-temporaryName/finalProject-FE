@@ -147,7 +147,7 @@ function ProfilePage({ mode }: Props) {
   const handleLinkErrorUpdate = (hasError: boolean) => {
     setHasLinkError(hasError);
   };
-
+  
   const handleAddLink = (newLink: GetUserLinks) => {
     setLinks((prevLinks) => [...prevLinks, newLink]);
   };
