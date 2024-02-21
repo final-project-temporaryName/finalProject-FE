@@ -14,7 +14,7 @@ function MainContainer() {
   return (
     <main className={`ml-330 ${pathname === '/mypage' ? 'mt-157' : 'mt-77'}`}>
       <CategoryButtonGroup setMyPageValue={setLabel} />
-      <CardContainer type="mypage" queryKey={['allArtworks']} queryFn={getArtworks} />
+      <CardContainer type="mypage" />
     </main>
   );
 }

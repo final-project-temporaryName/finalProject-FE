@@ -12,11 +12,13 @@ import ViewImage from '../../../public/assets/images/ViewImage.png';
 import defaultImage from '../../../public/assets/images/logo.png';
 import { Button } from '../Button';
 import Count from './Count';
+import CardImageFallbackUI from '../FallbackUI/Card/CardImageFallbackUI';
 
 type CustomCardType = Omit<CardType, 'description' | 'createdAt' | 'updatedAt'>;
 
 interface Props extends CustomCardType {
   type: 'main' | 'mypage' | 'artist';
+  isPending: boolean;
 }
 
 function Card({
@@ -31,6 +33,7 @@ function Card({
   artistName,
   artistProfileImageUrl,
   type,
+  isPending,
 }: Props) {
   const { showModal, setClickedArtworkId } = useStore((state) => ({
     showModal: state.showModal,
@@ -43,6 +46,10 @@ function Card({
   };
 
   const urlRegex: RegExp = /^(?!http:\/\/|https:\/\/).+/;
+
+  if (isPending) {
+    <CardImageFallbackUI type={type} />;
+  }
 
   return (
     <>

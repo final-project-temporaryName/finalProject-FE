@@ -1,20 +1,14 @@
 'use client';
 
-import Card from './Card';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { useObserver } from '@/hooks/useObserver';
+import { getArtworks } from '@/api/artworks/getArtworks';
+import ArtModal from '@/app/(root-modal)/ArtModal/ArtModal';
+import useInfiniteData from '@/hooks/useInfiniteData';
 import { useStore } from '@/store';
 import { CardType } from '@/types/cards';
 import { useRef } from 'react';
-import ArtModal from '@/app/(root-modal)/ArtModal/ArtModal';
+import Card from './Card';
 import EditUploadModal from '@/app/(root-modal)/EditUploadModal/EditUploadModal';
 import AskForDeleteModal from '@/app/(root-modal)/AskForDeleteModal/AskForDeleteModal';
-import useInfiniteData from '@/hooks/useInfiniteData';
-import { getArtworks } from '@/api/artworks/getArtworks';
-
-interface queryFnProps {
-  pageParam?: number | null;
-}
 
 interface Props {
   type: 'main' | 'mypage' | 'artist';
@@ -29,7 +23,7 @@ interface ArtWorks {
 function CardContainer({ type }: Props) {
   const bottom = useRef<HTMLDivElement>(null);
   let data;
-  let isPending;
+  let isPending: boolean;
 
   const modals = useStore((state) => state.modals);
 
@@ -45,7 +39,7 @@ function CardContainer({ type }: Props) {
     };
     const { data: responseData, isPending: pending } = useInfiniteData(argument);
     data = responseData;
-    isPending = pending;
+    isPending = pending as boolean;
   }
 
   return (
@@ -71,6 +65,7 @@ function CardContainer({ type }: Props) {
                   artistName={card.artistName}
                   artistProfileImageUrl={card.artistProfileImageUrl}
                   type={type}
+                  isPending={isPending}
                 />
               );
             });
