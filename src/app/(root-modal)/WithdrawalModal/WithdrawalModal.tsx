@@ -2,10 +2,11 @@
 
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { useStore } from '@/store';
 import Link from 'next/link';
 import Modal from '@/app/(root-modal)/_components';
 
-function DeleteModal() {
+function WithdrawalModal() {
   const router = useRouter();
   const {
     register,
@@ -16,11 +17,9 @@ function DeleteModal() {
 
   const inputValue = watch('confirmation');
 
-  const disableButton = inputValue !== '청춘 탈퇴';
+  const clearModal = useStore((state) => state.clearModal);
 
-  const onClickClose = () => {
-    router.back();
-  };
+  const disableButton = inputValue !== '청춘 탈퇴';
 
   const onSubmit = (data: any) => {
     router.replace('/');
@@ -30,7 +29,7 @@ function DeleteModal() {
   return (
     <div
       className="flex-center fixed bottom-0 left-0 right-0 top-0 z-infinite h-full w-screen bg-[#00000066]"
-      onClick={onClickClose}
+      onClick={clearModal}
     >
       <div className="deleteModal" onClick={(e) => e.stopPropagation()}>
         <div className="flex flex-col gap-20">
@@ -50,15 +49,13 @@ function DeleteModal() {
                 <p className="text-12 text-[#C90000]">{String(errors.confirmation.message)}</p>
               )}
             </div>
-            <Link href="/deleteUser">
-              <button
-                type="submit"
-                className={`storage-button flex-center inline-block shrink-0 rounded-lg text-14 ${disableButton ? 'disabled' : ''}`}
-                disabled={!inputValue}
-              >
-                영구탈퇴하기
-              </button>
-            </Link>
+            <button
+              type="submit"
+              className={`storage-button flex-center inline-block shrink-0 rounded-lg text-14 ${disableButton ? 'disabled' : ''}`}
+              disabled={!inputValue}
+            >
+              영구탈퇴하기
+            </button>
           </form>
         </div>
       </div>
@@ -66,4 +63,4 @@ function DeleteModal() {
   );
 }
 
-export default DeleteModal;
+export default WithdrawalModal;

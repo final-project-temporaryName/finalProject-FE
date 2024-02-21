@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 import instance from '../axios';
 
-interface PostArtworkProps {
+export interface PostArtworkProps {
   imageIds: number[];
   title: string;
   description: string;

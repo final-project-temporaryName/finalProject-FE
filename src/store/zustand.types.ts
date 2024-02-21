@@ -21,8 +21,13 @@ export interface AuthState {
 export interface ArtworkState {
   clickedArtworkId: number;
   setClickedArtworkId: (id: number) => void;
-  clickedArtworkUrl: string;
-  setClickedArtworkUrl: (path: string) => void;
-  clickedUploadArtworkUrl: string;
-  setClickedUploadArtworkUrl: (path: string) => void;
+}
+
+export type modalType = 'uploadModal' | 'artModal' | 'askForSignup' | 'withdrawalModal';
+
+export interface ModalState {
+  modals: modalType[];
+  showModal: (type: modalType) => void;
+  hideModal: (type: modalType) => void;
+  clearModal: () => void;
 }

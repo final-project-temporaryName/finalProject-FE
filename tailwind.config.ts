@@ -36,8 +36,9 @@ const config: Config = {
       first: '10',
       second: '20',
       third: '30',
-      beforeInfinite: '9990',
-      infinite: '9999',
+      beforeInfinite: '9980',
+      infinite: '9990',
+      toast: '9999', // Do not use!!
     },
     borderRadius: {
       xs: '0.5rem',
