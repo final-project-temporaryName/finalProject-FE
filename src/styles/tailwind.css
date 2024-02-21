@@ -20,6 +20,10 @@
   @apply relative top-[5%] z-infinite flex h-[90%] w-[90%] flex-col overflow-hidden rounded-md bg-white;
 }
 
+.askForSignupContainer {
+  @apply relative top-[40%] z-infinite flex h-150 w-350 justify-center rounded-md bg-white;
+}
+
 .modalInput {
   @apply mt-16 w-full border-none px-8 pb-8 pt-12 text-17 outline-none;
 }

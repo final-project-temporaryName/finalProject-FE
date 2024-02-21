@@ -50,8 +50,10 @@ export default function UploadModal() {
   const uploadPostMutation = useMutation({
     mutationFn: (newPost: PostArtworkProps) => postArtwork(newPost),
     onSuccess: () => {
-      toast.success('작품 업로드 성공! 🎉');
-      if (pathname === '/') queryClient.refetchQueries({ queryKey: ['allArtworks'] });
+      if (pathname === '/') queryClient.invalidateQueries({ queryKey: ['allArtworks'] });
+    },
+    onError: () => {
+      console.error('err');
     },
   });
 
@@ -61,8 +63,20 @@ export default function UploadModal() {
 
   const handleSubmit = () => {
     const newPost = { imageIds: imageOrder, title, description, artworkStatus: label };
-    uploadPostMutation.mutate(newPost);
-    clearModal();
+    uploadPostMutation.mutate(newPost, {
+      onSuccess: (res) => {
+        if (res?.data === 'fail') {
+          toast.error('작품 업로드 실패!');
+        } else {
+          toast.success('작품 업로드 성공! 🎉');
+
+          clearModal();
+        }
+      },
+      onError: (err) => {
+        console.log(err);
+      },
+    });
   };
 
   const getImageData = async (file: File) => {

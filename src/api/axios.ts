@@ -2,7 +2,7 @@ import axios from 'axios';
 import _ from 'lodash';
 
 const instance = axios.create({
-  baseURL: 'http://youth-alb-1112492853.ap-northeast-2.elb.amazonaws.com',
+  baseURL: 'https://www.art-talktalk.store/',
 });
 
 instance.interceptors.request.use(

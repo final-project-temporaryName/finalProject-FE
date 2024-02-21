@@ -13,7 +13,7 @@ type RequestType = {
  */
 
 export const request = async <T>({ url, method = 'GET', params, body }: RequestType) => {
-  const baseURL = 'http://youth-alb-1112492853.ap-northeast-2.elb.amazonaws.com/';
+  const baseURL = 'https://www.art-talktalk.store/';
   const queryString = new URLSearchParams(params).toString();
 
   const fullUrl = queryString ? `${baseURL}${url}?${queryString}` : `${baseURL}${url}`;

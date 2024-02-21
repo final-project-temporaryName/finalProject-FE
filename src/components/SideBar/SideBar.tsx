@@ -24,9 +24,7 @@ function SideBar({ displayStatus }: SideBarProps) {
   const [userInfo, setUserInfo] = useState<UserType>();
   const params = useParams<{ id: string }>();
 
-  const { isLogin } = useStore((state) => ({
-    isLogin: state.isLogin,
-  }));
+  const isLogin = useStore((state) => state.isLogin);
 
   const handleFetchMyProfile = useCallback(async () => {
     if (displayStatus === 'myWork' && isLogin === true) {
@@ -96,15 +94,15 @@ function SideBar({ displayStatus }: SideBarProps) {
               userInfo.links.map((link) => (
                 <a
                   className=" flex gap-2 text-14 font-semibold"
-                  href={link.address.startsWith('http') ? link.address : 'https://' + link.address}
+                  href={link.url.startsWith('http') ? link.url : 'https://' + link.url}
                   key={link.linkId}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <LinkIcon />
-                  {link.address.length > 21
-                    ? link.title + ' ' + link.address.slice(0, 21) + '...'
-                    : link.title + ' ' + link.address}
+                  {link.url.length > 21
+                    ? link.title + ' ' + link.url.slice(0, 21) + '...'
+                    : link.title + ' ' + link.url}
                 </a>
               ))}
           </div>
