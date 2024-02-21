@@ -31,7 +31,6 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate, handleAddLink }
   } = useFormContext();
   const id = useId();
   const { linkId } = link;
-  // console.log(linkId);
 
   const router = useRouter();
 
@@ -77,7 +76,6 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate, handleAddLink }
           };
           handleAddLink?.(newLink);
           setCurrentLinkId(data.data.linkId);
-          //setLinkId(data.data.linkId);
           setSaveIconClicked(true);
           setIsModified(false);
           if (handleLinkErrorUpdate) {
@@ -176,9 +174,7 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate, handleAddLink }
     }
   };
 
-  const handleBlur = () => {
-    // 아무 동작도 하지 않음
-  };
+  const handleBlur = () => {};
 
   useEffect(() => {
     handleFetchMyProfile();
