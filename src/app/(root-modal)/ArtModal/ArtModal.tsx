@@ -13,6 +13,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import CommentIcon from '../../../../public/assets/icons/comment.svg';
 import Modal from '../_components';
+import { useScrollY } from '@/hooks/useScrollY';
 
 export default function ArtModal() {
   const [isLikeClicked, setIsLikeClicked] = useState(false);
@@ -48,25 +49,30 @@ export default function ArtModal() {
         artistId={artwork?.artistId}
       />
       <Modal.Body classname="h-full overflow-y-scroll">
-        <div className="p-10">
+        <a id="upwards"></a>
+        <div className="mb-20 p-10">
           {artwork?.artworkImageResponse?.length && (
             <SlideContainer artworkImageResponse={artwork?.artworkImageResponse} />
           )}
-          <div className="relative flex flex-col gap-20 p-10 pr-70 pt-20">
-            <p className="font-bold">{artwork?.title}</p>
-            {artwork?.description && (
-              <div
-                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(artwork?.description) }}
-                className={'min-h-106'}
-              ></div>
-            )}
-            <span className="text-[#8f8f8f]">{customDate}</span>
-            <div className="absolute right-1 top-30 flex flex-col items-end gap-20">
+          <div className="relative flex h-auto px-5 pt-15">
+            <div className="flex w-full flex-col gap-20">
+              <p className="text-18 font-bold">{artwork?.title}</p>
+              {artwork?.description && (
+                <div
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(artwork?.description) }}
+                  className={'min-h-106 text-15'}
+                ></div>
+              )}
+              <span className="mt-5 text-14 text-[#8f8f8f]">{customDate}</span>
+            </div>
+            <div className="sticky top-0 flex flex-col items-end gap-20 pt-5">
               <Link
-                href="#des"
+                href="#downwards"
                 className="flex-col-center h-48 w-48 rounded-full shadow-[0px_0px_12px_rgba(0,0,0,0.3)]"
               >
-                <CommentIcon />
+                <div className="animate-pulse">
+                  <CommentIcon />
+                </div>
                 <span className="text-12">
                   {artwork &&
                     (artwork.commentCount < 1000
@@ -75,7 +81,7 @@ export default function ArtModal() {
                 </span>
               </Link>
               <div
-                className="flex-col-center h-48 w-48 cursor-pointer rounded-full shadow-[0px_0px_12px_rgba(0,0,0,0.3)]"
+                className={`${isLikeClicked ? 'bg-gray-1 shadow-[0px_0px_15px_rgba(0,0,0,0.6)]' : 'bg-white shadow-[0px_0px_12px_rgba(0,0,0,0.3)]'} flex-col-center h-48 w-48 cursor-pointer rounded-full`}
                 onClick={handleLikeClick}
               >
                 {isLikeClicked ? (
@@ -83,11 +89,11 @@ export default function ArtModal() {
                     <BlackLike />
                   </div>
                 ) : (
-                  <div className="pl-3 pr-5">
+                  <div className="animate-pulse">
                     <WhiteLike />
                   </div>
                 )}
-                <p className={isLikeClicked ? 'mb-3 text-12 text-black' : 'mb-3 text-12'}>
+                <p className={'mb-3 text-12'}>
                   {artwork &&
                     (artwork.likeCount < 1000 ? artwork.likeCount : (artwork.likeCount / 1000).toFixed(1) + 'k')}
                 </p>

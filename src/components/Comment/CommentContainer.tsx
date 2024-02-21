@@ -1,15 +1,12 @@
 'use client';
 
-import { MouseEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import BlackComment from './BlackComment';
 import Comment from './Comment';
 import CommentSend from './CommentSend';
 import Free from './Free';
-import RedLike from './BlackLike';
 import Selling from './Selling';
-import WhiteComment from './WhiteComment';
-import WhiteLike from './WhiteLike';
+import UpArrow from '../../../public/assets/icons/UpArraw.svg';
+import Link from 'next/link';
 
 interface CommentContainerProps {
   likeCount: number;
@@ -94,7 +91,7 @@ function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentCon
         {artworkStatus === 'SELLING' ? <Selling /> : artworkStatus === 'FREE' ? <Free /> : null}
       </div>
       <div className="w-full min-w-360 rounded-t-sm bg-gray-1 shadow-top">
-        <div className="flex max-h-250 flex-col overflow-y-scroll bg-gray-1 p-20 pb-7">
+        <div className="flex flex-col bg-gray-1 p-20 pb-7">
           {data &&
             data.length > 0 &&
             data.map((comment) => (
@@ -109,7 +106,7 @@ function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentCon
             ))}
         </div>
         <form className="flex items-center gap-13 bg-gray-1 p-20 pb-36" onSubmit={handleSubmit(onValid)}>
-          <a id="des"></a>
+          <a id="downwards"></a>
           <input
             type="text"
             className="w-full rounded-sm bg-white px-20 py-10 text-15"
@@ -119,6 +116,11 @@ function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentCon
           <button title="submit" type="submit">
             <CommentSend />
           </button>
+          <div className="animate-bounce cursor-pointer">
+            <Link href={'#upwards'}>
+              <UpArrow />
+            </Link>
+          </div>
         </form>
       </div>
     </div>
