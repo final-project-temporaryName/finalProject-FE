@@ -7,6 +7,8 @@ import ProfileDropDownImage from '../../../public/assets/icons/KebabDropDown.svg
 import useDropDown from '@/hooks/useDropDown';
 import useOnClickOutside from '@/hooks/useOnClickOutside';
 import { useStore } from '@/store';
+import { deleteArtwork } from '@/api/artwork/deleteArtwork';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 function KebabButton({ artworkId }: { artworkId: number }) {
   // states
@@ -18,8 +20,17 @@ function KebabButton({ artworkId }: { artworkId: number }) {
 
   // hooks
   const containerRef = useRef<HTMLDivElement>(null);
+  const queryClient = useQueryClient();
 
   // handlers
+  const deleteMutation = useMutation({
+    mutationFn: () => deleteArtwork(artworkId),
+    onSuccess: () => {
+      // TODO: myPage에 해당하는 queryKey로 수정하기
+      queryClient.refetchQueries({ queryKey: ['allArtworks'] });
+    },
+  });
+
   useOnClickOutside(containerRef, handleDropDownClose);
 
   const handleKebabClick = (e: MouseEvent<HTMLDivElement>) => {
@@ -36,7 +47,7 @@ function KebabButton({ artworkId }: { artworkId: number }) {
 
   const handleDeleteClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    // TODO: 게시물 삭제 API 함수 호출
+    deleteMutation.mutate();
   };
 
   return (
