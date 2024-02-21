@@ -19,7 +19,7 @@ function WithdrawalModal() {
 
   const disableButton = inputValue !== '청춘 탈퇴';
 
-  const onSubmit = (data: any) => {
+  const onSubmit = () => {
     router.replace('/');
     // 회원 탈퇴 api 연결
   };

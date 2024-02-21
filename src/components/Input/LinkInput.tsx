@@ -8,22 +8,14 @@ import Input from '@/components/Input/Input';
 import BinIcon from '@/components/SvgComponents/BinIcon';
 import EditIcon from '@/components/SvgComponents/EditIcon';
 import SaveIcon from '@/components/SvgComponents/SaveIcon';
+import { LinkInputProps } from '@/types/input';
 import { UserType } from '@/types/users';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useId, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-interface Props {
-  link: { id: string; linkId?: number };
-  remove: () => void;
-  index: number;
-  handleLinkErrorUpdate?: (hasError: boolean) => void;
-  handleAddLink?: any;
-  refetchProfile?: any;
-}
-
-function LinkInput({ link, remove, index, handleLinkErrorUpdate, handleAddLink, refetchProfile }: Props) {
+function LinkInput({ link, remove, index, handleLinkErrorUpdate, handleAddLink }: LinkInputProps) {
   const [isModified, setIsModified] = useState(false);
   const [isEditIconVisible, setIsEditIconVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -83,7 +75,7 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate, handleAddLink, 
             url,
             linkId: data.data.linkId,
           };
-          handleAddLink(newLink);
+          handleAddLink?.(newLink);
           setCurrentLinkId(data.data.linkId);
           //setLinkId(data.data.linkId);
           setSaveIconClicked(true);
