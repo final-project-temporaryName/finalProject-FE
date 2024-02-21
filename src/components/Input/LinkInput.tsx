@@ -9,7 +9,8 @@ import BinIcon from '@/components/SvgComponents/BinIcon';
 import EditIcon from '@/components/SvgComponents/EditIcon';
 import SaveIcon from '@/components/SvgComponents/SaveIcon';
 import { UserType } from '@/types/users';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useId, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
@@ -19,9 +20,10 @@ interface Props {
   index: number;
   handleLinkErrorUpdate?: (hasError: boolean) => void;
   handleAddLink?: any;
+  refetchProfile?: any;
 }
 
-function LinkInput({ link, remove, index, handleLinkErrorUpdate, handleAddLink }: Props) {
+function LinkInput({ link, remove, index, handleLinkErrorUpdate, handleAddLink, refetchProfile }: Props) {
   const [isModified, setIsModified] = useState(false);
   const [isEditIconVisible, setIsEditIconVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -37,7 +39,9 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate, handleAddLink }
   } = useFormContext();
   const id = useId();
   const { linkId } = link;
-  console.log(linkId);
+  // console.log(linkId);
+
+  const router = useRouter();
 
   const handleFetchMyProfile = useCallback(async () => {
     const { userProfileResponse } = await getMyPage();
@@ -48,8 +52,13 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate, handleAddLink }
   const userId = userInfo?.userId;
 
   //POST
+  const queryClient = useQueryClient();
+
   const postLinkMutation = useMutation({
     mutationFn: postLinks,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['userProfile'] });
+    },
   });
 
   const handleSaveIconClick = async () => {

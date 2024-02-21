@@ -7,11 +7,11 @@ import LinkInput from '@/components/Input/LinkInput';
 import PlusButtonIcon from '@/components/SvgComponents/PlusButtonIcon';
 import { nicknameRules } from '@/constants/InputErrorRules';
 import { useStore } from '@/store';
-import { GetUserLinks, PostUserLinks, PutRequestSignUp } from '@/types/users';
+import { GetMyPageResponseType, GetUserLinks, PostUserLinks, PutRequestSignUp, UserType } from '@/types/users';
 import getUserInfo from '@/utils/getUserInfo';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 
 interface UserData extends PutRequestSignUp {
@@ -41,6 +41,10 @@ function ProfilePage({ mode }: Props) {
 
   const methods = useForm<UserData>({
     defaultValues: {
+      nickname: '',
+      activityArea: '',
+      activityField: '',
+      description: '',
       links: [{ title: '', url: '' }],
     },
     mode: 'onBlur',
@@ -52,6 +56,7 @@ function ProfilePage({ mode }: Props) {
     control,
     watch,
     reset,
+    setValue,
     formState: { errors },
   } = methods;
 
@@ -63,11 +68,35 @@ function ProfilePage({ mode }: Props) {
   const nickname = watch('nickname');
 
   const disableSaveButton =
-    hasLinkError || !isNicknameAvailable || Object.keys(errors).length > 0 || nickname.length === 0;
+    hasLinkError || !isNicknameAvailable || Object.keys(errors).length > 0 || nickname?.length === 0;
 
   const handleImageUpload = (url: string) => {
     setUploadedImageUrl(url);
   };
+
+  const response = useQuery<GetMyPageResponseType>({
+    queryKey: ['userProfile'],
+    queryFn: getMyPage,
+  });
+
+  const userProfileResponse = response?.data?.userProfileResponse as UserType;
+
+  const getProfileData = useCallback(() => {
+    setUploadedImageUrl(userProfileResponse?.profileImageUrl ?? '');
+    // 각 폼 필드에 대한 데이터가 있다면, 해당 값을 사용하여 setValue 호출
+    setValue('profileImageUrl', userProfileResponse?.profileImageUrl ?? '');
+    setValue('nickname', userProfileResponse?.nickname ?? '');
+    setValue('activityArea', userProfileResponse?.activityArea ?? '');
+    setValue('activityField', userProfileResponse?.activityField ?? '');
+    setValue('description', userProfileResponse?.description ?? '');
+
+    // 링크 데이터 처리
+    if (userProfileResponse?.links && userProfileResponse?.links.length > 0) {
+      setValue('links', userProfileResponse?.links);
+    } else {
+      setValue('links', [{ title: '', url: '' }]);
+    }
+  }, [userProfileResponse]);
 
   const buttonText = mode === 'create' ? '가입하기' : '저장하기';
   const mutationFn =
@@ -147,28 +176,14 @@ function ProfilePage({ mode }: Props) {
   const handleLinkErrorUpdate = (hasError: boolean) => {
     setHasLinkError(hasError);
   };
-  
+
   const handleAddLink = (newLink: GetUserLinks) => {
     setLinks((prevLinks) => [...prevLinks, newLink]);
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { userProfileResponse } = await getMyPage();
-        setUploadedImageUrl(userProfileResponse.profileImageUrl);
-        reset({
-          ...userProfileResponse,
-          links: userProfileResponse.links ? userProfileResponse.links : [{ title: '', url: '' }],
-        });
-        setIsNicknameAvailable(true);
-      } catch (error) {
-        console.error('Failed to fetch user data:', error);
-      }
-    };
-
-    fetchData();
-  }, [reset]);
+    getProfileData();
+  }, [getProfileData]);
 
   return (
     <FormProvider {...methods}>
