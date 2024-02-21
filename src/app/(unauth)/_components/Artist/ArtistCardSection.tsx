@@ -16,7 +16,7 @@ function ArtistCardSection() {
   return (
     <main className={`ml-330 ${firstPathname === 'artist' ? 'mt-157' : 'mt-77'}`}>
       <ArtistLabelsGroup setArtistValue={setLabel} />
-      <CardContainer type="artist" queryKey={['allArtworks']} queryFn={getArtworks} />
+      <CardContainer type="artist" />
     </main>
   );
 }
