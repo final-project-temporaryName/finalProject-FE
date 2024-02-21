@@ -7,7 +7,9 @@ interface CategoryButtonProps {
   type: 'Category' | 'StatusLabel' | 'MainLabel';
   labelText: string;
   isActive: boolean;
-  setStatusValue?: Dispatch<SetStateAction<'PUBLIC' | 'SELLING' | 'FREE'>>;
+  setStatusValue?:
+    | Dispatch<SetStateAction<'PUBLIC' | 'SELLING' | 'FREE'>>
+    | Dispatch<SetStateAction<'PUBLIC' | 'SELLING' | 'FREE' | undefined>>;
   setMainValue?: Dispatch<SetStateAction<'전체' | 'following'>>;
   setArtistValue?: Dispatch<SetStateAction<'전체' | '판매중'>>;
   setMyPageValue?: Dispatch<SetStateAction<'전체' | '판매중' | '컬렉션'>>;

@@ -12,7 +12,7 @@ import { DragDropContext, DropResult, Droppable } from '@hello-pangea/dnd';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import 'react-quill/dist/quill.bubble.css';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -42,12 +42,9 @@ export default function EditUploadModal() {
   const imageIds = artwork?.artworkImageResponse.map((item) => item.imageId);
   const imageUrls = artwork?.artworkImageResponse.map((item) => item.imageUrl);
 
-  console.log(imageIds);
-  console.log(imageUrls);
-
   // states
-  const [title, setTitle] = useState(artwork?.title);
-  const [description, setDescription] = useState(artwork?.description);
+  const [title, setTitle] = useState<string | undefined>(artwork?.title);
+  const [description, setDescription] = useState<string | undefined>(artwork?.description);
   const [uploadImageSources, setUploadImageSources] = useState<string[] | undefined>(imageUrls);
   const [label, setLabel] = useState<'PUBLIC' | 'SELLING' | 'FREE' | undefined>(artwork?.artworkStatus);
   const [showImage, setShowImage] = useState(false);
@@ -99,6 +96,8 @@ export default function EditUploadModal() {
     if (!e.target.files) return;
     const files = e.target.files;
     if (!uploadImageSources && !imageOrder) return;
+    if (!uploadImageSources) return;
+    if (!imageOrder) return;
     let imageUrlList = [...uploadImageSources];
     let imageOrderList = [...imageOrder];
     const fileList = Array.from(files);
@@ -123,7 +122,7 @@ export default function EditUploadModal() {
   };
 
   const handleDeleteImage = (index: number) => {
-    setUploadImageSources(uploadImageSources.filter((_, i) => i !== index));
+    setUploadImageSources(uploadImageSources?.filter((_, i) => i !== index));
   };
 
   const handleDeleteAllImage = () => {
@@ -150,26 +149,33 @@ export default function EditUploadModal() {
 
   const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
     if (!destination) return;
+    if (!uploadImageSources) return;
     const newUploadImageSources = [...uploadImageSources];
     newUploadImageSources.splice(source.index, 1);
     newUploadImageSources.splice(destination?.index, 0, draggableId);
     setUploadImageSources(newUploadImageSources);
   };
 
-  useEffect(() => {
-    if (artwork) {
-      setTitle(artwork.title);
-      setDescription(artwork.description);
-      setLabel(artwork.artworkStatus);
-    }
+  const syncArtworkData = useCallback(() => {
+    if (!artwork) return;
+    setTitle(artwork.title);
+    setDescription(artwork.description);
+    setLabel(artwork.artworkStatus);
+    setUploadImageSources(imageUrls);
+    setImageOrder(imageIds);
   }, [artwork]);
+
+  // 게시물 업로드 데이터 동기화
+  useEffect(() => {
+    syncArtworkData();
+  }, [syncArtworkData]); // useCallback에서의 디펜던시로 관리 가능, 그리고 useEffect 디펜던시는 이슈가 많음 (strictMode, falsy)
 
   return (
     <Modal.Container classname="modalContainer">
       <Modal.Header />
       <Modal.Body classname="flex h-full">
         <DragDropContext onDragEnd={onDragEnd}>
-          {uploadImageSources.length ? (
+          {uploadImageSources?.length ? (
             <div className="relative flex h-full w-3/5 flex-col justify-center border-r-1 border-solid border-black pb-31 pt-26">
               <div className="relative grid grid-cols-4 grid-rows-3/96 gap-18 px-29 py-25">
                 {uploadImageSources.map((uploadImageSource, index) => {
@@ -223,7 +229,7 @@ export default function EditUploadModal() {
           <div className="flex items-center justify-between gap-18">
             <StatusLabelsGroup setStatusValue={setLabel} />
             <Button.Modal.Action
-              disabled={!title || !description || description === '<p><br></p>' || uploadImageSources.length === 0}
+              disabled={!title || !description || description === '<p><br></p>' || uploadImageSources?.length === 0}
               wrapperStyle=""
               buttonStyle="save-button"
               onClick={handleSubmit}
