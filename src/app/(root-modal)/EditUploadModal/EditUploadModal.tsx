@@ -12,7 +12,7 @@ import { DragDropContext, DropResult, Droppable } from '@hello-pangea/dnd';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import 'react-quill/dist/quill.bubble.css';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -27,24 +27,33 @@ import StatusLabelsGroup from '../UploadModal/_components/StatusLabelsGroup';
 import TextEditor from '../UploadModal/_components/TextEditor';
 import Modal from '../_components';
 
-export default function EditUploadModal({ artworkId }: { artworkId: number }) {
+export default function EditUploadModal() {
+  const { clearModal, clickedArtworkId } = useStore((state) => ({
+    clearModal: state.clearModal,
+    clickedArtworkId: state.clickedArtworkId,
+  }));
+
   const { data: artwork } = useQuery<GetSpecificCardResponseType>({
     queryKey: ['editArtwork'],
-    queryFn: () => getArtwork(artworkId),
+    queryFn: () => getArtwork(clickedArtworkId),
   });
+
+  // 객체 배열에서 원하는 키만 분리 (이미지 주소 배열, 이미지 소스 배열)
+  const imageIds = artwork?.artworkImageResponse.map((item) => item.imageId);
+  const imageUrls = artwork?.artworkImageResponse.map((item) => item.imageUrl);
+
+  console.log(imageIds);
+  console.log(imageUrls);
+
   // states
-  const [title, setTitle] = useState(artwork!.title);
-  const [description, setDescription] = useState(artwork!.description);
-  const [uploadImageSources, setUploadImageSources] = useState<string[]>([]);
-  const [label, setLabel] = useState<'PUBLIC' | 'SELLING' | 'FREE'>(artwork!.artworkStatus);
+  const [title, setTitle] = useState(artwork?.title);
+  const [description, setDescription] = useState(artwork?.description);
+  const [uploadImageSources, setUploadImageSources] = useState<string[] | undefined>(imageUrls);
+  const [label, setLabel] = useState<'PUBLIC' | 'SELLING' | 'FREE' | undefined>(artwork?.artworkStatus);
   const [showImage, setShowImage] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
-  const [imageOrder, setImageOrder] = useState<number[]>([]);
+  const [imageOrder, setImageOrder] = useState<number[] | undefined>(imageIds);
   const [, setCurrentImageData] = useState<ImageArtworkType | undefined>();
-
-  const { clearModal } = useStore((state) => ({
-    clearModal: state.clearModal,
-  }));
 
   //hooks
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -67,8 +76,8 @@ export default function EditUploadModal({ artworkId }: { artworkId: number }) {
   };
 
   const handleSubmit = () => {
-    const newPost = { artworkId, imageIds: imageOrder, title, description, artworkStatus: label };
-    uploadPutMutation.mutate(newPost);
+    const newPost = { artworkId: clickedArtworkId, imageIds: imageOrder, title, description, artworkStatus: label };
+    // uploadPutMutation.mutate(newPost);
     clearModal();
   };
 
@@ -89,6 +98,7 @@ export default function EditUploadModal({ artworkId }: { artworkId: number }) {
   const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const files = e.target.files;
+    if (!uploadImageSources && !imageOrder) return;
     let imageUrlList = [...uploadImageSources];
     let imageOrderList = [...imageOrder];
     const fileList = Array.from(files);
@@ -145,6 +155,14 @@ export default function EditUploadModal({ artworkId }: { artworkId: number }) {
     newUploadImageSources.splice(destination?.index, 0, draggableId);
     setUploadImageSources(newUploadImageSources);
   };
+
+  useEffect(() => {
+    if (artwork) {
+      setTitle(artwork.title);
+      setDescription(artwork.description);
+      setLabel(artwork.artworkStatus);
+    }
+  }, [artwork]);
 
   return (
     <Modal.Container classname="modalContainer">

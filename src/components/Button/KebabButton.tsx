@@ -8,7 +8,7 @@ import useDropDown from '@/hooks/useDropDown';
 import useOnClickOutside from '@/hooks/useOnClickOutside';
 import { useStore } from '@/store';
 
-function KebabButton() {
+function KebabButton({ artworkId }: { artworkId: number }) {
   // states
   const { isOpen: isDropDownOpen, handleDropDownOpen, handleDropDownClose } = useDropDown();
   const { showModal, setClickedArtworkId } = useStore((state) => ({
@@ -30,8 +30,8 @@ function KebabButton() {
 
   const handleModifyClick = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    // 특정 게시물의 정보가 들어간 업로드 모달 뜨기(게시물 id 전달)
-    showModal('uploadModal');
+    showModal('editModal');
+    setClickedArtworkId(artworkId);
   };
 
   const handleDeleteClick = (e: MouseEvent<HTMLButtonElement>) => {

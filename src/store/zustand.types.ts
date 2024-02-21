@@ -23,7 +23,7 @@ export interface ArtworkState {
   setClickedArtworkId: (id: number) => void;
 }
 
-export type modalType = 'uploadModal' | 'artModal';
+export type modalType = 'uploadModal' | 'artModal' | 'editModal';
 
 export interface ModalState {
   modals: modalType[];
