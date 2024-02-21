@@ -153,7 +153,16 @@ export default function EditUploadModal() {
     const newUploadImageSources = [...uploadImageSources];
     newUploadImageSources.splice(source.index, 1);
     newUploadImageSources.splice(destination?.index, 0, draggableId);
+
+    if (!imageOrder) return;
+    const newImageOrders = [...imageOrder];
+    [newImageOrders[destination.index], newImageOrders[source.index]] = [
+      newImageOrders[source.index],
+      newImageOrders[destination.index],
+    ];
+
     setUploadImageSources(newUploadImageSources);
+    setImageOrder(newImageOrders);
   };
 
   const syncArtworkData = useCallback(() => {
