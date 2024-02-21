@@ -17,7 +17,7 @@ function WithdrawalModal() {
 
   const clearModal = useStore((state) => state.clearModal);
 
-  const disableButton = inputValue !== '청춘 탈퇴';
+  const disableButton = inputValue !== 'Art TalkTalk 탈퇴';
 
   const onSubmit = () => {
     router.replace('/');
@@ -32,13 +32,13 @@ function WithdrawalModal() {
       <div className="deleteModal" onClick={(e) => e.stopPropagation()}>
         <div className="flex flex-col gap-20">
           <span className="flex-center text-14 font-bold">계정 탈퇴</span>
-          <span className="text-14">청춘예찬 계정을 탈퇴하시려면 ‘청춘 탈퇴’를 입력해주세요</span>
+          <span className="text-14">Art TalkTalk 계정을 탈퇴하시려면 ‘Art TalkTalk 탈퇴’를 입력해주세요</span>
           <form className="flex flex-row gap-40" onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col">
               <input
                 {...register('confirmation', {
                   validate: {
-                    match: (value) => value === '청춘 탈퇴' || '다시 입력해주세요',
+                    match: (value) => value === 'Art TalkTalk 탈퇴' || '다시 입력해주세요',
                   },
                 })}
                 className={`rounded-xs p-5 ${errors.confirmation ? 'border-red-500' : ''}`}
