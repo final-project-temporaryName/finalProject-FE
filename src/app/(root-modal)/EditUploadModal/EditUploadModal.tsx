@@ -38,17 +38,17 @@ export default function EditUploadModal() {
     queryFn: () => getArtwork(clickedArtworkId),
   });
 
-  const imageIds = artwork?.artworkImageResponse.map((item) => item.imageId);
-  const imageUrls = artwork?.artworkImageResponse.map((item) => item.imageUrl);
+  const responseImageIds = artwork?.artworkImageResponse.map((item) => item.imageId);
+  const responseImageUrls = artwork?.artworkImageResponse.map((item) => item.imageUrl);
 
   // states
   const [title, setTitle] = useState<string | undefined>(artwork?.title);
   const [description, setDescription] = useState<string | undefined>(artwork?.description);
-  const [uploadImageSources, setUploadImageSources] = useState<string[] | undefined>(imageUrls);
+  const [uploadImageSources, setUploadImageSources] = useState<string[] | undefined>(responseImageUrls);
   const [label, setLabel] = useState<'PUBLIC' | 'SELLING' | 'FREE' | undefined>(artwork?.artworkStatus);
   const [showImage, setShowImage] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
-  const [imageOrder, setImageOrder] = useState<number[] | undefined>(imageIds);
+  const [imageOrder, setImageOrder] = useState<number[] | undefined>(responseImageIds);
   const [, setCurrentImageData] = useState<ImageArtworkType | undefined>();
 
   //hooks
@@ -62,7 +62,7 @@ export default function EditUploadModal() {
   const uploadPutMutation = useMutation({
     mutationFn: (newPost: PutCardRequestType) => putArtwork(newPost),
     onSuccess: () => {
-      toast.success('작품 수정 성공! 🎉');
+      // TODO: myPage에 해당하는 queryKey로 수정하기
       if (pathname === '/') queryClient.refetchQueries({ queryKey: ['allArtworks'] });
     },
   });
@@ -73,8 +73,19 @@ export default function EditUploadModal() {
 
   const handleSubmit = () => {
     const newPost = { artworkId: clickedArtworkId, imageIds: imageOrder, title, description, artworkStatus: label };
-    console.log(newPost);
-    uploadPutMutation.mutate(newPost);
+    uploadPutMutation.mutate(newPost, {
+      onSuccess: (res) => {
+        if (res?.data === 'fail') {
+          toast.error('작품 업로드 실패!');
+        } else {
+          toast.success('작품 업로드 성공! 🎉');
+          clearModal();
+        }
+      },
+      onError: (err) => {
+        console.log(err);
+      },
+    });
     clearModal();
   };
 
@@ -170,8 +181,8 @@ export default function EditUploadModal() {
     setTitle(artwork.title);
     setDescription(artwork.description);
     setLabel(artwork.artworkStatus);
-    setUploadImageSources(imageUrls);
-    setImageOrder(imageIds);
+    setUploadImageSources(responseImageUrls);
+    setImageOrder(responseImageIds);
   }, [artwork]);
 
   // 게시물 업로드 데이터 동기화
