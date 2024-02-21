@@ -273,7 +273,7 @@ function ProfilePage({ mode }: Props) {
           <div className="mb-10 mt-auto flex justify-end">
             <button
               type="submit"
-              className={`primary-button storage-button flex-end ${disableSaveButton ? 'disabled' : ''}`}
+              className={`primary-button storage-button flex-end ${disableSaveButton ? 'disabled-button' : ''}`}
               disabled={disableSaveButton}
             >
               {buttonText}

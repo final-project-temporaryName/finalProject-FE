@@ -128,25 +128,29 @@
   @apply h-40 w-123 border-none bg-gray-5 text-white;
 }
 
+.disabled-button {
+  @apply opacity-30;
+}
+
 /* Input */
 .primary-input {
   @apply h-40 w-auto bg-gray-1 px-15 py-11 text-14 focus:outline-none;
 }
 
 .xs-input {
-  @apply md:w-90 w-115;
+  @apply w-115 md:w-90;
 }
 
 .sm-input {
-  @apply md:w-150 w-172;
+  @apply w-172 md:w-150;
 }
 
 .md-input {
-  @apply md:w-150 w-200;
+  @apply w-200 md:w-150;
 }
 
 .lg-input {
-  @apply md:w-208 w-268;
+  @apply w-268 md:w-208;
 }
 
 .file-input-wrapper {

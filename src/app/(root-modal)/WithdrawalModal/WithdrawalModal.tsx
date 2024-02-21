@@ -1,10 +1,8 @@
 'use client';
 
+import { useStore } from '@/store';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { useStore } from '@/store';
-import Link from 'next/link';
-import Modal from '@/app/(root-modal)/_components';
 
 function WithdrawalModal() {
   const router = useRouter();
