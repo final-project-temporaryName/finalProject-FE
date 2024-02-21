@@ -254,7 +254,7 @@ export default function EditUploadModal() {
               buttonStyle="save-button"
               onClick={handleSubmit}
             >
-              게시하기
+              수정하기
             </Button.Modal.Action>
           </div>
           <div className="flex-col-center absolute right-20 top-0 gap-25">
