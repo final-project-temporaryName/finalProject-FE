@@ -28,7 +28,7 @@ function KebabButton({ artworkId }: { artworkId: number }) {
     else handleDropDownOpen();
   };
 
-  const handleModifyClick = async (e: MouseEvent<HTMLButtonElement>) => {
+  const handleModifyClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     showModal('editModal');
     setClickedArtworkId(artworkId);
