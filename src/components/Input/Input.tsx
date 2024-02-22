@@ -4,31 +4,13 @@ import { deleteImageFile } from '@/api/image/deleteImageFile';
 import { postImageFile } from '@/api/image/postImageFile';
 import PlusButtonIcon from '@/components/SvgComponents/PlusButtonIcon';
 import UpLoadIcon from '@/components/SvgComponents/UpLoadIcon';
+import { InputProps } from '@/types/input';
 import Image from 'next/image';
-import React, { ChangeEvent, FocusEventHandler, useId, useRef, useState } from 'react';
-import { UseFormRegisterReturn } from 'react-hook-form';
+import React, { ChangeEvent, useEffect, useId, useRef, useState } from 'react';
 
-interface Props {
-  label?: string;
-  id: string;
-  type?: 'text' | 'nickname' | 'file';
-  placeholder?: string;
-  error?: any;
-  register?: UseFormRegisterReturn;
-  style?: string;
-  accept?: string;
-  readOnly?: boolean;
-  onImageUpload?: (url: string) => void;
-  userId?: number;
-  defaultValue?: string;
-  value?: string;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: FocusEventHandler<HTMLInputElement>;
-}
-
-const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
+const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const { label, type = 'text', placeholder, error, register, style, readOnly, value, onChange, onImageUpload } = props;
-  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [profileImage, setProfileImage] = useState<string | null>(props.defaultValue ? props.defaultValue : null);
   const inputRef = useRef<HTMLInputElement>(null);
   const id = useId();
 
@@ -71,7 +53,7 @@ const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
           id={id}
           ref={inputRef}
           placeholder={placeholder}
-          className="primary-input hidden-file-input"
+          className="primary-input hidden-file-input cursor-pointer"
           onChange={handleFileChange}
         />
         <label htmlFor={id} className="file-input-label border-1 border-solid border-gray-4">
@@ -107,12 +89,17 @@ const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
     </div>
   );
 
+  useEffect(() => {
+    // props.defaultValue가 변경될 때마다 profileImage 상태를 업데이트합니다.
+    setProfileImage(props.defaultValue ? props.defaultValue : null);
+  }, [props.defaultValue]);
+
   return (
     <div className="flex-center">
       {label && (
         <label
           htmlFor={id}
-          className="md:w-70 md:text-14 flex h-40 w-90 items-center justify-start gap-20 whitespace-nowrap p-10 text-18"
+          className="flex h-40 w-90 items-center justify-start gap-20 whitespace-nowrap p-10 text-18 md:w-70 md:text-14"
         >
           {label}
         </label>

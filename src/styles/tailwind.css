@@ -32,6 +32,10 @@
   @apply absolute top-0 inline-block h-56 w-full rounded-sm border-1 border-solid border-[#cfd9de] px-8 pt-8 text-13 text-[#536471] focus-within:text-primary;
 }
 
+.deleteModal {
+  @apply relative z-infinite flex h-170 w-500 flex-col items-center justify-center rounded-md bg-gray-2;
+}
+
 /* SideBar component */
 .count {
   @apply flex items-center justify-center text-center text-10;
@@ -118,6 +122,14 @@
 
 .duplication-button {
   @apply h-30 w-77 border-primary bg-white text-black hover:border-primary hover:bg-primary hover:text-white active:bg-primary active:text-white;
+}
+
+.withdraw-button {
+  @apply h-40 w-123 border-none bg-gray-5 text-white;
+}
+
+.disabled-button {
+  @apply opacity-30;
 }
 
 /* Input */

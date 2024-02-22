@@ -60,13 +60,13 @@ function SideBar({ displayStatus }: SideBarProps) {
       </div>
       <div className="absolute top-48 flex h-full w-260 flex-col items-center rounded-[12px] bg-gray-1">
         <div className="mt-70 flex h-full w-192 flex-col items-center">
-          {displayStatus === 'myWork' ? (
-            <Link href="/editProfile" className="z-10 absolute right-13 top-15 h-32 w-32 rounded-full">
+          {/* {displayStatus === 'myWork' ? (
+            <Link href="/myAccount" className="z-10 absolute right-13 top-15 h-32 w-32 rounded-full">
               <div className="flex h-full w-full items-center justify-center rounded-full border-2 border-solid border-gray-4 bg-white">
                 <EditIcon />
               </div>
             </Link>
-          ) : null}
+          ) : null} */}
           <div className="flex-col-center">
             <div className="items-center text-center text-18 font-semibold">{userInfo?.nickname}</div>
             <p className="text-12 text-gray-9">{userInfo?.activityArea + ' / ' + userInfo?.activityField}</p>
@@ -107,7 +107,7 @@ function SideBar({ displayStatus }: SideBarProps) {
               ))}
           </div>
           {displayStatus === 'myWork' ? (
-            <Link href="/editProfile" className="flex w-116 items-center gap-4 text-12 text-gray-9">
+            <Link href="/myAccount" className="flex w-116 items-center gap-4 text-12 text-gray-9">
               <AddLinkIcon />
               {userInfo?.links && userInfo.links.length === 5 ? '링크 수정하기' : '링크 추가하기'}
             </Link>
