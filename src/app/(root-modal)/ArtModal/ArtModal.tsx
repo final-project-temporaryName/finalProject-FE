@@ -1,6 +1,7 @@
 'use client';
 
 import { getArtwork } from '@/api/artwork/getArtwork';
+import { deleteLike } from '@/api/like/deleteLike';
 import { postLike } from '@/api/like/postLike';
 import BlackLike from '@/components/Comment/BlackLike';
 import CommentContainer from '@/components/Comment/CommentContainer';
@@ -8,13 +9,12 @@ import RedLike from '@/components/Comment/RedLike';
 import SlideContainer from '@/components/SlideContainer/SlideContainer';
 import { useStore } from '@/store';
 import { GetSpecificCardResponseType } from '@/types/cards';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import DOMPurify from 'dompurify';
 import Link from 'next/link';
 import { useState } from 'react';
 import CommentIcon from '../../../../public/assets/icons/comment.svg';
 import Modal from '../_components';
-import { deleteLike } from '@/api/like/deleteLike';
 
 export default function ArtModal() {
   const [isLikeClicked, setIsLikeClicked] = useState(false);
@@ -22,10 +22,20 @@ export default function ArtModal() {
 
   const clickedArtworkId = useStore((state) => state.clickedArtworkId);
 
+  const queryClient = useQueryClient();
+
   const { data: artwork } = useQuery<GetSpecificCardResponseType>({
     queryKey: ['artwork', clickedArtworkId],
     queryFn: () => getArtwork(clickedArtworkId),
     staleTime: 3 * 1000,
+  });
+
+  const getPostMutation = useMutation<GetSpecificCardResponseType>({
+    mutationKey: ['artwork'],
+    mutationFn: () => getArtwork(clickedArtworkId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['artwork'] });
+    },
   });
 
   let customDate;
@@ -40,14 +50,15 @@ export default function ArtModal() {
 
   const handleLikeClick = async () => {
     setIsLikeClicked((prev) => !prev);
-    // TODO: 좋아요 post api 요청 로직 필요(optimistic update)
     const response = await postLike(clickedArtworkId);
     setLikeId(response.likeId);
+    getPostMutation.mutate();
   };
 
   const handleUnLikeClick = () => {
     setIsLikeClicked((prev) => !prev);
     deleteLike({ artworkId: clickedArtworkId, likeId: likeId });
+    getPostMutation.mutate();
   };
 
   return (
