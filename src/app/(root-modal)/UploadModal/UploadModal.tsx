@@ -49,8 +49,6 @@ export default function UploadModal() {
     queryFn: () => getUser(userId),
   });
 
-  console.log(userData);
-
   //hooks
   const inputRef = useRef<HTMLInputElement | null>(null);
   const pathname = usePathname();
