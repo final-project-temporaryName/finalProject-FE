@@ -3,10 +3,10 @@ import instance from '../axios';
 
 interface DeleteArtworkProps {
   artworkId: number;
-  likeId: number;
+  likeId: number | undefined;
 }
 
-export const deleteArtwork = async ({ artworkId, likeId }: DeleteArtworkProps) => {
+export const deleteLike = async ({ artworkId, likeId }: DeleteArtworkProps) => {
   try {
     const response = await instance.delete(`/artworks/${artworkId}/likes/${likeId}`);
     return response;

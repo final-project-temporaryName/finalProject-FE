@@ -1,6 +1,7 @@
 'use client';
 
 import { getArtwork } from '@/api/artwork/getArtwork';
+import { postLike } from '@/api/like/postLike';
 import BlackLike from '@/components/Comment/BlackLike';
 import CommentContainer from '@/components/Comment/CommentContainer';
 import RedLike from '@/components/Comment/RedLike';
@@ -13,9 +14,11 @@ import Link from 'next/link';
 import { useState } from 'react';
 import CommentIcon from '../../../../public/assets/icons/comment.svg';
 import Modal from '../_components';
+import { deleteLike } from '@/api/like/deleteLike';
 
 export default function ArtModal() {
   const [isLikeClicked, setIsLikeClicked] = useState(false);
+  const [likeId, setLikeId] = useState<number>();
 
   const clickedArtworkId = useStore((state) => state.clickedArtworkId);
 
@@ -35,9 +38,16 @@ export default function ArtModal() {
     customDate = `${year}년 ${month + 1}월 ${date}일`;
   }
 
-  const handleLikeClick = () => {
+  const handleLikeClick = async () => {
     setIsLikeClicked((prev) => !prev);
-    // 좋아요 post api 요청 로직 필요(optimistic update)
+    // TODO: 좋아요 post api 요청 로직 필요(optimistic update)
+    const response = await postLike(clickedArtworkId);
+    setLikeId(response.likeId);
+  };
+
+  const handleUnLikeClick = () => {
+    setIsLikeClicked((prev) => !prev);
+    deleteLike({ artworkId: clickedArtworkId, likeId: likeId });
   };
 
   return (
@@ -65,33 +75,37 @@ export default function ArtModal() {
               <span className="mt-5 text-14 text-[#8f8f8f]">{customDate}</span>
             </div>
             <div className="sticky top-0 flex flex-col items-end gap-20 pl-32 pt-5">
-              {/* 라이크 버튼 */}
-              <div
-                className={`${isLikeClicked ? 'bg-gray-1 shadow-[0px_0px_15px_rgba(0,0,0,0.6)]' : 'bg-white shadow-[0px_0px_12px_rgba(0,0,0,0.3)]'} flex-col-center h-48 w-48 cursor-pointer rounded-full`}
-                onClick={handleLikeClick}
-              >
-                {isLikeClicked ? (
-                  <>
-                    <div>
-                      <RedLike />
-                    </div>
-                    <p className={'mb-3 text-12 text-primary'}>
-                      {artwork &&
-                        (artwork.likeCount < 1000 ? artwork.likeCount : (artwork.likeCount / 1000).toFixed(1) + 'k')}
-                    </p>
-                  </>
-                ) : (
-                  <>
-                    <div className="animate-pulse">
-                      <BlackLike />
-                    </div>
-                    <p className={'mb-3 text-12'}>
-                      {artwork &&
-                        (artwork.likeCount < 1000 ? artwork.likeCount : (artwork.likeCount / 1000).toFixed(1) + 'k')}
-                    </p>
-                  </>
-                )}
-              </div>
+              {isLikeClicked ? (
+                <div
+                  className={
+                    'flex-col-center h-48 w-48 cursor-pointer rounded-full bg-gray-1 shadow-[0px_0px_15px_rgba(0,0,0,0.6)]'
+                  }
+                  onClick={handleUnLikeClick}
+                >
+                  <div>
+                    <RedLike />
+                  </div>
+                  <p className={'mb-3 text-12 text-primary'}>
+                    {artwork &&
+                      (artwork.likeCount < 1000 ? artwork.likeCount : (artwork.likeCount / 1000).toFixed(1) + 'k')}
+                  </p>
+                </div>
+              ) : (
+                <div
+                  className={
+                    'flex-col-center h-48 w-48 cursor-pointer rounded-full bg-white shadow-[0px_0px_12px_rgba(0,0,0,0.3)]'
+                  }
+                  onClick={handleLikeClick}
+                >
+                  <div className="animate-pulse">
+                    <BlackLike />
+                  </div>
+                  <p className={'mb-3 text-12'}>
+                    {artwork &&
+                      (artwork.likeCount < 1000 ? artwork.likeCount : (artwork.likeCount / 1000).toFixed(1) + 'k')}
+                  </p>
+                </div>
+              )}
               {/* 댓글 버튼 */}
               <Link
                 href="#downwards"
