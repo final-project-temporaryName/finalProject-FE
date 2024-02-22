@@ -4,7 +4,6 @@ import CardContainer from '@/components/Card/CardContainer';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import ArtistLabelsGroup from './ArtistLabelsGroup';
-import { getArtworks } from '@/api/artworks/getArtworks';
 
 function ArtistCardSection() {
   const [label, setLabel] = useState<'전체' | '판매중'>('전체');
@@ -16,7 +15,7 @@ function ArtistCardSection() {
   return (
     <main className={`ml-330 ${firstPathname === 'artist' ? 'mt-157' : 'mt-77'}`}>
       <ArtistLabelsGroup setArtistValue={setLabel} />
-      <CardContainer type="artist" />
+      <CardContainer type="artist" categoryType={label} />
     </main>
   );
 }
