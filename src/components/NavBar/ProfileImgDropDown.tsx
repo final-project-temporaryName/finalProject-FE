@@ -36,9 +36,9 @@ function ProfileImgDropDown({ userName, profileImg, major, isPending }: ProfileI
   };
 
   const handleLogoutClick = async () => {
-    removeStore();
     setLogout();
     await signOut();
+    removeStore();
     router.push('/');
   };
 

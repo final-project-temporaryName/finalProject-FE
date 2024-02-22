@@ -65,7 +65,7 @@ instance.interceptors.response.use(
     if (status === 400) {
       if (error.response.data.message === 'JWT 토큰이 없습니다.') {
         window.alert('접근 권한이 없습니다. 로그인을 해주세요.');
-        window.location.replace('/');
+        window.location.replace('/login');
       }
     }
 

@@ -20,7 +20,7 @@ function NavigatorBox() {
   const { data, isPending, isSuccess } = useQuery<GetMyPageResponseType>({
     queryKey: ['myPageInfo'],
     queryFn: getMyPage,
-    enabled: isLogin,
+    enabled: !!isLogin,
     staleTime: 3 * 1000,
   });
   const userInfo = data?.userProfileResponse as UserType;
