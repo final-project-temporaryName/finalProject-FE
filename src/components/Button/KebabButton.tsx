@@ -1,16 +1,25 @@
 'use client';
 
-import Image from 'next/image';
-import { MouseEvent, useRef } from 'react';
-import KebabImage from '../../../public/assets/images/KebabImage.png';
-import ProfileDropDownImage from '../../../public/assets/icons/KebabDropDown.svg';
 import useDropDown from '@/hooks/useDropDown';
 import useOnClickOutside from '@/hooks/useOnClickOutside';
+import { useStore } from '@/store';
+import Image from 'next/image';
+import { MouseEvent, useRef } from 'react';
+import ProfileDropDownImage from '../../../public/assets/icons/KebabDropDown.svg';
+import KebabImage from '../../../public/assets/images/KebabImage.png';
 
-function KebabButton() {
-  const containerRef = useRef<HTMLDivElement>(null);
+function KebabButton({ artworkId }: { artworkId: number }) {
+  // states
   const { isOpen: isDropDownOpen, handleDropDownOpen, handleDropDownClose } = useDropDown();
+  const { showModal, setClickedArtworkId } = useStore((state) => ({
+    showModal: state.showModal,
+    setClickedArtworkId: state.setClickedArtworkId,
+  }));
 
+  // hooks
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // handlers
   useOnClickOutside(containerRef, handleDropDownClose);
 
   const handleKebabClick = (e: MouseEvent<HTMLDivElement>) => {
@@ -21,10 +30,14 @@ function KebabButton() {
 
   const handleModifyClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    showModal('editModal');
+    setClickedArtworkId(artworkId);
   };
 
   const handleDeleteClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    setClickedArtworkId(artworkId);
+    showModal('askForDelete');
   };
 
   return (

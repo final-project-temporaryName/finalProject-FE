@@ -1,6 +1,5 @@
 'use client';
 
-import { getMe } from '@/api/auth/getMe';
 import instance from '@/api/axios';
 import Input from '@/components/Input/Input';
 import LinkInput from '@/components/Input/LinkInput';
@@ -9,7 +8,7 @@ import { nicknameRules } from '@/constants/InputErrorRules';
 import { useStore } from '@/store';
 import { PostUserLinks, PutRequestSignUp } from '@/types/users';
 import getUserInfo from '@/utils/getUserInfo';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';

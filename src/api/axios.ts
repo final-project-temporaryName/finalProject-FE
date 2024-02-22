@@ -2,7 +2,7 @@ import axios from 'axios';
 import _ from 'lodash';
 
 const instance = axios.create({
-  baseURL: 'https://www.art-talktalk.store/',
+  baseURL: 'https://www.art-talktalk.store',
 });
 
 instance.interceptors.request.use(

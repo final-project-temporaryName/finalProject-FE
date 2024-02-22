@@ -1,11 +1,11 @@
-import { PostCardRequestType } from '@/types/cards';
+import { PutCardRequestType } from '@/types/cards';
 import { AxiosError } from 'axios';
 import instance from '../axios';
 
-export const postArtwork = async ({ imageIds, title, description, artworkStatus }: PostCardRequestType) => {
+export const putArtwork = async ({ artworkId, imageIds, title, description, artworkStatus }: PutCardRequestType) => {
   try {
-    const response = await instance.post(
-      '/artworks',
+    const response = await instance.put(
+      `/artworks/${artworkId}`,
       {
         imageIds,
         title,

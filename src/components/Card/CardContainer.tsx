@@ -7,6 +7,8 @@ import { useStore } from '@/store';
 import { CardType } from '@/types/cards';
 import { useRef } from 'react';
 import ArtModal from '@/app/(root-modal)/ArtModal/ArtModal';
+import EditUploadModal from '@/app/(root-modal)/EditUploadModal/EditUploadModal';
+import AskForDeleteModal from '@/app/(root-modal)/AskForDeleteModal/AskForDeleteModal';
 
 interface queryFnProps {
   pageParam?: number | null;
@@ -83,6 +85,8 @@ function CardContainer({ type, queryKey, queryFn }: Props) {
         <div ref={bottom} />
       </div>
       {modals[modals?.length - 1] === 'artModal' && <ArtModal />}
+      {modals[modals?.length - 1] === 'editModal' && <EditUploadModal />}
+      {modals[modals?.length - 1] === 'askForDelete' && <AskForDeleteModal />}
     </>
   );
 }
