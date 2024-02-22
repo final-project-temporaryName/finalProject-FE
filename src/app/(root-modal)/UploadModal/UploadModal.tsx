@@ -2,13 +2,15 @@
 
 import { postArtwork } from '@/api/upload/postArtwork';
 import { postUploadImageFile } from '@/api/upload/postUploadImageFile';
+import getUser from '@/api/users/getUser';
 import { Button } from '@/components/Button';
 import { useStore } from '@/store';
 import '@/styles/tailwind.css';
 import { PostCardRequestType } from '@/types/cards';
 import { ImageArtworkType } from '@/types/image';
+import { UserType } from '@/types/users';
 import { DragDropContext, DropResult, Droppable } from '@hello-pangea/dnd';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useRef, useState } from 'react';
@@ -35,11 +37,19 @@ export default function UploadModal() {
   const [showImage, setShowImage] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
   const [imageOrder, setImageOrder] = useState<number[]>([]);
-  const [currentImageData, setCurrentImageData] = useState<ImageArtworkType | undefined>();
+  const [, setCurrentImageData] = useState<ImageArtworkType | undefined>();
 
-  const { clearModal } = useStore((state) => ({
+  const { clearModal, userId } = useStore((state) => ({
     clearModal: state.clearModal,
+    userId: state.userId,
   }));
+
+  const { data: userData } = useQuery<UserType>({
+    queryKey: ['user'],
+    queryFn: () => getUser(userId),
+  });
+
+  console.log(userData);
 
   //hooks
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -156,7 +166,7 @@ export default function UploadModal() {
 
   return (
     <Modal.Container classname="modalContainer">
-      <Modal.Header />
+      <Modal.Header nickname={userData?.nickname} profileImageUrl={userData?.profileImageUrl} />
       <Modal.Body classname="flex h-full">
         <DragDropContext onDragEnd={onDragEnd}>
           {uploadImageSources.length ? (
