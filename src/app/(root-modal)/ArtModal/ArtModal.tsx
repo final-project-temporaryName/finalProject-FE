@@ -3,7 +3,7 @@
 import { getArtwork } from '@/api/artwork/getArtwork';
 import BlackLike from '@/components/Comment/BlackLike';
 import CommentContainer from '@/components/Comment/CommentContainer';
-import WhiteLike from '@/components/Comment/WhiteLike';
+import RedLike from '@/components/Comment/RedLike';
 import SlideContainer from '@/components/SlideContainer/SlideContainer';
 import { useStore } from '@/store';
 import { GetSpecificCardResponseType } from '@/types/cards';
@@ -13,7 +13,6 @@ import Link from 'next/link';
 import { useState } from 'react';
 import CommentIcon from '../../../../public/assets/icons/comment.svg';
 import Modal from '../_components';
-import { useScrollY } from '@/hooks/useScrollY';
 
 export default function ArtModal() {
   const [isLikeClicked, setIsLikeClicked] = useState(false);
@@ -66,6 +65,26 @@ export default function ArtModal() {
               <span className="mt-5 text-14 text-[#8f8f8f]">{customDate}</span>
             </div>
             <div className="sticky top-0 flex flex-col items-end gap-20 pt-5">
+              {/* 라이크 버튼 */}
+              <div
+                className={`${isLikeClicked ? 'bg-gray-1 shadow-[0px_0px_15px_rgba(0,0,0,0.6)]' : 'bg-white shadow-[0px_0px_12px_rgba(0,0,0,0.3)]'} flex-col-center h-48 w-48 cursor-pointer rounded-full`}
+                onClick={handleLikeClick}
+              >
+                {isLikeClicked ? (
+                  <div>
+                    <RedLike />
+                  </div>
+                ) : (
+                  <div className="animate-pulse">
+                    <BlackLike />
+                  </div>
+                )}
+                <p className={'mb-3 text-12'}>
+                  {artwork &&
+                    (artwork.likeCount < 1000 ? artwork.likeCount : (artwork.likeCount / 1000).toFixed(1) + 'k')}
+                </p>
+              </div>
+              {/* 댓글 버튼 */}
               <Link
                 href="#downwards"
                 className="flex-col-center h-48 w-48 rounded-full shadow-[0px_0px_12px_rgba(0,0,0,0.3)]"
@@ -80,24 +99,6 @@ export default function ArtModal() {
                       : (artwork.commentCount / 1000).toFixed(1) + 'k')}
                 </span>
               </Link>
-              <div
-                className={`${isLikeClicked ? 'bg-gray-1 shadow-[0px_0px_15px_rgba(0,0,0,0.6)]' : 'bg-white shadow-[0px_0px_12px_rgba(0,0,0,0.3)]'} flex-col-center h-48 w-48 cursor-pointer rounded-full`}
-                onClick={handleLikeClick}
-              >
-                {isLikeClicked ? (
-                  <div>
-                    <BlackLike />
-                  </div>
-                ) : (
-                  <div className="animate-pulse">
-                    <WhiteLike />
-                  </div>
-                )}
-                <p className={'mb-3 text-12'}>
-                  {artwork &&
-                    (artwork.likeCount < 1000 ? artwork.likeCount : (artwork.likeCount / 1000).toFixed(1) + 'k')}
-                </p>
-              </div>
             </div>
           </div>
         </div>
