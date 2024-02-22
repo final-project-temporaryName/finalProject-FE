@@ -1,3 +1,5 @@
+import { CardType } from './cards';
+
 export interface UserType {
   userId: number;
   userRole: 'ASSOCIATE' | 'REGULAR';
@@ -67,3 +69,10 @@ export interface PutUserInfoRequestType {
 export interface PutUserInfoResponseType extends UserType {}
 
 export interface DeleteUserInfoRequestType {}
+
+export interface GetMyPageResponseType {
+  userProfileResponse: UserType;
+  artworkResponsePageResponse: {
+    contents: CardType[];
+  };
+}
