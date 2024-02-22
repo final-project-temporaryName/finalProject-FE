@@ -1,6 +1,5 @@
 'use client';
 
-import { getArtworks } from '@/api/artworks/getArtworks';
 import CategoryButtonGroup from '@/components/Button/Category/CategoryButtonGroup';
 import CardContainer from '@/components/Card/CardContainer';
 import { usePathname } from 'next/navigation';
@@ -14,7 +13,7 @@ function MainContainer() {
   return (
     <main className={`ml-330 ${pathname === '/mypage' ? 'mt-157' : 'mt-77'}`}>
       <CategoryButtonGroup setMyPageValue={setLabel} />
-      <CardContainer type="mypage" />
+      <CardContainer type="mypage" categoryType={label} />
     </main>
   );
 }

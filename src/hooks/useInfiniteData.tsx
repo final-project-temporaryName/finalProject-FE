@@ -3,15 +3,18 @@ import { MutableRefObject } from 'react';
 import { useObserver } from './useObserver';
 
 interface queryFnProps {
+  categoryType?: '전체' | 'following' | '판매중' | '컬렉션';
+  userId?: string;
   pageParam?: number | null;
 }
-
 interface Props<T, E extends Element> {
   queryKey: string[];
   queryFn: (props: queryFnProps) => Promise<T>;
   initialPageParam: number | null;
   getNextPageParam: GetNextPageParamFunction<number | null, T>;
   ref: MutableRefObject<E | null>;
+  userId?: string;
+  categoryType?: '전체' | 'following' | '판매중' | '컬렉션';
 }
 
 function useInfiniteData<T, E extends Element>({
@@ -20,12 +23,18 @@ function useInfiniteData<T, E extends Element>({
   getNextPageParam,
   initialPageParam,
   ref,
+  userId,
+  categoryType,
 }: Props<T, E>) {
   // query
   const { data, status, fetchNextPage, isPending, ...rest } = useInfiniteQuery<T, Error, T, string[], number | null>({
     queryKey,
     queryFn: async ({ pageParam }) => {
-      return await queryFn({ pageParam });
+      if (userId && categoryType) {
+        return await queryFn({ categoryType, userId, pageParam });
+      } else {
+        return await queryFn({ pageParam });
+      }
     },
     getNextPageParam,
     initialPageParam,

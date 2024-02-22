@@ -9,9 +9,12 @@ import { useRef } from 'react';
 import Card from './Card';
 import EditUploadModal from '@/app/(root-modal)/EditUploadModal/EditUploadModal';
 import AskForDeleteModal from '@/app/(root-modal)/AskForDeleteModal/AskForDeleteModal';
+import { getArtistArtworks } from '@/api/artworks/getArtistArtworks';
+import { useParams } from 'next/navigation';
 
 interface Props {
   type: 'main' | 'mypage' | 'artist';
+  categoryType: '전체' | 'following' | '판매중' | '컬렉션';
 }
 
 interface ArtWorks {
@@ -20,14 +23,15 @@ interface ArtWorks {
   pages: ArtWorks[];
 }
 
-function CardContainer({ type }: Props) {
-  const bottom = useRef<HTMLDivElement>(null);
+function CardContainer({ type, categoryType }: Props) {
   let data;
   let isPending: boolean;
 
+  const bottom = useRef<HTMLDivElement>(null);
+  const params = useParams<{ id: string }>();
   const modals = useStore((state) => state.modals);
 
-  if (type === 'main') {
+  if (type === 'main' && categoryType === '전체') {
     const argument = {
       queryKey: ['allArtworks'],
       queryFn: getArtworks,
@@ -36,6 +40,21 @@ function CardContainer({ type }: Props) {
         return lastPage.hasNext ? lastPage.contents[lastPage.contents.length - 1].artworkId : undefined;
       },
       ref: bottom,
+    };
+    const { data: responseData, isPending: pending } = useInfiniteData(argument);
+    data = responseData;
+    isPending = pending as boolean;
+  } else if (type === 'artist') {
+    const argument = {
+      queryKey: ['artistArtworks', params.id, categoryType],
+      queryFn: getArtistArtworks,
+      initialPageParam: null,
+      getNextPageParam: (lastPage: ArtWorks) => {
+        return lastPage.hasNext ? lastPage.contents[lastPage.contents.length - 1].artworkId : undefined;
+      },
+      ref: bottom,
+      userId: params.id,
+      categoryType: categoryType,
     };
     const { data: responseData, isPending: pending } = useInfiniteData(argument);
     data = responseData;
