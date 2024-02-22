@@ -1,4 +1,4 @@
-import DeleteBox from '@/app/(auth)/(manage)/myAccount/@deleteModal/_component/DeleteBox';
+import DeleteBox from '@/app/(auth)/myAccount/@deleteProfile/_component/DeleteBox';
 
 function DeleteUserPage() {
   return (
