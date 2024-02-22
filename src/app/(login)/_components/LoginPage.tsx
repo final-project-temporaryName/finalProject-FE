@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import loginBgImg from '../../../../public/assets/images/loginBg.png';
-import NaverLoginButton from '../login/_components/NaverLoginButton';
 import KakaoLoginButton from '../login/_components/KakaoLoginButton';
+import NaverLoginButton from '../login/_components/NaverLoginButton';
 
 function LoginPage() {
   return (
