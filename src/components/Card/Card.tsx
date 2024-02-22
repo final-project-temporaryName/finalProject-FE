@@ -14,7 +14,7 @@ import { Button } from '../Button';
 import Count from './Count';
 import CardImageFallbackUI from '../FallbackUI/Card/CardImageFallbackUI';
 
-type CustomCardType = Omit<CardType, 'description' | 'createdAt' | 'updatedAt'>;
+type CustomCardType = Omit<CardType, 'description' | 'createdAt' | 'updatedAt' | 'likeId' | 'followId'>;
 
 interface Props extends CustomCardType {
   type: 'main' | 'mypage' | 'artist';
