@@ -45,7 +45,7 @@ export default function UploadModal() {
   }));
 
   const { data: userData } = useQuery<UserType>({
-    queryKey: ['user'],
+    queryKey: ['user', userId],
     queryFn: () => getUser(userId),
   });
 
@@ -59,7 +59,7 @@ export default function UploadModal() {
   const uploadPostMutation = useMutation({
     mutationFn: (newPost: PostCardRequestType) => postArtwork(newPost),
     onSuccess: () => {
-      if (pathname === '/') queryClient.invalidateQueries({ queryKey: ['allArtworks'] });
+      queryClient.invalidateQueries({ queryKey: ['allArtworks'] });
     },
     onError: () => {
       console.error('err');
