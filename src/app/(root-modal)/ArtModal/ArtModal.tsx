@@ -53,8 +53,8 @@ export default function ArtModal() {
           {artwork?.artworkImageResponse?.length && (
             <SlideContainer artworkImageResponse={artwork?.artworkImageResponse} />
           )}
-          <div className="relative flex h-auto px-5 pt-15">
-            <div className="flex w-full flex-col gap-20">
+          <div className="relative flex h-auto px-20 pt-30">
+            <div className="flex w-full flex-col gap-25">
               <p className="text-18 font-bold">{artwork?.title}</p>
               {artwork?.description && (
                 <div
@@ -64,25 +64,33 @@ export default function ArtModal() {
               )}
               <span className="mt-5 text-14 text-[#8f8f8f]">{customDate}</span>
             </div>
-            <div className="sticky top-0 flex flex-col items-end gap-20 pt-5">
+            <div className="sticky top-0 flex flex-col items-end gap-20 pl-32 pt-5">
               {/* 라이크 버튼 */}
               <div
                 className={`${isLikeClicked ? 'bg-gray-1 shadow-[0px_0px_15px_rgba(0,0,0,0.6)]' : 'bg-white shadow-[0px_0px_12px_rgba(0,0,0,0.3)]'} flex-col-center h-48 w-48 cursor-pointer rounded-full`}
                 onClick={handleLikeClick}
               >
                 {isLikeClicked ? (
-                  <div>
-                    <RedLike />
-                  </div>
+                  <>
+                    <div>
+                      <RedLike />
+                    </div>
+                    <p className={'mb-3 text-12 text-primary'}>
+                      {artwork &&
+                        (artwork.likeCount < 1000 ? artwork.likeCount : (artwork.likeCount / 1000).toFixed(1) + 'k')}
+                    </p>
+                  </>
                 ) : (
-                  <div className="animate-pulse">
-                    <BlackLike />
-                  </div>
+                  <>
+                    <div className="animate-pulse">
+                      <BlackLike />
+                    </div>
+                    <p className={'mb-3 text-12'}>
+                      {artwork &&
+                        (artwork.likeCount < 1000 ? artwork.likeCount : (artwork.likeCount / 1000).toFixed(1) + 'k')}
+                    </p>
+                  </>
                 )}
-                <p className={'mb-3 text-12'}>
-                  {artwork &&
-                    (artwork.likeCount < 1000 ? artwork.likeCount : (artwork.likeCount / 1000).toFixed(1) + 'k')}
-                </p>
               </div>
               {/* 댓글 버튼 */}
               <Link
