@@ -7,6 +7,9 @@ import Free from './Free';
 import Selling from './Selling';
 import UpArrow from '../../../public/assets/icons/UpArraw.svg';
 import Link from 'next/link';
+import { postComments } from '@/api/comments/postComments';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useStore } from '@/store';
 
 interface CommentContainerProps {
   likeCount: number;
@@ -78,12 +81,40 @@ const data: CommentData[] = [
 ];
 
 function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentContainerProps) {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, watch } = useForm();
+  const queryClient = useQueryClient();
+  const clickedArtworkId = useStore((state) => state.clickedArtworkId);
+  let artworkId = clickedArtworkId;
+  console.log(artworkId);
+  const contents = watch('comment');
+
+  //POST
+  const postCommentsMutation = useMutation({
+    mutationFn: postComments,
+    // onSuccess: () => {
+    //   queryClient.invalidateQueries({ queryKey: ['userProfile'] });
+    // },
+  });
 
   const onValid = (data: InputForm) => {
     console.log('제출 버튼 클릭됨!');
     // data.comment를 첨부해서 post api 요청 로직 필요
+    postCommentsMutation.mutate(
+      { artworkId, contents },
+      {
+        onSuccess: (data) => {
+          console.log(data);
+        },
+        onError: (error) => {
+          console.error(error);
+        },
+        onSettled: () => {},
+      },
+    );
   };
+
+  //GET
+  // const getComment = await getComments();
 
   return (
     <div className="relative">
