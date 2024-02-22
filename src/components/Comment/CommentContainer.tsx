@@ -1,15 +1,18 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import Comment from './Comment';
+import { CommentProps } from '@/types/comment';
+import Comment from '@/components/Comment/Comment';
 import CommentSend from './CommentSend';
 import Free from './Free';
 import Selling from './Selling';
 import UpArrow from '../../../public/assets/icons/UpArraw.svg';
 import Link from 'next/link';
 import { postComments } from '@/api/comments/postComments';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useStore } from '@/store';
+import { getComments } from '@/api/comments/getComments';
+import { GetCommentsResponse } from '@/types/comment';
 
 interface CommentContainerProps {
   likeCount: number;
@@ -21,62 +24,69 @@ interface InputForm {
   comment?: string;
 }
 
-interface CommentData {
-  imageUrl: string;
-  nickName: string;
-  createdAt: string;
-  description: string;
-}
+// interface Comment {
+//   profileUrl: string;
+//   nickname: string;
+//   createdAt: string;
+//   contents: string;
+// }
 
-const data: CommentData[] = [
+const data: CommentProps[] = [
   {
-    imageUrl:
+    profileUrl:
       'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    nickName: 'Elon Musk',
+    nickname: 'Elon Musk',
     createdAt: '2024년 2월 11일',
-    description: '내가 본 것 중에서 단연 최고였다. 와우~',
+    contents: '내가 본 것 중에서 단연 최고였다. 와우~',
+    author: true,
   },
   {
-    imageUrl:
+    profileUrl:
       'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    nickName: 'Elon Musk',
+    nickname: 'Elon Musk',
     createdAt: '2024년 2월 10일',
-    description: '내가 본 것 중에서 단연 최고였다. 와우~',
+    contents: '내가 본 것 중에서 단연 최고였다. 와우~',
+    author: true,
   },
   {
-    imageUrl:
+    profileUrl:
       'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    nickName: 'Elon Musk',
+    nickname: 'Elon Musk',
     createdAt: '2024년 2월 9일',
-    description: '내가 본 것 중에서 단연 최고였다. 와우~',
+    contents: '내가 본 것 중에서 단연 최고였다. 와우~',
+    author: false,
   },
   {
-    imageUrl:
+    profileUrl:
       'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    nickName: 'Elon Musk',
+    nickname: 'Elon Musk',
     createdAt: '2024년 2월 8일',
-    description: '내가 본 것 중에서 단연 최고였다. 와우~',
+    contents: '내가 본 것 중에서 단연 최고였다. 와우~',
+    author: true,
   },
   {
-    imageUrl:
+    profileUrl:
       'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    nickName: 'Elon Musk',
+    nickname: 'Elon Musk',
     createdAt: '2024년 2월 7일',
-    description: 'Awesome !!!!!',
+    contents: 'Awesome !!!!!',
+    author: false,
   },
   {
-    imageUrl:
+    profileUrl:
       'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    nickName: 'Elon Musk',
+    nickname: 'Elon Musk',
     createdAt: '2024년 2월 6일',
-    description: 'Slay',
+    contents: 'Slay',
+    author: true,
   },
   {
-    imageUrl:
+    profileUrl:
       'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    nickName: 'Elon Musk',
+    nickname: 'Elon Musk',
     createdAt: '2024년 2월 6일',
-    description: 'Slay',
+    contents: 'Slay',
+    author: false,
   },
 ];
 
@@ -84,9 +94,15 @@ function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentCon
   const { register, handleSubmit, watch } = useForm();
   const queryClient = useQueryClient();
   const clickedArtworkId = useStore((state) => state.clickedArtworkId);
-  let artworkId = clickedArtworkId;
+  const artworkId = clickedArtworkId;
   console.log(artworkId);
   const contents = watch('comment');
+
+  //GET
+  // const response = useQuery({
+  //   queryKey: ['comments'],
+  //   queryFn: getComments,
+  // });
 
   //POST
   const postCommentsMutation = useMutation({
@@ -113,9 +129,6 @@ function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentCon
     );
   };
 
-  //GET
-  // const getComment = await getComments();
-
   return (
     <div className="relative">
       <div className="absolute -top-10 right-20 z-first">
@@ -126,12 +139,13 @@ function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentCon
           {data &&
             data.length > 0 &&
             data.map((comment) => (
-              <div key={comment.createdAt + comment.nickName}>
+              <div key={comment.createdAt + comment.nickname}>
                 <Comment
-                  imageUrl={comment.imageUrl}
-                  nickName={comment.nickName}
+                  profileUrl={comment.profileUrl}
+                  nickname={comment.nickname}
                   createdAt={comment.createdAt}
-                  description={comment.description}
+                  contents={comment.contents}
+                  author={comment.author}
                 />
               </div>
             ))}
