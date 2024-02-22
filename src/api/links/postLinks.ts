@@ -1,16 +1,11 @@
-import instance from '../axios';
+import instance from '@/api/axios';
 
-export interface LinkProps {
+interface LinkProps {
   userId: number;
   title: string;
   url: string;
 }
 
-export const postLinks = async ({ userId, title, url }: LinkProps) => {
-  try {
-    const response = await instance.post(`/users/${userId}/links`, { title, url });
-    return response.data;
-  } catch (error: any) {
-    return error.response;
-  }
+export const postLinks = ({ userId, title, url }: LinkProps) => {
+  return instance.post(`/users/${userId}/links`, { title, url });
 };

@@ -1,16 +1,17 @@
 'use client';
 
 import instance from '@/api/axios';
+import { getMyPage } from '@/api/users/getMyPage';
 import Input from '@/components/Input/Input';
 import LinkInput from '@/components/Input/LinkInput';
 import PlusButtonIcon from '@/components/SvgComponents/PlusButtonIcon';
 import { nicknameRules } from '@/constants/InputErrorRules';
 import { useStore } from '@/store';
-import { PostUserLinks, PutRequestSignUp } from '@/types/users';
+import { GetMyPageResponseType, GetUserLinks, PostUserLinks, PutRequestSignUp, UserType } from '@/types/users';
 import getUserInfo from '@/utils/getUserInfo';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 
 interface UserData extends PutRequestSignUp {
@@ -26,9 +27,7 @@ function ProfilePage({ mode }: Props) {
   const [nicknameError, setNicknameError] = useState<string | null>(null);
   const [hasLinkError, setHasLinkError] = useState(false);
   const [isNicknameAvailable, setIsNicknameAvailable] = useState(false);
-
-  const router = useRouter();
-  const userInfo = getUserInfo();
+  const [links, setLinks] = useState<GetUserLinks[]>([]);
 
   const { setUserAccessToken, setUserRefreshToken, setUserRole, setUserId } = useStore((state) => ({
     setUserAccessToken: state.setUserAccessToken,
@@ -39,6 +38,10 @@ function ProfilePage({ mode }: Props) {
 
   const methods = useForm<UserData>({
     defaultValues: {
+      nickname: '',
+      activityArea: '',
+      activityField: '',
+      description: '',
       links: [{ title: '', url: '' }],
     },
     mode: 'onBlur',
@@ -49,6 +52,8 @@ function ProfilePage({ mode }: Props) {
     register,
     control,
     watch,
+    reset,
+    setValue,
     formState: { errors },
   } = methods;
 
@@ -57,13 +62,46 @@ function ProfilePage({ mode }: Props) {
     name: 'links',
   });
 
-  const disableSaveButton = hasLinkError || !isNicknameAvailable || Object.keys(errors).length > 0;
-
-  const handleImageUpload = (url: string) => {
-    setUploadedImageUrl(url);
-  };
-
+  const router = useRouter();
+  const userInfo = getUserInfo();
+  const nickname = watch('nickname');
   const buttonText = mode === 'create' ? '가입하기' : '저장하기';
+  const isNicknameInvalid = nicknameError !== null || !isNicknameAvailable;
+  // 닉네임 입력 필드에 에러가 있거나 닉네임이 사용 불가능한 경우
+  const isFormInvalid = Object.keys(errors).length > 0;
+  // react-hook-form의 errors 객체를 사용하여 폼의 유효성 검사 결과에 에러가 있는지 확인
+  const isLinkInputInvalid = hasLinkError;
+  // 링크 입력 필드에 에러가 있는 경우
+  const isNicknameEmpty = nickname.length === 0;
+  // 닉네임 필드가 비어 있는 경우를 체크 (닉네임 필드가 필수인 경우에만 적용)
+
+  const disableSaveButton = isNicknameInvalid || isFormInvalid || isLinkInputInvalid || isNicknameEmpty;
+
+  const response = useQuery<GetMyPageResponseType>({
+    queryKey: ['userProfile'],
+    queryFn: getMyPage,
+  });
+
+  const userProfileResponse = response?.data?.userProfileResponse as UserType;
+
+  const getProfileData = useCallback(() => {
+    setUploadedImageUrl(userProfileResponse?.profileImageUrl ?? '');
+    setIsNicknameAvailable(true);
+    // 각 폼 필드에 대한 데이터가 있다면, 해당 값을 사용하여 setValue 호출
+    setValue('profileImageUrl', userProfileResponse?.profileImageUrl ?? '');
+    setValue('nickname', userProfileResponse?.nickname ?? '');
+    setValue('activityArea', userProfileResponse?.activityArea ?? '');
+    setValue('activityField', userProfileResponse?.activityField ?? '');
+    setValue('description', userProfileResponse?.description ?? '');
+
+    // 링크 데이터 처리
+    if (userProfileResponse?.links && userProfileResponse?.links.length > 0) {
+      setValue('links', userProfileResponse?.links);
+    } else {
+      setValue('links', [{ title: '', url: '' }]);
+    }
+  }, [userProfileResponse]);
+
   const mutationFn =
     mode === 'create'
       ? (userData: UserData) => {
@@ -72,7 +110,7 @@ function ProfilePage({ mode }: Props) {
         }
       : (userData: UserData) => {
           const { links, ...rest } = userData;
-          return instance.put(`/users/${userInfo.userId}`, rest);
+          return instance.put(`/users/${userInfo?.userId}`, rest);
         };
 
   const putUserMutation = useMutation({
@@ -103,6 +141,7 @@ function ProfilePage({ mode }: Props) {
       },
       onError: (error) => {
         alert('처리하는 과정에서 에러가 발생했습니다. 잠시 후 다시 시도해주세요.');
+        console.error(error);
       },
     });
   };
@@ -137,14 +176,26 @@ function ProfilePage({ mode }: Props) {
     }
   };
 
+  const handleImageUpload = (url: string) => {
+    setUploadedImageUrl(url);
+  };
+
   const handleLinkErrorUpdate = (hasError: boolean) => {
     setHasLinkError(hasError);
   };
 
+  const handleAddLink = (newLink: GetUserLinks) => {
+    setLinks((prevLinks) => [...prevLinks, newLink]);
+  };
+
+  useEffect(() => {
+    getProfileData();
+  }, [getProfileData]);
+
   return (
     <FormProvider {...methods}>
-      <form className="relative flex-col" onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex-center">
+      <form className="mr-100 flex h-full w-screen flex-col" onSubmit={handleSubmit(onSubmit)}>
+        <div className="flex-center gap-20">
           <div className={`pb-100 ${mode === 'edit' ? 'pt-160' : 'pt-30'}`}>
             <div className="relative ml-75 flex items-center gap-10 md:ml-30 md:gap-4">
               <Input
@@ -153,6 +204,7 @@ function ProfilePage({ mode }: Props) {
                 accept="image/*"
                 register={register('profileImageUrl')}
                 onImageUpload={handleImageUpload}
+                defaultValue={uploadedImageUrl}
               />
               <Input
                 type="nickname"
@@ -206,11 +258,18 @@ function ProfilePage({ mode }: Props) {
                   remove={() => removeLink(index)}
                   index={index}
                   handleLinkErrorUpdate={handleLinkErrorUpdate}
+                  handleAddLink={handleAddLink}
                 />
               ))}
               {fields.length < 5 && (
                 <div className="tooltip">
-                  <button className="ml-90" onClick={() => append({ title: '', url: '' })}>
+                  <button
+                    className="ml-90"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      append({ title: '', url: '' });
+                    }}
+                  >
                     <PlusButtonIcon />
                   </button>
                   <span className="tooltip-text">5개까지 링크 추가 가능</span>
@@ -218,14 +277,16 @@ function ProfilePage({ mode }: Props) {
               )}
             </div>
           </div>
+          <div className="mb-10 mt-auto flex justify-end">
+            <button
+              type="submit"
+              className={`primary-button storage-button flex-end ${disableSaveButton ? 'disabled-button' : ''}`}
+              disabled={disableSaveButton}
+            >
+              {buttonText}
+            </button>
+          </div>
         </div>
-        <button
-          type="submit"
-          className={`primary-button storage-button fixed bottom-90 right-200 ${disableSaveButton ? 'disabled' : ''}`}
-          disabled={disableSaveButton}
-        >
-          {buttonText}
-        </button>
       </form>
     </FormProvider>
   );
