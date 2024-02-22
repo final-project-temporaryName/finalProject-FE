@@ -1,10 +1,11 @@
 'use client';
 
+import { deleteArtwork } from '@/api/artwork/deleteArtwork';
 import { Button } from '@/components/Button';
 import { useStore } from '@/store';
-import Modal from '../_components';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteArtwork } from '@/api/artwork/deleteArtwork';
+import { toast } from 'react-toastify';
+import Modal from '../_components';
 
 export default function AskForDeleteModal() {
   const { clearModal, clickedArtworkId } = useStore((state) => ({
@@ -15,16 +16,20 @@ export default function AskForDeleteModal() {
   const queryClient = useQueryClient();
 
   const deleteMutation = useMutation({
-    mutationFn: () => deleteArtwork(clickedArtworkId),
+    mutationFn: (clickedArtworkId: number) => deleteArtwork(clickedArtworkId),
     onSuccess: () => {
-      // TODO: myPage에 해당하는 queryKey로 수정하기
-      queryClient.refetchQueries({ queryKey: ['allArtworks'] });
+      queryClient.invalidateQueries({ queryKey: ['myArtworks', '전체'] });
+      queryClient.invalidateQueries({ queryKey: ['myArtworks', '판매중'] });
     },
   });
 
   const handleDelete = () => {
-    deleteMutation.mutate();
-    clearModal();
+    deleteMutation.mutate(clickedArtworkId, {
+      onSuccess: () => {
+        toast.success('작품 삭제 성공! 🎉');
+        clearModal();
+      },
+    });
   };
 
   return (
