@@ -1,23 +1,21 @@
 'use client';
 
-import Card from './Card';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { useObserver } from '@/hooks/useObserver';
+import { getArtistArtworks } from '@/api/artworks/getArtistArtworks';
+import { getArtworks } from '@/api/artworks/getArtworks';
+import { getMyArtworks } from '@/api/users/getMyArtworks';
+import ArtModal from '@/app/(root-modal)/ArtModal/ArtModal';
+import AskForDeleteModal from '@/app/(root-modal)/AskForDeleteModal/AskForDeleteModal';
+import EditUploadModal from '@/app/(root-modal)/EditUploadModal/EditUploadModal';
+import useInfiniteData from '@/hooks/useInfiniteData';
 import { useStore } from '@/store';
 import { CardType } from '@/types/cards';
+import { useParams } from 'next/navigation';
 import { useRef } from 'react';
-import ArtModal from '@/app/(root-modal)/ArtModal/ArtModal';
-import EditUploadModal from '@/app/(root-modal)/EditUploadModal/EditUploadModal';
-import AskForDeleteModal from '@/app/(root-modal)/AskForDeleteModal/AskForDeleteModal';
-
-interface queryFnProps {
-  pageParam?: number | null;
-}
+import Card from './Card';
 
 interface Props {
   type: 'main' | 'mypage' | 'artist';
-  queryKey: string[];
-  queryFn: (props: queryFnProps) => Promise<any>;
+  categoryType: '전체' | 'following' | '판매중' | '컬렉션';
 }
 
 interface ArtWorks {
@@ -26,41 +24,67 @@ interface ArtWorks {
   pages: ArtWorks[];
 }
 
-function CardContainer({ type, queryKey, queryFn }: Props) {
-  const { data, status, hasNextPage, fetchNextPage, isFetchingNextPage, isFetching } = useInfiniteQuery<
-    ArtWorks,
-    Error,
-    ArtWorks,
-    string[],
-    number | null
-  >({
-    queryKey: queryKey,
-    queryFn: async ({ pageParam }) => {
-      return await queryFn({ pageParam });
-    },
-    getNextPageParam: (lastPage) => {
-      return lastPage.hasNext ? lastPage.contents[lastPage.contents.length - 1].artworkId : undefined;
-    },
-    initialPageParam: null,
-  });
+function CardContainer({ type, categoryType }: Props) {
+  let data;
+  let isPending: boolean;
 
+  const bottom = useRef<HTMLDivElement>(null);
+  const params = useParams<{ id: string }>();
   const modals = useStore((state) => state.modals);
 
-  const bottom = useRef(null);
-  const onIntersect = ([entry]: IntersectionObserverEntry[]) => entry.isIntersecting && fetchNextPage();
-
-  useObserver<ArtWorks>({
-    target: bottom,
-    onIntersect,
-  });
+  if (type === 'main' && categoryType === '전체') {
+    const argument = {
+      queryKey: ['allArtworks'],
+      queryFn: getArtworks,
+      initialPageParam: null,
+      getNextPageParam: (lastPage: ArtWorks) => {
+        return lastPage.hasNext ? lastPage.contents[lastPage.contents.length - 1].artworkId : undefined;
+      },
+      ref: bottom,
+      type: type,
+    };
+    const { data: responseData, isPending: pending } = useInfiniteData(argument);
+    data = responseData;
+    isPending = pending as boolean;
+  } else if (type === 'artist') {
+    const argument = {
+      queryKey: ['artistArtworks', params.id, categoryType],
+      queryFn: getArtistArtworks,
+      initialPageParam: null,
+      getNextPageParam: (lastPage: ArtWorks) => {
+        return lastPage.hasNext ? lastPage.contents[lastPage.contents.length - 1].artworkId : undefined;
+      },
+      ref: bottom,
+      type: type,
+      userId: params.id,
+      categoryType: categoryType,
+    };
+    const { data: responseData, isPending: pending } = useInfiniteData(argument);
+    data = responseData;
+    isPending = pending as boolean;
+  } else if (type === 'mypage') {
+    const argument = {
+      queryKey: ['myArtworks', categoryType],
+      queryFn: getMyArtworks,
+      initialPageParam: null,
+      getNextPageParam: (lastPage: ArtWorks) => {
+        return lastPage.hasNext ? lastPage.contents[lastPage.contents.length - 1].artworkId : undefined;
+      },
+      ref: bottom,
+      type: type,
+      categoryType: categoryType,
+    };
+    const { data: responseData, isPending: pending } = useInfiniteData(argument);
+    data = responseData;
+    isPending = pending as boolean;
+  }
 
   return (
     <>
       <div
-        className={`${status === 'success' && data ? (type === 'main' ? 'card-container-mainPage' : 'card-container-artistPage') : 'flex-center mt-25 h-[55vh] w-full'}`}
+        className={`${data ? (type === 'main' ? 'card-container-mainPage' : 'card-container-artistPage') : 'flex-center mt-25 h-[55vh] w-full'}`}
       >
-        {status === 'success' &&
-          data &&
+        {data &&
           data.pages.map((page: ArtWorks) => {
             const cards = page.contents;
             return cards.map((card) => {
@@ -78,6 +102,7 @@ function CardContainer({ type, queryKey, queryFn }: Props) {
                   artistName={card.artistName}
                   artistProfileImageUrl={card.artistProfileImageUrl}
                   type={type}
+                  isPending={isPending}
                 />
               );
             });

@@ -21,8 +21,6 @@ function ArtModalHeader({ artistName, artistProfileImageUrl, artistId }: Props) 
     hideModal: state.hideModal,
   }));
 
-  let customDate;
-
   const handleFollowClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsFollowClicked((prev) => !prev);

@@ -13,7 +13,6 @@ import Link from 'next/link';
 import { useState } from 'react';
 import CommentIcon from '../../../../public/assets/icons/comment.svg';
 import Modal from '../_components';
-import { useScrollY } from '@/hooks/useScrollY';
 
 export default function ArtModal() {
   const [isLikeClicked, setIsLikeClicked] = useState(false);
@@ -56,14 +55,14 @@ export default function ArtModal() {
           )}
           <div className="relative flex h-auto px-5 pt-15">
             <div className="flex w-full flex-col gap-20">
-              <p className="text-18 font-bold">{artwork?.title}</p>
+              <p className="text-20 font-bold">{artwork?.title}</p>
               {artwork?.description && (
                 <div
                   dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(artwork?.description) }}
-                  className={'min-h-106 text-15'}
+                  className={'min-h-106 text-16'}
                 ></div>
               )}
-              <span className="mt-5 text-14 text-[#8f8f8f]">{customDate}</span>
+              <span className="text-13 text-[#8f8f8f]">{customDate}</span>
             </div>
             <div className="sticky top-0 flex flex-col items-end gap-20 pt-5">
               <Link

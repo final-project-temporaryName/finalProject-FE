@@ -11,6 +11,7 @@ export interface UserType {
   totalLikeCount: number;
   followerCount: number;
   links: GetUserLinks[];
+  followId: number;
 }
 
 export interface GetMyInfo {
