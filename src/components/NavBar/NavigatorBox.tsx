@@ -6,11 +6,10 @@ import '@/styles/tailwind.css';
 import { GetMyPageResponseType, UserType } from '@/types/users';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
-import ProfileImgFallbackUI from '../FallbackUI/NavBar/ProfileImgFallbackUI';
+import { useCallback, useEffect } from 'react';
 import MessageIcon from './MessageIcon';
 import NavigatorBoxButton from './NavigatorBoxButton';
 import ProfileImgDropDown from './ProfileImgDropDown';
-import { useCallback, useEffect } from 'react';
 
 function NavigatorBox() {
   const { isLogin, setUserId } = useStore((state) => ({
