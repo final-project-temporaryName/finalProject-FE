@@ -13,6 +13,7 @@ interface Props<T, E extends Element> {
   initialPageParam: number | null;
   getNextPageParam: GetNextPageParamFunction<number | null, T>;
   ref: MutableRefObject<E | null>;
+  type: 'main' | 'mypage' | 'artist';
   userId?: string;
   categoryType?: '전체' | 'following' | '판매중' | '컬렉션';
 }
@@ -23,6 +24,7 @@ function useInfiniteData<T, E extends Element>({
   getNextPageParam,
   initialPageParam,
   ref,
+  type,
   userId,
   categoryType,
 }: Props<T, E>) {
@@ -30,14 +32,17 @@ function useInfiniteData<T, E extends Element>({
   const { data, status, fetchNextPage, isPending, ...rest } = useInfiniteQuery<T, Error, T, string[], number | null>({
     queryKey,
     queryFn: async ({ pageParam }) => {
-      if (userId && categoryType) {
+      if (type === 'artist') {
         return await queryFn({ categoryType, userId, pageParam });
+      } else if (type === 'mypage') {
+        return await queryFn({ categoryType, pageParam });
       } else {
         return await queryFn({ pageParam });
       }
     },
     getNextPageParam,
     initialPageParam,
+    // staleTime: 3 * 1000, 캐싱을 할까?
   });
 
   const onIntersect = ([entry]: IntersectionObserverEntry[]) => entry.isIntersecting && fetchNextPage();
