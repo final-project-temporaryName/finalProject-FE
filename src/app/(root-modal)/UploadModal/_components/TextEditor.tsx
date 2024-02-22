@@ -10,8 +10,8 @@ const QuillNoSSRWrapper = dynamic(() => import('react-quill'), {
 });
 
 interface Props {
-  value: string;
-  setValue: Dispatch<SetStateAction<string>>;
+  value?: string;
+  setValue: Dispatch<SetStateAction<string>> | Dispatch<SetStateAction<string | undefined>>;
 }
 
 function TextEditor({ value, setValue }: Props) {

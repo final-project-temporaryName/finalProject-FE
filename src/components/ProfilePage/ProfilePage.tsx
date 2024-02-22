@@ -9,7 +9,7 @@ import { nicknameRules } from '@/constants/InputErrorRules';
 import { useStore } from '@/store';
 import { GetMyPageResponseType, GetUserLinks, PostUserLinks, PutRequestSignUp, UserType } from '@/types/users';
 import getUserInfo from '@/utils/getUserInfo';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';

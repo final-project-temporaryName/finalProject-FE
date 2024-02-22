@@ -11,7 +11,9 @@ enum ButtonCategoryText {
 }
 
 interface Props {
-  setStatusValue: Dispatch<SetStateAction<'PUBLIC' | 'SELLING' | 'FREE'>>;
+  setStatusValue:
+    | Dispatch<SetStateAction<'PUBLIC' | 'SELLING' | 'FREE'>>
+    | Dispatch<SetStateAction<'PUBLIC' | 'SELLING' | 'FREE' | undefined>>;
 }
 
 function StatusLabelsGroup({ setStatusValue }: Props) {
