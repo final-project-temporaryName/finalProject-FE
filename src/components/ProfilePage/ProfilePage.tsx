@@ -66,20 +66,16 @@ function ProfilePage({ mode }: Props) {
   const userInfo = getUserInfo();
   const nickname = watch('nickname');
   const buttonText = mode === 'create' ? '가입하기' : '저장하기';
+  const isNicknameInvalid = nicknameError !== null || !isNicknameAvailable;
+  // 닉네임 입력 필드에 에러가 있거나 닉네임이 사용 불가능한 경우
+  const isFormInvalid = Object.keys(errors).length > 0;
+  // react-hook-form의 errors 객체를 사용하여 폼의 유효성 검사 결과에 에러가 있는지 확인
+  const isLinkInputInvalid = hasLinkError;
+  // 링크 입력 필드에 에러가 있는 경우
+  const isNicknameEmpty = nickname.length === 0;
+  // 닉네임 필드가 비어 있는 경우를 체크 (닉네임 필드가 필수인 경우에만 적용)
 
-  const disableSaveButton = useMemo(() => {
-    // 닉네임 입력 필드에 에러가 있거나 닉네임이 사용 불가능한 경우
-    const isNicknameInvalid = nicknameError !== null || !isNicknameAvailable;
-    // react-hook-form의 errors 객체를 사용하여 폼의 유효성 검사 결과에 에러가 있는지 확인
-    const isFormInvalid = Object.keys(errors).length > 0;
-    // 링크 입력 필드에 에러가 있는 경우
-    const isLinkInputInvalid = hasLinkError;
-    // 닉네임 필드가 비어 있는 경우를 체크 (닉네임 필드가 필수인 경우에만 적용)
-    const isNicknameEmpty = nickname.length === 0;
-
-    // 위의 조건 중 하나라도 참이라면 버튼을 비활성화
-    return isNicknameInvalid || isFormInvalid || isLinkInputInvalid || isNicknameEmpty;
-  }, [nicknameError, isNicknameAvailable, errors, hasLinkError, nickname.length]);
+  const disableSaveButton = isNicknameInvalid || isFormInvalid || isLinkInputInvalid || isNicknameEmpty;
 
   const response = useQuery<GetMyPageResponseType>({
     queryKey: ['userProfile'],
