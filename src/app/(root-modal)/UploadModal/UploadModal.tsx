@@ -12,7 +12,6 @@ import { UserType } from '@/types/users';
 import { DragDropContext, DropResult, Droppable } from '@hello-pangea/dnd';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
 import { useRef, useState } from 'react';
 import 'react-quill/dist/quill.bubble.css';
 import { toast } from 'react-toastify';
@@ -51,15 +50,14 @@ export default function UploadModal() {
 
   //hooks
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const pathname = usePathname();
-  const pathnameArr = pathname.split('/');
-  const firstPathname = pathnameArr[1];
   const queryClient = useQueryClient();
 
   const uploadPostMutation = useMutation({
     mutationFn: (newPost: PostCardRequestType) => postArtwork(newPost),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['allArtworks'] });
+      queryClient.invalidateQueries({ queryKey: ['myArtworks', '전체'] });
+      queryClient.invalidateQueries({ queryKey: ['myArtworks', '판매중'] });
     },
     onError: () => {
       console.error('err');
