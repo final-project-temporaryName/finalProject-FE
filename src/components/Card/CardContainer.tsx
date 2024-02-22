@@ -1,16 +1,17 @@
 'use client';
 
+import { getArtistArtworks } from '@/api/artworks/getArtistArtworks';
 import { getArtworks } from '@/api/artworks/getArtworks';
+import { getMyArtworks } from '@/api/users/getMyArtworks';
 import ArtModal from '@/app/(root-modal)/ArtModal/ArtModal';
+import AskForDeleteModal from '@/app/(root-modal)/AskForDeleteModal/AskForDeleteModal';
+import EditUploadModal from '@/app/(root-modal)/EditUploadModal/EditUploadModal';
 import useInfiniteData from '@/hooks/useInfiniteData';
 import { useStore } from '@/store';
 import { CardType } from '@/types/cards';
+import { useParams } from 'next/navigation';
 import { useRef } from 'react';
 import Card from './Card';
-import EditUploadModal from '@/app/(root-modal)/EditUploadModal/EditUploadModal';
-import AskForDeleteModal from '@/app/(root-modal)/AskForDeleteModal/AskForDeleteModal';
-import { getArtistArtworks } from '@/api/artworks/getArtistArtworks';
-import { useParams } from 'next/navigation';
 
 interface Props {
   type: 'main' | 'mypage' | 'artist';
@@ -40,6 +41,7 @@ function CardContainer({ type, categoryType }: Props) {
         return lastPage.hasNext ? lastPage.contents[lastPage.contents.length - 1].artworkId : undefined;
       },
       ref: bottom,
+      type: type,
     };
     const { data: responseData, isPending: pending } = useInfiniteData(argument);
     data = responseData;
@@ -53,7 +55,23 @@ function CardContainer({ type, categoryType }: Props) {
         return lastPage.hasNext ? lastPage.contents[lastPage.contents.length - 1].artworkId : undefined;
       },
       ref: bottom,
+      type: type,
       userId: params.id,
+      categoryType: categoryType,
+    };
+    const { data: responseData, isPending: pending } = useInfiniteData(argument);
+    data = responseData;
+    isPending = pending as boolean;
+  } else if (type === 'mypage') {
+    const argument = {
+      queryKey: ['myArtworks', categoryType],
+      queryFn: getMyArtworks,
+      initialPageParam: null,
+      getNextPageParam: (lastPage: ArtWorks) => {
+        return lastPage.hasNext ? lastPage.contents[lastPage.contents.length - 1].artworkId : undefined;
+      },
+      ref: bottom,
+      type: type,
       categoryType: categoryType,
     };
     const { data: responseData, isPending: pending } = useInfiniteData(argument);
