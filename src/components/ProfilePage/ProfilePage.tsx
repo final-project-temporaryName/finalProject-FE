@@ -66,7 +66,7 @@ function ProfilePage({ mode }: Props) {
   const userInfo = getUserInfo();
   const nickname = watch('nickname');
   const buttonText = mode === 'create' ? '가입하기' : '저장하기';
-  const isNicknameInvalid = nicknameError !== null || !isNicknameAvailable;
+  const isNicknameInvalid = !isNicknameAvailable;
   // 닉네임 입력 필드에 에러가 있거나 닉네임이 사용 불가능한 경우
   const isFormInvalid = Object.keys(errors).length > 0;
   // react-hook-form의 errors 객체를 사용하여 폼의 유효성 검사 결과에 에러가 있는지 확인
