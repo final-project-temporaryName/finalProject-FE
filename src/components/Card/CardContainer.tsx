@@ -87,7 +87,7 @@ function CardContainer({ type, categoryType }: Props) {
         {data &&
           data.pages.map((page: ArtWorks) => {
             const cards = page.contents;
-            return cards.map((card) => {
+            return cards?.map((card) => {
               return (
                 <Card
                   key={card.artworkId}

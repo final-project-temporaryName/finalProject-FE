@@ -45,7 +45,7 @@ instance.interceptors.response.use(
         const oldParsedUserAuth = JSON.parse(userAuth);
         const newParsedUserAuth = _.cloneDeep(oldParsedUserAuth);
         const { userAccessToken, userRefreshToken } = oldParsedUserAuth.state;
-        const { data } = await axios.post('/reissue', {
+        const { data } = await instance.post('/reissue', {
           accessToken: userAccessToken,
           refreshToken: userRefreshToken,
         });
@@ -59,13 +59,18 @@ instance.interceptors.response.use(
       }
     }
     if (status === 403) {
-      window.alert('로그인이 만료되었습니다.');
-      window.location.replace('/login');
+      window.sessionStorage.setItem('errorMessage', error.response.data.message as string);
+      window.localStorage.removeItem('store');
+      window.location.replace('/NoAccess');
     }
     if (status === 400) {
-      if (error.response.data.message === 'JWT 토큰이 없습니다.') {
-        window.alert('접근 권한이 없습니다. 로그인을 해주세요.');
-        window.location.replace('/login');
+      if (
+        error.response.data.message === 'JWT 토큰이 없습니다.' ||
+        error.response.data.message === '만료된 JWT 토큰입니다.'
+      ) {
+        window.sessionStorage.setItem('errorMessage', error.response.data.message as string);
+        window.localStorage.removeItem('store');
+        window.location.replace('/NoAccess');
       }
     }
 
