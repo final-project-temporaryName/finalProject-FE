@@ -1,7 +1,7 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { CommentProps } from '@/types/comment';
+import { CommentProps, PostCommentsRequestType } from '@/types/comment';
 import Comment from '@/components/Comment/Comment';
 import CommentSend from './CommentSend';
 import Free from './Free';
@@ -13,110 +13,112 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useStore } from '@/store';
 import { getComments } from '@/api/comments/getComments';
 import { GetCommentsResponse } from '@/types/comment';
+import useInfiniteData from '@/hooks/useInfiniteData';
+import { useRef } from 'react';
 
-interface CommentContainerProps {
+interface Props {
   likeCount: number;
   commentCount: number;
-  artworkStatus: 'PUBLIC' | 'SELLING' | 'FREE';
+  type: 'main' | 'mypage' | 'artist' | 'comment';
 }
 
 interface InputForm {
   comment?: string;
 }
 
-// interface Comment {
-//   profileUrl: string;
-//   nickname: string;
-//   createdAt: string;
-//   contents: string;
-// }
+interface Comments extends GetCommentsResponse {
+  pages: Comments[];
+}
 
-const data: CommentProps[] = [
-  {
-    profileUrl:
-      'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    nickname: 'Elon Musk',
-    createdAt: '2024년 2월 11일',
-    contents: '내가 본 것 중에서 단연 최고였다. 와우~',
-    author: true,
-  },
-  {
-    profileUrl:
-      'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    nickname: 'Elon Musk',
-    createdAt: '2024년 2월 10일',
-    contents: '내가 본 것 중에서 단연 최고였다. 와우~',
-    author: true,
-  },
-  {
-    profileUrl:
-      'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    nickname: 'Elon Musk',
-    createdAt: '2024년 2월 9일',
-    contents: '내가 본 것 중에서 단연 최고였다. 와우~',
-    author: false,
-  },
-  {
-    profileUrl:
-      'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    nickname: 'Elon Musk',
-    createdAt: '2024년 2월 8일',
-    contents: '내가 본 것 중에서 단연 최고였다. 와우~',
-    author: true,
-  },
-  {
-    profileUrl:
-      'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    nickname: 'Elon Musk',
-    createdAt: '2024년 2월 7일',
-    contents: 'Awesome !!!!!',
-    author: false,
-  },
-  {
-    profileUrl:
-      'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    nickname: 'Elon Musk',
-    createdAt: '2024년 2월 6일',
-    contents: 'Slay',
-    author: true,
-  },
-  {
-    profileUrl:
-      'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    nickname: 'Elon Musk',
-    createdAt: '2024년 2월 6일',
-    contents: 'Slay',
-    author: false,
-  },
-];
+// mock data
+// const data: CommentProps[] = [
+//   {
+//     profileUrl:
+//       'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+//     nickname: 'Elon Musk',
+//     createdAt: '2024년 2월 11일',
+//     contents: '내가 본 것 중에서 단연 최고였다. 와우~',
+//     author: true,
+//   },
+//   {
+//     profileUrl:
+//       'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+//     nickname: 'Elon Musk',
+//     createdAt: '2024년 2월 10일',
+//     contents: '내가 본 것 중에서 단연 최고였다. 와우~',
+//     author: true,
+//   },
+//   {
+//     profileUrl:
+//       'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+//     nickname: 'Elon Musk',
+//     createdAt: '2024년 2월 9일',
+//     contents: '내가 본 것 중에서 단연 최고였다. 와우~',
+//     author: false,
+//   },
+//   {
+//     profileUrl:
+//       'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+//     nickname: 'Elon Musk',
+//     createdAt: '2024년 2월 8일',
+//     contents: '내가 본 것 중에서 단연 최고였다. 와우~',
+//     author: true,
+//   },
+//   {
+//     profileUrl:
+//       'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+//     nickname: 'Elon Musk',
+//     createdAt: '2024년 2월 7일',
+//     contents: 'Awesome !!!!!',
+//     author: false,
+//   },
+//   {
+//     profileUrl:
+//       'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+//     nickname: 'Elon Musk',
+//     createdAt: '2024년 2월 6일',
+//     contents: 'Slay',
+//     author: true,
+//   },
+//   {
+//     profileUrl:
+//       'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+//     nickname: 'Elon Musk',
+//     createdAt: '2024년 2월 6일',
+//     contents: 'Slay',
+//     author: false,
+//   },
+// ];
 
-function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentContainerProps) {
+function CommentContainer({ likeCount, commentCount, type }: Props) {
   const { register, handleSubmit, watch } = useForm();
   const queryClient = useQueryClient();
+  const bottom = useRef<HTMLDivElement>(null);
+  const contents = watch('comment');
   const clickedArtworkId = useStore((state) => state.clickedArtworkId);
   const artworkId = clickedArtworkId;
-  console.log(artworkId);
-  const contents = watch('comment');
 
   //GET
-  // const response = useQuery<GetCommentsResponse>({
-  //   queryKey: ['comments'],
-  //   queryFn: async ({ pageParam }) => {
-  //     return await queryFn({ pageParam });
-  //   },
-  // });
-
-  // const response = useQuery<GetCommentsResponse>({
-  //   queryKey: ['comments'],
-  //   queryFn: getComments,
-  // });
+  const argument = {
+    queryKey: ['comments', String(artworkId)],
+    queryFn: getComments,
+    initialPageParam: null,
+    getNextPageParam: (lastPage: Comments) => {
+      return lastPage.hasNext ? lastPage.contents[lastPage.contents.length - 1].commentId : undefined;
+    },
+    ref: bottom,
+    type: type,
+    artworkId: artworkId,
+  };
+  const { data, isPending } = useInfiniteData(argument);
+  console.log(data, isPending);
 
   //POST
   const postCommentsMutation = useMutation({
-    mutationFn: postComments,
-    // onSuccess: () => {
-    //   queryClient.invalidateQueries({ queryKey: ['userProfile'] });
-    // },
+    mutationFn: ({ artworkId, contents }: PostCommentsRequestType) => postComments({ artworkId, contents }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['comments', String(artworkId)] });
+    },
   });
 
   const onValid = (data: InputForm) => {
@@ -137,15 +139,11 @@ function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentCon
   };
 
   return (
-    <div className="relative">
-      <div className="absolute -top-10 right-20 z-first">
-        {artworkStatus === 'SELLING' ? <Selling /> : artworkStatus === 'FREE' ? <Free /> : null}
-      </div>
+    <div>
       <div className="w-full min-w-360 rounded-t-sm bg-gray-1 shadow-top">
         <div className="flex max-h-250 flex-col overflow-y-scroll bg-gray-1 p-20 pb-7">
           {data &&
-            data.length > 0 &&
-            data.map((comment) => (
+            data?.contents?.map((comment) => (
               <div key={comment.createdAt + comment.nickname}>
                 <Comment
                   profileUrl={comment.profileUrl}
@@ -156,6 +154,7 @@ function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentCon
                 />
               </div>
             ))}
+          <div ref={bottom} />
         </div>
         <form className="flex items-center gap-13 bg-gray-1 p-20 pb-36" onSubmit={handleSubmit(onValid)}>
           <a id="downwards"></a>

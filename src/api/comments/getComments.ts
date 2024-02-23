@@ -1,7 +1,7 @@
 import instance from '../axios';
 
 interface Props {
-  artworkId: number;
+  artworkId?: number;
   pageParam?: number | null;
 }
 

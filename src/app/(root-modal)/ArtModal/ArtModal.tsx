@@ -100,7 +100,7 @@ export default function ArtModal() {
             </div>
           </div>
         </div>
-        <CommentContainer likeCount={1100} commentCount={3} artworkStatus="SELLING" />
+        <CommentContainer likeCount={1100} commentCount={3} type={'comment'} />
       </Modal.Body>
     </Modal.Container>
   );

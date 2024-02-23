@@ -14,7 +14,7 @@ import { useRef } from 'react';
 import Card from './Card';
 
 interface Props {
-  type: 'main' | 'mypage' | 'artist';
+  type: 'main' | 'mypage' | 'artist' | 'comment';
   categoryType: '전체' | 'following' | '판매중' | '컬렉션';
 }
 

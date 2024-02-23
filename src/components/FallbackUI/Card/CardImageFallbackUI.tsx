@@ -1,5 +1,5 @@
 interface Props {
-  type: 'main' | 'mypage' | 'artist';
+  type: 'main' | 'mypage' | 'artist' | 'comment';
 }
 
 export default function CardImageFallbackUI({ type }: Props) {
