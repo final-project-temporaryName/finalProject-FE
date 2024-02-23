@@ -15,7 +15,7 @@ export default function AskForDeleteModal() {
   const queryClient = useQueryClient();
 
   const deleteMutation = useMutation({
-    mutationFn: () => deleteArtwork(clickedArtworkId),
+    mutationFn: deleteArtwork,
     onSuccess: () => {
       // TODO: myPage에 해당하는 queryKey로 수정하기
       queryClient.refetchQueries({ queryKey: ['allArtworks'] });
@@ -23,7 +23,7 @@ export default function AskForDeleteModal() {
   });
 
   const handleDelete = () => {
-    deleteMutation.mutate();
+    deleteMutation.mutate({ artworkId: clickedArtworkId });
     clearModal();
   };
 

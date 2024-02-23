@@ -1,7 +1,15 @@
 import { AxiosError } from 'axios';
 import instance from '../axios';
 
-export const postLike = async (artworkId: number) => {
+interface LikeIdRes {
+  likeId: number;
+}
+
+interface Props {
+  artworkId: number;
+}
+
+export const postLike = async ({ artworkId }: Props) => {
   try {
     const response = await instance.post(`/artworks/${artworkId}/likes`);
     return response.data;

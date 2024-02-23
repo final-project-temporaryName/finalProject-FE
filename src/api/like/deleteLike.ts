@@ -3,7 +3,7 @@ import instance from '../axios';
 
 interface DeleteArtworkProps {
   artworkId: number;
-  likeId: number | undefined;
+  likeId: number | null;
 }
 
 export const deleteLike = async ({ artworkId, likeId }: DeleteArtworkProps) => {

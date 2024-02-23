@@ -12,17 +12,12 @@ import { GetSpecificCardResponseType } from '@/types/cards';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import DOMPurify from 'dompurify';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CommentIcon from '../../../../public/assets/icons/comment.svg';
 import Modal from '../_components';
 
 export default function ArtModal() {
-  const [isLikeClicked, setIsLikeClicked] = useState(false);
-  const [likeId, setLikeId] = useState<number>();
-
   const clickedArtworkId = useStore((state) => state.clickedArtworkId);
-
-  const queryClient = useQueryClient();
 
   const { data: artwork } = useQuery<GetSpecificCardResponseType>({
     queryKey: ['artwork', clickedArtworkId],
@@ -30,17 +25,19 @@ export default function ArtModal() {
     staleTime: 3 * 1000,
   });
 
-  const getPostMutation = useMutation<GetSpecificCardResponseType>({
+  const [likeCount, setLikeCount] = useState(artwork?.likeCount || 0);
+  const [isLikeClicked, setIsLikeClicked] = useState(false);
+  const [likeId, setLikeId] = useState<number | null>(artwork?.likeId || null);
+
+  const queryClient = useQueryClient();
+
+  const getPostMutation = useMutation({
     mutationKey: ['artwork'],
-    mutationFn: () => getArtwork(clickedArtworkId),
-    // mutationFn: () => postLike(clickedArtworkId),
+    mutationFn: postLike,
     onSuccess: () => {
-      // 옵티미스틱 업데이트 하길 바란다.
-      // 이렇게 하면 시점 오류가 난다. - 게시물 정보 조회하지 말자. (likeId 받아오길 바람.)
       queryClient.invalidateQueries({ queryKey: ['artwork', clickedArtworkId] });
     },
   });
-  console.log(artwork?.likeId);
 
   let customDate;
   if (artwork?.createdAt) {
@@ -54,16 +51,37 @@ export default function ArtModal() {
 
   const handleLikeClick = async () => {
     setIsLikeClicked((prev) => !prev);
-    const response = await postLike(clickedArtworkId);
-    setLikeId(response.likeId);
-    getPostMutation.mutate();
+    getPostMutation.mutate(
+      { artworkId: clickedArtworkId },
+      {
+        onSuccess: (data) => {
+          setLikeCount((prev) => prev + 1);
+          setLikeId(data.likeId);
+        },
+      },
+    );
   };
 
   const handleUnLikeClick = () => {
     setIsLikeClicked((prev) => !prev);
     deleteLike({ artworkId: clickedArtworkId, likeId: likeId });
-    getPostMutation.mutate();
+    getPostMutation.mutate(
+      { artworkId: clickedArtworkId },
+      {
+        onSuccess: () => {
+          setLikeCount((prev) => prev - 1);
+          setLikeId(null);
+        },
+      },
+    );
   };
+
+  // likeId 있을 때 좋아요 색을 빨간 색으로 바꿔준다.
+  useEffect(() => {
+    if (!likeId) return;
+    setIsLikeClicked(true);
+    console.log(isLikeClicked);
+  }, [likeId]);
 
   return (
     <Modal.Container classname="artModalContainer">
@@ -101,8 +119,7 @@ export default function ArtModal() {
                     <RedLike />
                   </div>
                   <p className={'mb-3 text-12 text-primary'}>
-                    {artwork &&
-                      (artwork.likeCount < 1000 ? artwork.likeCount : (artwork.likeCount / 1000).toFixed(1) + 'k')}
+                    {artwork && (likeCount < 1000 ? likeCount : (likeCount / 1000).toFixed(1) + 'k')}
                   </p>
                 </div>
               ) : (
@@ -116,8 +133,7 @@ export default function ArtModal() {
                     <BlackLike />
                   </div>
                   <p className={'mb-3 text-12'}>
-                    {artwork &&
-                      (artwork.likeCount < 1000 ? artwork.likeCount : (artwork.likeCount / 1000).toFixed(1) + 'k')}
+                    {artwork && (likeCount < 1000 ? likeCount : (likeCount / 1000).toFixed(1) + 'k')}
                   </p>
                 </div>
               )}

@@ -1,7 +1,11 @@
 import { AxiosError } from 'axios';
 import instance from '../axios';
 
-export const deleteArtwork = async (artworkId: number) => {
+interface Props {
+  artworkId: number;
+}
+
+export const deleteArtwork = async ({ artworkId }: Props) => {
   try {
     const response = await instance.delete(`/artworks/${artworkId}`);
     return response;
