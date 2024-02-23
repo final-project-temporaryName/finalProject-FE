@@ -31,9 +31,17 @@ export default function ArtModal() {
 
   const queryClient = useQueryClient();
 
-  const getPostMutation = useMutation({
+  const postLikeMutation = useMutation({
     mutationKey: ['artwork'],
     mutationFn: postLike,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['artwork', clickedArtworkId] });
+    },
+  });
+
+  const deleteLikeMutation = useMutation({
+    mutationKey: ['artwork'],
+    mutationFn: deleteLike,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['artwork', clickedArtworkId] });
     },
@@ -51,7 +59,7 @@ export default function ArtModal() {
 
   const handleLikeClick = async () => {
     setIsLikeClicked((prev) => !prev);
-    getPostMutation.mutate(
+    postLikeMutation.mutate(
       { artworkId: clickedArtworkId },
       {
         onSuccess: (data) => {
@@ -64,9 +72,8 @@ export default function ArtModal() {
 
   const handleUnLikeClick = () => {
     setIsLikeClicked((prev) => !prev);
-    deleteLike({ artworkId: clickedArtworkId, likeId: likeId });
-    getPostMutation.mutate(
-      { artworkId: clickedArtworkId },
+    deleteLikeMutation.mutate(
+      { artworkId: clickedArtworkId, likeId: likeId },
       {
         onSuccess: () => {
           setLikeCount((prev) => prev - 1);
@@ -80,7 +87,6 @@ export default function ArtModal() {
   useEffect(() => {
     if (!likeId) return;
     setIsLikeClicked(true);
-    console.log(isLikeClicked);
   }, [likeId]);
 
   return (
