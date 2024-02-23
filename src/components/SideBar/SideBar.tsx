@@ -79,7 +79,18 @@ function SideBar({ displayStatus }: SideBarProps) {
           <div className="mb-16 mt-16 flex min-h-60 w-192 items-center rounded-sm bg-white p-16">
             <p className="text-12 text-gray-9">{userInfo?.description}</p>
           </div>
-          <div className="mb-20 flex items-center justify-between gap-20">
+          {displayStatus === 'notMyWork' ? (
+            // TODO: 추후 destination 바뀔 예정
+            <div className="mb-24 flex gap-12">
+              <Button isLink={true} classname="primary-button artModal-chat-button">
+                팔로잉
+              </Button>
+              <Button isLink={true} destination="/chat" classname="primary-button artModal-chat-button">
+                1:1 채팅
+              </Button>
+            </div>
+          ) : null}
+          <div className="mb-30 flex items-center justify-between gap-20">
             <span className="count">
               좋아요&nbsp;&nbsp;<span className="text-14 font-bold">{userInfo?.totalLikeCount}</span>&nbsp;개
             </span>
@@ -88,12 +99,6 @@ function SideBar({ displayStatus }: SideBarProps) {
               팔로워 &nbsp;&nbsp;<span className="text-14 font-bold">{userInfo?.followerCount}</span>&nbsp;명
             </span>
           </div>
-          {displayStatus === 'notMyWork' ? (
-            // 추후 destination 바뀔 예정
-            <Button isLink={true} destination="/chat" classname="primary-button nav-chat-button">
-              1:1 대화걸기
-            </Button>
-          ) : null}
           <div className="mb-20 flex flex-col items-start gap-20">
             {userInfo?.links &&
               userInfo.links.map((link) => (

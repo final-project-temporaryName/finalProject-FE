@@ -132,6 +132,10 @@
   @apply opacity-30;
 }
 
+.sideBar-follow-button {
+  @apply h-40 w-90 bg-primary text-white hover:border-primary hover:text-white active:bg-primary;
+}
+
 /* Input */
 .primary-input {
   @apply h-40 w-auto bg-gray-1 px-15 py-11 text-14 focus:outline-none;
