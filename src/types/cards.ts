@@ -12,6 +12,8 @@ export interface CardType {
   artistProfileImageUrl: string;
   createdAt: string; // "2024-01-29T07:21:26.100Z"
   updatedAt: string; // "2024-01-29T07:21:26.100Z"
+  likeId: number;
+  followId: number;
 }
 
 // size = 9, lastIdxId
