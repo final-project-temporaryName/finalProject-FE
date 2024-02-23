@@ -11,7 +11,6 @@ import { ImageArtworkType } from '@/types/image';
 import { DragDropContext, DropResult, Droppable } from '@hello-pangea/dnd';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import 'react-quill/dist/quill.bubble.css';
 import { toast } from 'react-toastify';
@@ -53,17 +52,14 @@ export default function EditUploadModal() {
 
   //hooks
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const pathname = usePathname();
-  const pathnameArr = pathname.split('/');
-  const firstPathname = pathnameArr[1];
   const queryClient = useQueryClient();
 
   // handlers
   const uploadPutMutation = useMutation({
     mutationFn: (newPost: PutCardRequestType) => putArtwork(newPost),
     onSuccess: () => {
-      // TODO: myPage에 해당하는 queryKey로 수정하기
-      queryClient.refetchQueries({ queryKey: ['allArtworks'] });
+      queryClient.invalidateQueries({ queryKey: ['myArtworks', '전체'] });
+      queryClient.invalidateQueries({ queryKey: ['myArtworks', '판매중'] });
     },
   });
 

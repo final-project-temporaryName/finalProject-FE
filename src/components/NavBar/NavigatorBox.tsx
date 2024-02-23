@@ -3,32 +3,35 @@
 import { getMyPage } from '@/api/users/getMyPage';
 import { useStore } from '@/store';
 import '@/styles/tailwind.css';
-import { UserType } from '@/types/users';
+import { GetMyPageResponseType, UserType } from '@/types/users';
+import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import MessageIcon from './MessageIcon';
 import NavigatorBoxButton from './NavigatorBoxButton';
 import ProfileImgDropDown from './ProfileImgDropDown';
 
 function NavigatorBox() {
-  const [userInfo, setUserInfo] = useState<UserType>();
   const { isLogin, setUserId } = useStore((state) => ({
     isLogin: state.isLogin,
     setUserId: state.setUserId,
   }));
 
-  const handleFetchMyProfile = useCallback(async () => {
-    if (!isLogin) return;
+  const { data, isPending, isSuccess } = useQuery<GetMyPageResponseType>({
+    queryKey: ['myPageInfo'],
+    queryFn: getMyPage,
+    enabled: !!isLogin,
+    staleTime: 3 * 1000,
+  });
+  const userInfo = data?.userProfileResponse as UserType;
 
-    const { userProfileResponse } = await getMyPage();
-
-    setUserInfo(userProfileResponse);
-    setUserId(userProfileResponse?.userId);
-  }, [isLogin]);
+  const handleFetch = useCallback(async () => {
+    if (isSuccess) setUserId(userInfo?.userId);
+  }, [isSuccess]);
 
   useEffect(() => {
-    handleFetchMyProfile();
-  }, [handleFetchMyProfile]);
+    handleFetch();
+  }, [handleFetch]);
 
   return (
     <div className="flex h-40 min-w-170 flex-shrink-0 items-center justify-between gap-40">
@@ -40,6 +43,7 @@ function NavigatorBox() {
           userName={userInfo?.nickname}
           profileImg={userInfo?.profileImageUrl}
           major={userInfo?.activityField}
+          isPending={isPending}
         />
       )}
       <NavigatorBoxButton isLogin={isLogin} />

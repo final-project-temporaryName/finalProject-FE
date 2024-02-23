@@ -142,7 +142,7 @@ function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentCon
         {artworkStatus === 'SELLING' ? <Selling /> : artworkStatus === 'FREE' ? <Free /> : null}
       </div>
       <div className="w-full min-w-360 rounded-t-sm bg-gray-1 shadow-top">
-        <div className="flex flex-col bg-gray-1 p-20 pb-7">
+        <div className="flex max-h-250 flex-col overflow-y-scroll bg-gray-1 p-20 pb-7">
           {data &&
             data.length > 0 &&
             data.map((comment) => (

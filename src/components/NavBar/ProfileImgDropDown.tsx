@@ -12,14 +12,16 @@ import defaultProfileImg from '../../../public/assets/images/logo.png';
 import ProfileDropDownImg from '../../../public/assets/images/profileDropDown.svg';
 import { Button } from '../Button';
 import { useStore } from '@/store';
+import ProfileImgFallbackUI from '../FallbackUI/NavBar/ProfileImgFallbackUI';
 
 interface ProfileImgDropDownProps {
   userName?: string;
   profileImg?: string;
   major?: string;
+  isPending?: boolean;
 }
 
-function ProfileImgDropDown({ userName, profileImg, major }: ProfileImgDropDownProps) {
+function ProfileImgDropDown({ userName, profileImg, major, isPending }: ProfileImgDropDownProps) {
   const { isOpen: isDropDownOpen, handleDropDownOpen, handleDropDownClose } = useDropDown();
   const setLogout = useStore((state) => state.setLogout);
 
@@ -34,11 +36,15 @@ function ProfileImgDropDown({ userName, profileImg, major }: ProfileImgDropDownP
   };
 
   const handleLogoutClick = async () => {
-    removeStore();
     setLogout();
     await signOut();
+    removeStore();
     router.push('/');
   };
+
+  if (isPending) {
+    return <ProfileImgFallbackUI />;
+  }
 
   return (
     <div className="relative flex-shrink-0" ref={containerRef} onClick={handleContainerClick}>
