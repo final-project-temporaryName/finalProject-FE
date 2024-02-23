@@ -28,7 +28,7 @@ function SlideContainer({ artworkImageResponse }: Props) {
   const setSlidesPerView = (width: number | undefined, num: number) => {
     if (!width) return 1;
 
-    if (num > 3) {
+    if (num >= 3) {
       if (width < 768) return 1;
       else if (width < 1200) return 2;
       else return 3;
@@ -75,8 +75,8 @@ function SlideContainer({ artworkImageResponse }: Props) {
         {artworkImageResponse?.map((data) => {
           return (
             <SwiperSlide key={data.imageId}>
-              <div className="relative h-520 w-auto">
-                <Image src={data.imageUrl} alt="작품 이미지" fill objectFit="cover" />
+              <div className="relative h-510 w-auto bg-black">
+                <Image src={data.imageUrl} alt="작품 이미지" fill objectFit="contain" />
                 <button className="absolute bottom-15 right-15" onClick={() => openModal(data.imageUrl)}>
                   <Expand />
                 </button>
