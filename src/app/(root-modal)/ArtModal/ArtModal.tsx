@@ -33,10 +33,14 @@ export default function ArtModal() {
   const getPostMutation = useMutation<GetSpecificCardResponseType>({
     mutationKey: ['artwork'],
     mutationFn: () => getArtwork(clickedArtworkId),
+    // mutationFn: () => postLike(clickedArtworkId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['artwork'] });
+      // 옵티미스틱 업데이트 하길 바란다.
+      // 이렇게 하면 시점 오류가 난다. - 게시물 정보 조회하지 말자. (likeId 받아오길 바람.)
+      queryClient.invalidateQueries({ queryKey: ['artwork', clickedArtworkId] });
     },
   });
+  console.log(artwork?.likeId);
 
   let customDate;
   if (artwork?.createdAt) {
