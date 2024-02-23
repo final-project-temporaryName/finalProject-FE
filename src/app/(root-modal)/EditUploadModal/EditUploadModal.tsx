@@ -25,10 +25,13 @@ import PreviewImage from '../UploadModal/_components/PreviewImage';
 import StatusLabelsGroup from '../UploadModal/_components/StatusLabelsGroup';
 import TextEditor from '../UploadModal/_components/TextEditor';
 import Modal from '../_components';
+import WarningForBigImage from '../WarningForBigImage/WarningForBigImage';
 
 export default function EditUploadModal() {
-  const { clearModal, clickedArtworkId } = useStore((state) => ({
+  const { modals, clearModal, showModal, clickedArtworkId } = useStore((state) => ({
+    modals: state.modals,
     clearModal: state.clearModal,
+    showModal: state.showModal,
     clickedArtworkId: state.clickedArtworkId,
   }));
 
@@ -48,7 +51,6 @@ export default function EditUploadModal() {
   const [showImage, setShowImage] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
   const [imageOrder, setImageOrder] = useState<number[] | undefined>(responseImageIds);
-  const [, setCurrentImageData] = useState<ImageArtworkType | undefined>();
 
   //hooks
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -72,9 +74,12 @@ export default function EditUploadModal() {
     uploadPutMutation.mutate(newPost, {
       onSuccess: (res) => {
         if (res?.data === 'fail') {
-          toast.error('작품 수정 실패!');
+          toast.error('작품 업로드 실패!');
+        } else if (res?.data.message === 'The given id must not be null') {
+          toast.error('작품 업로드 실패!');
         } else {
-          toast.success('작품 수정 성공! 🎉');
+          toast.success('작품 업로드 성공! 🎉');
+
           clearModal();
         }
       },
@@ -91,7 +96,6 @@ export default function EditUploadModal() {
 
     try {
       const { imageId, imageUrl } = await postUploadImageFile(formData);
-      setCurrentImageData({ imageId, imageUrl });
       return { imageId, imageUrl };
     } catch (error) {
       console.error('Error occurred while uploading image file:', error);
@@ -122,6 +126,16 @@ export default function EditUploadModal() {
     if (imageUrlList.length > 10) {
       imageUrlList = imageUrlList.slice(0, 10);
       imageOrderList = imageOrderList.slice(0, 10);
+    }
+
+    for (const id of imageOrderList) {
+      if (typeof id !== 'number') {
+        showModal('warningForBigImageModal');
+        imageOrderList = [];
+        imageUrlList = [];
+        e.target.value = '';
+        break;
+      }
     }
 
     setUploadImageSources(imageUrlList);
@@ -274,6 +288,7 @@ export default function EditUploadModal() {
           </>
         )}
       </Modal.Body>
+      {modals[modals.length - 1] === 'warningForBigImageModal' && <WarningForBigImage />}
     </Modal.Container>
   );
 }

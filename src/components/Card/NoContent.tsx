@@ -14,7 +14,7 @@ function NoContent() {
       <Button isLink={false} classname="primary-button upload-button" onClick={() => showModal('uploadModal')}>
         작품 업로드
       </Button>
-      {modals[modals?.length - 1] === 'uploadModal' && <UploadModal />}
+      {modals.includes('uploadModal') && <UploadModal />}
     </div>
   );
 }
