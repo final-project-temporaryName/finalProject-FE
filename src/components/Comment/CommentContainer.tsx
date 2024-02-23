@@ -99,7 +99,14 @@ function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentCon
   const contents = watch('comment');
 
   //GET
-  // const response = useQuery({
+  // const response = useQuery<GetCommentsResponse>({
+  //   queryKey: ['comments'],
+  //   queryFn: async ({ pageParam }) => {
+  //     return await queryFn({ pageParam });
+  //   },
+  // });
+
+  // const response = useQuery<GetCommentsResponse>({
   //   queryKey: ['comments'],
   //   queryFn: getComments,
   // });
