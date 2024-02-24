@@ -15,7 +15,7 @@ interface Props {
   artistName?: string;
   artistProfileImageUrl?: string;
   artistId?: number;
-  followId: number | null;
+  followId: number | null | undefined;
 }
 
 function ArtModalHeader({ artistName, artistProfileImageUrl, artistId, followId }: Props) {
@@ -70,10 +70,6 @@ function ArtModalHeader({ artistName, artistProfileImageUrl, artistId, followId 
       },
     );
   };
-
-  useEffect(() => {
-    // 팔로우 상태 초기값 확인하는 용도
-  }, []);
 
   return (
     <div className="relative flex items-center justify-between border-b-1 border-solid border-primary-5 px-34 py-20 text-14">

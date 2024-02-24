@@ -3,7 +3,7 @@ import instance from '../axios';
 
 interface DeleteFollowProps {
   userId?: number;
-  followId?: number | null;
+  followId: number | null | undefined;
 }
 
 export const deleteFollow = async ({ userId, followId }: DeleteFollowProps) => {
