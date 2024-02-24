@@ -2,7 +2,7 @@
 
 import { postArtwork } from '@/api/upload/postArtwork';
 import { postUploadImageFile } from '@/api/upload/postUploadImageFile';
-import getUser from '@/api/users/getUser';
+import { getUser } from '@/api/users/getUser';
 import { Button } from '@/components/Button';
 import { useStore } from '@/store';
 import '@/styles/tailwind.css';

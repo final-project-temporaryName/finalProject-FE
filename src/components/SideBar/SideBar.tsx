@@ -3,7 +3,7 @@
 import { deleteFollow } from '@/api/follow/deleteFollow';
 import { postFollow } from '@/api/follow/postFollow';
 import { getMyPage } from '@/api/users/getMyPage';
-import getUser from '@/api/users/getUser';
+import { getUser } from '@/api/users/getUser';
 import { Button } from '@/components/Button';
 import { useStore } from '@/store';
 import '@/styles/tailwind.css';
@@ -12,7 +12,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import defaultProfileImg from '../../../public/assets/images/logo.png';
 import ProfileFallbackUI from '../FallbackUI/SideBar/ProfileFallbackUI';
 import AddLinkIcon from './AddLinkIcon';
@@ -25,6 +25,7 @@ interface SideBarProps {
 function SideBar({ displayStatus }: SideBarProps) {
   const [isFollowClicked, setIsFollowClicked] = useState(false);
   const [followId, setFollowId] = useState<number | null>(null);
+  const [userInfo, setUserInfo] = useState<UserType | undefined>();
 
   const params = useParams<{ id: string }>();
   const queryClient = useQueryClient();
@@ -33,6 +34,20 @@ function SideBar({ displayStatus }: SideBarProps) {
     isLogin: state.isLogin,
     userId: state.userId,
   }));
+
+  const isMyProfile = !!isLogin && displayStatus === 'myWork';
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['artistInfo'],
+    queryFn: isMyProfile ? getMyPage : () => getUser(params.id),
+    staleTime: 3 * 1000,
+  });
+
+  useEffect(() => {
+    if (!data || isLoading) return;
+    const userInfo = isMyProfile ? data?.userProfileResponse : data;
+    setUserInfo(userInfo);
+  }, [data]);
 
   const postFollowMutation = useMutation({
     mutationKey: ['artistInfo'],
@@ -52,7 +67,7 @@ function SideBar({ displayStatus }: SideBarProps) {
 
   const handleFollow = () => {
     postFollowMutation.mutate(
-      { userId, receiverId: Number(params.id) },
+      { receiverId: Number(params.id), userId },
       {
         onSuccess: (data) => {
           setIsFollowClicked(true);
@@ -75,31 +90,7 @@ function SideBar({ displayStatus }: SideBarProps) {
     );
   };
 
-  let userInfo;
-  if (displayStatus === 'myWork') {
-    const { data, isPending } = useQuery({
-      queryKey: ['myPageInfo'],
-      queryFn: getMyPage,
-      enabled: !!isLogin,
-      staleTime: 3 * 1000,
-    });
-    if (isPending) {
-      return <ProfileFallbackUI />;
-    }
-    userInfo = data?.userProfileResponse as UserType;
-  } else if (displayStatus === 'notMyWork') {
-    const { data, isPending } = useQuery<UserType>({
-      queryKey: ['artistInfo'],
-      queryFn: () => getUser(params.id),
-      staleTime: 3 * 1000,
-    });
-    if (isPending) {
-      return <ProfileFallbackUI />;
-    }
-    userInfo = data;
-  }
-
-  if (typeof isLogin === 'undefined') {
+  if (isLoading || typeof isLogin === 'undefined') {
     return <ProfileFallbackUI />;
   }
 

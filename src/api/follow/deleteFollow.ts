@@ -8,7 +8,7 @@ interface DeleteFollowProps {
 
 export const deleteFollow = async ({ userId, followId }: DeleteFollowProps) => {
   try {
-    const response = await instance.delete(`/artworks/${userId}/follow/${followId}`);
+    const response = await instance.delete(`/users/${userId}/follows/${followId}`);
     return response;
   } catch (err: unknown) {
     const error = err as AxiosError;
