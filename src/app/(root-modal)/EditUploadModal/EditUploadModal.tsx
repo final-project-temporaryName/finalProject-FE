@@ -26,13 +26,16 @@ import StatusLabelsGroup from '../UploadModal/_components/StatusLabelsGroup';
 import TextEditor from '../UploadModal/_components/TextEditor';
 import Modal from '../_components';
 import WarningForBigImage from '../WarningForBigImage/WarningForBigImage';
+import { UserType } from '@/types/users';
+import getUser from '@/api/users/getUser';
 
 export default function EditUploadModal() {
-  const { modals, clearModal, showModal, clickedArtworkId } = useStore((state) => ({
+  const { modals, clearModal, showModal, clickedArtworkId, userId } = useStore((state) => ({
     modals: state.modals,
     clearModal: state.clearModal,
     showModal: state.showModal,
     clickedArtworkId: state.clickedArtworkId,
+    userId: state.userId,
   }));
 
   const { data: artwork } = useQuery<GetSpecificCardResponseType>({
@@ -57,6 +60,11 @@ export default function EditUploadModal() {
   const queryClient = useQueryClient();
 
   // handlers
+  const { data: userData } = useQuery<UserType>({
+    queryKey: ['user', userId],
+    queryFn: () => getUser(userId),
+  });
+
   const uploadPutMutation = useMutation({
     mutationFn: (newPost: PutCardRequestType) => putArtwork(newPost),
     onSuccess: () => {
@@ -202,7 +210,7 @@ export default function EditUploadModal() {
 
   return (
     <Modal.Container classname="modalContainer">
-      <Modal.Header />
+      <Modal.Header nickname={userData?.nickname} profileImageUrl={userData?.profileImageUrl} />
       <Modal.Body classname="flex h-full">
         <DragDropContext onDragEnd={onDragEnd}>
           {uploadImageSources?.length ? (
@@ -248,7 +256,7 @@ export default function EditUploadModal() {
         <div className="relative flex h-full w-2/5 flex-col gap-18 p-20">
           <input
             id="title"
-            className="h-39 w-300 p-10 text-14 font-semibold placeholder:text-gray-5"
+            className={`h-39 ${label === 'PUBLIC' ? 'w-full' : 'w-290'} rounded-xs border-1 border-solid border-[#ccc] p-10 text-14 font-semibold placeholder:text-gray-5`}
             value={title}
             type="text"
             spellCheck="false"
@@ -257,7 +265,7 @@ export default function EditUploadModal() {
           />
           <TextEditor value={description} setValue={setDescription} />
           <div className="flex items-center justify-between gap-18">
-            <StatusLabelsGroup setStatusValue={setLabel} />
+            <StatusLabelsGroup setStatusValue={setLabel} statusValue={label} />
             <Button.Modal.Action
               disabled={!title || !description || description === '<p><br></p>' || uploadImageSources?.length === 0}
               wrapperStyle=""

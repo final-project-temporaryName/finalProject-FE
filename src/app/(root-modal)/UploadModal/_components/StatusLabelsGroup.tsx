@@ -5,23 +5,24 @@ import '@/styles/tailwind.css';
 import { Dispatch, SetStateAction, useState } from 'react';
 
 enum ButtonCategoryText {
-  'POST' = '게시용',
-  'SALE' = '판매용',
-  'SHARE' = '나눔용',
+  'PUBLIC' = '게시용',
+  'SELLING' = '판매용',
+  'FREE' = '나눔용',
 }
 
 interface Props {
   setStatusValue:
     | Dispatch<SetStateAction<'PUBLIC' | 'SELLING' | 'FREE'>>
     | Dispatch<SetStateAction<'PUBLIC' | 'SELLING' | 'FREE' | undefined>>;
+  statusValue?: 'PUBLIC' | 'SELLING' | 'FREE' | undefined;
 }
 
-function StatusLabelsGroup({ setStatusValue }: Props) {
-  const [content, setContent] = useState('');
+function StatusLabelsGroup({ setStatusValue, statusValue }: Props) {
+  const [content, setContent] = useState(statusValue ? ButtonCategoryText[statusValue] : '');
   const labelTexts: ButtonCategoryText[] = [
-    ButtonCategoryText.POST, // 게시용
-    ButtonCategoryText.SALE, // 판매용
-    ButtonCategoryText.SHARE, // 나눔용
+    ButtonCategoryText.PUBLIC, // 게시용
+    ButtonCategoryText.SELLING, // 판매용
+    ButtonCategoryText.FREE, // 나눔용
   ];
 
   const handleActive = (buttonLabel: string) => {

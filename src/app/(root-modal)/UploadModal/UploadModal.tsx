@@ -222,7 +222,7 @@ export default function UploadModal() {
         <div className="relative flex h-full w-2/5 flex-col gap-18 p-15">
           <input
             id="title"
-            className="h-39 w-full rounded-[6px] border-1 border-solid border-[#ccc] p-10 text-14 font-semibold placeholder:text-gray-5"
+            className={`h-39 ${label === 'PUBLIC' ? 'w-full' : 'w-290'} rounded-xs border-1 border-solid border-[#ccc] p-10 text-14 font-semibold placeholder:text-gray-5`}
             value={title}
             type="text"
             spellCheck="false"
