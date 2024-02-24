@@ -30,9 +30,9 @@ import { UserType } from '@/types/users';
 import getUser from '@/api/users/getUser';
 
 export default function EditUploadModal() {
-  const { modals, clearModal, showModal, clickedArtworkId, userId } = useStore((state) => ({
+  const { modals, hideModal, showModal, clickedArtworkId, userId } = useStore((state) => ({
     modals: state.modals,
-    clearModal: state.clearModal,
+    hideModal: state.hideModal,
     showModal: state.showModal,
     clickedArtworkId: state.clickedArtworkId,
     userId: state.userId,
@@ -68,6 +68,7 @@ export default function EditUploadModal() {
   const uploadPutMutation = useMutation({
     mutationFn: (newPost: PutCardRequestType) => putArtwork(newPost),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['artwork', clickedArtworkId] });
       queryClient.invalidateQueries({ queryKey: ['myArtworks', '전체'] });
       queryClient.invalidateQueries({ queryKey: ['myArtworks', '판매중'] });
     },
@@ -88,14 +89,13 @@ export default function EditUploadModal() {
         } else {
           toast.success('작품 업로드 성공! 🎉');
 
-          clearModal();
+          hideModal(modals[modals.length - 1]);
         }
       },
       onError: (err) => {
         console.log(err);
       },
     });
-    clearModal();
   };
 
   const getImageData = async (file: File) => {
