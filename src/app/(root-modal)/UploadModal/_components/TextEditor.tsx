@@ -3,6 +3,7 @@
 import dynamic from 'next/dynamic';
 import { Dispatch, SetStateAction, useMemo } from 'react';
 import './TextEditor.css';
+import 'react-quill/dist/quill.snow.css';
 
 const QuillNoSSRWrapper = dynamic(() => import('react-quill'), {
   ssr: false,
@@ -19,20 +20,20 @@ function TextEditor({ value, setValue }: Props) {
     () => ({
       toolbar: [
         [{ size: ['small', false, 'large'] }],
-        [{ color: [] }],
+        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+        [{ color: [] }, { background: [] }],
         ['bold', 'underline', 'blockquote'],
-        [{ list: 'ordered' }, { list: 'bullet' }],
       ],
     }),
     [],
   );
 
-  const formats = ['size', 'color', 'bold', 'underline', 'blockquote', 'list', 'bullet'];
+  const formats = ['size', 'header', 'color', 'background', 'bold', 'underline', 'blockquote', 'bullet'];
 
   return (
-    <div className="h-330 w-355">
+    <div className="w-full">
       <QuillNoSSRWrapper
-        theme="bubble"
+        theme="snow"
         modules={modules}
         formats={formats}
         value={value}

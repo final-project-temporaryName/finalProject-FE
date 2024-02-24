@@ -219,10 +219,10 @@ export default function UploadModal() {
           ref={inputRef}
           onChange={handleUploadImage}
         />
-        <div className="relative flex h-full w-2/5 flex-col gap-18 p-20">
+        <div className="relative flex h-full w-2/5 flex-col gap-18 p-15">
           <input
             id="title"
-            className="h-39 w-300 p-10 text-14 font-semibold placeholder:text-gray-5"
+            className="h-39 w-full rounded-[6px] border-1 border-solid border-[#ccc] p-10 text-14 font-semibold placeholder:text-gray-5"
             value={title}
             type="text"
             spellCheck="false"

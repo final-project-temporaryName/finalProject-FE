@@ -110,7 +110,7 @@ function CardContainer({ type, categoryType }: Props) {
         <div ref={bottom} />
       </div>
       {modals.includes('editModal') && <EditUploadModal />}
-      {modals[modals?.length - 1] === 'artModal' && <ArtModal />}
+      {modals.includes('artModal') && <ArtModal />}
       {modals[modals?.length - 1] === 'askForDelete' && <AskForDeleteModal />}
     </>
   );
