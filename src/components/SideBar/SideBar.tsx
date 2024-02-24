@@ -34,6 +34,47 @@ function SideBar({ displayStatus }: SideBarProps) {
     userId: state.userId,
   }));
 
+  const postFollowMutation = useMutation({
+    mutationKey: ['artistInfo'],
+    mutationFn: postFollow,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['artistInfo'] });
+    },
+  });
+
+  const deleteFollowMutation = useMutation({
+    mutationKey: ['artistInfo'],
+    mutationFn: deleteFollow,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['artistInfo'] });
+    },
+  });
+
+  const handleFollow = () => {
+    postFollowMutation.mutate(
+      { userId, receiverId: Number(params.id) },
+      {
+        onSuccess: (data) => {
+          setIsFollowClicked(true);
+          setFollowId(data.followId);
+        },
+      },
+    );
+  };
+
+  const handleUnFollow = () => {
+    if (!followId) return;
+    deleteFollowMutation.mutate(
+      { userId, followId },
+      {
+        onSuccess: () => {
+          setIsFollowClicked(false);
+          setFollowId(null);
+        },
+      },
+    );
+  };
+
   let userInfo;
   if (displayStatus === 'myWork') {
     const { data, isPending } = useQuery({
@@ -61,47 +102,6 @@ function SideBar({ displayStatus }: SideBarProps) {
   if (typeof isLogin === 'undefined') {
     return <ProfileFallbackUI />;
   }
-
-  const postFollowMutation = useMutation({
-    mutationKey: ['artistInfo'],
-    mutationFn: postFollow,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['artistInfo'] });
-    },
-  });
-
-  const deleteFollowMutation = useMutation({
-    mutationKey: ['artistInfo'],
-    mutationFn: deleteFollow,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['artistInfo'] });
-    },
-  });
-
-  const handleFollow = () => {
-    postFollowMutation.mutate(
-      { receiverId: Number(params.id), userId },
-      {
-        onSuccess: (data) => {
-          setIsFollowClicked(true);
-          setFollowId(data.followId);
-        },
-      },
-    );
-  };
-
-  const handleUnFollow = () => {
-    if (!followId) return;
-    deleteFollowMutation.mutate(
-      { userId, followId },
-      {
-        onSuccess: () => {
-          setIsFollowClicked(false);
-          setFollowId(null);
-        },
-      },
-    );
-  };
 
   return (
     <div className="fixed left-36 top-110 h-648 w-260 rounded-sm">
