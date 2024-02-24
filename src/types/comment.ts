@@ -5,6 +5,8 @@ export interface CommentProps {
   createdAt: string;
   contents: string;
   author: boolean;
+  setValue?: any;
+  enterEditMode?: any;
 }
 
 export interface PostCommentsRequestType {
@@ -20,4 +22,10 @@ export interface DeleteCommentsRequestType {
 export interface GetCommentsResponse {
   contents: CommentProps[];
   hasNext: boolean;
+}
+
+export interface PutCommentsRequestType {
+  artworkId: number;
+  commentId: number;
+  contents: string;
 }

@@ -1,20 +1,30 @@
+import { deleteComments } from '@/api/comments/deleteComments';
+import { useStore } from '@/store';
 import { CommentProps, DeleteCommentsRequestType } from '@/types/comment';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { Button } from '../Button';
-import { deleteComments } from '@/api/comments/deleteComments';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useStore } from '@/store';
 
-function Comment({ profileUrl, nickname, createdAt, contents, author, commentId }: CommentProps) {
+function Comment({
+  profileUrl,
+  nickname,
+  createdAt,
+  contents,
+  author,
+  commentId,
+  setValue,
+  enterEditMode,
+}: CommentProps) {
   const queryClient = useQueryClient();
   const clickedArtworkId = useStore((state) => state.clickedArtworkId);
   const artworkId = clickedArtworkId;
 
+  //DELETE
   const deleteLinkMutation = useMutation({
     mutationFn: ({ artworkId, commentId }: DeleteCommentsRequestType) => deleteComments({ artworkId, commentId }),
   });
 
-  const handleDeleteButtonClick = async () => {
+  const handleDelete = async () => {
     if (commentId === undefined) {
       throw new Error('commentId is undefined');
     }
@@ -44,10 +54,10 @@ function Comment({ profileUrl, nickname, createdAt, contents, author, commentId 
       <p className="pl-40 text-14">{contents}</p>
       {author && (
         <div className="flex flex-row gap-5 pl-40 text-10">
-          <Button isLink={false} classname="underline">
+          <Button isLink={false} classname="underline" onClick={() => enterEditMode(commentId, contents)}>
             수정
           </Button>
-          <Button isLink={false} classname="underline" onClick={handleDeleteButtonClick}>
+          <Button isLink={false} classname="underline" onClick={handleDelete}>
             삭제
           </Button>
         </div>

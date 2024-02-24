@@ -5,22 +5,19 @@ import { postComments } from '@/api/comments/postComments';
 import Comment from '@/components/Comment/Comment';
 import useInfiniteData from '@/hooks/useInfiniteData';
 import { useStore } from '@/store';
-import { CommentProps, PostCommentsRequestType } from '@/types/comment';
+import { CommentProps, PostCommentsRequestType, PutCommentsRequestType } from '@/types/comment';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import UpArrow from '../../../public/assets/icons/UpArraw.svg';
 import CommentSend from './CommentSend';
+import { putComments } from '@/api/comments/putComments';
 
 interface Props {
   likeCount: number;
   commentCount: number;
   type: 'main' | 'mypage' | 'artist' | 'comment';
-}
-
-interface InputForm {
-  comment?: string;
 }
 
 interface Comments {
@@ -30,12 +27,21 @@ interface Comments {
 }
 
 function CommentContainer({ likeCount, commentCount, type }: Props) {
-  const { register, handleSubmit, watch, reset } = useForm();
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
+
+  const { register, handleSubmit, watch, reset, setValue } = useForm();
   const queryClient = useQueryClient();
   const bottom = useRef<HTMLDivElement>(null);
-  const contents = watch('comment');
   const clickedArtworkId = useStore((state) => state.clickedArtworkId);
+
   const artworkId = clickedArtworkId;
+
+  const enterEditMode = (commentId: number, contents: string) => {
+    setIsEditMode(true);
+    setEditingCommentId(commentId);
+    setValue('comment', contents);
+  };
 
   //GET
   const argument = {
@@ -63,21 +69,45 @@ function CommentContainer({ likeCount, commentCount, type }: Props) {
     },
   });
 
-  const onValid = (data: InputForm) => {
-    console.log('제출 버튼 클릭됨!');
-    // data.comment를 첨부해서 post api 요청 로직 필요
-    postCommentsMutation.mutate(
-      { artworkId, contents },
-      {
-        onSuccess: (data) => {
-          console.log(data);
+  //PUT
+  const putCommentsMutation = useMutation({
+    mutationFn: ({ artworkId, commentId, contents }: PutCommentsRequestType) =>
+      putComments({ artworkId, commentId, contents }),
+  });
+
+  const onValid = (data: any) => {
+    if (isEditMode && editingCommentId !== null) {
+      putCommentsMutation.mutate(
+        { artworkId, commentId: editingCommentId, contents: data.comment },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['comments', String(artworkId)] });
+            reset();
+            setIsEditMode(false);
+            setEditingCommentId(null);
+          },
+          onError: (error) => {
+            console.error(error);
+          },
         },
-        onError: (error) => {
-          console.error(error);
+      );
+    } else if (!isEditMode) {
+      postCommentsMutation.mutate(
+        { artworkId, contents: data.comment },
+        {
+          onSuccess: (data) => {
+            console.log(data);
+            queryClient.invalidateQueries({ queryKey: ['comments', String(artworkId)] });
+            reset();
+          },
+          onError: (error) => {
+            console.error(error);
+          },
         },
-        onSettled: () => {},
-      },
-    );
+      );
+    } else {
+      console.error('Editing comment ID is null.');
+    }
   };
 
   return (
@@ -97,6 +127,8 @@ function CommentContainer({ likeCount, commentCount, type }: Props) {
                       contents={comment.contents}
                       author={comment.author}
                       commentId={comment.commentId}
+                      setValue={setValue}
+                      enterEditMode={enterEditMode}
                     />
                   </div>
                 );
