@@ -80,7 +80,7 @@ function SideBar({ displayStatus }: SideBarProps) {
 
   const handleFollow = () => {
     postFollowMutation.mutate(
-      { userId: params.id },
+      { receiverId: Number(params.id), userId },
       {
         onSuccess: (data) => {
           setIsFollowClicked(true);

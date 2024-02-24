@@ -22,10 +22,11 @@ function ArtModalHeader({ artistName, artistProfileImageUrl, artistId }: Props) 
 
   const queryClient = useQueryClient();
 
-  const { modals, hideModal, clickedArtworkId } = useStore((state) => ({
+  const { modals, hideModal, clickedArtworkId, userId } = useStore((state) => ({
     modals: state.modals,
     hideModal: state.hideModal,
     clickedArtworkId: state.clickedArtworkId,
+    userId: state.userId,
   }));
 
   const postFollowMutation = useMutation({
@@ -46,7 +47,7 @@ function ArtModalHeader({ artistName, artistProfileImageUrl, artistId }: Props) 
 
   const handleFollow = () => {
     postFollowMutation.mutate(
-      { userId: artistId },
+      { userId, receiverId: artistId },
       {
         onSuccess: (data) => {
           setIsFollowClicked(true);
