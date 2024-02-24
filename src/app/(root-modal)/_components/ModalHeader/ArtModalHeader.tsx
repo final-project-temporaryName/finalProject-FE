@@ -15,7 +15,7 @@ interface Props {
   artistName?: string;
   artistProfileImageUrl?: string;
   artistId?: number;
-  followId?: number | null;
+  followId: number | null;
 }
 
 function ArtModalHeader({ artistName, artistProfileImageUrl, artistId, followId }: Props) {
