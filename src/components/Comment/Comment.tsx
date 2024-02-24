@@ -4,17 +4,9 @@ import { CommentProps, DeleteCommentsRequestType } from '@/types/comment';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { Button } from '../Button';
+import { getRelativeTime } from '@/utils/dayjs';
 
-function Comment({
-  profileUrl,
-  nickname,
-  createdAt,
-  contents,
-  author,
-  commentId,
-  setValue,
-  enterEditMode,
-}: CommentProps) {
+function Comment({ profileUrl, nickname, createdAt, contents, author, commentId, enterEditMode }: CommentProps) {
   const queryClient = useQueryClient();
   const clickedArtworkId = useStore((state) => state.clickedArtworkId);
   const artworkId = clickedArtworkId;
@@ -49,7 +41,7 @@ function Comment({
           <Image src={profileUrl} alt="프로필이미지" fill className="rounded-full" />
         </div>
         <p className="text-12 font-bold">{nickname}</p>
-        <p className="text-12 text-gray-5">{createdAt}</p>
+        <p className="text-12 text-gray-5">{getRelativeTime(createdAt)}</p>
       </div>
       <p className="pl-40 text-14">{contents}</p>
       {author && (
