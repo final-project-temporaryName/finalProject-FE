@@ -1,9 +1,7 @@
 import { GetSpecificCardResponseType } from '@/types/cards';
-import { request } from '../fetchRequestHandler';
+import instance from '../axios';
 
 export const getArtwork = async (artworkId: number) => {
-  const url = `artworks/${artworkId}`;
-
-  const response = await request<GetSpecificCardResponseType>({ url });
-  return response;
+  const response = await instance.get<GetSpecificCardResponseType>(`artworks/${artworkId}`);
+  return response.data;
 };

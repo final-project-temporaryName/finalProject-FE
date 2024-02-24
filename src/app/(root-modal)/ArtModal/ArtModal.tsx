@@ -1,28 +1,50 @@
 'use client';
 
 import { getArtwork } from '@/api/artwork/getArtwork';
+import { deleteLike } from '@/api/like/deleteLike';
+import { postLike } from '@/api/like/postLike';
 import BlackLike from '@/components/Comment/BlackLike';
 import CommentContainer from '@/components/Comment/CommentContainer';
-import WhiteLike from '@/components/Comment/WhiteLike';
+import RedLike from '@/components/Comment/RedLike';
 import SlideContainer from '@/components/SlideContainer/SlideContainer';
 import { useStore } from '@/store';
 import { GetSpecificCardResponseType } from '@/types/cards';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import DOMPurify from 'dompurify';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CommentIcon from '../../../../public/assets/icons/comment.svg';
 import Modal from '../_components';
 
 export default function ArtModal() {
-  const [isLikeClicked, setIsLikeClicked] = useState(false);
-
   const clickedArtworkId = useStore((state) => state.clickedArtworkId);
 
   const { data: artwork } = useQuery<GetSpecificCardResponseType>({
     queryKey: ['artwork', clickedArtworkId],
     queryFn: () => getArtwork(clickedArtworkId),
     staleTime: 3 * 1000,
+  });
+
+  const [likeCount, setLikeCount] = useState(artwork?.likeCount || 0);
+  const [isLikeClicked, setIsLikeClicked] = useState(false);
+  const [likeId, setLikeId] = useState<number | null>(artwork?.likeId || null);
+
+  const queryClient = useQueryClient();
+
+  const postLikeMutation = useMutation({
+    mutationKey: ['artwork'],
+    mutationFn: postLike,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['artwork', clickedArtworkId] });
+    },
+  });
+
+  const deleteLikeMutation = useMutation({
+    mutationKey: ['artwork'],
+    mutationFn: deleteLike,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['artwork', clickedArtworkId] });
+    },
   });
 
   let customDate;
@@ -35,10 +57,37 @@ export default function ArtModal() {
     customDate = `${year}년 ${month + 1}월 ${date}일`;
   }
 
-  const handleLikeClick = () => {
+  const handleLikeClick = async () => {
     setIsLikeClicked((prev) => !prev);
-    // 좋아요 post api 요청 로직 필요(optimistic update)
+    postLikeMutation.mutate(
+      { artworkId: clickedArtworkId },
+      {
+        onSuccess: (data) => {
+          setLikeCount((prev) => prev + 1);
+          setLikeId(data.likeId);
+        },
+      },
+    );
   };
+
+  const handleUnLikeClick = () => {
+    setIsLikeClicked((prev) => !prev);
+    deleteLikeMutation.mutate(
+      { artworkId: clickedArtworkId, likeId: likeId },
+      {
+        onSuccess: () => {
+          setLikeCount((prev) => prev - 1);
+          setLikeId(null);
+        },
+      },
+    );
+  };
+
+  // likeId 있을 때 좋아요 색을 빨간 색으로 바꿔준다.
+  useEffect(() => {
+    if (!likeId) return;
+    setIsLikeClicked(true);
+  }, [likeId]);
 
   return (
     <Modal.Container classname="artModalContainer">
@@ -53,8 +102,8 @@ export default function ArtModal() {
           {artwork?.artworkImageResponse?.length && (
             <SlideContainer artworkImageResponse={artwork?.artworkImageResponse} />
           )}
-          <div className="relative flex h-auto px-5 pt-15">
-            <div className="flex w-full flex-col gap-20">
+          <div className="relative flex h-auto px-20 pt-30">
+            <div className="flex w-full flex-col gap-25">
               <p className="text-20 font-bold">{artwork?.title}</p>
               {artwork?.description && (
                 <div
@@ -64,7 +113,37 @@ export default function ArtModal() {
               )}
               <span className="text-13 text-[#8f8f8f]">{customDate}</span>
             </div>
-            <div className="sticky top-0 flex flex-col items-end gap-20 pt-5">
+            <div className="sticky top-0 flex flex-col items-end gap-20 pl-32 pt-5">
+              {isLikeClicked ? (
+                <div
+                  className={
+                    'flex-col-center h-48 w-48 cursor-pointer rounded-full bg-gray-1 shadow-[0px_0px_15px_rgba(0,0,0,0.6)]'
+                  }
+                  onClick={handleUnLikeClick}
+                >
+                  <div>
+                    <RedLike />
+                  </div>
+                  <p className={'mb-3 text-12 text-primary'}>
+                    {artwork && (likeCount < 1000 ? likeCount : (likeCount / 1000).toFixed(1) + 'k')}
+                  </p>
+                </div>
+              ) : (
+                <div
+                  className={
+                    'flex-col-center h-48 w-48 cursor-pointer rounded-full bg-white shadow-[0px_0px_12px_rgba(0,0,0,0.3)]'
+                  }
+                  onClick={handleLikeClick}
+                >
+                  <div className="animate-pulse">
+                    <BlackLike />
+                  </div>
+                  <p className={'mb-3 text-12'}>
+                    {artwork && (likeCount < 1000 ? likeCount : (likeCount / 1000).toFixed(1) + 'k')}
+                  </p>
+                </div>
+              )}
+              {/* 댓글 버튼 */}
               <Link
                 href="#downwards"
                 className="flex-col-center h-48 w-48 rounded-full shadow-[0px_0px_12px_rgba(0,0,0,0.3)]"
@@ -79,24 +158,6 @@ export default function ArtModal() {
                       : (artwork.commentCount / 1000).toFixed(1) + 'k')}
                 </span>
               </Link>
-              <div
-                className={`${isLikeClicked ? 'bg-gray-1 shadow-[0px_0px_15px_rgba(0,0,0,0.6)]' : 'bg-white shadow-[0px_0px_12px_rgba(0,0,0,0.3)]'} flex-col-center h-48 w-48 cursor-pointer rounded-full`}
-                onClick={handleLikeClick}
-              >
-                {isLikeClicked ? (
-                  <div>
-                    <BlackLike />
-                  </div>
-                ) : (
-                  <div className="animate-pulse">
-                    <WhiteLike />
-                  </div>
-                )}
-                <p className={'mb-3 text-12'}>
-                  {artwork &&
-                    (artwork.likeCount < 1000 ? artwork.likeCount : (artwork.likeCount / 1000).toFixed(1) + 'k')}
-                </p>
-              </div>
             </div>
           </div>
         </div>
