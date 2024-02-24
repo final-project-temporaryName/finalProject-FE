@@ -4,10 +4,11 @@ import dynamic from 'next/dynamic';
 import { Dispatch, SetStateAction, useMemo } from 'react';
 import './TextEditor.css';
 import 'react-quill/dist/quill.snow.css';
+import TextEditorLoader from './TextEditorLoader';
 
 const QuillNoSSRWrapper = dynamic(() => import('react-quill'), {
   ssr: false,
-  loading: () => <p>Loading ...</p>,
+  loading: () => <TextEditorLoader />,
 });
 
 interface Props {
