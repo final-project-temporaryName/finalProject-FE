@@ -16,7 +16,7 @@ export default function AskForDeleteModal() {
   const queryClient = useQueryClient();
 
   const deleteMutation = useMutation({
-    mutationFn: (clickedArtworkId: number) => deleteArtwork(clickedArtworkId),
+    mutationFn: deleteArtwork,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['myArtworks', '전체'] });
       queryClient.invalidateQueries({ queryKey: ['myArtworks', '판매중'] });
@@ -24,12 +24,15 @@ export default function AskForDeleteModal() {
   });
 
   const handleDelete = () => {
-    deleteMutation.mutate(clickedArtworkId, {
-      onSuccess: () => {
-        toast.success('작품 삭제 성공! 🎉');
-        clearModal();
+    deleteMutation.mutate(
+      { artworkId: clickedArtworkId },
+      {
+        onSuccess: () => {
+          toast.success('작품 삭제 성공! 🎉');
+          clearModal();
+        },
       },
-    });
+    );
   };
 
   return (
