@@ -1,109 +1,140 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
-import Comment from './Comment';
-import CommentSend from './CommentSend';
-import Free from './Free';
-import Selling from './Selling';
-import UpArrow from '../../../public/assets/icons/UpArraw.svg';
+import { getComments } from '@/api/comments/getComments';
+import { postComments } from '@/api/comments/postComments';
+import Comment from '@/components/Comment/Comment';
+import useInfiniteData from '@/hooks/useInfiniteData';
+import { useStore } from '@/store';
+import { CommentProps, PostCommentsRequestType, PutCommentsRequestType } from '@/types/comment';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
+import { useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import UpArrow from '../../../public/assets/icons/UpArraw.svg';
+import CommentSend from './CommentSend';
+import { putComments } from '@/api/comments/putComments';
 
-interface CommentContainerProps {
+interface Props {
   likeCount: number;
   commentCount: number;
-  artworkStatus: 'PUBLIC' | 'SELLING' | 'FREE';
+  type: 'main' | 'mypage' | 'artist' | 'comment';
 }
 
-interface InputForm {
-  comment?: string;
+interface Comments {
+  contents: CommentProps[];
+  hasNext: boolean;
+  pages: Comments[];
 }
 
-interface CommentData {
-  imageUrl: string;
-  nickName: string;
-  createdAt: string;
-  description: string;
-}
+function CommentContainer({ likeCount, commentCount, type }: Props) {
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
 
-const data: CommentData[] = [
-  {
-    imageUrl:
-      'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    nickName: 'Elon Musk',
-    createdAt: '2024년 2월 11일',
-    description: '내가 본 것 중에서 단연 최고였다. 와우~',
-  },
-  {
-    imageUrl:
-      'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    nickName: 'Elon Musk',
-    createdAt: '2024년 2월 10일',
-    description: '내가 본 것 중에서 단연 최고였다. 와우~',
-  },
-  {
-    imageUrl:
-      'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    nickName: 'Elon Musk',
-    createdAt: '2024년 2월 9일',
-    description: '내가 본 것 중에서 단연 최고였다. 와우~',
-  },
-  {
-    imageUrl:
-      'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    nickName: 'Elon Musk',
-    createdAt: '2024년 2월 8일',
-    description: '내가 본 것 중에서 단연 최고였다. 와우~',
-  },
-  {
-    imageUrl:
-      'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    nickName: 'Elon Musk',
-    createdAt: '2024년 2월 7일',
-    description: 'Awesome !!!!!',
-  },
-  {
-    imageUrl:
-      'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    nickName: 'Elon Musk',
-    createdAt: '2024년 2월 6일',
-    description: 'Slay',
-  },
-  {
-    imageUrl:
-      'https://images.unsplash.com/photo-1579273166152-d725a4e2b755?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    nickName: 'Elon Musk',
-    createdAt: '2024년 2월 6일',
-    description: 'Slay',
-  },
-];
+  const { register, handleSubmit, watch, reset, setValue } = useForm();
+  const queryClient = useQueryClient();
+  const bottom = useRef<HTMLDivElement>(null);
+  const clickedArtworkId = useStore((state) => state.clickedArtworkId);
 
-function CommentContainer({ likeCount, commentCount, artworkStatus }: CommentContainerProps) {
-  const { register, handleSubmit } = useForm();
+  const artworkId = clickedArtworkId;
 
-  const onValid = (data: InputForm) => {
-    console.log('제출 버튼 클릭됨!');
-    // data.comment를 첨부해서 post api 요청 로직 필요
+  const enterEditMode = (commentId: number, contents: string) => {
+    setIsEditMode(true);
+    setEditingCommentId(commentId);
+    setValue('comment', contents);
+  };
+
+  //GET
+  const argument = {
+    queryKey: ['comments', String(artworkId)],
+    queryFn: getComments,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['comments', String(artworkId)] });
+    },
+    initialPageParam: null,
+    getNextPageParam: (lastPage: Comments) => {
+      return lastPage.hasNext ? lastPage.contents[lastPage.contents.length - 1].commentId : undefined;
+    },
+    ref: bottom,
+    type: type,
+    artworkId: artworkId,
+  };
+  const { data, isPending } = useInfiniteData(argument);
+
+  //POST
+  const postCommentsMutation = useMutation({
+    mutationFn: ({ artworkId, contents }: PostCommentsRequestType) => postComments({ artworkId, contents }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['comments', String(artworkId)] });
+      reset();
+    },
+  });
+
+  //PUT
+  const putCommentsMutation = useMutation({
+    mutationFn: ({ artworkId, commentId, contents }: PutCommentsRequestType) =>
+      putComments({ artworkId, commentId, contents }),
+  });
+
+  const onValid = (data: any) => {
+    if (isEditMode && editingCommentId !== null) {
+      putCommentsMutation.mutate(
+        { artworkId, commentId: editingCommentId, contents: data.comment },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['comments', String(artworkId)] });
+            reset();
+            setIsEditMode(false);
+            setEditingCommentId(null);
+          },
+          onError: (error) => {
+            console.error(error);
+          },
+        },
+      );
+    } else if (!isEditMode) {
+      postCommentsMutation.mutate(
+        { artworkId, contents: data.comment },
+        {
+          onSuccess: (data) => {
+            console.log(data);
+            queryClient.invalidateQueries({ queryKey: ['comments', String(artworkId)] });
+            reset();
+          },
+          onError: (error) => {
+            console.error(error);
+          },
+        },
+      );
+    } else {
+      console.error('Editing comment ID is null.');
+    }
   };
 
   return (
-    <div className="relative">
-      <div className="absolute -top-10 right-20 z-first">
-        {artworkStatus === 'SELLING' ? <Selling /> : artworkStatus === 'FREE' ? <Free /> : null}
-      </div>
+    <div>
       <div className="w-full min-w-360 rounded-t-sm bg-gray-1 shadow-top">
         <div className="flex max-h-250 flex-col overflow-y-scroll bg-gray-1 p-20 pb-7">
           {data &&
-            data.length > 0 &&
-            data.map((comment) => (
-              <div key={comment.createdAt + comment.nickName}>
-                <Comment
-                  imageUrl={comment.imageUrl}
-                  nickName={comment.nickName}
-                  createdAt={comment.createdAt}
-                  description={comment.description}
-                />
-              </div>
-            ))}
+            data?.pages?.map((page: Comments) => {
+              const comments = page.contents;
+              return comments.map((comment) => {
+                return (
+                  <div key={comment.commentId}>
+                    <Comment
+                      profileUrl={comment.profileUrl}
+                      nickname={comment.nickname}
+                      createdAt={comment.createdAt}
+                      contents={comment.contents}
+                      author={comment.author}
+                      commentId={comment.commentId}
+                      setValue={setValue}
+                      enterEditMode={enterEditMode}
+                    />
+                  </div>
+                );
+              });
+            })}
+          <div ref={bottom} />
         </div>
         <form className="flex items-center gap-13 bg-gray-1 p-20 pb-36" onSubmit={handleSubmit(onValid)}>
           <a id="downwards"></a>
