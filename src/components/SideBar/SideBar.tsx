@@ -14,6 +14,7 @@ import defaultProfileImg from '../../../public/assets/images/logo.png';
 import ProfileFallbackUI from '../FallbackUI/SideBar/ProfileFallbackUI';
 import AddLinkIcon from './AddLinkIcon';
 import LinkIcon from './LinkIcon';
+import DOMPurify from 'dompurify';
 
 interface SideBarProps {
   displayStatus: 'myWork' | 'notMyWork';
@@ -77,7 +78,14 @@ function SideBar({ displayStatus }: SideBarProps) {
             <p className="text-12 text-gray-9">{userInfo?.activityArea + ' / ' + userInfo?.activityField}</p>
           </div>
           <div className="mb-16 mt-16 flex min-h-60 w-192 items-center rounded-sm bg-white p-16">
-            <p className="text-12 text-gray-9">{userInfo?.description}</p>
+            {userInfo?.description && (
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(userInfo?.description.replaceAll(/\n/g, '<br/>')),
+                }}
+                className="text-12 text-gray-9"
+              ></p>
+            )}
           </div>
           <div className="mb-20 flex items-center justify-between gap-20">
             <span className="count">
