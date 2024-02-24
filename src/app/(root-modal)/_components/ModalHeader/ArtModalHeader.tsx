@@ -7,18 +7,20 @@ import { useStore } from '@/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import defaultProfileImg from '../../../../../public/assets/images/logo.png';
+import { isNull } from 'lodash';
 
 interface Props {
   artistName?: string;
   artistProfileImageUrl?: string;
   artistId?: number;
+  followId?: number | null;
 }
 
-function ArtModalHeader({ artistName, artistProfileImageUrl, artistId }: Props) {
-  const [isFollowClicked, setIsFollowClicked] = useState(false);
-  const [followId, setFollowId] = useState<number | null>(null);
+function ArtModalHeader({ artistName, artistProfileImageUrl, artistId, followId }: Props) {
+  const [isFollowClicked, setIsFollowClicked] = useState(!isNull(followId));
+  const [newFollowId, setNewFollowId] = useState(followId);
 
   const queryClient = useQueryClient();
 
@@ -49,26 +51,29 @@ function ArtModalHeader({ artistName, artistProfileImageUrl, artistId }: Props) 
     postFollowMutation.mutate(
       { userId, receiverId: artistId },
       {
-        onSuccess: (data) => {
+        onSuccess: (data: { followId: number }) => {
           setIsFollowClicked(true);
-          setFollowId(data.followId);
+          setNewFollowId(data.followId);
         },
       },
     );
   };
 
   const handleUnFollow = () => {
-    if (!followId) return;
     deleteFollowMutation.mutate(
-      { userId: artistId, followId },
+      { userId: artistId, followId: newFollowId },
       {
         onSuccess: () => {
           setIsFollowClicked(false);
-          setFollowId(null);
+          setNewFollowId(null);
         },
       },
     );
   };
+
+  useEffect(() => {
+    // 팔로우 상태 초기값 확인하는 용도
+  }, []);
 
   return (
     <div className="relative flex items-center justify-between border-b-1 border-solid border-primary-5 px-34 py-20 text-14">
