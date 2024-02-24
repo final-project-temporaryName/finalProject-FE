@@ -6,7 +6,7 @@ interface DeleteFollowProps {
   followId: number;
 }
 
-export const deleteLike = async ({ userId, followId }: DeleteFollowProps) => {
+export const deleteFollow = async ({ userId, followId }: DeleteFollowProps) => {
   try {
     const response = await instance.delete(`/artworks/${userId}/follow/${followId}`);
     return response;

@@ -1,7 +1,11 @@
 import { AxiosError } from 'axios';
 import instance from '../axios';
 
-export const postFollow = async (userId: number) => {
+interface PostFollowProps {
+  userId: number | string;
+}
+
+export const postFollow = async ({ userId }: PostFollowProps) => {
   try {
     const response = await instance.post(`/users/${userId}/follows`);
     return response.data;

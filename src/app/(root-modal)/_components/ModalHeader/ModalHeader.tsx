@@ -11,7 +11,6 @@ interface ModalHeaderProps {
   profileImageUrl?: string;
 }
 
-// TODO: 프로필 이미지 연결하기
 function ModalHeader({ nickname, profileImageUrl }: ModalHeaderProps) {
   const { modals, hideModal } = useStore((state) => ({
     modals: state.modals,

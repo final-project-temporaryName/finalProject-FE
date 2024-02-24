@@ -1,15 +1,18 @@
 'use client';
 
+import { deleteFollow } from '@/api/follow/deleteFollow';
+import { postFollow } from '@/api/follow/postFollow';
 import { getMyPage } from '@/api/users/getMyPage';
 import getUser from '@/api/users/getUser';
 import { Button } from '@/components/Button';
 import { useStore } from '@/store';
 import '@/styles/tailwind.css';
 import { UserType } from '@/types/users';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { useState } from 'react';
 import defaultProfileImg from '../../../public/assets/images/logo.png';
 import ProfileFallbackUI from '../FallbackUI/SideBar/ProfileFallbackUI';
 import AddLinkIcon from './AddLinkIcon';
@@ -20,8 +23,16 @@ interface SideBarProps {
 }
 
 function SideBar({ displayStatus }: SideBarProps) {
+  const [isFollowClicked, setIsFollowClicked] = useState(false);
+  const [followId, setFollowId] = useState<number | null>(null);
+
   const params = useParams<{ id: string }>();
-  const isLogin = useStore((state) => state.isLogin);
+  const queryClient = useQueryClient();
+
+  const { isLogin, userId } = useStore((state) => ({
+    isLogin: state.isLogin,
+    userId: state.userId,
+  }));
 
   let userInfo;
   if (displayStatus === 'myWork') {
@@ -50,6 +61,47 @@ function SideBar({ displayStatus }: SideBarProps) {
   if (typeof isLogin === 'undefined') {
     return <ProfileFallbackUI />;
   }
+
+  const postFollowMutation = useMutation({
+    mutationKey: ['sidebar'],
+    mutationFn: postFollow,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['sidebar'] });
+    },
+  });
+
+  const deleteFollowMutation = useMutation({
+    mutationKey: ['sidebar'],
+    mutationFn: deleteFollow,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['sidebar'] });
+    },
+  });
+
+  const handleFollow = () => {
+    postFollowMutation.mutate(
+      { userId: params.id },
+      {
+        onSuccess: (data) => {
+          setIsFollowClicked(true);
+          setFollowId(data.followId);
+        },
+      },
+    );
+  };
+
+  const handleUnFollow = () => {
+    if (!followId) return;
+    deleteFollowMutation.mutate(
+      { userId, followId },
+      {
+        onSuccess: () => {
+          setIsFollowClicked(false);
+          setFollowId(null);
+        },
+      },
+    );
+  };
 
   return (
     <div className="fixed left-36 top-110 h-648 w-260 rounded-sm">
@@ -80,11 +132,21 @@ function SideBar({ displayStatus }: SideBarProps) {
             <p className="text-12 text-gray-9">{userInfo?.description}</p>
           </div>
           {displayStatus === 'notMyWork' ? (
-            // TODO: 추후 destination 바뀔 예정
             <div className="mb-24 flex gap-12">
-              <Button isLink={true} classname="primary-button artModal-chat-button">
-                팔로잉
-              </Button>
+              {isFollowClicked ? (
+                <Button
+                  isLink={false}
+                  classname="primary-button artModal-follow-button"
+                  onClick={() => handleUnFollow()}
+                >
+                  팔로잉
+                </Button>
+              ) : (
+                <Button isLink={false} classname="primary-button artModal-follow-button" onClick={() => handleFollow()}>
+                  팔로우
+                </Button>
+              )}
+              {/*  TODO: 추후 destination 바뀔 예정 */}
               <Button isLink={true} destination="/chat" classname="primary-button artModal-chat-button">
                 1:1 채팅
               </Button>

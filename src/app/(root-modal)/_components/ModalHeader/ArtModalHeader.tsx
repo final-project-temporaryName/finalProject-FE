@@ -13,7 +13,6 @@ interface Props {
   artistId?: number;
 }
 
-// TODO: 프로필 이미지 연결하기, 팔로우 api 연결하기
 function ArtModalHeader({ artistName, artistProfileImageUrl, artistId }: Props) {
   const [isFollowClicked, setIsFollowClicked] = useState(false);
   const { modals, hideModal } = useStore((state) => ({
@@ -21,7 +20,7 @@ function ArtModalHeader({ artistName, artistProfileImageUrl, artistId }: Props) 
     hideModal: state.hideModal,
   }));
 
-  const handleFollowClick = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleFollow = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsFollowClicked((prev) => !prev);
   };
@@ -43,9 +42,10 @@ function ArtModalHeader({ artistName, artistProfileImageUrl, artistId }: Props) 
             <p className="text-14 font-semibold">{artistName ? artistName : '닉네임 없음'}</p>
           </div>
         </Link>
-        <button onClick={(e) => handleFollowClick(e)} className="primary-button artModal-follow-button">
-          {isFollowClicked ? 'Followed' : 'Follow'}
+        <button onClick={(e) => handleFollow(e)} className="primary-button artModal-follow-button">
+          {isFollowClicked ? '팔로잉' : '팔로우'}
         </button>
+        {/*  TODO: 추후 destination 바뀔 예정 */}
         <Button isLink={true} destination="/chat" classname="primary-button artModal-chat-button">
           1:1 채팅
         </Button>
