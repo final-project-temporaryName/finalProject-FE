@@ -63,18 +63,18 @@ function SideBar({ displayStatus }: SideBarProps) {
   }
 
   const postFollowMutation = useMutation({
-    mutationKey: ['sidebar'],
+    mutationKey: ['artistInfo'],
     mutationFn: postFollow,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['sidebar'] });
+      queryClient.invalidateQueries({ queryKey: ['artistInfo'] });
     },
   });
 
   const deleteFollowMutation = useMutation({
-    mutationKey: ['sidebar'],
+    mutationKey: ['artistInfo'],
     mutationFn: deleteFollow,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['sidebar'] });
+      queryClient.invalidateQueries({ queryKey: ['artistInfo'] });
     },
   });
 

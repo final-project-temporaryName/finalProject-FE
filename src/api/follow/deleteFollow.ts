@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 import instance from '../axios';
 
 interface DeleteFollowProps {
-  userId: number;
+  userId?: number;
   followId: number;
 }
 
