@@ -9,6 +9,7 @@ import { useStore } from '@/store';
 import '@/styles/tailwind.css';
 import { UserType } from '@/types/users';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { isNull } from 'lodash';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -47,6 +48,8 @@ function SideBar({ displayStatus }: SideBarProps) {
     if (!data || isLoading) return;
     const userInfo = isMyProfile ? data?.userProfileResponse : data;
     setUserInfo(userInfo);
+    setIsFollowClicked(!isNull(data.followId));
+    setFollowId(data.followId);
   }, [data]);
 
   const postFollowMutation = useMutation({
@@ -69,7 +72,7 @@ function SideBar({ displayStatus }: SideBarProps) {
     postFollowMutation.mutate(
       { receiverId: Number(params.id), userId },
       {
-        onSuccess: (data) => {
+        onSuccess: (data: { followId: number }) => {
           setIsFollowClicked(true);
           setFollowId(data.followId);
         },
@@ -78,9 +81,8 @@ function SideBar({ displayStatus }: SideBarProps) {
   };
 
   const handleUnFollow = () => {
-    if (!followId) return;
     deleteFollowMutation.mutate(
-      { userId, followId },
+      { userId: data.userId, followId },
       {
         onSuccess: () => {
           setIsFollowClicked(false);
