@@ -17,7 +17,7 @@ import CardImageFallbackUI from '../FallbackUI/Card/CardImageFallbackUI';
 type CustomCardType = Omit<CardType, 'description' | 'createdAt' | 'updatedAt' | 'likeId' | 'followId'>;
 
 interface Props extends CustomCardType {
-  type: 'main' | 'mypage' | 'artist';
+  type: 'main' | 'mypage' | 'artist' | 'comment';
   isPending: boolean;
 }
 
