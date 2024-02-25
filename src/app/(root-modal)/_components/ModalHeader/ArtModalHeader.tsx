@@ -1,29 +1,74 @@
 'use client';
 
+import { deleteFollow } from '@/api/follow/deleteFollow';
+import { postFollow } from '@/api/follow/postFollow';
 import { Button } from '@/components/Button';
 import { useStore } from '@/store';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { isNull } from 'lodash';
 import Image from 'next/image';
-import { MouseEvent, useState } from 'react';
-import defaultProfileImg from '../../../../../public/assets/images/logo.png';
 import Link from 'next/link';
+import { useState } from 'react';
+import defaultProfileImg from '../../../../../public/assets/images/logo.png';
 
 interface Props {
   artistName?: string;
   artistProfileImageUrl?: string;
   artistId?: number;
+  followId: number | null | undefined;
 }
 
-// TODO: 프로필 이미지 연결하기, 팔로우 api 연결하기
-function ArtModalHeader({ artistName, artistProfileImageUrl, artistId }: Props) {
-  const [isFollowClicked, setIsFollowClicked] = useState(false);
-  const { modals, hideModal } = useStore((state) => ({
+function ArtModalHeader({ artistName, artistProfileImageUrl, artistId, followId }: Props) {
+  const [isFollowClicked, setIsFollowClicked] = useState(!isNull(followId));
+  const [newFollowId, setNewFollowId] = useState(followId);
+
+  const queryClient = useQueryClient();
+
+  const { modals, hideModal, clickedArtworkId, userId } = useStore((state) => ({
     modals: state.modals,
     hideModal: state.hideModal,
+    clickedArtworkId: state.clickedArtworkId,
+    userId: state.userId,
   }));
 
-  const handleFollowClick = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    setIsFollowClicked((prev) => !prev);
+  const postFollowMutation = useMutation({
+    mutationKey: ['artwork', clickedArtworkId],
+    mutationFn: postFollow,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['artwork', clickedArtworkId] });
+    },
+  });
+
+  const deleteFollowMutation = useMutation({
+    mutationKey: ['artwork', clickedArtworkId],
+    mutationFn: deleteFollow,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['artwork', clickedArtworkId] });
+    },
+  });
+
+  const handleFollow = () => {
+    postFollowMutation.mutate(
+      { userId, receiverId: artistId },
+      {
+        onSuccess: (data: { followId: number }) => {
+          setIsFollowClicked(true);
+          setNewFollowId(data.followId);
+        },
+      },
+    );
+  };
+
+  const handleUnFollow = () => {
+    deleteFollowMutation.mutate(
+      { userId: artistId, followId: newFollowId },
+      {
+        onSuccess: () => {
+          setIsFollowClicked(false);
+          setNewFollowId(null);
+        },
+      },
+    );
   };
 
   return (
@@ -43,9 +88,16 @@ function ArtModalHeader({ artistName, artistProfileImageUrl, artistId }: Props) 
             <p className="text-14 font-semibold">{artistName ? artistName : '닉네임 없음'}</p>
           </div>
         </Link>
-        <button onClick={(e) => handleFollowClick(e)} className="primary-button artModal-follow-button">
-          {isFollowClicked ? 'Followed' : 'Follow'}
-        </button>
+        {isFollowClicked ? (
+          <Button isLink={false} classname="primary-button artModal-follow-button" onClick={() => handleUnFollow()}>
+            팔로잉
+          </Button>
+        ) : (
+          <Button isLink={false} classname="primary-button artModal-follow-button" onClick={() => handleFollow()}>
+            팔로우
+          </Button>
+        )}
+        {/*  TODO: 추후 destination 바뀔 예정 */}
         <Button isLink={true} destination="/chat" classname="primary-button artModal-chat-button">
           1:1 채팅
         </Button>

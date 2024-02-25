@@ -16,7 +16,6 @@ interface CategoryButtonProps {
   onClick?: (buttonLabel: string) => void;
 }
 
-// TODO: 사용할 때 props에 적절한 내용과 온클릭 함수 수정해서 넣어주세요.
 function CategoryButton({
   type,
   labelText,

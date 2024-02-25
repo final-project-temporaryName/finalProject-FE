@@ -1,15 +1,19 @@
 'use client';
 
+import { deleteFollow } from '@/api/follow/deleteFollow';
+import { postFollow } from '@/api/follow/postFollow';
 import { getMyPage } from '@/api/users/getMyPage';
-import getUser from '@/api/users/getUser';
+import { getUser } from '@/api/users/getUser';
 import { Button } from '@/components/Button';
 import { useStore } from '@/store';
 import '@/styles/tailwind.css';
 import { UserType } from '@/types/users';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { isNull } from 'lodash';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import defaultProfileImg from '../../../public/assets/images/logo.png';
 import ProfileFallbackUI from '../FallbackUI/SideBar/ProfileFallbackUI';
 import AddLinkIcon from './AddLinkIcon';
@@ -21,34 +25,75 @@ interface SideBarProps {
 }
 
 function SideBar({ displayStatus }: SideBarProps) {
+  const [isFollowClicked, setIsFollowClicked] = useState(false);
+  const [followId, setFollowId] = useState<number | null>(null);
+  const [userInfo, setUserInfo] = useState<UserType | undefined>();
+
   const params = useParams<{ id: string }>();
-  const isLogin = useStore((state) => state.isLogin);
+  const queryClient = useQueryClient();
 
-  let userInfo;
-  if (displayStatus === 'myWork') {
-    const { data, isPending } = useQuery({
-      queryKey: ['myPageInfo'],
-      queryFn: getMyPage,
-      enabled: !!isLogin,
-      staleTime: 3 * 1000,
-    });
-    if (isPending) {
-      return <ProfileFallbackUI />;
-    }
-    userInfo = data?.userProfileResponse as UserType;
-  } else if (displayStatus === 'notMyWork') {
-    const { data, isPending } = useQuery<UserType>({
-      queryKey: ['artistInfo'],
-      queryFn: () => getUser(params.id),
-      staleTime: 3 * 1000,
-    });
-    if (isPending) {
-      return <ProfileFallbackUI />;
-    }
-    userInfo = data;
-  }
+  const { isLogin, userId } = useStore((state) => ({
+    isLogin: state.isLogin,
+    userId: state.userId,
+  }));
 
-  if (typeof isLogin === 'undefined') {
+  const isMyProfile = !!isLogin && displayStatus === 'myWork';
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['artistInfo'],
+    queryFn: isMyProfile ? getMyPage : () => getUser(params.id),
+    staleTime: 3 * 1000,
+  });
+
+  useEffect(() => {
+    if (!data || isLoading) return;
+    const userInfo = isMyProfile ? data?.userProfileResponse : data;
+    setUserInfo(userInfo);
+    setIsFollowClicked(!isNull(data.followId));
+    setFollowId(data.followId);
+  }, [data]);
+
+  const postFollowMutation = useMutation({
+    mutationKey: ['artistInfo'],
+    mutationFn: postFollow,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['artistInfo'] });
+    },
+  });
+
+  const deleteFollowMutation = useMutation({
+    mutationKey: ['artistInfo'],
+    mutationFn: deleteFollow,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['artistInfo'] });
+    },
+  });
+
+  const handleFollow = () => {
+    postFollowMutation.mutate(
+      { receiverId: Number(params.id), userId },
+      {
+        onSuccess: (data: { followId: number }) => {
+          setIsFollowClicked(true);
+          setFollowId(data.followId);
+        },
+      },
+    );
+  };
+
+  const handleUnFollow = () => {
+    deleteFollowMutation.mutate(
+      { userId: data.userId, followId },
+      {
+        onSuccess: () => {
+          setIsFollowClicked(false);
+          setFollowId(null);
+        },
+      },
+    );
+  };
+
+  if (isLoading || typeof isLogin === 'undefined') {
     return <ProfileFallbackUI />;
   }
 
@@ -87,7 +132,28 @@ function SideBar({ displayStatus }: SideBarProps) {
               ></p>
             )}
           </div>
-          <div className="mb-20 flex items-center justify-between gap-20">
+          {displayStatus === 'notMyWork' ? (
+            <div className="mb-24 flex gap-12">
+              {isFollowClicked ? (
+                <Button
+                  isLink={false}
+                  classname="primary-button artModal-follow-button"
+                  onClick={() => handleUnFollow()}
+                >
+                  팔로잉
+                </Button>
+              ) : (
+                <Button isLink={false} classname="primary-button artModal-follow-button" onClick={() => handleFollow()}>
+                  팔로우
+                </Button>
+              )}
+              {/*  TODO: 추후 destination 바뀔 예정 */}
+              <Button isLink={true} destination="/chat" classname="primary-button artModal-chat-button">
+                1:1 채팅
+              </Button>
+            </div>
+          ) : null}
+          <div className="mb-30 flex items-center justify-between gap-20">
             <span className="count">
               좋아요&nbsp;&nbsp;<span className="text-14 font-bold">{userInfo?.totalLikeCount}</span>&nbsp;개
             </span>
@@ -96,12 +162,6 @@ function SideBar({ displayStatus }: SideBarProps) {
               팔로워 &nbsp;&nbsp;<span className="text-14 font-bold">{userInfo?.followerCount}</span>&nbsp;명
             </span>
           </div>
-          {displayStatus === 'notMyWork' ? (
-            // 추후 destination 바뀔 예정
-            <Button isLink={true} destination="/chat" classname="primary-button nav-chat-button">
-              1:1 대화걸기
-            </Button>
-          ) : null}
           <div className="mb-20 flex flex-col items-start gap-20">
             {userInfo?.links &&
               userInfo.links.map((link) => (

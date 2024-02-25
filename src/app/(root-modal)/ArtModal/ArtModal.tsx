@@ -76,8 +76,8 @@ export default function ArtModal() {
     postLikeMutation.mutate(
       { artworkId: clickedArtworkId },
       {
-        onSuccess: (data) => {
-          setLikeCount((prev) => prev + 1);
+        onSuccess: (data: { likeId: number }) => {
+          setLikeCount((prev: number) => prev + 1);
           setLikeId(data.likeId);
         },
       },
@@ -90,7 +90,7 @@ export default function ArtModal() {
       { artworkId: clickedArtworkId, likeId: likeId },
       {
         onSuccess: () => {
-          setLikeCount((prev) => prev - 1);
+          setLikeCount((prev: number) => prev - 1);
           setLikeId(null);
         },
       },
@@ -130,6 +130,7 @@ export default function ArtModal() {
         artistName={artwork?.artistName}
         artistProfileImageUrl={artwork?.artistProfileImageUrl}
         artistId={artwork?.artistId}
+        followId={artwork?.followId}
       />
       <Modal.Body classname="h-full overflow-y-scroll">
         <a id="upwards"></a>

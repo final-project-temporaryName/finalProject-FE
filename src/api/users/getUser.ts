@@ -1,9 +1,7 @@
-import { request } from '@/api/fetchRequestHandler';
 import { UserType } from '@/types/users';
+import instance from '../axios';
 
-export default async function getUser(id: string | number) {
-  const url = `users/${id}`;
-  const response = await request<UserType>({ url });
-
-  return response;
-}
+export const getUser: (id: string | number) => Promise<any> = async (id) => {
+  const response = await instance.get<UserType>(`users/${id}`);
+  return response.data;
+};
