@@ -139,8 +139,8 @@ export default function EditUploadModal() {
     for (const id of imageOrderList) {
       if (typeof id !== 'number') {
         showModal('warningForBigImageModal');
-        imageOrderList = [];
-        imageUrlList = [];
+        imageOrderList = [...imageOrder];
+        imageUrlList = [...uploadImageSources];
         e.target.value = '';
         break;
       }
