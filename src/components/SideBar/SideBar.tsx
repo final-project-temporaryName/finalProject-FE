@@ -14,6 +14,7 @@ import defaultProfileImg from '../../../public/assets/images/logo.png';
 import ProfileFallbackUI from '../FallbackUI/SideBar/ProfileFallbackUI';
 import AddLinkIcon from './AddLinkIcon';
 import LinkIcon from './LinkIcon';
+import DOMPurify from 'dompurify';
 
 interface SideBarProps {
   displayStatus: 'myWork' | 'notMyWork';
@@ -54,7 +55,7 @@ function SideBar({ displayStatus }: SideBarProps) {
   return (
     <div className="fixed left-36 top-110 h-648 w-260 rounded-sm">
       <div className="absolute -top-10 left-1/2 z-first h-120 w-120 -translate-x-1/2 transform rounded-full">
-        <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full border-2 border-solid border-gray-4 bg-white hover:border-primary-3">
+        <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full border-2 border-solid border-gray-4 bg-white">
           <Image
             src={userInfo?.profileImageUrl ? userInfo.profileImageUrl : defaultProfileImg}
             alt="프로필 이미지"
@@ -77,7 +78,14 @@ function SideBar({ displayStatus }: SideBarProps) {
             <p className="text-12 text-gray-9">{userInfo?.activityArea + ' / ' + userInfo?.activityField}</p>
           </div>
           <div className="mb-16 mt-16 flex min-h-60 w-192 items-center rounded-sm bg-white p-16">
-            <p className="text-12 text-gray-9">{userInfo?.description}</p>
+            {userInfo?.description && (
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(userInfo?.description.replaceAll(/\n/g, '<br/>')),
+                }}
+                className="text-12 text-gray-9"
+              ></p>
+            )}
           </div>
           <div className="mb-20 flex items-center justify-between gap-20">
             <span className="count">

@@ -1,16 +1,31 @@
-.ql-container {
-  max-height: 333px;
+.quill {
+  position: relative;
+}
+
+.ql-toolbar {
+  border-radius: 8px 8px 0 0;
+}
+
+/* .ql-toolbar.ql-snow {
+  position: absolute;
+  top: 270px;
+} */
+
+.ql-container.ql-snow {
+  border-radius: 0 0 8px 8px;
+  height: 270px;
 }
 
 .ql-editor {
   padding: 10px 10px;
-  max-height: 300px;
+  max-height: 250px !important;
   overflow-y: scroll;
   font-size: 14px;
-  line-height: 1.5;
 }
 
 .ql-editor.ql-blank::before {
-  font-style: unset;
-  padding-left: -20px;
+  font-style: unset !important;
+  /* margin-left: -2px !important; */
+  color: #ededed;
+  font-weight: 500;
 }
