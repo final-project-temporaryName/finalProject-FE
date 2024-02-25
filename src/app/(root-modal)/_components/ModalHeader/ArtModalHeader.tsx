@@ -5,11 +5,11 @@ import { postFollow } from '@/api/follow/postFollow';
 import { Button } from '@/components/Button';
 import { useStore } from '@/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { isNull } from 'lodash';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import defaultProfileImg from '../../../../../public/assets/images/logo.png';
-import { isNull } from 'lodash';
 
 interface Props {
   artistName?: string;
