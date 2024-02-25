@@ -24,7 +24,7 @@ function NavBar() {
           <Link href={'/'} className="shrink-0">
             <Image src={logoImg} alt="아트 톡톡 로고" width={85} height={85} />
           </Link>
-          <SearchBar />
+          {firstPathname === 'myAccount' || <SearchBar />}
         </div>
         <NavigatorBox />
       </nav>

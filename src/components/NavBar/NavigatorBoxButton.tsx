@@ -57,7 +57,7 @@ function NavigatorBoxButton({ isLogin }: Props) {
           로그인
         </Button>
       )}
-      {modals[modals?.length - 1] === 'uploadModal' && <UploadModal />}
+      {modals.includes('uploadModal') && <UploadModal />}
       {modals[modals?.length - 1] === 'askForSignup' && <AskForSignupModal />}
     </>
   );

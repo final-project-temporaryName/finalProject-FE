@@ -8,7 +8,8 @@ import { toast } from 'react-toastify';
 import Modal from '../_components';
 
 export default function AskForDeleteModal() {
-  const { clearModal, clickedArtworkId } = useStore((state) => ({
+  const { hideModal, clearModal, clickedArtworkId } = useStore((state) => ({
+    hideModal: state.hideModal,
     clearModal: state.clearModal,
     clickedArtworkId: state.clickedArtworkId,
   }));
@@ -18,6 +19,7 @@ export default function AskForDeleteModal() {
   const deleteMutation = useMutation({
     mutationFn: deleteArtwork,
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['allArtworks'] });
       queryClient.invalidateQueries({ queryKey: ['myArtworks', '전체'] });
       queryClient.invalidateQueries({ queryKey: ['myArtworks', '판매중'] });
     },
@@ -50,7 +52,7 @@ export default function AskForDeleteModal() {
           <Button
             classname="primary-button h-35 w-80 text-black border-primary bg-white hover:bg-primary hover:text-white"
             isLink={false}
-            onClick={clearModal}
+            onClick={() => hideModal('askForDelete')}
           >
             취소
           </Button>

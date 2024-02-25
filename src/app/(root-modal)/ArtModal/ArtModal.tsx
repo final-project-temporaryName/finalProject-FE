@@ -7,17 +7,32 @@ import BlackLike from '@/components/Comment/BlackLike';
 import CommentContainer from '@/components/Comment/CommentContainer';
 import RedLike from '@/components/Comment/RedLike';
 import SlideContainer from '@/components/SlideContainer/SlideContainer';
+import useDropDown from '@/hooks/useDropDown';
+import useOnClickOutside from '@/hooks/useOnClickOutside';
 import { useStore } from '@/store';
 import { GetSpecificCardResponseType } from '@/types/cards';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import DOMPurify from 'dompurify';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { MouseEvent, useRef, useEffect, useState } from 'react';
+import ProfileDropDownImage from '../../../../public/assets/icons/KebabDropDown.svg';
 import CommentIcon from '../../../../public/assets/icons/comment.svg';
+import MenuIcon from '../../../../public/assets/icons/menu.svg';
 import Modal from '../_components';
 
 export default function ArtModal() {
-  const clickedArtworkId = useStore((state) => state.clickedArtworkId);
+  const [isLikeClicked, setIsLikeClicked] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const { isOpen: isDropDownOpen, handleDropDownOpen, handleDropDownClose } = useDropDown();
+  useOnClickOutside(containerRef, handleDropDownClose);
+
+  const { clickedArtworkId, userId, showModal, setClickedArtworkId } = useStore((state) => ({
+    clickedArtworkId: state.clickedArtworkId,
+    userId: state.userId,
+    showModal: state.showModal,
+    setClickedArtworkId: state.setClickedArtworkId,
+  }));
 
   const { data: artwork } = useQuery<GetSpecificCardResponseType>({
     queryKey: ['artwork', clickedArtworkId],
@@ -26,7 +41,6 @@ export default function ArtModal() {
   });
 
   const [likeCount, setLikeCount] = useState(artwork?.likeCount || 0);
-  const [isLikeClicked, setIsLikeClicked] = useState(false);
   const [likeId, setLikeId] = useState<number | null>(artwork?.likeId || null);
 
   const queryClient = useQueryClient();
@@ -83,6 +97,27 @@ export default function ArtModal() {
     );
   };
 
+  const handleKebabClick = (e: MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (isDropDownOpen) handleDropDownClose();
+    else handleDropDownOpen();
+  };
+
+  const handleModifyClick = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (artwork?.artworkId) {
+      setClickedArtworkId(artwork?.artworkId);
+      showModal('editModal');
+    }
+  };
+
+  const handleDeleteClick = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (artwork?.artworkId) {
+      showModal('askForDelete');
+      setClickedArtworkId(artwork?.artworkId);
+    }
+  };
   // likeId 있을 때 좋아요 색을 빨간 색으로 바꿔준다.
   useEffect(() => {
     if (!likeId) return;
@@ -159,6 +194,37 @@ export default function ArtModal() {
                       : (artwork.commentCount / 1000).toFixed(1) + 'k')}
                 </span>
               </Link>
+              {artwork?.artistId === userId && (
+                <div className="relative" ref={containerRef}>
+                  <div
+                    className="flex-col-center h-48 w-48 cursor-pointer rounded-full shadow-[0px_0px_12px_rgba(0,0,0,0.3)]"
+                    onClick={handleKebabClick}
+                  >
+                    <MenuIcon />
+                  </div>
+                  {isDropDownOpen && (
+                    <div className="absolute -left-100 -top-25">
+                      <div className="rotate-90">
+                        <ProfileDropDownImage />
+                      </div>
+                      <div className="absolute -left-21 top-25 flex h-61 w-105 rounded-sm">
+                        <button
+                          className="w-51 rounded-bl-sm rounded-tl-sm hover:bg-primary-1"
+                          onClick={handleModifyClick}
+                        >
+                          수정
+                        </button>
+                        <button
+                          className="w-52 rounded-br-sm rounded-tr-sm border-l-1 border-solid border-l-gray-4 hover:bg-primary-1"
+                          onClick={handleDeleteClick}
+                        >
+                          삭제
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>

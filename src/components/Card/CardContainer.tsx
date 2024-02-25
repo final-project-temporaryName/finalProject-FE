@@ -87,7 +87,7 @@ function CardContainer({ type, categoryType }: Props) {
         {data &&
           data.pages.map((page: ArtWorks) => {
             const cards = page.contents;
-            return cards.map((card) => {
+            return cards?.map((card) => {
               return (
                 <Card
                   key={card.artworkId}
@@ -109,8 +109,8 @@ function CardContainer({ type, categoryType }: Props) {
           })}
         <div ref={bottom} />
       </div>
-      {modals[modals?.length - 1] === 'artModal' && <ArtModal />}
-      {modals[modals?.length - 1] === 'editModal' && <EditUploadModal />}
+      {modals.includes('editModal') && <EditUploadModal />}
+      {modals.includes('artModal') && <ArtModal />}
       {modals[modals?.length - 1] === 'askForDelete' && <AskForDeleteModal />}
     </>
   );
