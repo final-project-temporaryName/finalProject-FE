@@ -3,11 +3,12 @@
 import { getArtwork } from '@/api/artwork/getArtwork';
 import { putArtwork } from '@/api/artwork/putArtwork';
 import { postUploadImageFile } from '@/api/upload/postUploadImageFile';
+import { getUser } from '@/api/users/getUser';
 import { Button } from '@/components/Button';
 import { useStore } from '@/store';
 import '@/styles/tailwind.css';
 import { GetSpecificCardResponseType, PutCardRequestType } from '@/types/cards';
-import { ImageArtworkType } from '@/types/image';
+import { UserType } from '@/types/users';
 import { DragDropContext, DropResult, Droppable } from '@hello-pangea/dnd';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
@@ -24,10 +25,8 @@ import DeleteAllImageButton from '../UploadModal/_components/DeleteAllImageButto
 import PreviewImage from '../UploadModal/_components/PreviewImage';
 import StatusLabelsGroup from '../UploadModal/_components/StatusLabelsGroup';
 import TextEditor from '../UploadModal/_components/TextEditor';
-import Modal from '../_components';
 import WarningForBigImage from '../WarningForBigImage/WarningForBigImage';
-import { UserType } from '@/types/users';
-import getUser from '@/api/users/getUser';
+import Modal from '../_components';
 
 export default function EditUploadModal() {
   const { modals, hideModal, showModal, clickedArtworkId, userId } = useStore((state) => ({
