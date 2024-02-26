@@ -47,16 +47,19 @@ function SlideContainer({ artworkImageResponse }: Props) {
     slidesPerView = useMemo(() => setSlidesPerView(browserWidthSize, artworkImageResponse.length), [browserWidthSize]);
   }
 
-  const openModal = (imageUrl: string) => {
+  const openModal = (imageUrl: string, selectedIdx: number) => {
     setSelectedImage(imageUrl);
     setShowModal(true);
+    console.log(selectedIdx);
+    const expandData = artworkImageResponse?.slice(selectedIdx).concat(artworkImageResponse.slice(0, selectedIdx));
+    console.log(expandData);
   };
 
   const closeModal = () => {
     setSelectedImage('');
     setShowModal(false);
   };
-
+  // console.log(artworkImageResponse);
   return (
     <>
       <Swiper
@@ -72,12 +75,12 @@ function SlideContainer({ artworkImageResponse }: Props) {
         scrollbar={{ draggable: true }}
         className="swiper-container"
       >
-        {artworkImageResponse?.map((data) => {
+        {artworkImageResponse?.map((data, i) => {
           return (
             <SwiperSlide key={data.imageId}>
               <div className="relative h-510 w-auto bg-black">
                 <Image src={data.imageUrl} alt="작품 이미지" fill objectFit="contain" />
-                <button className="absolute bottom-15 right-15" onClick={() => openModal(data.imageUrl)}>
+                <button className="absolute bottom-15 right-15" onClick={() => openModal(data.imageUrl, i)}>
                   <Expand />
                 </button>
               </div>
