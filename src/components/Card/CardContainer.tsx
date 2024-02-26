@@ -12,6 +12,7 @@ import { CardType } from '@/types/cards';
 import { useParams } from 'next/navigation';
 import { useRef } from 'react';
 import Card from './Card';
+import dynamic from 'next/dynamic';
 
 interface Props {
   type: 'main' | 'mypage' | 'artist' | 'comment';
@@ -25,6 +26,10 @@ interface ArtWorks {
 }
 
 function CardContainer({ type, categoryType }: Props) {
+  const ArtModalWrapper = dynamic(() => import('@/app/(root-modal)/ArtModal/ArtModal'), {
+    ssr: false,
+  });
+
   let data;
   let isPending: boolean;
 
@@ -110,7 +115,7 @@ function CardContainer({ type, categoryType }: Props) {
         <div ref={bottom} />
       </div>
       {modals.includes('editModal') && <EditUploadModal />}
-      {modals.includes('artModal') && <ArtModal />}
+      {modals.includes('artModal') && <ArtModalWrapper />}
       {modals[modals?.length - 1] === 'askForDelete' && <AskForDeleteModal />}
     </>
   );

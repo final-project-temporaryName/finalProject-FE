@@ -124,6 +124,59 @@ export default function ArtModal() {
     setIsLikeClicked(true);
   }, [likeId]);
 
+  const [progressWidth, setProgressWidth] = useState(0);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const updateProgressBar = () => {
+        const totalHeight = document?.body?.scrollHeight - window?.innerHeight;
+        const scrollProgress = (window?.scrollY / totalHeight) * 100;
+        setProgressWidth(scrollProgress); // 이거
+        console.log(totalHeight, scrollProgress);
+      };
+      console.log('천재');
+
+      updateProgressBar();
+
+      const handleScroll = () => {
+        updateProgressBar();
+        console.log('천재2');
+      };
+
+      const handleResize = () => {
+        updateProgressBar();
+      };
+
+      window?.addEventListener('scroll', handleScroll);
+      window?.addEventListener('resize', handleResize);
+
+      return () => {
+        window?.removeEventListener('scroll', handleScroll);
+        window?.removeEventListener('resize', handleResize);
+      };
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log(progressWidth);
+  }, [progressWidth]);
+
+  // const [scrollTop, setScrollTop] = useState(0);
+
+  // const onScroll = () => {
+  //   const winScroll = document.body.scrollTop;
+  //   const height = document.body.scrollHeight - document.body.clientHeight;
+  //   const scrolled = (winScroll / height) * 100;
+
+  //   setScrollTop(scrolled);
+  // };
+
+  // useEffect(() => {
+  //   window.addEventListener('scroll', onScroll);
+
+  //   return () => window.removeEventListener('scroll', onScroll);
+  // }, []);
+
   return (
     <Modal.Container classname="artModalContainer">
       <Modal.ArtHeader
@@ -133,7 +186,10 @@ export default function ArtModal() {
         followId={artwork?.followId}
       />
       <div className="h-8 w-full bg-[#f0f0f0]">
-        <div className="h-full bg-primary-2 transition-all duration-300 ease-in-out"></div>
+        <div
+          id="progress-bar"
+          className={`w-[${progressWidth}%] h-full bg-primary-4 transition-all duration-300 ease-in-out`}
+        ></div>
       </div>
       <Modal.Body classname="h-full overflow-y-scroll">
         <a id="upwards"></a>
@@ -147,7 +203,7 @@ export default function ArtModal() {
               {artwork?.description && (
                 <div
                   dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(artwork?.description) }}
-                  className={'min-h-106 text-16'}
+                  className={'h-1000 text-16'}
                 ></div>
               )}
               <span className="text-13 text-[#8f8f8f]">{customDate}</span>
