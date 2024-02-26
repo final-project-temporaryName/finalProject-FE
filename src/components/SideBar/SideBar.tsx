@@ -13,7 +13,7 @@ import { isNull } from 'lodash';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import defaultProfileImg from '../../../public/assets/images/logo.png';
 import ProfileFallbackUI from '../FallbackUI/SideBar/ProfileFallbackUI';
 import AddLinkIcon from './AddLinkIcon';
@@ -37,10 +37,10 @@ function SideBar({ displayStatus }: SideBarProps) {
     userId: state.userId,
   }));
 
-  const isMyProfile = !!isLogin && displayStatus === 'myWork';
+  const isMyProfile = useMemo(() => !!isLogin && displayStatus === 'myWork', [isLogin]);
 
   const { data, isLoading } = useQuery({
-    queryKey: ['artistInfo'],
+    queryKey: isMyProfile ? ['myInfo'] : ['artistInfo'],
     queryFn: isMyProfile ? getMyPage : () => getUser(params.id),
     staleTime: 3 * 1000,
   });
