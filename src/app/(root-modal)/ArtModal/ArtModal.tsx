@@ -132,6 +132,9 @@ export default function ArtModal() {
         artistId={artwork?.artistId}
         followId={artwork?.followId}
       />
+      <div className="h-8 w-full bg-[#f0f0f0]">
+        <div className="h-full bg-primary-2 transition-all duration-300 ease-in-out"></div>
+      </div>
       <Modal.Body classname="h-full overflow-y-scroll">
         <a id="upwards"></a>
         <div className="mb-20 p-10">
