@@ -11,7 +11,7 @@ export default function Layout({ children }: Props) {
     <>
       <CheckMyPage />
       <SideBar displayStatus="notMyWork" />
-      {children}
+      {/* {children} */}
     </>
   );
 }
