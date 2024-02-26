@@ -98,7 +98,7 @@ function SideBar({ displayStatus }: SideBarProps) {
   }
 
   return (
-    <div className="fixed ml-35 mt-110 h-648 w-260 rounded-sm md:relative md:ml-0 md:h-270 md:w-full">
+    <div className="fixed ml-35 h-648 w-260 rounded-sm md:relative md:ml-0 md:mt-110 md:h-270 md:w-full">
       <div className="absolute -top-10 left-1/2 z-first h-120 w-120 -translate-x-1/2 transform rounded-full">
         <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full border-2 border-solid border-gray-4 bg-white">
           <Image

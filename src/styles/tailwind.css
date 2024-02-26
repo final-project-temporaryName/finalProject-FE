@@ -216,11 +216,11 @@
 
 /* cardContainer */
 .card-container-mainPage {
-  @apply mt-35 grid w-[95%] auto-rows-[1fr] grid-cols-[repeat(auto-fit,minmax(max(280px,100%/6),1fr))] gap-x-25 gap-y-31;
+  @apply mt-35 grid w-[95%] auto-rows-[1fr] grid-cols-[repeat(auto-fit,minmax(max(280px,100%/6),1fr))] gap-x-25 gap-y-31 md:w-[100%];
 }
 
 .card-container-artistPage {
-  @apply mt-35 grid w-[95%] auto-rows-[1fr] grid-cols-[repeat(auto-fit,minmax(max(280px,100%/5),1fr))] gap-x-25 gap-y-31;
+  @apply mt-35 grid w-[95%] auto-rows-[1fr] grid-cols-[repeat(auto-fit,minmax(max(280px,100%/5),1fr))] gap-x-25 gap-y-31 md:w-[100%];
 }
 
 /* swiper */

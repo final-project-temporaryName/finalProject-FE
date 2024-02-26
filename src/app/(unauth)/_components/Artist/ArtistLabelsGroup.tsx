@@ -24,7 +24,7 @@ function ArtistLabelsGroup({ setArtistValue }: Props) {
   };
 
   return (
-    <div className="align-center flex gap-50">
+    <div className="align-center flex gap-50 md:gap-30">
       {labelTexts.map((labelText, idx) => (
         <Button.Category
           key={idx}
