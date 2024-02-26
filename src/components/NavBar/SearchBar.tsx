@@ -1,10 +1,11 @@
 'use client';
 
 import { useStore } from '@/store';
-import { useForm, useWatch } from 'react-hook-form';
-import SearchIcon from '../../../public/assets/icons/search.svg';
-import CancelIcon from '../../../public/assets/icons/CancelIcon.svg';
+import { useRouter } from 'next/navigation';
 import { MouseEvent, useState } from 'react';
+import { useForm, useWatch } from 'react-hook-form';
+import CancelIcon from '../../../public/assets/icons/CancelIcon.svg';
+import SearchIcon from '../../../public/assets/icons/search.svg';
 
 interface IForm {
   query?: string;
@@ -18,6 +19,8 @@ function SearchBar() {
     clearSearchWord: state.clearSearchWord,
   }));
 
+  const router = useRouter();
+
   const watchedValue = useWatch({
     control,
     name: 'query',
@@ -29,6 +32,7 @@ function SearchBar() {
     else {
       setSearchWord(data.query.trim());
       setIsSearchClicked(true);
+      router.push(`search/${data.query}`);
     }
   };
 

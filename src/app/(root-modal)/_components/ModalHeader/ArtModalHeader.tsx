@@ -36,6 +36,7 @@ function ArtModalHeader({ artistName, artistProfileImageUrl, artistId, followId 
     mutationFn: postFollow,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['artwork', clickedArtworkId] });
+      queryClient.invalidateQueries({ queryKey: ['allFollowingArtworks'] });
     },
   });
 
@@ -43,6 +44,7 @@ function ArtModalHeader({ artistName, artistProfileImageUrl, artistId, followId 
     mutationFn: deleteFollow,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['artwork', clickedArtworkId] });
+      queryClient.invalidateQueries({ queryKey: ['allFollowingArtworks'] });
     },
   });
 
