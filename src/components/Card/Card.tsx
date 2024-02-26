@@ -35,9 +35,11 @@ function Card({
   type,
   isPending,
 }: Props) {
-  const { showModal, setClickedArtworkId } = useStore((state) => ({
+  const { showModal, setClickedArtworkId, userId, isLogin } = useStore((state) => ({
     showModal: state.showModal,
     setClickedArtworkId: state.setClickedArtworkId,
+    userId: state.userId,
+    isLogin: state.isLogin,
   }));
 
   const handleArtworkClick = () => {
@@ -93,7 +95,10 @@ function Card({
         </div>
         {type === 'main' && (
           <div className="relative flex h-48 w-280 flex-shrink-0 items-center pt-10">
-            <Link href={`/artist/${artistId}`} className="flex items-center gap-10">
+            <Link
+              href={isLogin && artistId === userId ? '/mypage' : `/artist/${artistId}`}
+              className="flex items-center gap-10"
+            >
               <div className="relative h-40 w-40 overflow-hidden rounded-full">
                 <Image
                   src={
