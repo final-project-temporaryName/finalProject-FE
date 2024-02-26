@@ -13,10 +13,12 @@ export default function Layout({ editProfile, deleteProfile }: LayoutProps) {
   const [activeTab, setActiveTab] = useState('profile');
 
   return (
-    <div className="flex flex-row">
+    <>
       <CheckLogin />
-      <Tab activeTab={activeTab} setActiveTab={setActiveTab} />
-      {activeTab === 'profile' ? editProfile : deleteProfile}
-    </div>
+      <div className="items-middle md:flex-col-center flex flex-row">
+        <Tab activeTab={activeTab} setActiveTab={setActiveTab} />
+        {activeTab === 'profile' ? editProfile : deleteProfile}
+      </div>
+    </>
   );
 }
