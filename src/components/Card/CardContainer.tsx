@@ -2,6 +2,7 @@
 
 import { getArtistArtworks } from '@/api/artworks/getArtistArtworks';
 import { getArtworks } from '@/api/artworks/getArtworks';
+import { getFollowingArtworks } from '@/api/artworks/getFollowingArtworks';
 import { getMyArtworks } from '@/api/users/getMyArtworks';
 import ArtModal from '@/app/(root-modal)/ArtModal/ArtModal';
 import AskForDeleteModal from '@/app/(root-modal)/AskForDeleteModal/AskForDeleteModal';
@@ -36,6 +37,20 @@ function CardContainer({ type, categoryType }: Props) {
     const argument = {
       queryKey: ['allArtworks'],
       queryFn: getArtworks,
+      initialPageParam: null,
+      getNextPageParam: (lastPage: ArtWorks) => {
+        return lastPage.hasNext ? lastPage.contents[lastPage.contents.length - 1].artworkId : undefined;
+      },
+      ref: bottom,
+      type: type,
+    };
+    const { data: responseData, isPending: pending } = useInfiniteData(argument);
+    data = responseData;
+    isPending = pending as boolean;
+  } else if (type === 'main' && categoryType === 'following') {
+    const argument = {
+      queryKey: ['allFollowingArtworks'],
+      queryFn: getFollowingArtworks,
       initialPageParam: null,
       getNextPageParam: (lastPage: ArtWorks) => {
         return lastPage.hasNext ? lastPage.contents[lastPage.contents.length - 1].artworkId : undefined;

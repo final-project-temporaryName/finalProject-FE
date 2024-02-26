@@ -32,7 +32,6 @@ function ArtModalHeader({ artistName, artistProfileImageUrl, artistId, followId 
   }));
 
   const postFollowMutation = useMutation({
-    mutationKey: ['artwork', clickedArtworkId],
     mutationFn: postFollow,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['artwork', clickedArtworkId] });
@@ -40,7 +39,6 @@ function ArtModalHeader({ artistName, artistProfileImageUrl, artistId, followId 
   });
 
   const deleteFollowMutation = useMutation({
-    mutationKey: ['artwork', clickedArtworkId],
     mutationFn: deleteFollow,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['artwork', clickedArtworkId] });

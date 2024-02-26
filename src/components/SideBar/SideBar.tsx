@@ -40,7 +40,7 @@ function SideBar({ displayStatus }: SideBarProps) {
   const isMyProfile = useMemo(() => !!isLogin && displayStatus === 'myWork', [isLogin]);
 
   const { data, isLoading } = useQuery({
-    queryKey: isMyProfile ? ['myInfo'] : ['artistInfo'],
+    queryKey: isMyProfile ? ['myInfo'] : ['artistInfo', params.id],
     queryFn: isMyProfile ? getMyPage : () => getUser(params.id),
     staleTime: 3 * 1000,
   });
@@ -54,7 +54,6 @@ function SideBar({ displayStatus }: SideBarProps) {
   }, [data]);
 
   const postFollowMutation = useMutation({
-    mutationKey: ['artistInfo'],
     mutationFn: postFollow,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['artistInfo'] });
@@ -62,7 +61,6 @@ function SideBar({ displayStatus }: SideBarProps) {
   });
 
   const deleteFollowMutation = useMutation({
-    mutationKey: ['artistInfo'],
     mutationFn: deleteFollow,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['artistInfo'] });
@@ -71,7 +69,7 @@ function SideBar({ displayStatus }: SideBarProps) {
 
   const handleFollow = () => {
     postFollowMutation.mutate(
-      { receiverId: Number(params.id), userId },
+      { userId, receiverId: Number(params.id) },
       {
         onSuccess: (data: { followId: number }) => {
           setIsFollowClicked(true);
@@ -83,7 +81,7 @@ function SideBar({ displayStatus }: SideBarProps) {
 
   const handleUnFollow = () => {
     deleteFollowMutation.mutate(
-      { userId: data.userId, followId },
+      { userId: userInfo?.userId, followId },
       {
         onSuccess: () => {
           setIsFollowClicked(false);
