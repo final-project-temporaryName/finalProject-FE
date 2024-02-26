@@ -194,10 +194,10 @@ function ProfilePage({ mode }: Props) {
 
   return (
     <FormProvider {...methods}>
-      <form className="flex h-full w-screen flex-col md:mr-0" onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex-center mx-110 gap-20">
-          <div className={`relative pb-100 ${mode === 'edit' ? 'pt-160 md:pt-50' : 'pt-30'}`}>
-            <div className="relative ml-75 flex items-center gap-10 md:ml-30 md:gap-16">
+      <form className="mr-100 flex h-full w-screen flex-col md:mr-0" onSubmit={handleSubmit(onSubmit)}>
+        <div className="flex-center gap-20 md:mr-20 md:flex-row md:justify-end md:gap-0">
+          <div className={`pb-100 ${mode === 'edit' ? 'pt-160 md:pt-50' : 'pt-30'}`}>
+            <div className="relative ml-75 flex items-center gap-10 md:ml-30 md:gap-4">
               <Input
                 type="file"
                 id="file"
@@ -215,10 +215,10 @@ function ProfilePage({ mode }: Props) {
                 register={register('nickname', nicknameRules)}
                 error={errors.nickname?.message || nicknameError}
               />
-              <div className="absolute left-170 top-27 text-[#C90000] md:left-163">*</div>
+              <div className="absolute left-170 top-27 text-[#C90000] md:left-150">*</div>
               <button
                 type="button"
-                className="primary-button duplication-button ml-0 justify-center md:ml-0"
+                className="primary-button duplication-button ml-0 justify-center md:ml-22"
                 onClick={checkNickname}
               >
                 중복확인
@@ -276,9 +276,11 @@ function ProfilePage({ mode }: Props) {
                 </div>
               )}
             </div>
+          </div>
+          <div className="mb-10 mt-auto flex justify-end">
             <button
               type="submit"
-              className={`primary-button storage-button flex-end absolute right-0 md:right-0 ${disableSaveButton ? 'disabled-button' : ''}`}
+              className={`primary-button storage-button flex-end ${disableSaveButton ? 'disabled-button' : ''}`}
               disabled={disableSaveButton}
             >
               {buttonText}
