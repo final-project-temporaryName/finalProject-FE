@@ -24,11 +24,12 @@ function ArtModalHeader({ artistName, artistProfileImageUrl, artistId, followId 
 
   const queryClient = useQueryClient();
 
-  const { modals, hideModal, clickedArtworkId, userId } = useStore((state) => ({
+  const { modals, hideModal, clickedArtworkId, userId, isLogin } = useStore((state) => ({
     modals: state.modals,
     hideModal: state.hideModal,
     clickedArtworkId: state.clickedArtworkId,
     userId: state.userId,
+    isLogin: state.isLogin,
   }));
 
   const postFollowMutation = useMutation({
@@ -73,7 +74,7 @@ function ArtModalHeader({ artistName, artistProfileImageUrl, artistId, followId 
     <div className="relative flex items-center justify-between border-b-1 border-solid border-primary-5 px-34 py-20 text-14">
       <Button.Modal.Close onClickClose={() => hideModal(modals[modals.length - 1])} />
       <div className="flex items-center gap-12">
-        <Link href={`/artist/${artistId}`}>
+        <Link href={isLogin && artistId === userId ? '/mypage' : `/artist/${artistId}`}>
           <div className="flex items-center gap-8 pr-5" onClick={() => hideModal(modals[modals.length - 1])}>
             <div className="relative h-32 w-32 overflow-hidden rounded-full">
               <Image

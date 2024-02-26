@@ -39,14 +39,14 @@ function SideBar({ displayStatus }: SideBarProps) {
 
   const isMyProfile = useMemo(() => !!isLogin && displayStatus === 'myWork', [isLogin]);
 
-  const { data, isLoading } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: isMyProfile ? ['myInfo'] : ['artistInfo', params.id],
     queryFn: isMyProfile ? getMyPage : () => getUser(params.id),
     staleTime: 3 * 1000,
   });
 
   useEffect(() => {
-    if (!data || isLoading) return;
+    if (!data || isPending) return;
     const userInfo = isMyProfile ? data?.userProfileResponse : data;
     setUserInfo(userInfo);
     setIsFollowClicked(!isNull(data.followId));
@@ -91,7 +91,7 @@ function SideBar({ displayStatus }: SideBarProps) {
     );
   };
 
-  if (isLoading || typeof isLogin === 'undefined') {
+  if (isPending || typeof isLogin === 'undefined') {
     return <ProfileFallbackUI />;
   }
 
