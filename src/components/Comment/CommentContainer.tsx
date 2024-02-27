@@ -112,8 +112,8 @@ function CommentContainer({ likeCount, commentCount, type }: Props) {
 
   return (
     <div>
-      <div className="w-full min-w-360 rounded-t-sm bg-gray-1 shadow-top">
-        <div className="flex max-h-250 flex-col overflow-y-scroll bg-gray-1 p-20 pb-7">
+      <div className="w-full rounded-t-sm bg-gray-1 shadow-top md:mx-30 md:w-[90%] md:rounded-lg md:border-2 md:border-solid md:border-gray-3 md:bg-white md:pb-20 md:shadow-none">
+        <div className="flex flex-col overflow-y-scroll p-20 md:p-0 ">
           {data &&
             data?.pages?.map((page: Comments) => {
               const comments = page.contents;
@@ -136,11 +136,11 @@ function CommentContainer({ likeCount, commentCount, type }: Props) {
             })}
           <div ref={bottom} />
         </div>
-        <form className="flex items-center gap-13 bg-gray-1 p-20 pb-36" onSubmit={handleSubmit(onValid)}>
+        <form className="flex items-center gap-13 p-20 pb-36 md:pb-0" onSubmit={handleSubmit(onValid)}>
           <a id="downwards"></a>
           <input
             type="text"
-            className="w-full rounded-sm bg-white px-20 py-10 text-15"
+            className="w-full rounded-sm bg-white px-20 py-10 text-15 md:border-1 md:border-solid md:border-gray-3"
             placeholder="작가에게 한마디 남겨보세요!"
             {...register('comment')}
           />

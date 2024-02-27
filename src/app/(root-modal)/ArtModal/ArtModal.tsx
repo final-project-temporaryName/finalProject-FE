@@ -125,29 +125,32 @@ export default function ArtModal() {
   }, [likeId]);
 
   return (
-    <Modal.Container classname="artModalContainer">
+    <Modal.Container classname="artModalContainer tablet-artModalContainer">
       <Modal.ArtHeader
         artistName={artwork?.artistName}
         artistProfileImageUrl={artwork?.artistProfileImageUrl}
         artistId={artwork?.artistId}
         followId={artwork?.followId}
       />
-      <Modal.Body classname="h-full overflow-y-scroll">
+      <Modal.Body classname="h-full overflow-y-scroll md:mb-55">
         <a id="upwards"></a>
-        <div className="mb-20 p-10">
+        <div className="mb-20 p-10 md:mb-56">
           {artwork?.artworkImageResponse?.length && (
             <SlideContainer artworkImageResponse={artwork?.artworkImageResponse} />
           )}
-          <div className="relative flex h-auto px-20 pt-30">
+          <div className="relative flex h-auto px-20 pt-30 md:mt-45">
             <div className="flex w-full flex-col gap-25">
-              <p className="text-20 font-bold">{artwork?.title}</p>
+              <div className="items-middle flex justify-between">
+                <p className="text-20 font-bold">{artwork?.title}</p>
+                <span className="hidden align-middle text-13 text-[#8f8f8f] md:block">{customDate}</span>
+              </div>
               {artwork?.description && (
                 <div
                   dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(artwork?.description) }}
-                  className={'min-h-106 text-16'}
+                  className={'min-h-106 grow text-16'}
                 ></div>
               )}
-              <span className="text-13 text-[#8f8f8f]">{customDate}</span>
+              <span className="text-13 text-[#8f8f8f] md:hidden">{customDate}</span>
             </div>
             <div className="sticky top-0 flex flex-col items-end gap-20 pl-32 pt-5">
               {isLikeClicked ? (
@@ -179,7 +182,6 @@ export default function ArtModal() {
                   </p>
                 </div>
               )}
-              {/* 댓글 버튼 */}
               <Link
                 href="#downwards"
                 className="flex-col-center h-48 w-48 rounded-full shadow-[0px_0px_12px_rgba(0,0,0,0.3)]"

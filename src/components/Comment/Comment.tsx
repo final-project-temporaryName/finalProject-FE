@@ -35,7 +35,7 @@ function Comment({ profileUrl, nickname, createdAt, contents, author, commentId,
   };
 
   return (
-    <div className="flex h-90 w-full flex-col border-b-1 border-solid border-primary-2 px-20 pb-15 pt-15">
+    <div className="flex h-90 w-full flex-col border-b-1 border-solid border-primary-2 px-20 pb-15 pt-15 md:border-gray-2">
       <div className="flex items-center gap-10">
         <div className="relative h-30 w-30">
           <Image src={profileUrl} alt="프로필이미지" fill className="rounded-full" />
