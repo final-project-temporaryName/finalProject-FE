@@ -1,22 +1,26 @@
 'use client';
 
-import { useStore } from '@/store';
+import { useRouter } from 'next/navigation';
+import { Dispatch, MouseEvent, SetStateAction, useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import SearchIcon from '../../../public/assets/icons/search.svg';
 import CancelIcon from '../../../public/assets/icons/CancelIcon.svg';
-import { MouseEvent, useState } from 'react';
+import SearchIcon from '../../../public/assets/icons/search.svg';
 
 interface IForm {
   query?: string;
 }
 
-function SearchBar() {
+interface Props {
+  isSearchClicked: boolean;
+  setIsSearchClicked: Dispatch<SetStateAction<boolean>>;
+  clickLogo: boolean;
+  setClickLogo: Dispatch<SetStateAction<boolean>>;
+}
+
+function SearchBar({ isSearchClicked, clickLogo, setIsSearchClicked, setClickLogo }: Props) {
   const { register, handleSubmit, reset, control } = useForm();
-  const [isSearchClicked, setIsSearchClicked] = useState(false);
-  const { clearSearchWord, setSearchWord } = useStore((state) => ({
-    setSearchWord: state.setSearchWord,
-    clearSearchWord: state.clearSearchWord,
-  }));
+
+  const router = useRouter();
 
   const watchedValue = useWatch({
     control,
@@ -25,19 +29,23 @@ function SearchBar() {
   });
 
   const onValid = (data: IForm) => {
-    if (!data.query) clearSearchWord();
+    if (!data.query) return;
     else {
-      setSearchWord(data.query.trim());
       setIsSearchClicked(true);
+      setClickLogo(false);
+      router.push(`/search/${data.query}`);
     }
   };
 
   const handleClearClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     reset();
-    clearSearchWord();
     setIsSearchClicked(false);
   };
+
+  useEffect(() => {
+    if (clickLogo) reset();
+  }, [clickLogo]);
 
   return (
     <form className="navSearchBar" onSubmit={handleSubmit(onValid)}>

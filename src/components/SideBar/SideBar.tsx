@@ -13,7 +13,7 @@ import { isNull } from 'lodash';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import defaultProfileImg from '../../../public/assets/images/logo.png';
 import ProfileFallbackUI from '../FallbackUI/SideBar/ProfileFallbackUI';
 import AddLinkIcon from './AddLinkIcon';
@@ -37,16 +37,16 @@ function SideBar({ displayStatus }: SideBarProps) {
     userId: state.userId,
   }));
 
-  const isMyProfile = !!isLogin && displayStatus === 'myWork';
+  const isMyProfile = useMemo(() => !!isLogin && displayStatus === 'myWork', [isLogin]);
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['artistInfo'],
+  const { data, isPending } = useQuery({
+    queryKey: isMyProfile ? ['myInfo'] : ['artistInfo', params.id],
     queryFn: isMyProfile ? getMyPage : () => getUser(params.id),
     staleTime: 3 * 1000,
   });
 
   useEffect(() => {
-    if (!data || isLoading) return;
+    if (!data || isPending) return;
     const userInfo = isMyProfile ? data?.userProfileResponse : data;
     setUserInfo(userInfo);
     setIsFollowClicked(!isNull(data.followId));
@@ -54,7 +54,6 @@ function SideBar({ displayStatus }: SideBarProps) {
   }, [data]);
 
   const postFollowMutation = useMutation({
-    mutationKey: ['artistInfo'],
     mutationFn: postFollow,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['artistInfo'] });
@@ -62,7 +61,6 @@ function SideBar({ displayStatus }: SideBarProps) {
   });
 
   const deleteFollowMutation = useMutation({
-    mutationKey: ['artistInfo'],
     mutationFn: deleteFollow,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['artistInfo'] });
@@ -71,7 +69,7 @@ function SideBar({ displayStatus }: SideBarProps) {
 
   const handleFollow = () => {
     postFollowMutation.mutate(
-      { receiverId: Number(params.id), userId },
+      { userId, receiverId: Number(params.id) },
       {
         onSuccess: (data: { followId: number }) => {
           setIsFollowClicked(true);
@@ -83,7 +81,7 @@ function SideBar({ displayStatus }: SideBarProps) {
 
   const handleUnFollow = () => {
     deleteFollowMutation.mutate(
-      { userId: data.userId, followId },
+      { userId: userInfo?.userId, followId },
       {
         onSuccess: () => {
           setIsFollowClicked(false);
@@ -93,7 +91,7 @@ function SideBar({ displayStatus }: SideBarProps) {
     );
   };
 
-  if (isLoading || typeof isLogin === 'undefined') {
+  if (isPending || typeof isLogin === 'undefined') {
     return <ProfileFallbackUI />;
   }
 
