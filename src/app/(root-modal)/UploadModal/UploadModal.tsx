@@ -177,11 +177,11 @@ export default function UploadModal() {
   return (
     <Modal.Container classname="modalContainer tablet-modalContainer">
       <Modal.Header nickname={userData?.nickname} profileImageUrl={userData?.profileImageUrl} />
-      <Modal.Body classname="flex h-full md:flex-col">
+      <Modal.Body classname="flex h-full md:flex-col md:overflow-y-auto">
         <DragDropContext onDragEnd={onDragEnd}>
           {uploadImageSources.length ? (
             <div className="relative flex h-full w-3/5 flex-col justify-center border-r-1 border-solid border-black pb-31 pt-26 md:w-full">
-              <div className="relative grid grid-cols-4 grid-rows-3/96 gap-18 px-29 py-25">
+              <div className="relative grid grid-cols-4 grid-rows-3/96 gap-18 px-29 py-25 md:grid-cols-3">
                 {uploadImageSources.map((uploadImageSource, index) => {
                   return (
                     <Droppable key={uploadImageSource} droppableId={String(uuidv4())}>
