@@ -241,7 +241,7 @@ function ProfilePage({ mode }: Props) {
               />
             </div>
             <div className="my-40 flex md:flex md:justify-center">
-              <div className="ml-0 flex h-40 w-90 items-center justify-start gap-20 whitespace-nowrap p-10 text-18 md:ml-10 md:w-70 md:gap-5 md:text-14">
+              <div className="ml-0 flex h-40 w-90 items-center justify-start gap-20 whitespace-nowrap p-10 text-18 md:ml-10 md:w-70 md:gap-5 md:p-8 md:text-14">
                 소개글
               </div>
               <textarea
