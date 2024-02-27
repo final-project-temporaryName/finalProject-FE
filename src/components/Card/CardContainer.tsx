@@ -27,15 +27,12 @@ interface ArtWorks {
 }
 
 function CardContainer({ type, categoryType }: Props) {
-  let data;
-  let isPending: boolean;
-
   const bottom = useRef<HTMLDivElement>(null);
   const params = useParams<{ id: string; searchWord: string }>();
   const modals = useStore((state) => state.modals);
 
-  if (type === 'main' && categoryType === '전체') {
-    const argument = {
+  const infiniteQueryArguments = {
+    allArtworks: {
       queryKey: ['allArtworks'],
       queryFn: getArtworks,
       initialPageParam: null,
@@ -44,12 +41,9 @@ function CardContainer({ type, categoryType }: Props) {
       },
       ref: bottom,
       type: type,
-    };
-    const { data: responseData, isPending: pending } = useInfiniteData(argument);
-    data = responseData;
-    isPending = pending as boolean;
-  } else if (type === 'main' && categoryType === 'following') {
-    const argument = {
+      enabled: type === 'main' && categoryType === '전체',
+    },
+    allFollowingArtworks: {
       queryKey: ['allFollowingArtworks'],
       queryFn: getFollowingArtworks,
       initialPageParam: null,
@@ -58,12 +52,9 @@ function CardContainer({ type, categoryType }: Props) {
       },
       ref: bottom,
       type: type,
-    };
-    const { data: responseData, isPending: pending } = useInfiniteData(argument);
-    data = responseData;
-    isPending = pending as boolean;
-  } else if (type === 'search') {
-    const argument = {
+      enabled: type === 'main' && categoryType === 'following',
+    },
+    searchArtworks: {
       queryKey: ['searchArtworks', decodeURI(params.searchWord)],
       queryFn: getSearchArtworks,
       initialPageParam: null,
@@ -73,12 +64,9 @@ function CardContainer({ type, categoryType }: Props) {
       ref: bottom,
       type: type,
       searchWord: decodeURI(params.searchWord),
-    };
-    const { data: responseData, isPending: pending } = useInfiniteData(argument);
-    data = responseData;
-    isPending = pending as boolean;
-  } else if (type === 'artist') {
-    const argument = {
+      enabled: type === 'search',
+    },
+    artistArtworks: {
       queryKey: ['artistArtworks', params.id, categoryType],
       queryFn: getArtistArtworks,
       initialPageParam: null,
@@ -89,12 +77,9 @@ function CardContainer({ type, categoryType }: Props) {
       type: type,
       userId: params.id,
       categoryType: categoryType,
-    };
-    const { data: responseData, isPending: pending } = useInfiniteData(argument);
-    data = responseData;
-    isPending = pending as boolean;
-  } else if (type === 'mypage') {
-    const argument = {
+      enabled: type === 'artist',
+    },
+    myArtworks: {
       queryKey: ['myArtworks', categoryType],
       queryFn: getMyArtworks,
       initialPageParam: null,
@@ -104,11 +89,14 @@ function CardContainer({ type, categoryType }: Props) {
       ref: bottom,
       type: type,
       categoryType: categoryType,
-    };
-    const { data: responseData, isPending: pending } = useInfiniteData(argument);
-    data = responseData;
-    isPending = pending as boolean;
-  }
+      enabled: type === 'mypage',
+    },
+  };
+
+  const argument = Object.values(infiniteQueryArguments).find((value) => value.enabled);
+  if (!argument) return;
+
+  const { data, isPending } = useInfiniteData(argument);
 
   return (
     <>

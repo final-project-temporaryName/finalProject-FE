@@ -70,6 +70,7 @@ export default function EditUploadModal() {
       queryClient.invalidateQueries({ queryKey: ['artwork', clickedArtworkId] });
       queryClient.invalidateQueries({ queryKey: ['myArtworks', '전체'] });
       queryClient.invalidateQueries({ queryKey: ['myArtworks', '판매중'] });
+      queryClient.invalidateQueries({ queryKey: ['allArtworks'] });
     },
   });
 

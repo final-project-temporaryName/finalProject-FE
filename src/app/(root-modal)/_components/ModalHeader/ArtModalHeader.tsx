@@ -76,7 +76,7 @@ function ArtModalHeader({ artistName, artistProfileImageUrl, artistId, followId 
           >
             <span className="group-hover:opacity-0">팔로잉</span>
             <span className="absolute left-[50%] top-[50%] w-full translate-x-[-50%] translate-y-[-50%] opacity-0 group-hover:opacity-100">
-              언팔로잉
+              언팔로우
             </span>
           </Button>
         ) : (
