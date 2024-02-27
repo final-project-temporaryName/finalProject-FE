@@ -39,11 +39,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   };
 
   const renderFileInput = () => (
-    <div className="file-input-wrapper relative h-95 w-95">
+    <div className="file-input-wrapper relative h-95 w-95 md:h-70 md:w-70">
       {profileImage ? (
         <Image src={profileImage} alt="Uploaded" fill className="rounded-full object-cover" />
       ) : (
-        <div className="h-95 w-95"></div>
+        <div className="md:founded-full h-95 w-95 rounded-full md:h-70 md:w-70"></div>
       )}
       <div
         className={`absolute inset-0 flex items-center justify-center ${profileImage ? 'opacity-0 transition-opacity duration-500 ease-in-out hover:opacity-70' : 'opacity-100'}`}

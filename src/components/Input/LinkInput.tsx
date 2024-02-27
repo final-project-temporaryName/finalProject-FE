@@ -204,7 +204,7 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate, handleAddLink }
               label={index === 0 ? '외부링크' : ' '}
               id={`link${id}`}
               placeholder={index === 0 ? 'Behance' : '링크제목'}
-              style={saveIconClicked ? 'xs-input mr-20 save-input' : 'xs-input mr-20'}
+              style={saveIconClicked ? 'xs-input mr-20 save-input md:mr-10 md:placeholder:text-12' : 'xs-input mr-20 md:mr-10 md:placeholder:text-12'}
               readOnly={saveIconClicked}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 field.onChange(event); // Controller의 onChange 메소드 호출
@@ -226,7 +226,7 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate, handleAddLink }
             <Input
               id={`link${id}`}
               placeholder={index === 0 ? 'http://behance.com' : '링크 붙여넣기'}
-              style={saveIconClicked ? 'lg-input mr-10 save-input' : 'lg-input mr-10'}
+              style={saveIconClicked ? 'lg-input mr-10 save-input md:placeholder:text-12' : 'lg-input mr-10 md:placeholder:text-12'}
               readOnly={saveIconClicked}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 field.onChange(event);
@@ -240,7 +240,7 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate, handleAddLink }
             />
           )}
         />
-        <div className="flex-center w-60">
+        <div className="flex-center w-60 md:w-40">
           {isEditing ? (
             // 편집 모드일 때 저장 아이콘 표시, 편집 완료 처리
             <SaveIcon className="flex-center" onClick={handleEditSaveIconClick} />
@@ -256,7 +256,7 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate, handleAddLink }
           )}
         </div>
       </div>
-      <div className="absolute bottom-0 right-235">
+      <div className="absolute bottom-0 right-130">
         {isModified && !saveIconClicked && <div className="text-10 text-[#c90000]">링크 저장이 필요합니다</div>}
       </div>
     </div>

@@ -138,15 +138,15 @@
 
 /* Input */
 .primary-input {
-  @apply h-40 w-auto bg-gray-1 px-15 py-11 text-14 focus:outline-none;
+  @apply h-40 w-auto bg-gray-1 px-15 py-11 text-14 focus:outline-none md:w-3/5;
 }
 
 .xs-input {
-  @apply w-115 md:w-90;
+  @apply w-115 md:w-75;
 }
 
 .sm-input {
-  @apply w-172 md:w-150;
+  @apply w-172 md:w-120;
 }
 
 .md-input {
@@ -154,7 +154,7 @@
 }
 
 .lg-input {
-  @apply w-268 md:w-208;
+  @apply w-268 md:w-160;
 }
 
 .file-input-wrapper {
@@ -162,7 +162,7 @@
 }
 
 .file-input-label {
-  @apply flex h-95 w-95 cursor-pointer flex-col items-center justify-center rounded-full bg-white text-black;
+  @apply flex h-95 w-95 cursor-pointer flex-col items-center justify-center rounded-full bg-white text-black md:h-70 md:w-70;
 }
 
 .hidden-file-input {
