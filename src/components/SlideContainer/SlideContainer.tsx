@@ -88,7 +88,7 @@ function SlideContainer({ artworkImageResponse }: Props) {
       {showModal && (
         <>
           <div
-            className="flex-center fixed left-0 top-0 z-infinite h-full w-full bg-[#00000066] p-10"
+            className="flex-center fixed left-0 top-0 z-infinite h-full w-full bg-[#000000ee] p-10"
             onClick={closeModal}
           >
             <div className="relative h-full w-full">

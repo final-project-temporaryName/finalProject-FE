@@ -5,10 +5,8 @@ import { postFollow } from '@/api/follow/postFollow';
 import { Button } from '@/components/Button';
 import { useStore } from '@/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { isNull } from 'lodash';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
 import defaultProfileImg from '../../../../../public/assets/images/logo.png';
 
 interface Props {
@@ -19,9 +17,6 @@ interface Props {
 }
 
 function ArtModalHeader({ artistName, artistProfileImageUrl, artistId, followId }: Props) {
-  const [isFollowClicked, setIsFollowClicked] = useState(!isNull(followId));
-  const [newFollowId, setNewFollowId] = useState(followId);
-
   const queryClient = useQueryClient();
 
   const { modals, hideModal, clickedArtworkId, userId, isLogin } = useStore((state) => ({
@@ -49,27 +44,11 @@ function ArtModalHeader({ artistName, artistProfileImageUrl, artistId, followId 
   });
 
   const handleFollow = () => {
-    postFollowMutation.mutate(
-      { userId, receiverId: artistId },
-      {
-        onSuccess: (data: { followId: number }) => {
-          setIsFollowClicked(true);
-          setNewFollowId(data.followId);
-        },
-      },
-    );
+    postFollowMutation.mutate({ userId, receiverId: artistId });
   };
 
   const handleUnFollow = () => {
-    deleteFollowMutation.mutate(
-      { userId: artistId, followId: newFollowId },
-      {
-        onSuccess: () => {
-          setIsFollowClicked(false);
-          setNewFollowId(null);
-        },
-      },
-    );
+    deleteFollowMutation.mutate({ userId: artistId, followId });
   };
 
   return (
@@ -89,12 +68,19 @@ function ArtModalHeader({ artistName, artistProfileImageUrl, artistId, followId 
             <p className="text-14 font-semibold">{artistName ? artistName : '닉네임 없음'}</p>
           </div>
         </Link>
-        {isFollowClicked ? (
-          <Button isLink={false} classname="primary-button artModal-follow-button" onClick={() => handleUnFollow()}>
-            팔로잉
+        {followId ? (
+          <Button
+            isLink={false}
+            classname="group primary-button artModal-following-button relative"
+            onClick={handleUnFollow}
+          >
+            <span className="group-hover:opacity-0">팔로잉</span>
+            <span className="absolute left-[50%] top-[50%] w-full translate-x-[-50%] translate-y-[-50%] opacity-0 group-hover:opacity-100">
+              언팔로잉
+            </span>
           </Button>
         ) : (
-          <Button isLink={false} classname="primary-button artModal-follow-button" onClick={() => handleFollow()}>
+          <Button isLink={false} classname="primary-button artModal-follow-button" onClick={handleFollow}>
             팔로우
           </Button>
         )}

@@ -109,6 +109,10 @@
 }
 
 .artModal-follow-button {
+  @apply h-40 w-90 bg-white font-semibold text-primary;
+}
+
+.artModal-following-button {
   @apply h-40 w-90 bg-primary text-white;
 }
 
