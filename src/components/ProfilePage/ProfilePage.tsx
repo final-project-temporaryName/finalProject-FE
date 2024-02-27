@@ -194,10 +194,10 @@ function ProfilePage({ mode }: Props) {
 
   return (
     <FormProvider {...methods}>
-      <form className="mr-100 flex h-full w-screen flex-col" onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex-center gap-20">
-          <div className={`pb-100 ${mode === 'edit' ? 'pt-160' : 'pt-30'}`}>
-            <div className="relative ml-75 flex items-center gap-10 md:ml-30 md:gap-4">
+      <form className="flex h-full w-screen flex-col md:mr-0" onSubmit={handleSubmit(onSubmit)}>
+        <div className={`flex-center ${mode === 'edit' ? 'mr-150' : ''} gap-20 md:mr-0`}>
+          <div className={`relative pb-100 ${mode === 'edit' ? 'pt-160 md:pt-50' : 'pt-30'}`}>
+            <div className="md:flex-center relative ml-70 flex items-center gap-10 md:ml-0">
               <Input
                 type="file"
                 id="file"
@@ -211,41 +211,41 @@ function ProfilePage({ mode }: Props) {
                 label="닉네임"
                 id="nickname"
                 placeholder="작가명을 써주세요"
-                style="md-input relative primary-input"
+                style="md-input relative md:placeholder:text-12"
                 register={register('nickname', nicknameRules)}
                 error={errors.nickname?.message || nicknameError}
               />
-              <div className="absolute left-170 top-27 text-[#C90000] md:left-150">*</div>
+              <div className="absolute left-170 top-27 text-[#C90000] md:left-135 md:top-13">*</div>
               <button
                 type="button"
-                className="primary-button duplication-button ml-0 justify-center md:ml-22"
+                className="primary-button duplication-button ml-0 justify-center md:ml-0"
                 onClick={checkNickname}
               >
                 중복확인
               </button>
             </div>
-            <div className="ml-0 mt-60 flex gap-33 md:ml-10 md:gap-5">
+            <div className="flex-center ml-0 mt-60 gap-33 md:ml-10 md:gap-5">
               <Input
                 label="활동지역"
                 id="zone"
                 placeholder="이태원"
-                style="sm-input"
+                style="sm-input md:placeholder:text-12"
                 register={register('activityArea')}
               />
               <Input
                 label="활동분야"
                 id="field"
                 placeholder="3D Art"
-                style="sm-input"
+                style="sm-input md:placeholder:text-12"
                 register={register('activityField')}
               />
             </div>
-            <div className="my-40 flex">
-              <div className="ml-0 flex h-40 w-90 items-center justify-start gap-20 whitespace-nowrap p-10 text-18 md:ml-10 md:w-70 md:gap-5 md:text-14">
+            <div className="my-40 flex md:flex md:justify-center">
+              <div className="ml-0 flex h-40 w-90 items-center justify-start gap-20 whitespace-nowrap p-10 text-18 md:ml-10 md:w-70 md:gap-5 md:p-8 md:text-14">
                 소개글
               </div>
               <textarea
-                className="min-h-92 w-465 resize-none rounded-xs bg-gray-1 p-15 text-14 focus:outline-none md:w-375 "
+                className="min-h-92 w-465 resize-none rounded-xs bg-gray-1 p-15 text-14 focus:outline-none md:w-310 md:placeholder:text-12"
                 placeholder="사람들에게 나를 알릴 수 있는 글을 자유롭게 적어보세요."
                 {...register('description')}
               ></textarea>
@@ -264,7 +264,7 @@ function ProfilePage({ mode }: Props) {
               {fields.length < 5 && (
                 <div className="tooltip">
                   <button
-                    className="ml-90"
+                    className="ml-90 md:ml-85"
                     onClick={(event) => {
                       event.preventDefault();
                       append({ title: '', url: '' });
@@ -276,11 +276,9 @@ function ProfilePage({ mode }: Props) {
                 </div>
               )}
             </div>
-          </div>
-          <div className="mb-10 mt-auto flex justify-end">
             <button
               type="submit"
-              className={`primary-button storage-button flex-end ${disableSaveButton ? 'disabled-button' : ''}`}
+              className={`primary-button storage-button flex-end absolute -right-[155px] md:-bottom-[10px] md:right-0 ${disableSaveButton ? 'disabled-button' : ''}`}
               disabled={disableSaveButton}
             >
               {buttonText}

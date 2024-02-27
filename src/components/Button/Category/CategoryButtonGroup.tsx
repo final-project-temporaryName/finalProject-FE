@@ -27,7 +27,7 @@ function CategoryButtonGroup({ setMyPageValue }: Props) {
   };
 
   return (
-    <div className="flex gap-40 align-middle">
+    <div className="flex gap-40 align-middle md:gap-30">
       {labelTexts.map((labelText, idx) => (
         <Button.Category
           key={idx}

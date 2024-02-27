@@ -11,7 +11,7 @@ function DeleteBox() {
   }));
 
   return (
-    <div className="mt-200 flex h-152 w-auto gap-58 pl-150">
+    <div className="mt-200 flex h-152 w-auto gap-58 pl-150 md:mt-50 md:pl-0">
       <span className="text-18 ">계정 탈퇴</span>
       <div>
         <Button

@@ -96,7 +96,7 @@ function SideBar({ displayStatus }: SideBarProps) {
   }
 
   return (
-    <div className="fixed left-36 top-110 h-648 w-260 rounded-sm">
+    <div className="fixed ml-35 h-648 w-260 rounded-sm md:relative md:ml-0 md:mt-110 md:h-270 md:w-full">
       <div className="absolute -top-10 left-1/2 z-first h-120 w-120 -translate-x-1/2 transform rounded-full">
         <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full border-2 border-solid border-gray-4 bg-white">
           <Image
@@ -107,7 +107,7 @@ function SideBar({ displayStatus }: SideBarProps) {
           />
         </div>
       </div>
-      <div className="absolute top-48 flex h-full w-260 flex-col items-center rounded-[12px] bg-gray-1">
+      <div className="absolute top-48 flex h-full w-260 flex-col items-center rounded-[12px] bg-gray-1 md:h-227 md:w-full">
         <div className="mt-70 flex h-full w-192 flex-col items-center">
           {/* {displayStatus === 'myWork' ? (
             <Link href="/myAccount" className="z-10 absolute right-13 top-15 h-32 w-32 rounded-full">
@@ -120,7 +120,7 @@ function SideBar({ displayStatus }: SideBarProps) {
             <div className="items-center text-center text-18 font-semibold">{userInfo?.nickname}</div>
             <p className="text-12 text-gray-9">{userInfo?.activityArea + ' / ' + userInfo?.activityField}</p>
           </div>
-          <div className="mb-16 mt-16 flex min-h-60 w-192 items-center rounded-sm bg-white p-16">
+          <div className="mb-16 mt-16 flex min-h-60 w-192 items-center rounded-sm bg-white p-16 md:hidden">
             {userInfo?.description && (
               <p
                 dangerouslySetInnerHTML={{
@@ -131,7 +131,7 @@ function SideBar({ displayStatus }: SideBarProps) {
             )}
           </div>
           {displayStatus === 'notMyWork' ? (
-            <div className="mb-24 flex gap-12">
+            <div className="mb-24 flex gap-12 md:mb-21 md:mt-16">
               {isFollowClicked ? (
                 <Button
                   isLink={false}
