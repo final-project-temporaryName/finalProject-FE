@@ -177,7 +177,7 @@ export default function UploadModal() {
   return (
     <Modal.Container classname="modalContainer tablet-modalContainer">
       <Modal.Header nickname={userData?.nickname} profileImageUrl={userData?.profileImageUrl} />
-      <Modal.Body classname="flex h-full md:flex-col md:overflow-y-auto">
+      <Modal.Body classname="flex h-full md:flex-col md:overflow-y-auto ">
         <DragDropContext onDragEnd={onDragEnd}>
           {uploadImageSources.length ? (
             <div className="relative flex h-full w-3/5 flex-col justify-center border-r-1 border-solid border-black pb-31 pt-26 md:w-full">
@@ -205,7 +205,7 @@ export default function UploadModal() {
               </div>
             </div>
           ) : (
-            <div className="relative flex h-full w-3/5 items-center justify-center border-r-1 border-solid border-black md:w-full">
+            <div className="relative flex h-full w-3/5 items-center justify-center border-r-1 border-solid border-black md:min-h-300 md:w-full">
               <BeforeUploadImage onClick={handleUploadImageButton} />
             </div>
           )}
