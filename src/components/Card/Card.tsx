@@ -55,10 +55,12 @@ function Card({
 
   return (
     <>
-      <div className={`flex h-${type === 'main' || type === 'search' ? '328' : '280'} min-w-280 flex-col`}>
+      <div
+        className={`flex h-${type === 'main' || type === 'search' ? '328' : '280 md:h-180 md:'} min-w-280 flex-col md:min-h-0 md:min-w-80 md:max-w-350`}
+      >
         <div
           id="cardImgBox"
-          className="group relative h-280 min-w-280 cursor-pointer overflow-hidden rounded-md"
+          className="group relative h-280 min-w-280 cursor-pointer overflow-hidden rounded-md md:h-180 md:min-h-0 md:min-w-80 md:max-w-350"
           onClick={handleArtworkClick}
         >
           <Image
