@@ -91,7 +91,7 @@ function CommentContainer({ likeCount, commentCount, type }: Props) {
           },
         },
       );
-    } else if (!isEditMode) {
+    } else if (data.comment && !isEditMode) {
       postCommentsMutation.mutate(
         { artworkId, contents: data.comment },
         {
