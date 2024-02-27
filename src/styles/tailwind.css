@@ -20,6 +20,14 @@
   @apply relative top-[5%] z-infinite flex h-[90%] w-[90%] flex-col overflow-hidden rounded-md bg-white;
 }
 
+.tablet-modalContainer {
+  @apply md:top-0 md:h-full md:w-full md:flex-col md:rounded-[0px];
+}
+
+/* .tablet-artModalContainer {
+  @apply relative top-[5%] z-infinite flex h-[90%] w-[90%] flex-col overflow-hidden rounded-md bg-white;
+} */
+
 .askForSignupContainer {
   @apply relative top-[40%] z-infinite flex h-150 w-350 justify-center rounded-md bg-white;
 }
