@@ -17,7 +17,7 @@ import CardImageFallbackUI from '../FallbackUI/Card/CardImageFallbackUI';
 type CustomCardType = Omit<CardType, 'description' | 'createdAt' | 'updatedAt' | 'likeId' | 'followId'>;
 
 interface Props extends CustomCardType {
-  type: 'main' | 'mypage' | 'artist' | 'comment';
+  type: 'main' | 'mypage' | 'artist' | 'comment' | 'search';
   isPending: boolean;
 }
 
@@ -55,7 +55,7 @@ function Card({
 
   return (
     <>
-      <div className={`flex h-${type === 'main' ? '328' : '280'} min-w-280 flex-col`}>
+      <div className={`flex h-${type === 'main' || type === 'search' ? '328' : '280'} min-w-280 flex-col`}>
         <div
           id="cardImgBox"
           className="group relative h-280 min-w-280 cursor-pointer overflow-hidden rounded-md"
@@ -93,7 +93,7 @@ function Card({
             </div>
           </div>
         </div>
-        {type === 'main' && (
+        {(type === 'main' || type === 'search') && (
           <div className="relative flex h-48 w-280 flex-shrink-0 items-center pt-10">
             <Link
               href={isLogin && artistId === userId ? '/mypage' : `/artist/${artistId}`}

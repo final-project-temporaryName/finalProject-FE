@@ -3,16 +3,14 @@ import { devtools, persist } from 'zustand/middleware';
 import { createArtworkSlice } from './artworkSlice';
 import { createAuthSlice } from './authSlice';
 import { createModalSlice } from './modalSlice';
-import { createSearchSlice } from './searchSlice';
-import { ArtworkState, AuthState, ModalState, SearchState } from './zustand.types';
+import { ArtworkState, AuthState, ModalState } from './zustand.types';
 
-type SliceType = SearchState & AuthState & ArtworkState & ModalState;
+type SliceType = AuthState & ArtworkState & ModalState;
 
 export const useStore = create<SliceType>()(
   devtools(
     persist(
       (...a) => ({
-        ...createSearchSlice(...a),
         ...createAuthSlice(...a),
         ...createArtworkSlice(...a),
         ...createModalSlice(...a),

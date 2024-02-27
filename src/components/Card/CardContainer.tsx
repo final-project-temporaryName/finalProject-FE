@@ -13,9 +13,10 @@ import { CardType } from '@/types/cards';
 import { useParams } from 'next/navigation';
 import { useRef } from 'react';
 import Card from './Card';
+import { getSearchArtworks } from '@/api/artworks/getSearchArtworks';
 
 interface Props {
-  type: 'main' | 'mypage' | 'artist' | 'comment';
+  type: 'main' | 'mypage' | 'artist' | 'comment' | 'search';
   categoryType: '전체' | 'following' | '판매중' | '컬렉션';
 }
 
@@ -30,7 +31,7 @@ function CardContainer({ type, categoryType }: Props) {
   let isPending: boolean;
 
   const bottom = useRef<HTMLDivElement>(null);
-  const params = useParams<{ id: string }>();
+  const params = useParams<{ id: string; searchWord: string }>();
   const modals = useStore((state) => state.modals);
 
   if (type === 'main' && categoryType === '전체') {
@@ -57,6 +58,21 @@ function CardContainer({ type, categoryType }: Props) {
       },
       ref: bottom,
       type: type,
+    };
+    const { data: responseData, isPending: pending } = useInfiniteData(argument);
+    data = responseData;
+    isPending = pending as boolean;
+  } else if (type === 'search') {
+    const argument = {
+      queryKey: ['searchArtworks', decodeURI(params.searchWord)],
+      queryFn: getSearchArtworks,
+      initialPageParam: null,
+      getNextPageParam: (lastPage: ArtWorks) => {
+        return lastPage.hasNext ? lastPage.contents[lastPage.contents.length - 1].artworkId : undefined;
+      },
+      ref: bottom,
+      type: type,
+      searchWord: decodeURI(params.searchWord),
     };
     const { data: responseData, isPending: pending } = useInfiniteData(argument);
     data = responseData;
@@ -97,7 +113,7 @@ function CardContainer({ type, categoryType }: Props) {
   return (
     <>
       <div
-        className={`${data ? (type === 'main' ? 'card-container-mainPage' : 'card-container-artistPage') : 'flex-center mt-25 h-[55vh] w-full'}`}
+        className={`${data ? (type === 'main' || type === 'search' ? 'card-container-mainPage' : 'card-container-artistPage') : 'flex-center mt-25 h-[55vh] w-full'}`}
       >
         {data &&
           data.pages.map((page: ArtWorks) => {
