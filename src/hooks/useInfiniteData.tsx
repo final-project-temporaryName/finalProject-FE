@@ -52,7 +52,7 @@ function useInfiniteData<T, E extends Element>({
     },
     getNextPageParam,
     initialPageParam,
-    // staleTime: 3 * 1000,
+    staleTime: 3 * 1000,
   });
 
   const onIntersect = ([entry]: IntersectionObserverEntry[]) => entry.isIntersecting && fetchNextPage();

@@ -23,7 +23,9 @@ function SlideContainer({ artworkImageResponse }: Props) {
   const [selectedImage, setSelectedImage] = useState('');
 
   const swiperRef = useRef<SwiperCore>();
-  const { width: browserWidthSize } = useBrowserSize();
+  const {
+    windowSize: { width: browserWidthSize },
+  } = useBrowserSize();
 
   const setSlidesPerView = (width: number | undefined, num: number) => {
     if (!width) return 1;

@@ -68,22 +68,23 @@ function ArtModalHeader({ artistName, artistProfileImageUrl, artistId, followId 
             <p className="text-14 font-semibold">{artistName ? artistName : '닉네임 없음'}</p>
           </div>
         </Link>
-        {followId ? (
-          <Button
-            isLink={false}
-            classname="group primary-button artModal-following-button relative"
-            onClick={handleUnFollow}
-          >
-            <span className="group-hover:opacity-0">팔로잉</span>
-            <span className="absolute left-[50%] top-[50%] w-full translate-x-[-50%] translate-y-[-50%] opacity-0 group-hover:opacity-100">
-              언팔로우
-            </span>
-          </Button>
-        ) : (
-          <Button isLink={false} classname="primary-button artModal-follow-button" onClick={handleFollow}>
-            팔로우
-          </Button>
-        )}
+        {artistId === userId ||
+          (followId ? (
+            <Button
+              isLink={false}
+              classname="group primary-button artModal-following-button relative"
+              onClick={handleUnFollow}
+            >
+              <span className="group-hover:opacity-0">팔로잉</span>
+              <span className="absolute left-[50%] top-[50%] w-full translate-x-[-50%] translate-y-[-50%] opacity-0 group-hover:opacity-100">
+                언팔로우
+              </span>
+            </Button>
+          ) : (
+            <Button isLink={false} classname="primary-button artModal-follow-button" onClick={handleFollow}>
+              팔로우
+            </Button>
+          ))}
         {/*  TODO: 추후 destination 바뀔 예정 */}
         <Button isLink={true} destination="/chat" classname="primary-button artModal-chat-button">
           1:1 채팅

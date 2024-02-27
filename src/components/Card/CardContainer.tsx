@@ -3,6 +3,7 @@
 import { getArtistArtworks } from '@/api/artworks/getArtistArtworks';
 import { getArtworks } from '@/api/artworks/getArtworks';
 import { getFollowingArtworks } from '@/api/artworks/getFollowingArtworks';
+import { getSearchArtworks } from '@/api/artworks/getSearchArtworks';
 import { getMyArtworks } from '@/api/users/getMyArtworks';
 import ArtModal from '@/app/(root-modal)/ArtModal/ArtModal';
 import AskForDeleteModal from '@/app/(root-modal)/AskForDeleteModal/AskForDeleteModal';
@@ -13,7 +14,6 @@ import { CardType } from '@/types/cards';
 import { useParams } from 'next/navigation';
 import { useRef } from 'react';
 import Card from './Card';
-import { getSearchArtworks } from '@/api/artworks/getSearchArtworks';
 
 interface Props {
   type: 'main' | 'mypage' | 'artist' | 'comment' | 'search';
