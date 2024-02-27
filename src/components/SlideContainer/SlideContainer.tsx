@@ -60,7 +60,7 @@ function SlideContainer({ artworkImageResponse }: Props) {
   };
 
   return (
-    <>
+    <div>
       <Swiper
         onSwiper={(swiper) => {
           swiperRef.current = swiper;
@@ -99,7 +99,7 @@ function SlideContainer({ artworkImageResponse }: Props) {
           </div>
         </>
       )}
-    </>
+    </div>
   );
 }
 
