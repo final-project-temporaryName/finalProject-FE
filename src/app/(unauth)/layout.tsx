@@ -11,7 +11,7 @@ export default function Layout({ children }: Props) {
     <div className="h-100vh w-100vw bg-white">
       <NavBar />
       <MainLabelsGroup />
-      <div className="md:flex md:flex-col">{children}</div>
+      <div className="mx-20 md:flex md:flex-col">{children}</div>
     </div>
   );
 }
