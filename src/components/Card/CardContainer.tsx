@@ -103,10 +103,10 @@ function CardContainer({ type, categoryType }: Props) {
   return (
     <>
       <div
-        className={`${data?.pages[0].contents.length !== 0 ? (type === 'main' || type === 'search' ? 'card-container-mainPage' : 'card-container-artistPage') : 'flex-col-center md:w-100vw mt-50 h-[55vh] w-full'}`}
+        className={`${data?.pages[0]?.contents?.length !== 0 ? (type === 'main' || type === 'search' ? 'card-container-mainPage' : 'card-container-artistPage') : 'flex-col-center md:w-100vw mt-50 h-[55vh] w-full'}`}
       >
         {data &&
-          (data.pages[0].contents.length === 0
+          (data.pages[0]?.contents?.length === 0
             ? pathname === '/mypage' && <NoContent />
             : data.pages.map((page: ArtWorks) => {
                 const cards = page.contents;

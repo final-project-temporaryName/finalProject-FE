@@ -69,10 +69,8 @@ function CategoryButton({
   return (
     <>
       {navigate ? (
-        <a href={labelText === '전체' ? '/' : 'following'}>
-          <button className={labelClass} onClick={handleButtonClick}>
-            {labelText}
-          </button>
+        <a href={labelText === '전체' ? '/' : '/following'}>
+          <button className={labelClass}>{labelText}</button>
         </a>
       ) : (
         <button className={labelClass} onClick={handleButtonClick}>

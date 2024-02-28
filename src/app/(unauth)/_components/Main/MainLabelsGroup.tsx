@@ -1,6 +1,8 @@
 'use client';
 
+import AskForLoginModal from '@/app/(root-modal)/AskForLoginModal/AskForLoginModal';
 import { Button } from '@/components/Button';
+import { useStore } from '@/store';
 import { usePathname, useSelectedLayoutSegment } from 'next/navigation';
 import { useState } from 'react';
 
@@ -16,11 +18,16 @@ function MainLabelsGroup() {
 
   const [content, setContent] = useState(firstPathname === 'following' ? 'following' : '전체');
   const segment = useSelectedLayoutSegment();
+  const isLogin = useStore((state) => state.isLogin);
 
-  const labelTexts: ButtonCategoryText[] = [
-    ButtonCategoryText.ALL, // 전체
-    ButtonCategoryText.FOLLOWING, // following
-  ];
+  const labelTexts: ButtonCategoryText[] = isLogin
+    ? [
+        ButtonCategoryText.ALL, // 전체
+        ButtonCategoryText.FOLLOWING, // following
+      ]
+    : [
+        ButtonCategoryText.ALL, // 전체
+      ];
 
   const handleActive = (buttonLabel: string) => {
     setContent(buttonLabel);
