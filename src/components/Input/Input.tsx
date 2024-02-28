@@ -24,6 +24,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
       const response = await postImageFile(formData);
       if (response.status !== 200) {
         console.log(response.data.error.message);
+        // 파일 크기가 너무 클 경우 에러 처리
       }
       setProfileImage(response?.data.imageUrl);
       onImageUpload(response?.data.imageUrl);

@@ -175,13 +175,13 @@ export default function UploadModal() {
   };
 
   return (
-    <Modal.Container classname="modalContainer">
+    <Modal.Container classname="modalContainer tablet-modalContainer">
       <Modal.Header nickname={userData?.nickname} profileImageUrl={userData?.profileImageUrl} />
-      <Modal.Body classname="flex h-full">
+      <Modal.Body classname="flex h-full md:flex-col md:overflow-y-auto ">
         <DragDropContext onDragEnd={onDragEnd}>
           {uploadImageSources.length ? (
-            <div className="relative flex h-full w-3/5 flex-col justify-center border-r-1 border-solid border-black pb-31 pt-26">
-              <div className="relative grid grid-cols-4 grid-rows-3/96 gap-18 px-29 py-25">
+            <div className="relative flex h-full w-3/5 flex-col justify-center border-r-1 border-solid border-black pb-31 pt-26 md:w-full md:pt-0">
+              <div className="relative mb-25 grid grid-cols-4 grid-rows-3/96 gap-18 bg-[#D9D9D9] px-29 pt-25 md:grid-cols-3">
                 {uploadImageSources.map((uploadImageSource, index) => {
                   return (
                     <Droppable key={uploadImageSource} droppableId={String(uuidv4())}>
@@ -205,7 +205,7 @@ export default function UploadModal() {
               </div>
             </div>
           ) : (
-            <div className="relative flex h-full w-3/5 items-center justify-center border-r-1 border-solid border-black">
+            <div className="relative flex h-full w-3/5 items-center justify-center border-r-1 border-solid border-black md:min-h-300 md:w-full">
               <BeforeUploadImage onClick={handleUploadImageButton} />
             </div>
           )}
@@ -219,7 +219,7 @@ export default function UploadModal() {
           ref={inputRef}
           onChange={handleUploadImage}
         />
-        <div className="relative flex h-full w-2/5 flex-col gap-18 p-15">
+        <div className="md: relative flex h-full w-2/5 flex-col gap-18 border-solid p-15 md:w-full md:border-t-2 md:border-gray-3 md:pt-20">
           <input
             id="title"
             className={`h-39 ${label === 'PUBLIC' ? 'w-full' : 'w-290'} rounded-xs border-1 border-solid border-[#ccc] p-10 text-14 font-semibold placeholder:text-gray-5`}
@@ -230,7 +230,7 @@ export default function UploadModal() {
             onChange={handleTitleChange}
           />
           <TextEditor value={description} setValue={setDescription} />
-          <div className="flex items-center justify-between gap-18">
+          <div className="flex items-center justify-between gap-18 md:mt-30">
             <StatusLabelsGroup setStatusValue={setLabel} />
             <Button.Modal.Action
               disabled={!title || !description || description === '<p><br></p>' || uploadImageSources.length === 0}
