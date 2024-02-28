@@ -14,6 +14,7 @@ import { CardType } from '@/types/cards';
 import { useParams } from 'next/navigation';
 import { useRef } from 'react';
 import Card from './Card';
+import NoContent from './NoContent';
 
 interface Props {
   type: 'main' | 'mypage' | 'artist' | 'comment' | 'search';
@@ -101,31 +102,35 @@ function CardContainer({ type, categoryType }: Props) {
   return (
     <>
       <div
-        className={`${data ? (type === 'main' || type === 'search' ? 'card-container-mainPage' : 'card-container-artistPage') : 'flex-center md:w-100vw mt-25 h-[55vh] w-full'}`}
+        className={`${data?.pages[0].contents.length !== 0 ? (type === 'main' || type === 'search' ? 'card-container-mainPage' : 'card-container-artistPage') : 'flex-col-center md:w-100vw mt-50 h-[55vh] w-full'}`}
       >
         {data &&
-          data.pages.map((page: ArtWorks) => {
-            const cards = page.contents;
-            return cards?.map((card) => {
-              return (
-                <Card
-                  key={card.artworkId}
-                  artworkId={card.artworkId}
-                  title={card.title}
-                  artworkStatus={card.artworkStatus}
-                  likeCount={card.likeCount}
-                  viewCount={card.viewCount}
-                  commentCount={card.commentCount}
-                  thumbnailImageUrl={card.thumbnailImageUrl}
-                  artistId={card.artistId}
-                  artistName={card.artistName}
-                  artistProfileImageUrl={card.artistProfileImageUrl}
-                  type={type}
-                  isPending={isPending}
-                />
-              );
-            });
-          })}
+          (data.pages[0].contents.length === 0 ? (
+            <NoContent />
+          ) : (
+            data.pages.map((page: ArtWorks) => {
+              const cards = page.contents;
+              return cards?.map((card) => {
+                return (
+                  <Card
+                    key={card.artworkId}
+                    artworkId={card.artworkId}
+                    title={card.title}
+                    artworkStatus={card.artworkStatus}
+                    likeCount={card.likeCount}
+                    viewCount={card.viewCount}
+                    commentCount={card.commentCount}
+                    thumbnailImageUrl={card.thumbnailImageUrl}
+                    artistId={card.artistId}
+                    artistName={card.artistName}
+                    artistProfileImageUrl={card.artistProfileImageUrl}
+                    type={type}
+                    isPending={isPending}
+                  />
+                );
+              });
+            })
+          ))}
         <div ref={bottom} />
       </div>
       {modals.includes('editModal') && <EditUploadModal />}
