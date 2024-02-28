@@ -60,11 +60,11 @@ function ProfileImgDropDown({ userName, profileImg, major, isPending }: ProfileI
         (isMobile ? (
           <div className="fixed inset-0 z-infinite flex h-screen w-full items-start justify-center bg-[#0000007e]">
             <div
-              className="flex h-326 w-full items-center justify-center bg-white"
+              className="flex h-305 w-full items-center justify-center bg-white"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="absolute left-0 top-14 flex h-310 w-266 flex-col rounded-sm">
-                <div className="flex w-screen flex-1 flex-col items-stretch justify-between gap-13 px-17 py-23 ">
+              <div className="absolute left-0 top-0 flex h-310 w-266 flex-col rounded-sm">
+                <div className="flex w-screen flex-col items-stretch justify-between gap-16 px-10 py-20 ">
                   <div className="flex items-center gap-30">
                     <div className="relative h-60 w-60 overflow-hidden rounded-full">
                       <Image
@@ -100,7 +100,7 @@ function ProfileImgDropDown({ userName, profileImg, major, isPending }: ProfileI
                 <div className="h-50 w-screen cursor-pointer">
                   <div
                     onClick={handleLogoutClick}
-                    className="flex h-50 w-full items-center justify-center gap-10 rounded-b-[12px] border-t-1 border-solid border-t-gray-4 hover:bg-primary-1"
+                    className="flex h-50 w-full items-center justify-center gap-10  border-t-1 border-solid border-t-gray-4 hover:bg-primary-1"
                   >
                     <LogoutIcon />
                     로그아웃
