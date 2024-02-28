@@ -14,6 +14,9 @@ import { Button } from '../Button';
 import { useStore } from '@/store';
 import ProfileImgFallbackUI from '../FallbackUI/NavBar/ProfileImgFallbackUI';
 import { useBrowserSize } from '@/hooks/useBrowserSize';
+import SettingIcon from '../SvgComponents/SettingIcon';
+import QAIcon from '../SvgComponents/QAIcon';
+import LogoutIcon from '../SvgComponents/LogoutIcon';
 
 interface ProfileImgDropDownProps {
   userName?: string;
@@ -60,7 +63,6 @@ function ProfileImgDropDown({ userName, profileImg, major, isPending }: ProfileI
               className="flex h-326 w-full items-center justify-center bg-white"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* 추가 장소 */}
               <div className="absolute left-0 top-14 flex h-310 w-266 flex-col rounded-sm">
                 <div className="flex w-screen flex-1 flex-col items-stretch justify-between gap-13 px-17 py-23 ">
                   <div className="flex items-center gap-30">
@@ -83,18 +85,24 @@ function ProfileImgDropDown({ userName, profileImg, major, isPending }: ProfileI
                 </div>
                 <div className="flex h-100 w-screen flex-col border-t-1 border-solid border-t-gray-4">
                   <Link href={'/myAccount'}>
-                    <div className="flex h-50 items-center justify-center px-18 hover:bg-gray-1">계정관리</div>
+                    <div className="flex h-50 items-center justify-center gap-10 px-18 hover:bg-gray-1">
+                      <SettingIcon /> 계정관리
+                    </div>
                   </Link>
                   {/* 추후 Link 변경 예정 */}
                   <Link href={'/'}>
-                    <div className="flex h-50 items-center justify-center px-18 hover:bg-gray-1">문의하기</div>
+                    <div className="flex h-50 items-center justify-center gap-10 px-18 hover:bg-gray-1">
+                      <QAIcon />
+                      문의하기
+                    </div>
                   </Link>
                 </div>
                 <div className="h-50 w-screen cursor-pointer">
                   <div
                     onClick={handleLogoutClick}
-                    className="flex h-50 w-full items-center justify-center rounded-b-[12px] border-t-1 border-solid border-t-gray-4 hover:bg-primary-1"
+                    className="flex h-50 w-full items-center justify-center gap-10 rounded-b-[12px] border-t-1 border-solid border-t-gray-4 hover:bg-primary-1"
                   >
+                    <LogoutIcon />
                     로그아웃
                   </div>
                 </div>
