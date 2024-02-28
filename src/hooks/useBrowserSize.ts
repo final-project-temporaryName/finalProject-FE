@@ -10,9 +10,17 @@ export const useBrowserSize = () => {
     height: undefined,
   });
 
+  const [isMobile, setIsMobile] = useState<boolean | undefined>();
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const handleResize = () => {
+        if (window.innerWidth < 768) {
+          setIsMobile(true);
+        } else {
+          setIsMobile(false);
+        }
+
         setWindowSize({
           // 현재 브라우저의 가로, 세로 길이로 셋팅
           width: window.innerWidth,
@@ -36,5 +44,5 @@ export const useBrowserSize = () => {
     }
   }, []); // 컴포넌트가 처음 마운트 될때와 언마운트 될 때 실행
 
-  return windowSize;
+  return { isMobile, windowSize };
 };

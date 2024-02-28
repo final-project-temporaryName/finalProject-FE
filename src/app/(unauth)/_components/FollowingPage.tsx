@@ -1,11 +1,9 @@
 import CardContainer from '@/components/Card/CardContainer';
 
-function MainCardSection() {
+export default function FollowingPage() {
   return (
     <div className="flex-center mt-25">
-      <CardContainer type="main" categoryType={'전체'} />
+      <CardContainer type="main" categoryType={'following'} />
     </div>
   );
 }
-
-export default MainCardSection;

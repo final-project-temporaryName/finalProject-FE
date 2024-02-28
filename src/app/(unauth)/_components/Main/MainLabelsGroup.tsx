@@ -1,19 +1,22 @@
 'use client';
 
 import { Button } from '@/components/Button';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { usePathname, useSelectedLayoutSegment } from 'next/navigation';
+import { useState } from 'react';
 
 enum ButtonCategoryText {
   'ALL' = '전체',
   'FOLLOWING' = 'following',
 }
 
-interface Props {
-  setMainValue: Dispatch<SetStateAction<'전체' | 'following'>>;
-}
+function MainLabelsGroup() {
+  const pathname = usePathname();
+  const pathnameArr = pathname.split('/');
+  const firstPathname = pathnameArr[1];
 
-function MainLabelsGroup({ setMainValue }: Props) {
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState(firstPathname === 'following' ? 'following' : '전체');
+  const segment = useSelectedLayoutSegment();
+
   const labelTexts: ButtonCategoryText[] = [
     ButtonCategoryText.ALL, // 전체
     ButtonCategoryText.FOLLOWING, // following
@@ -23,15 +26,17 @@ function MainLabelsGroup({ setMainValue }: Props) {
     setContent(buttonLabel);
   };
 
+  if (segment !== null && segment !== 'following') return null;
+
   return (
-    <div className="align-center flex gap-50">
+    <div className="align-center mt-30 flex w-full justify-center gap-50">
       {labelTexts.map((labelText, idx) => (
         <Button.Category
           key={idx}
           labelText={labelText}
           type="MainLabel"
+          navigate={true}
           onClick={handleActive}
-          setMainValue={setMainValue}
           isActive={content ? content === labelText : labelText === '전체'}
         />
       ))}

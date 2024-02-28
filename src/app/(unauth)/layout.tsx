@@ -1,5 +1,6 @@
 import NavBar from '@/components/NavBar/NavBar';
 import { ReactNode } from 'react';
+import MainLabelsGroup from './_components/Main/MainLabelsGroup';
 
 interface Props {
   children: ReactNode;
@@ -7,9 +8,10 @@ interface Props {
 
 export default function Layout({ children }: Props) {
   return (
-    <div className="h-full w-full bg-white">
+    <div className="h-100vh w-100vw bg-white">
       <NavBar />
-      {children}
+      <MainLabelsGroup />
+      <div className="md:flex md:flex-col">{children}</div>
     </div>
   );
 }

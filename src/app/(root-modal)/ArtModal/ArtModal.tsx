@@ -136,7 +136,9 @@ export default function ArtModal() {
         <a id="upwards"></a>
         <div className="mb-20 p-10 md:mb-56">
           {artwork?.artworkImageResponse?.length && (
-            <SlideContainer artworkImageResponse={artwork?.artworkImageResponse} />
+            <div>
+              <SlideContainer artworkImageResponse={artwork?.artworkImageResponse} />
+            </div>
           )}
           <div className="relative flex h-auto px-20 pt-30 md:mt-45">
             <div className="flex w-full flex-col gap-25">
@@ -152,7 +154,8 @@ export default function ArtModal() {
               )}
               <span className="text-13 text-[#8f8f8f] md:hidden">{customDate}</span>
             </div>
-            <div className="sticky top-0 flex flex-col items-end gap-20 pl-32 pt-5">
+            <CommentContainer likeCount={1100} commentCount={3} type={'comment'} />
+            <div className="absolute right-20 top-10 flex flex-col items-end gap-20 pl-32 pt-5">
               {isLikeClicked ? (
                 <div
                   className={
@@ -230,7 +233,6 @@ export default function ArtModal() {
             </div>
           </div>
         </div>
-        <CommentContainer likeCount={1100} commentCount={3} type={'comment'} />
       </Modal.Body>
     </Modal.Container>
   );

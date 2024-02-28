@@ -117,6 +117,10 @@
 }
 
 .artModal-follow-button {
+  @apply h-40 w-90 bg-white font-semibold text-primary;
+}
+
+.artModal-following-button {
   @apply h-40 w-90 bg-primary text-white;
 }
 
@@ -146,15 +150,15 @@
 
 /* Input */
 .primary-input {
-  @apply h-40 w-auto bg-gray-1 px-15 py-11 text-14 focus:outline-none;
+  @apply h-40 w-auto bg-gray-1 px-15 py-11 text-14 focus:outline-none md:w-3/5;
 }
 
 .xs-input {
-  @apply w-115 md:w-90;
+  @apply w-115 md:w-75;
 }
 
 .sm-input {
-  @apply w-172 md:w-150;
+  @apply w-172 md:w-120;
 }
 
 .md-input {
@@ -162,7 +166,7 @@
 }
 
 .lg-input {
-  @apply w-268 md:w-208;
+  @apply w-268 md:w-160;
 }
 
 .file-input-wrapper {
@@ -170,7 +174,7 @@
 }
 
 .file-input-label {
-  @apply flex h-95 w-95 cursor-pointer flex-col items-center justify-center rounded-full bg-white text-black;
+  @apply flex h-95 w-95 cursor-pointer flex-col items-center justify-center rounded-full bg-white text-black md:h-70 md:w-70;
 }
 
 .hidden-file-input {
@@ -224,11 +228,11 @@
 
 /* cardContainer */
 .card-container-mainPage {
-  @apply mt-35 grid w-[95%] auto-rows-[1fr] grid-cols-[repeat(auto-fit,minmax(max(280px,100%/6),1fr))] gap-x-25 gap-y-31;
+  @apply mt-35 grid w-[95%] auto-rows-[1fr] grid-cols-[repeat(auto-fit,minmax(max(280px,100%/6),1fr))] gap-x-25 gap-y-31 md:w-[100%];
 }
 
 .card-container-artistPage {
-  @apply mt-35 grid w-[95%] auto-rows-[1fr] grid-cols-[repeat(auto-fit,minmax(max(280px,100%/5),1fr))] gap-x-25 gap-y-31;
+  @apply mt-35 grid w-[95%] auto-rows-[1fr] grid-cols-[repeat(auto-fit,minmax(max(280px,100%/5),1fr))] gap-x-25 gap-y-31 md:w-[100%];
 }
 
 /* swiper */

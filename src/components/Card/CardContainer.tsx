@@ -3,6 +3,7 @@
 import { getArtistArtworks } from '@/api/artworks/getArtistArtworks';
 import { getArtworks } from '@/api/artworks/getArtworks';
 import { getFollowingArtworks } from '@/api/artworks/getFollowingArtworks';
+import { getSearchArtworks } from '@/api/artworks/getSearchArtworks';
 import { getMyArtworks } from '@/api/users/getMyArtworks';
 import ArtModal from '@/app/(root-modal)/ArtModal/ArtModal';
 import AskForDeleteModal from '@/app/(root-modal)/AskForDeleteModal/AskForDeleteModal';
@@ -13,7 +14,6 @@ import { CardType } from '@/types/cards';
 import { useParams } from 'next/navigation';
 import { useRef } from 'react';
 import Card from './Card';
-import { getSearchArtworks } from '@/api/artworks/getSearchArtworks';
 
 interface Props {
   type: 'main' | 'mypage' | 'artist' | 'comment' | 'search';
@@ -27,15 +27,12 @@ interface ArtWorks {
 }
 
 function CardContainer({ type, categoryType }: Props) {
-  let data;
-  let isPending: boolean;
-
   const bottom = useRef<HTMLDivElement>(null);
   const params = useParams<{ id: string; searchWord: string }>();
   const modals = useStore((state) => state.modals);
 
-  if (type === 'main' && categoryType === '전체') {
-    const argument = {
+  const infiniteQueryArguments = {
+    allArtworks: {
       queryKey: ['allArtworks'],
       queryFn: getArtworks,
       initialPageParam: null,
@@ -44,12 +41,9 @@ function CardContainer({ type, categoryType }: Props) {
       },
       ref: bottom,
       type: type,
-    };
-    const { data: responseData, isPending: pending } = useInfiniteData(argument);
-    data = responseData;
-    isPending = pending as boolean;
-  } else if (type === 'main' && categoryType === 'following') {
-    const argument = {
+      enabled: type === 'main' && categoryType === '전체',
+    },
+    allFollowingArtworks: {
       queryKey: ['allFollowingArtworks'],
       queryFn: getFollowingArtworks,
       initialPageParam: null,
@@ -58,12 +52,9 @@ function CardContainer({ type, categoryType }: Props) {
       },
       ref: bottom,
       type: type,
-    };
-    const { data: responseData, isPending: pending } = useInfiniteData(argument);
-    data = responseData;
-    isPending = pending as boolean;
-  } else if (type === 'search') {
-    const argument = {
+      enabled: type === 'main' && categoryType === 'following',
+    },
+    searchArtworks: {
       queryKey: ['searchArtworks', decodeURI(params.searchWord)],
       queryFn: getSearchArtworks,
       initialPageParam: null,
@@ -73,12 +64,9 @@ function CardContainer({ type, categoryType }: Props) {
       ref: bottom,
       type: type,
       searchWord: decodeURI(params.searchWord),
-    };
-    const { data: responseData, isPending: pending } = useInfiniteData(argument);
-    data = responseData;
-    isPending = pending as boolean;
-  } else if (type === 'artist') {
-    const argument = {
+      enabled: type === 'search',
+    },
+    artistArtworks: {
       queryKey: ['artistArtworks', params.id, categoryType],
       queryFn: getArtistArtworks,
       initialPageParam: null,
@@ -89,12 +77,9 @@ function CardContainer({ type, categoryType }: Props) {
       type: type,
       userId: params.id,
       categoryType: categoryType,
-    };
-    const { data: responseData, isPending: pending } = useInfiniteData(argument);
-    data = responseData;
-    isPending = pending as boolean;
-  } else if (type === 'mypage') {
-    const argument = {
+      enabled: type === 'artist',
+    },
+    myArtworks: {
       queryKey: ['myArtworks', categoryType],
       queryFn: getMyArtworks,
       initialPageParam: null,
@@ -104,11 +89,14 @@ function CardContainer({ type, categoryType }: Props) {
       ref: bottom,
       type: type,
       categoryType: categoryType,
-    };
-    const { data: responseData, isPending: pending } = useInfiniteData(argument);
-    data = responseData;
-    isPending = pending as boolean;
-  }
+      enabled: type === 'mypage',
+    },
+  };
+
+  const argument = Object.values(infiniteQueryArguments).find((value) => value.enabled);
+  if (!argument) return;
+
+  const { data, isPending } = useInfiniteData(argument);
 
   return (
     <>
