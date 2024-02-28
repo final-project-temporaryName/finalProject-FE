@@ -180,8 +180,8 @@ export default function UploadModal() {
       <Modal.Body classname="flex h-full md:flex-col md:overflow-y-auto ">
         <DragDropContext onDragEnd={onDragEnd}>
           {uploadImageSources.length ? (
-            <div className="relative flex h-full w-3/5 flex-col justify-center border-r-1 border-solid border-black pb-31 pt-26 md:w-full">
-              <div className="relative grid grid-cols-4 grid-rows-3/96 gap-18 px-29 py-25 md:grid-cols-3">
+            <div className="relative flex h-full w-3/5 flex-col justify-center border-r-1 border-solid border-black pb-31 pt-26 md:w-full md:pt-0">
+              <div className="relative mb-25 grid grid-cols-4 grid-rows-3/96 gap-18 bg-[#D9D9D9] px-29 pt-25 md:grid-cols-3">
                 {uploadImageSources.map((uploadImageSource, index) => {
                   return (
                     <Droppable key={uploadImageSource} droppableId={String(uuidv4())}>
@@ -230,7 +230,7 @@ export default function UploadModal() {
             onChange={handleTitleChange}
           />
           <TextEditor value={description} setValue={setDescription} />
-          <div className="flex items-center justify-between gap-18 md:mt-80">
+          <div className="flex items-center justify-between gap-18 md:mt-30">
             <StatusLabelsGroup setStatusValue={setLabel} />
             <Button.Modal.Action
               disabled={!title || !description || description === '<p><br></p>' || uploadImageSources.length === 0}
