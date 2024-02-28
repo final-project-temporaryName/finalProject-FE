@@ -1,6 +1,5 @@
 'use client';
 
-import AskForLoginModal from '@/app/(root-modal)/AskForLoginModal/AskForLoginModal';
 import { Button } from '@/components/Button';
 import { useStore } from '@/store';
 import { usePathname, useSelectedLayoutSegment } from 'next/navigation';
