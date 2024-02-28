@@ -1,18 +1,17 @@
 'use client';
 
+import { getMe } from '@/api/auth/getMe';
 import { deleteLinks } from '@/api/links/deleteLinks';
 import { postLinks } from '@/api/links/postLinks';
 import { putLinks } from '@/api/links/putLinks';
-import { getMyPage } from '@/api/users/getMyPage';
 import Input from '@/components/Input/Input';
 import BinIcon from '@/components/SvgComponents/BinIcon';
 import EditIcon from '@/components/SvgComponents/EditIcon';
 import SaveIcon from '@/components/SvgComponents/SaveIcon';
+import { useStore } from '@/store';
 import { LinkInputProps } from '@/types/input';
-import { UserType } from '@/types/users';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useId, useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useId, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 function LinkInput({ link, remove, index, handleLinkErrorUpdate, handleAddLink }: LinkInputProps) {
@@ -20,7 +19,6 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate, handleAddLink }
   const [isEditIconVisible, setIsEditIconVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [saveIconClicked, setSaveIconClicked] = useState(false);
-  const [userInfo, setUserInfo] = useState<UserType>();
   const [currentLinkId, setCurrentLinkId] = useState(link.linkId);
   const [isEditing, setIsEditing] = useState(false);
   const {
@@ -32,15 +30,8 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate, handleAddLink }
   const id = useId();
   const { linkId } = link;
 
-  const router = useRouter();
-
-  const handleFetchMyProfile = useCallback(async () => {
-    const { userProfileResponse } = await getMyPage();
-
-    setUserInfo(userProfileResponse);
-  }, []);
-
-  const userId = userInfo?.userId;
+  const { data } = useQuery({ queryKey:['getMyId'], queryFn: getMe })
+  const userId = data?.userId;
 
   //POST
   const queryClient = useQueryClient();
@@ -177,10 +168,6 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate, handleAddLink }
   const handleBlur = () => {};
 
   useEffect(() => {
-    handleFetchMyProfile();
-  }, [handleFetchMyProfile]);
-
-  useEffect(() => {
     if (linkId) {
       setSaveIconClicked(true);
       setIsEditIconVisible(true);
@@ -264,7 +251,7 @@ function LinkInput({ link, remove, index, handleLinkErrorUpdate, handleAddLink }
           )}
         </div>
       </div>
-      <div className="absolute bottom-0 right-130">
+      <div className="absolute bottom-0 right-235 md:right-130">
         {isModified && !saveIconClicked && <div className="text-10 text-[#c90000]">링크 저장이 필요합니다</div>}
       </div>
     </div>

@@ -112,6 +112,10 @@
   @apply h-40 w-90 bg-white font-semibold text-primary;
 }
 
+.sideBar-follow-button {
+  @apply h-40 w-180 bg-white font-semibold text-primary;
+}
+
 .artModal-following-button {
   @apply h-40 w-90 bg-primary text-white;
 }
@@ -136,9 +140,9 @@
   @apply opacity-30;
 }
 
-.sideBar-follow-button {
+/* .sideBar-follow-button {
   @apply h-40 w-90 bg-primary text-white hover:border-primary hover:text-white active:bg-primary;
-}
+} */
 
 /* Input */
 .primary-input {

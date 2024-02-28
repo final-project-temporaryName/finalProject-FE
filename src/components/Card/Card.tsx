@@ -13,6 +13,7 @@ import defaultImage from '../../../public/assets/images/logo.png';
 import { Button } from '../Button';
 import Count from './Count';
 import CardImageFallbackUI from '../FallbackUI/Card/CardImageFallbackUI';
+import { useBrowserSize } from '@/hooks/useBrowserSize';
 
 type CustomCardType = Omit<CardType, 'description' | 'createdAt' | 'updatedAt' | 'likeId' | 'followId'>;
 
@@ -41,6 +42,7 @@ function Card({
     userId: state.userId,
     isLogin: state.isLogin,
   }));
+  const { isMobile } = useBrowserSize();
 
   const handleArtworkClick = () => {
     setClickedArtworkId(artworkId);
@@ -48,6 +50,7 @@ function Card({
   };
 
   const urlRegex: RegExp = /^(?!http:\/\/|https:\/\/).+/;
+  const displayTitle = isMobile && title.length > 11 ? `${title.substring(0, 11)}...` : title;
 
   if (isPending) {
     <CardImageFallbackUI type={type} />;
@@ -87,7 +90,7 @@ function Card({
             </div>
           ) : null}
           <div className="items-left absolute bottom-50 flex h-10 w-280 flex-col gap-7 px-15">
-            <p className="font-normal text-14 font-semibold leading-normal text-white">{title.length > 11 ? `${title.substring(0, 11)}...` : title}</p>
+            <p className="font-normal text-14 font-semibold leading-normal text-white">{displayTitle}</p>
             <div className="flex items-center gap-12">
               <Count imageSource={LikeImage} imageSourceString="like" count={likeCount} />
               <Count imageSource={ViewImage} imageSourceString="view" count={viewCount} />

@@ -1,24 +1,22 @@
 'use client';
 
 import instance from '@/api/axios';
-import { getMyPage } from '@/api/users/getMyPage';
 import Input from '@/components/Input/Input';
 import LinkInput from '@/components/Input/LinkInput';
 import PlusButtonIcon from '@/components/SvgComponents/PlusButtonIcon';
 import { nicknameRules } from '@/constants/InputErrorRules';
 import { useStore } from '@/store';
-import { GetMyPageResponseType, GetUserLinks, PostUserLinks, PutRequestSignUp, UserType } from '@/types/users';
-import getUserInfo from '@/utils/getUserInfo';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { GetUserLinks, PostUserLinks, PutRequestSignUp } from '@/types/users';
+import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 
 interface UserData extends PutRequestSignUp {
   links: PostUserLinks[];
 }
 
-function ProfilePage() {
+function SignUpProfilePage() {
   const [uploadedImageUrl, setUploadedImageUrl] = useState('');
   const [nicknameError, setNicknameError] = useState<string | null>(null);
   const [hasLinkError, setHasLinkError] = useState(false);
@@ -59,9 +57,8 @@ function ProfilePage() {
   });
 
   const router = useRouter();
-  const userInfo = getUserInfo();
   const nickname = watch('nickname');
-  const buttonText = '저장하기';
+  const buttonText = '가입하기';
   const isNicknameInvalid = !isNicknameAvailable;
   // 닉네임 입력 필드에 에러가 있거나 닉네임이 사용 불가능한 경우
   const isFormInvalid = Object.keys(errors).length > 0;
@@ -73,34 +70,10 @@ function ProfilePage() {
 
   const disableSaveButton = isNicknameInvalid || isFormInvalid || isLinkInputInvalid || isNicknameEmpty;
 
-  const response = useQuery<GetMyPageResponseType>({
-    queryKey: ['userProfile'],
-    queryFn: getMyPage,
-  });
-
-  const userProfileResponse = response?.data?.userProfileResponse as UserType;
-
-  const getProfileData = useCallback(() => {
-    setUploadedImageUrl(userProfileResponse?.profileImageUrl ?? '');
-    setIsNicknameAvailable(true);
-    // 각 폼 필드에 대한 데이터가 있다면, 해당 값을 사용하여 setValue 호출
-    setValue('profileImageUrl', userProfileResponse?.profileImageUrl ?? '');
-    setValue('nickname', userProfileResponse?.nickname ?? '');
-    setValue('activityArea', userProfileResponse?.activityArea ?? '');
-    setValue('activityField', userProfileResponse?.activityField ?? '');
-    setValue('description', userProfileResponse?.description ?? '');
-
-    // 링크 데이터 처리
-    if (userProfileResponse?.links && userProfileResponse?.links.length > 0) {
-      setValue('links', userProfileResponse?.links);
-    } else {
-      setValue('links', [{ title: '', url: '' }]);
-    }
-  }, [userProfileResponse]);
-
-  const mutationFn =(userData: UserData) => {
+  const mutationFn =
+    (userData: UserData) => {
           const { links, ...rest } = userData;
-          return instance.put(`/users/${userInfo?.userId}`, rest);
+          return instance.put(`/sign-up`, rest);
         };
 
   const putUserMutation = useMutation({
@@ -178,15 +151,11 @@ function ProfilePage() {
     setLinks((prevLinks) => [...prevLinks, newLink]);
   };
 
-  useEffect(() => {
-    getProfileData();
-  }, [getProfileData]);
-
   return (
     <FormProvider {...methods}>
       <form className="flex h-full w-screen flex-col md:mr-0" onSubmit={handleSubmit(onSubmit)}>
-        <div className={`flex-center mr-150 gap-20 md:mr-0`}>
-          <div className={`relative pb-100 pt-160 md:pt-50`}>
+        <div className={`flex-center gap-20 md:mr-0`}>
+          <div className={`relative pb-100 pt-30`}>
             <div className="md:flex-center relative ml-70 flex items-center gap-10 md:ml-0">
               <Input
                 type="file"
@@ -280,4 +249,4 @@ function ProfilePage() {
   );
 }
 
-export default ProfilePage;
+export default SignUpProfilePage;

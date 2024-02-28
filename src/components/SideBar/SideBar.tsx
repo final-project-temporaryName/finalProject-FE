@@ -124,7 +124,7 @@ function SideBar({ displayStatus }: SideBarProps) {
             )}
           </div>
           {displayStatus === 'notMyWork' ? (
-            <div className="mb-24 flex gap-12 md:mb-21 md:mt-16">
+            <div className="mb-24 flex gap-12 md:mb-0 md:mt-16">
               {isFollowClicked ? (
                 <Button
                   isLink={false}
@@ -137,17 +137,17 @@ function SideBar({ displayStatus }: SideBarProps) {
                   </span>
                 </Button>
               ) : (
-                <Button isLink={false} classname="primary-button artModal-follow-button" onClick={handleFollow}>
+                <Button isLink={false} classname="primary-button sideBar-follow-button" onClick={handleFollow}>
                   팔로우
                 </Button>
               )}
               {/*  TODO: 추후 destination 바뀔 예정 */}
-              <Button isLink={true} destination="/chat" classname="primary-button artModal-chat-button">
+              {/* <Button isLink={true} destination="/chat" classname="primary-button artModal-chat-button">
                 1:1 채팅
-              </Button>
+              </Button> */}
             </div>
           ) : null}
-          <div className="mb-30 flex items-center justify-between gap-20">
+          <div className="mb-30 flex items-center justify-between gap-20 md:mt-24">
             <span className="count">
               좋아요&nbsp;&nbsp;<span className="text-14 font-bold">{userInfo?.totalLikeCount}</span>&nbsp;개
             </span>
