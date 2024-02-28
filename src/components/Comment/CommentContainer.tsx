@@ -96,7 +96,6 @@ function CommentContainer({ likeCount, commentCount, type }: Props) {
         { artworkId, contents: data.comment },
         {
           onSuccess: (data) => {
-            console.log(data);
             queryClient.invalidateQueries({ queryKey: ['comments', String(artworkId)] });
             reset();
           },
@@ -111,49 +110,47 @@ function CommentContainer({ likeCount, commentCount, type }: Props) {
   };
 
   return (
-    <div className="mb-20 flex justify-center">
-      <div className="mx-30 w-full rounded-lg border-2 border-solid border-gray-3 bg-white md:w-[90%]">
-        <div className="flex max-h-250 flex-col overflow-y-scroll p-0 pb-7">
-          {data &&
-            data?.pages?.map((page: Comments) => {
-              const comments = page.contents;
-              return comments.map((comment) => {
-                return (
-                  <div key={comment.commentId}>
-                    <Comment
-                      profileUrl={comment.profileUrl}
-                      nickname={comment.nickname}
-                      createdAt={comment.createdAt}
-                      contents={comment.contents}
-                      author={comment.author}
-                      commentId={comment.commentId}
-                      setValue={setValue}
-                      enterEditMode={enterEditMode}
-                    />
-                  </div>
-                );
-              });
-            })}
-          <div ref={bottom} />
-        </div>
-        <form className="flex items-center gap-13 p-20 pb-36 md:pb-0" onSubmit={handleSubmit(onValid)}>
-          <a id="downwards"></a>
-          <input
-            type="text"
-            className="w-full rounded-sm border-1 border-solid border-gray-3 bg-white px-20 py-10 text-15"
-            placeholder="작가에게 한마디 남겨보세요!"
-            {...register('comment')}
-          />
-          <button title="submit" type="submit">
-            <CommentSend />
-          </button>
-          <div className="animate-bounce cursor-pointer">
-            <Link href={'#upwards'}>
-              <UpArrow />
-            </Link>
-          </div>
-        </form>
+    <div className="w-full rounded-lg border-2 border-solid border-gray-3 bg-white pb-20 pt-21">
+      <div className="flex max-h-250 flex-col overflow-y-scroll pb-7">
+        {data &&
+          data?.pages?.map((page: Comments) => {
+            const comments = page.contents;
+            return comments.map((comment) => {
+              return (
+                <div key={comment.commentId}>
+                  <Comment
+                    profileUrl={comment.profileUrl}
+                    nickname={comment.nickname}
+                    createdAt={comment.createdAt}
+                    contents={comment.contents}
+                    author={comment.author}
+                    commentId={comment.commentId}
+                    setValue={setValue}
+                    enterEditMode={enterEditMode}
+                  />
+                </div>
+              );
+            });
+          })}
+        <div ref={bottom} />
       </div>
+      <form className="flex items-center gap-13 p-20 pb-36 md:pb-0" onSubmit={handleSubmit(onValid)}>
+        <a id="downwards"></a>
+        <input
+          type="text"
+          className="w-full rounded-sm border-1 border-solid border-gray-3 bg-white px-20 py-10 text-15"
+          placeholder="작가에게 한마디 남겨보세요!"
+          {...register('comment')}
+        />
+        <button title="submit" type="submit">
+          <CommentSend />
+        </button>
+        <div className="animate-bounce cursor-pointer">
+          <Link href={'#upwards'}>
+            <UpArrow />
+          </Link>
+        </div>
+      </form>
     </div>
   );
 }
