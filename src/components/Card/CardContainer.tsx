@@ -98,8 +98,6 @@ function CardContainer({ type, categoryType }: Props) {
 
   const { data, isPending } = useInfiniteData(argument);
 
-  console.log(data)
-
   return (
     <>
       <div
