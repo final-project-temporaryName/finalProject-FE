@@ -35,11 +35,11 @@ function NavigatorBox() {
 
   return (
     <div className="sm:gap-16 sm:min-w-50 flex h-40 min-w-170 flex-shrink-0 items-center justify-between gap-40">
-      <div className="sm:hidden">
+      {/* <div className="sm:hidden">
         <Link href={'/chatroom'}>
           <MessageIcon />
         </Link>
-      </div>
+      </div> */}
       {isLogin && (
         <ProfileImgDropDown
           userName={userInfo?.nickname}

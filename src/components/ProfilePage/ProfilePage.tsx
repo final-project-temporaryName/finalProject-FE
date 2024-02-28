@@ -268,7 +268,7 @@ function ProfilePage() {
             </div>
             <button
               type="submit"
-              className={`primary-button storage-button flex-end absolute -right-[155px] md:-bottom-[10px] md:right-0 ${disableSaveButton ? 'disabled-button' : ''}`}
+              className={`primary-button storage-button flex-end absolute -right-[155px] md:-bottom-[10px] md:right-0 md:mb-20 ${disableSaveButton ? 'disabled-button' : ''}`}
               disabled={disableSaveButton}
             >
               {buttonText}

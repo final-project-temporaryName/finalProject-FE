@@ -125,6 +125,10 @@
 }
 
 .artModal-following-button {
+  @apply h-40 w-180 bg-primary text-white;
+}
+
+.artModal-ninefollowing-button {
   @apply h-40 w-90 bg-primary text-white;
 }
 

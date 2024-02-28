@@ -72,7 +72,7 @@ function ArtModalHeader({ artistName, artistProfileImageUrl, artistId, followId 
           (followId ? (
             <Button
               isLink={false}
-              classname="group primary-button artModal-following-button relative"
+              classname="group primary-button artModal-ninefollowing-button relative"
               onClick={handleUnFollow}
             >
               <span className="group-hover:opacity-0">팔로잉</span>
@@ -81,14 +81,14 @@ function ArtModalHeader({ artistName, artistProfileImageUrl, artistId, followId 
               </span>
             </Button>
           ) : (
-            <Button isLink={false} classname="primary-button artModal-follow-button" onClick={handleFollow}>
+            <Button isLink={false} classname="primary-button artModal-ninefollowing-button" onClick={handleFollow}>
               팔로우
             </Button>
           ))}
         {/*  TODO: 추후 destination 바뀔 예정 */}
-        <Button isLink={true} destination="/chat" classname="primary-button artModal-chat-button">
+        {/* <Button isLink={true} destination="/chat" classname="primary-button artModal-chat-button">
           1:1 채팅
-        </Button>
+        </Button> */}
       </div>
     </div>
   );
