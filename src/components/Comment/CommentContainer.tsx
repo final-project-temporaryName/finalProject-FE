@@ -111,49 +111,47 @@ function CommentContainer({ likeCount, commentCount, type }: Props) {
   };
 
   return (
-    <div>
-      <div className="w-full min-w-360 rounded-t-sm bg-gray-1 shadow-top">
-        <div className="flex max-h-250 flex-col overflow-y-scroll bg-gray-1 p-20 pb-7">
-          {data &&
-            data?.pages?.map((page: Comments) => {
-              const comments = page.contents;
-              return comments.map((comment) => {
-                return (
-                  <div key={comment.commentId}>
-                    <Comment
-                      profileUrl={comment.profileUrl}
-                      nickname={comment.nickname}
-                      createdAt={comment.createdAt}
-                      contents={comment.contents}
-                      author={comment.author}
-                      commentId={comment.commentId}
-                      setValue={setValue}
-                      enterEditMode={enterEditMode}
-                    />
-                  </div>
-                );
-              });
-            })}
-          <div ref={bottom} />
-        </div>
-        <form className="flex items-center gap-13 bg-gray-1 p-20 pb-36" onSubmit={handleSubmit(onValid)}>
-          <a id="downwards"></a>
-          <input
-            type="text"
-            className="w-full rounded-sm bg-white px-20 py-10 text-15"
-            placeholder="작가에게 한마디 남겨보세요!"
-            {...register('comment')}
-          />
-          <button title="submit" type="submit">
-            <CommentSend />
-          </button>
-          <div className="animate-bounce cursor-pointer">
-            <Link href={'#upwards'}>
-              <UpArrow />
-            </Link>
-          </div>
-        </form>
+    <div className="w-full min-w-360 rounded-t-sm bg-gray-1 shadow-top">
+      <div className="flex max-h-250 flex-col overflow-y-scroll bg-gray-1 p-20 pb-7">
+        {data &&
+          data?.pages?.map((page: Comments) => {
+            const comments = page.contents;
+            return comments.map((comment) => {
+              return (
+                <div key={comment.commentId}>
+                  <Comment
+                    profileUrl={comment.profileUrl}
+                    nickname={comment.nickname}
+                    createdAt={comment.createdAt}
+                    contents={comment.contents}
+                    author={comment.author}
+                    commentId={comment.commentId}
+                    setValue={setValue}
+                    enterEditMode={enterEditMode}
+                  />
+                </div>
+              );
+            });
+          })}
+        <div ref={bottom} />
       </div>
+      <form className="flex items-center gap-13 bg-gray-1 p-20 pb-36" onSubmit={handleSubmit(onValid)}>
+        <a id="downwards"></a>
+        <input
+          type="text"
+          className="w-full rounded-sm bg-white px-20 py-10 text-15"
+          placeholder="작가에게 한마디 남겨보세요!"
+          {...register('comment')}
+        />
+        <button title="submit" type="submit">
+          <CommentSend />
+        </button>
+        <div className="animate-bounce cursor-pointer">
+          <Link href={'#upwards'}>
+            <UpArrow />
+          </Link>
+        </div>
+      </form>
     </div>
   );
 }

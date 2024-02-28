@@ -23,7 +23,9 @@ function SlideContainer({ artworkImageResponse }: Props) {
   const [selectedImage, setSelectedImage] = useState('');
 
   const swiperRef = useRef<SwiperCore>();
-  const { width: browserWidthSize } = useBrowserSize();
+  const {
+    windowSize: { width: browserWidthSize },
+  } = useBrowserSize();
 
   const setSlidesPerView = (width: number | undefined, num: number) => {
     if (!width) return 1;
@@ -58,7 +60,7 @@ function SlideContainer({ artworkImageResponse }: Props) {
   };
 
   return (
-    <>
+    <div>
       <Swiper
         onSwiper={(swiper) => {
           swiperRef.current = swiper;
@@ -88,7 +90,7 @@ function SlideContainer({ artworkImageResponse }: Props) {
       {showModal && (
         <>
           <div
-            className="flex-center fixed left-0 top-0 z-infinite h-full w-full bg-[#00000066] p-10"
+            className="flex-center fixed left-0 top-0 z-infinite h-full w-full bg-[#000000ee] p-10"
             onClick={closeModal}
           >
             <div className="relative h-full w-full">
@@ -97,7 +99,7 @@ function SlideContainer({ artworkImageResponse }: Props) {
           </div>
         </>
       )}
-    </>
+    </div>
   );
 }
 

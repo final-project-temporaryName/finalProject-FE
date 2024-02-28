@@ -25,13 +25,13 @@ function NavBar() {
 
   return (
     <>
-      {pathname === '/' && (
+      {(pathname === '/' || pathname === '/following') && (
         <InfiniteText text="ART TALK - TALK  🎉  SITE FOR THE ARTISTS  •  DESIGNERS  •  CREATORS  🙌  SHARE YOUR CREATIVITY  😎  " />
       )}
-      <nav className={`navBar ${pathname === '/' ? 'sticky' : 'fixed'}`}>
-        <div className="flex flex-grow items-center justify-start gap-60">
+      <nav className={`navBar ${pathname === '/' || pathname === '/following' ? 'sticky' : 'fixed'}`}>
+        <div className="flex flex-grow items-center justify-start gap-20">
           <Link href={'/'} className="shrink-0">
-            <Image src={logoImg} alt="아트 톡톡 로고" width={85} height={85} onClick={handleLogoClick} />
+            <Image src={logoImg} alt="아트 톡톡 로고" width={115} height={115} onClick={handleLogoClick} />
           </Link>
           {firstPathname === 'myAccount' || (
             <SearchBar

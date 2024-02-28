@@ -7,10 +7,10 @@ interface CategoryButtonProps {
   type: 'Category' | 'StatusLabel' | 'MainLabel';
   labelText: string;
   isActive: boolean;
+  navigate?: boolean;
   setStatusValue?:
     | Dispatch<SetStateAction<'PUBLIC' | 'SELLING' | 'FREE'>>
     | Dispatch<SetStateAction<'PUBLIC' | 'SELLING' | 'FREE' | undefined>>;
-  setMainValue?: Dispatch<SetStateAction<'전체' | 'following'>>;
   setArtistValue?: Dispatch<SetStateAction<'전체' | '판매중'>>;
   setMyPageValue?: Dispatch<SetStateAction<'전체' | '판매중' | '컬렉션'>>;
   onClick?: (buttonLabel: string) => void;
@@ -20,8 +20,8 @@ function CategoryButton({
   type,
   labelText,
   isActive,
+  navigate,
   setStatusValue,
-  setMainValue,
   setArtistValue,
   setMyPageValue,
   onClick,
@@ -48,13 +48,6 @@ function CategoryButton({
         setStatusValue('FREE');
       }
     }
-    if (setMainValue) {
-      if (labelText === '전체') {
-        setMainValue('전체');
-      } else {
-        setMainValue('following');
-      }
-    }
     if (setArtistValue) {
       if (labelText === '전체') {
         setArtistValue('전체');
@@ -74,9 +67,19 @@ function CategoryButton({
   };
 
   return (
-    <button className={labelClass} onClick={handleButtonClick}>
-      {labelText}
-    </button>
+    <>
+      {navigate ? (
+        <a href={labelText === '전체' ? '/' : 'following'}>
+          <button className={labelClass} onClick={handleButtonClick}>
+            {labelText}
+          </button>
+        </a>
+      ) : (
+        <button className={labelClass} onClick={handleButtonClick}>
+          {labelText}
+        </button>
+      )}
+    </>
   );
 }
 

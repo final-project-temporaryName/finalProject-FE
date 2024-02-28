@@ -132,14 +132,16 @@ export default function ArtModal() {
         artistId={artwork?.artistId}
         followId={artwork?.followId}
       />
-      <Modal.Body classname="h-full overflow-y-scroll">
+      <Modal.Body classname="flex-1 h-full relative overflow-y-scroll">
         <a id="upwards"></a>
-        <div className="mb-20 p-10">
+        <div className="flex h-full flex-col p-10">
           {artwork?.artworkImageResponse?.length && (
-            <SlideContainer artworkImageResponse={artwork?.artworkImageResponse} />
+            <div>
+              <SlideContainer artworkImageResponse={artwork?.artworkImageResponse} />
+            </div>
           )}
-          <div className="relative flex h-auto px-20 pt-30">
-            <div className="flex w-full flex-col gap-25">
+          <div className="relative flex flex-grow flex-col pt-30">
+            <div className="mb-30 flex w-full flex-1 flex-col gap-25 px-15">
               <p className="text-20 font-bold">{artwork?.title}</p>
               {artwork?.description && (
                 <div
@@ -149,7 +151,8 @@ export default function ArtModal() {
               )}
               <span className="text-13 text-[#8f8f8f]">{customDate}</span>
             </div>
-            <div className="sticky top-0 flex flex-col items-end gap-20 pl-32 pt-5">
+            <CommentContainer likeCount={1100} commentCount={3} type={'comment'} />
+            <div className="absolute right-20 top-10 flex flex-col items-end gap-20 pl-32 pt-5">
               {isLikeClicked ? (
                 <div
                   className={
@@ -228,7 +231,6 @@ export default function ArtModal() {
             </div>
           </div>
         </div>
-        <CommentContainer likeCount={1100} commentCount={3} type={'comment'} />
       </Modal.Body>
     </Modal.Container>
   );
