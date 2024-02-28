@@ -96,8 +96,8 @@ function SideBar({ displayStatus }: SideBarProps) {
   }
 
   return (
-    <div className="fixed ml-35 h-648 w-260 rounded-sm md:relative md:ml-0 md:mt-110 md:h-270 md:w-full">
-      <div className="absolute -top-10 left-1/2 z-first h-120 w-120 -translate-x-1/2 transform rounded-full">
+    <div className="fixed ml-35 h-700 w-260 rounded-sm md:relative md:ml-0 md:mt-110 md:h-270 md:w-full">
+      <div className="absolute -top-55 left-1/2 z-first h-120 w-120 -translate-x-1/2 transform rounded-full md:-top-5">
         <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full border-2 border-solid border-gray-4 bg-white">
           <Image
             src={userInfo?.profileImageUrl ? userInfo.profileImageUrl : defaultProfileImg}
@@ -107,7 +107,7 @@ function SideBar({ displayStatus }: SideBarProps) {
           />
         </div>
       </div>
-      <div className="absolute top-48 flex h-full w-260 flex-col items-center rounded-[12px] bg-gray-1 md:h-227 md:w-full">
+      <div className="absolute top-5 flex h-full w-260 flex-col items-center rounded-[12px] bg-gray-1 md:h-227 md:w-full md:top-55">
         <div className="mt-70 flex h-full w-192 flex-col items-center">
           <div className="flex-col-center">
             <div className="items-center text-center text-18 font-semibold">{userInfo?.nickname}</div>
@@ -124,7 +124,7 @@ function SideBar({ displayStatus }: SideBarProps) {
             )}
           </div>
           {displayStatus === 'notMyWork' ? (
-            <div className="mb-24 flex gap-12 md:mb-21 md:mt-16">
+            <div className="mb-24 flex gap-12 md:mb-0 md:mt-16">
               {isFollowClicked ? (
                 <Button
                   isLink={false}
@@ -137,17 +137,17 @@ function SideBar({ displayStatus }: SideBarProps) {
                   </span>
                 </Button>
               ) : (
-                <Button isLink={false} classname="primary-button artModal-follow-button" onClick={handleFollow}>
+                <Button isLink={false} classname="primary-button sideBar-follow-button" onClick={handleFollow}>
                   팔로우
                 </Button>
               )}
               {/*  TODO: 추후 destination 바뀔 예정 */}
-              <Button isLink={true} destination="/chat" classname="primary-button artModal-chat-button">
+              {/* <Button isLink={true} destination="/chat" classname="primary-button artModal-chat-button">
                 1:1 채팅
-              </Button>
+              </Button> */}
             </div>
           ) : null}
-          <div className="mb-30 flex items-center justify-between gap-20">
+          <div className="mb-30 flex items-center justify-between gap-20 md:mt-24">
             <span className="count">
               좋아요&nbsp;&nbsp;<span className="text-14 font-bold">{userInfo?.totalLikeCount}</span>&nbsp;개
             </span>

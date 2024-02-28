@@ -37,7 +37,7 @@ function CardContainer({ type, categoryType }: Props) {
       queryFn: getArtworks,
       initialPageParam: null,
       getNextPageParam: (lastPage: ArtWorks) => {
-        return lastPage.hasNext ? lastPage.contents[lastPage.contents.length - 1].artworkId : undefined;
+        return lastPage?.hasNext ? lastPage.contents[lastPage.contents.length - 1].artworkId : undefined;
       },
       ref: bottom,
       type: type,
@@ -48,7 +48,7 @@ function CardContainer({ type, categoryType }: Props) {
       queryFn: getFollowingArtworks,
       initialPageParam: null,
       getNextPageParam: (lastPage: ArtWorks) => {
-        return lastPage.hasNext ? lastPage.contents[lastPage.contents.length - 1].artworkId : undefined;
+        return lastPage?.hasNext ? lastPage.contents[lastPage.contents.length - 1].artworkId : undefined;
       },
       ref: bottom,
       type: type,
@@ -59,7 +59,7 @@ function CardContainer({ type, categoryType }: Props) {
       queryFn: getSearchArtworks,
       initialPageParam: null,
       getNextPageParam: (lastPage: ArtWorks) => {
-        return lastPage.hasNext ? lastPage.contents[lastPage.contents.length - 1].artworkId : undefined;
+        return lastPage?.hasNext ? lastPage.contents[lastPage.contents.length - 1].artworkId : undefined;
       },
       ref: bottom,
       type: type,
@@ -71,7 +71,7 @@ function CardContainer({ type, categoryType }: Props) {
       queryFn: getArtistArtworks,
       initialPageParam: null,
       getNextPageParam: (lastPage: ArtWorks) => {
-        return lastPage.hasNext ? lastPage.contents[lastPage.contents.length - 1].artworkId : undefined;
+        return lastPage?.hasNext ? lastPage.contents[lastPage.contents.length - 1].artworkId : undefined;
       },
       ref: bottom,
       type: type,
@@ -84,7 +84,7 @@ function CardContainer({ type, categoryType }: Props) {
       queryFn: getMyArtworks,
       initialPageParam: null,
       getNextPageParam: (lastPage: ArtWorks) => {
-        return lastPage.hasNext ? lastPage.contents[lastPage.contents.length - 1].artworkId : undefined;
+        return lastPage?.hasNext ? lastPage.contents[lastPage.contents.length - 1].artworkId : undefined;
       },
       ref: bottom,
       type: type,
@@ -101,7 +101,7 @@ function CardContainer({ type, categoryType }: Props) {
   return (
     <>
       <div
-        className={`${data ? (type === 'main' || type === 'search' ? 'card-container-mainPage' : 'card-container-artistPage') : 'flex-center mt-25 h-[55vh] w-full'}`}
+        className={`${data ? (type === 'main' || type === 'search' ? 'card-container-mainPage' : 'card-container-artistPage') : 'flex-center md:w-100vw mt-25 h-[55vh] w-full'}`}
       >
         {data &&
           data.pages.map((page: ArtWorks) => {

@@ -1,4 +1,4 @@
-import ProfilePage from '@/components/ProfilePage/ProfilePage';
+import SignUpProfilePage from '@/components/ProfilePage/SignUpProfilePage';
 import '@/styles/tailwind.css';
 import Image from 'next/image';
 import loginBgImg from '../../../../public/assets/images/loginBg.png';
@@ -16,7 +16,7 @@ function SignUpPage() {
             <span className="text-primary">아트톡톡</span>을 통해 소통할 프로필을 작성해요!
           </p>
         </div>
-        <ProfilePage mode="create" />
+        <SignUpProfilePage/>
       </div>
     </>
   );

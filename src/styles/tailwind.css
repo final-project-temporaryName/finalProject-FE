@@ -120,7 +120,15 @@
   @apply h-40 w-90 bg-white font-semibold text-primary;
 }
 
+.sideBar-follow-button {
+  @apply h-40 w-180 bg-white font-semibold text-primary;
+}
+
 .artModal-following-button {
+  @apply h-40 w-180 bg-primary text-white;
+}
+
+.artModal-ninefollowing-button {
   @apply h-40 w-90 bg-primary text-white;
 }
 
@@ -144,9 +152,9 @@
   @apply opacity-30;
 }
 
-.sideBar-follow-button {
+/* .sideBar-follow-button {
   @apply h-40 w-90 bg-primary text-white hover:border-primary hover:text-white active:bg-primary;
-}
+} */
 
 /* Input */
 .primary-input {
@@ -228,11 +236,11 @@
 
 /* cardContainer */
 .card-container-mainPage {
-  @apply mt-35 grid w-[95%] auto-rows-[1fr] grid-cols-[repeat(auto-fit,minmax(max(280px,100%/6),1fr))] gap-x-25 gap-y-31 md:w-[100%];
+  @apply mt-35 grid w-[95%] auto-rows-[1fr] grid-cols-[repeat(auto-fill,minmax(max(280px,100%/6),1fr))] gap-x-25 gap-y-31 md:w-[100%] md:grid-cols-[repeat(auto-fill,minmax(max(150px,100%/3),1fr))] md:gap-x-18 md:gap-y-20;
 }
 
 .card-container-artistPage {
-  @apply mt-35 grid w-[95%] auto-rows-[1fr] grid-cols-[repeat(auto-fit,minmax(max(280px,100%/5),1fr))] gap-x-25 gap-y-31 md:w-[100%];
+  @apply mt-35 grid w-[95%] auto-rows-[1fr] grid-cols-[repeat(auto-fill,minmax(max(280px,100%/5),1fr))] gap-x-25 gap-y-31 md:w-[100%] md:grid-cols-[repeat(auto-fill,minmax(max(150px,100%/3),1fr))] md:gap-x-18 md:gap-y-20;
 }
 
 /* swiper */

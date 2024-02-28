@@ -26,7 +26,7 @@ interface Comments {
   pages: Comments[];
 }
 
-function CommentContainer({ likeCount, commentCount, type }: Props) {
+function CommentContainer({ type }: Props) {
   const [isEditMode, setIsEditMode] = useState(false);
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
 
@@ -138,7 +138,7 @@ function CommentContainer({ likeCount, commentCount, type }: Props) {
         <a id="downwards"></a>
         <input
           type="text"
-          className="w-full rounded-sm border-1 border-solid border-gray-3 bg-white px-20 py-10 text-15"
+          className="w-full rounded-sm border-1 border-solid border-gray-3 bg-white px-18 py-10 text-15 md:placeholder:text-11"
           placeholder="작가에게 한마디 남겨보세요!"
           {...register('comment')}
         />
