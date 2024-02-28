@@ -95,6 +95,7 @@ const config: Config = {
       },
     },
     screens: {
+      sm: { max: '475px' },
       md: { max: '767px' },
       // => @media (max-width: 767px) { ... }
     },

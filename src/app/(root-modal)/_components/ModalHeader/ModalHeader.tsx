@@ -20,7 +20,7 @@ function ModalHeader({ nickname, profileImageUrl }: ModalHeaderProps) {
   return (
     <div className="relative flex justify-between border-b-1 border-solid border-primary-5 pb-24 pl-34 pr-42 pt-24 align-middle text-14">
       <Button.Modal.Close onClickClose={() => hideModal(modals[modals.length - 1])} />
-      <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-between gap-8">
+      <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-between gap-8 md:static md:translate-x-0 md:translate-y-0 md:items-center">
         <div className="relative h-32 w-32  overflow-hidden rounded-full">
           <Image
             src={profileImageUrl ? profileImageUrl : defaultProfileImg}
@@ -29,9 +29,9 @@ function ModalHeader({ nickname, profileImageUrl }: ModalHeaderProps) {
             objectFit="cover"
           />
         </div>
-        <p className="text-14 font-semibold">{nickname}</p>
+        <p className="text-14 font-semibold md:hidden">{nickname}</p>
       </div>
-      <div className="text-center text-[#8f8f8f]">{dateFormat()}</div>
+      <div className="text-center text-[#8f8f8f] md:hidden">{dateFormat()}</div>
     </div>
   );
 }
