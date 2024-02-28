@@ -110,6 +110,8 @@ function CardContainer({ type, categoryType }: Props) {
     isPending = pending as boolean;
   }
 
+  console.log(data)
+
   return (
     <>
       <div

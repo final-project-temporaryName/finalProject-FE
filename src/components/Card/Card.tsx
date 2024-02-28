@@ -56,7 +56,7 @@ function Card({
   return (
     <>
       <div
-        className={`flex h-${type === 'main' || type === 'search' ? '328' : '280 md:h-180 md:'} min-w-280 flex-col md:min-h-0 md:min-w-80 md:max-w-350`}
+        className={`flex h-${type === 'main' || type === 'search' ? '328' : '280 md:h-180'} min-w-280 flex-col md:min-h-0 md:min-w-80 md:max-w-350`}
       >
         <div
           id="cardImgBox"
@@ -87,7 +87,7 @@ function Card({
             </div>
           ) : null}
           <div className="items-left absolute bottom-50 flex h-10 w-280 flex-col gap-7 px-15">
-            <p className="font-normal text-14 font-semibold leading-normal text-white">{title}</p>
+            <p className="font-normal text-14 font-semibold leading-normal text-white">{title.length > 11 ? `${title.substring(0, 11)}...` : title}</p>
             <div className="flex items-center gap-12">
               <Count imageSource={LikeImage} imageSourceString="like" count={likeCount} />
               <Count imageSource={ViewImage} imageSourceString="view" count={viewCount} />
