@@ -34,7 +34,9 @@ function NavigatorBox() {
   }, [handleFetch]);
 
   return (
-    <div className="sm:gap-16 sm:min-w-50 flex h-40 min-w-170 flex-shrink-0 items-center justify-between gap-40">
+    <div
+      className={`flex h-40 min-w-170 flex-shrink-0 items-center sm:min-w-50 sm:gap-16 ${isLogin ? 'justify-between' : 'justify-end'} gap-40`}
+    >
       {/* <div className="sm:hidden">
         <Link href={'/chatroom'}>
           <MessageIcon />

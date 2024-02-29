@@ -1,7 +1,6 @@
-import FollowingPage from '../_components/FollowingPage';
+import FollowingPage from '../_component/FollowingPage';
 
 function following() {
   return <FollowingPage />;
 }
-
 export default following;

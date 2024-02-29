@@ -21,6 +21,7 @@ export type modalType =
   | 'uploadModal'
   | 'artModal'
   | 'askForSignup'
+  | 'askForLogin'
   | 'askForDelete'
   | 'withdrawalModal'
   | 'editModal'
