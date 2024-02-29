@@ -8,7 +8,7 @@ function ArtistCardSection() {
   const [label, setLabel] = useState<'전체' | '판매중'>('전체');
 
   return (
-    <main className={`ml-330 mt-130 md:ml-0 md:mt-60`}>
+    <main className={`ml-330 mt-157 md:ml-0 md:mt-60`}>
       <ArtistLabelsGroup setArtistValue={setLabel} />
       <CardContainer type="artist" categoryType={label} />
     </main>
