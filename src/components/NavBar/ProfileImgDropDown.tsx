@@ -85,7 +85,10 @@ function ProfileImgDropDown({ userName, profileImg, major, isPending }: ProfileI
                 </div>
                 <div className="flex h-100 w-screen flex-col border-t-1 border-solid border-t-gray-4">
                   <Link href={'/myAccount'}>
-                    <div className="flex h-50 items-center justify-center gap-10 px-18 hover:bg-gray-1">
+                    <div
+                      className="flex h-50 items-center justify-center gap-10 px-18 hover:bg-gray-1"
+                      onClick={handleDropDownClose}
+                    >
                       <SettingIcon /> 계정관리
                     </div>
                   </Link>
