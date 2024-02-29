@@ -19,18 +19,16 @@ import ProfileFallbackUI from '../FallbackUI/SideBar/ProfileFallbackUI';
 import AddLinkIcon from './AddLinkIcon';
 import LinkIcon from './LinkIcon';
 import DOMPurify from 'dompurify';
-import ArrowDown from '../SvgComponents/ArrowDown';
-import MobileSideBar from './MobileSideBar';
+import ArrowUp from '../SvgComponents/ArrowUp';
 
 interface SideBarProps {
   displayStatus: 'myWork' | 'notMyWork';
 }
 
-function SideBar({ displayStatus }: SideBarProps) {
+function MobileSideBar({ displayStatus, onClose }: SideBarProps & { onClose: () => void }) {
   const [isFollowClicked, setIsFollowClicked] = useState(false);
   const [followId, setFollowId] = useState<number | null>(null);
   const [userInfo, setUserInfo] = useState<UserType | undefined>();
-  const [showMobileSideBar, setShowMobileSideBar] = useState(false);
 
   const params = useParams<{ id: string }>();
   const queryClient = useQueryClient();
@@ -94,18 +92,6 @@ function SideBar({ displayStatus }: SideBarProps) {
     );
   };
 
-  const handleShowMobileSidebar = () => {
-    setShowMobileSideBar(true);
-  };
-
-  const handleHideMobileSidebar = () => {
-    setShowMobileSideBar(false);
-  };
-
-  if (showMobileSideBar) {
-    return <MobileSideBar displayStatus={displayStatus} onClose={handleHideMobileSidebar} />;
-  }
-
   if (isPending || typeof isLogin === 'undefined') {
     return <ProfileFallbackUI />;
   }
@@ -122,13 +108,13 @@ function SideBar({ displayStatus }: SideBarProps) {
           />
         </div>
       </div>
-      <div className="absolute top-5 flex h-full w-260 flex-col items-center rounded-[12px] bg-gray-1 md:top-55 md:h-227 md:w-full">
-        <div className="mt-70 flex h-full w-192 flex-col items-center md:relative">
+      <div className="absolute top-5 flex h-full w-260 flex-col items-center rounded-[12px] bg-gray-1 md:top-55 md:h-550 md:w-full">
+        <div className="mt-70 flex h-full w-192 flex-col items-center">
           <div className="flex-col-center">
             <div className="items-center text-center text-18 font-semibold">{userInfo?.nickname}</div>
             <p className="text-12 text-gray-9">{userInfo?.activityArea + ' / ' + userInfo?.activityField}</p>
           </div>
-          <div className="mb-16 mt-16 flex min-h-60 w-192 items-center rounded-sm bg-white p-16 md:hidden">
+          <div className="mb-16 mt-16 flex min-h-60 w-192 items-center rounded-sm bg-white p-16">
             {userInfo?.description && (
               <p
                 dangerouslySetInnerHTML={{
@@ -171,7 +157,7 @@ function SideBar({ displayStatus }: SideBarProps) {
               팔로워 &nbsp;&nbsp;<span className="text-14 font-bold">{userInfo?.followerCount}</span>&nbsp;명
             </span>
           </div>
-          <div className="mb-20 flex flex-col items-start gap-20 md:hidden">
+          <div className="mb-20 flex flex-col items-start gap-20">
             {userInfo?.links &&
               userInfo.links.map((link) => (
                 <a
@@ -194,16 +180,13 @@ function SideBar({ displayStatus }: SideBarProps) {
               {userInfo?.links && userInfo.links.length === 5 ? '링크 수정하기' : '링크 추가하기'}
             </Link>
           ) : null}
-          {/* <div
-            className="flex-center absolute hidden h-15 w-15 animate-bounce cursor-pointer md:block bottom-0"
-            onClick={handleShowMobileSidebar}
-          >
-            <ArrowDown />
-          </div> */}
+          <div className="flex-center hidden h-15 w-15 animate-bounce cursor-pointer md:block" onClick={onClose}>
+            <ArrowUp />
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-export default SideBar;
+export default MobileSideBar;
