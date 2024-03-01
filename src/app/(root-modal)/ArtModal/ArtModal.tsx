@@ -14,11 +14,12 @@ import { GetSpecificCardResponseType } from '@/types/cards';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import DOMPurify from 'dompurify';
 import Link from 'next/link';
-import { MouseEvent, useRef, useEffect, useState } from 'react';
+import { MouseEvent, useRef, useEffect, useState, useMemo } from 'react';
 import ProfileDropDownImage from '../../../../public/assets/icons/KebabDropDown.svg';
 import CommentIcon from '../../../../public/assets/icons/comment.svg';
 import MenuIcon from '../../../../public/assets/icons/menu.svg';
 import Modal from '../_components';
+import AskForLoginModal from '../AskForLoginModal/AskForLoginModal';
 
 export default function ArtModal() {
   const [isLikeClicked, setIsLikeClicked] = useState(false);
@@ -27,21 +28,23 @@ export default function ArtModal() {
   const { isOpen: isDropDownOpen, handleDropDownOpen, handleDropDownClose } = useDropDown();
   useOnClickOutside(containerRef, handleDropDownClose);
 
-  const { clickedArtworkId, userId, showModal, setClickedArtworkId } = useStore((state) => ({
+  const { clickedArtworkId, userId, showModal, modals, setClickedArtworkId } = useStore((state) => ({
     clickedArtworkId: state.clickedArtworkId,
     userId: state.userId,
     showModal: state.showModal,
+    modals: state.modals,
     setClickedArtworkId: state.setClickedArtworkId,
   }));
 
   const { data: artwork } = useQuery<GetSpecificCardResponseType>({
     queryKey: ['artwork', clickedArtworkId],
     queryFn: () => getArtwork(clickedArtworkId),
+    enabled: !!clickedArtworkId,
     staleTime: 3 * 1000,
   });
 
-  const [likeCount, setLikeCount] = useState(artwork?.likeCount || 0);
-  const [likeId, setLikeId] = useState<number | null>(artwork?.likeId || null);
+  const likeCount = useMemo(() => artwork?.likeCount, [isLikeClicked, artwork]);
+  const likeId = useMemo(() => artwork?.likeId, [isLikeClicked, artwork]);
 
   const queryClient = useQueryClient();
 
@@ -76,9 +79,8 @@ export default function ArtModal() {
     postLikeMutation.mutate(
       { artworkId: clickedArtworkId },
       {
-        onSuccess: (data: { likeId: number }) => {
-          setLikeCount((prev: number) => prev + 1);
-          setLikeId(data.likeId);
+        onError: () => {
+          showModal('askForLogin');
         },
       },
     );
@@ -86,15 +88,7 @@ export default function ArtModal() {
 
   const handleUnLikeClick = () => {
     setIsLikeClicked((prev) => !prev);
-    deleteLikeMutation.mutate(
-      { artworkId: clickedArtworkId, likeId: likeId },
-      {
-        onSuccess: () => {
-          setLikeCount((prev: number) => prev - 1);
-          setLikeId(null);
-        },
-      },
-    );
+    deleteLikeMutation.mutate({ artworkId: clickedArtworkId, likeId });
   };
 
   const handleKebabClick = (e: MouseEvent<HTMLDivElement>) => {
@@ -164,7 +158,7 @@ export default function ArtModal() {
                     <RedLike />
                   </div>
                   <p className={'mb-3 text-12 text-primary'}>
-                    {artwork && (likeCount < 1000 ? likeCount : (likeCount / 1000).toFixed(1) + 'k')}
+                    {artwork && likeCount && (likeCount < 1000 ? likeCount : (likeCount / 1000).toFixed(1) + 'k')}
                   </p>
                 </div>
               ) : (
@@ -178,7 +172,7 @@ export default function ArtModal() {
                     <BlackLike />
                   </div>
                   <p className={'mb-3 text-12'}>
-                    {artwork && (likeCount < 1000 ? likeCount : (likeCount / 1000).toFixed(1) + 'k')}
+                    {artwork && likeCount && (likeCount < 1000 ? likeCount : (likeCount / 1000).toFixed(1) + 'k')}
                   </p>
                 </div>
               )}
@@ -230,6 +224,7 @@ export default function ArtModal() {
             </div>
           </div>
         </div>
+        {modals[modals.length - 1] === 'askForLogin' && <AskForLoginModal />}
       </Modal.Body>
     </Modal.Container>
   );
