@@ -91,12 +91,12 @@
     ↳ Upstream: master, dev<br/>
     ↳ Origin: feat/_ , fix/_ , refactor/_ , design/_ , chore/\_
 - Figma<br/>
-  ↳ [발표 자료 바로가기](https://www.figma.com/file/Y9LXJAs82KvwuJSdMtauSm/TENTEN?type=design&node-id=0-1&mode=design&t=3qRNqT8FB9paAnnl-0)
+  ↳ [발표 자료 바로가기](https://www.figma.com/file/vedk9XqFl0yXQg6Dbwhei1/%EC%BD%94%EC%9D%B8%EB%AC%BC-%EC%9E%91%EC%97%85%EC%8B%A4?type=design&node-id=672%3A219&mode=design&t=RctJG9ojxakzV0A4-1)
 
 ## quick start guide
 
 ```jsx
-$ git clone https://github.com/like-tenten/tenten.git
+$ git clone https://github.com/ArtTalkTalk/ArtTalkTalk_frontend.git
 $ npm install
 $ npm build
 $ npm start
