@@ -106,7 +106,7 @@ https://localhost:3000 접속
 
 ## 🧩 프로젝트 구조 다이어그램
 
-<img src="/public/assets/images/README/Work Flow.png" alt="Work Flow"/>
+<img src="/public/assets/images/README/Work Flow_저화질.png" alt="Work Flow"/>
 
 ## 📄 페이지별 기능 & 스크린샷
 
@@ -114,7 +114,7 @@ https://localhost:3000 접속
 
 ## ✨ LightHouse
 
-<img src="/public/assets/images/README/lightHouse.png" alt="Page Intro"/>
+<img src="/public/assets/images/README/lightHouse.png" alt="light house"/>
 
 ## 프로젝트 후기
 
